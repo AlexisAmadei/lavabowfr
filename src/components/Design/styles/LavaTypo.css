@@ -1,0 +1,13 @@
+.lava-typo {
+    font-family: 'Roboto' !important;
+}
+
+p.lava-typo {
+    color: #FFF;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin: 0;
+    padding: 0;
+}

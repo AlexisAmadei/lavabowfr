@@ -1,0 +1,13 @@
+.app-bar {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    z-index: 10;
+    background-color: transparent;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, 0);
+}
