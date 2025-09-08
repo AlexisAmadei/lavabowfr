@@ -16,21 +16,25 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-#root {
-    width: 1440px;
-    height: 100vh;
+html, body {
     margin: 0;
     padding: 0;
-    text-align: center;
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
-body {
+#root {
+    width: 100vw;
+    height: 100vh;
     margin: 0;
     padding: 0;
-    height: 100vh;
-    width: 100vw;
-    box-sizing: border-box;
     overflow: hidden;
+    box-sizing: border-box;
+    text-align: center;
 }
 
 @media (prefers-color-scheme: light) {

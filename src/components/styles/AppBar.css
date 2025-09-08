@@ -2,12 +2,12 @@
     display: inline-flex;
     align-items: center;
     gap: 12px;
-    position: absolute;
-    top: 24px;
+    position: fixed;
     left: 24px;
     z-index: 10;
     background-color: transparent;
     left: 50%;
-    top: 0;
+    top: 24px;
     transform: translate(-50%, 0);
+    max-height: 64px;
 }
