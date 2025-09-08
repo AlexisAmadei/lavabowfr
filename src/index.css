@@ -37,6 +37,11 @@ html, body {
     text-align: center;
 }
 
+p {
+    margin: 0;
+    padding: 0;
+}
+
 @media (prefers-color-scheme: light) {
     :root {
         color: #213547;

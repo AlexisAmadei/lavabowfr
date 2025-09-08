@@ -7,10 +7,11 @@
     margin: 0;
     font-family: 'Whyte';
     font-weight: bold;
-    font-size: 18.5vw;
+    font-size: 16vw;
+    letter-spacing: 0.1em;
     width: 100%;
     padding: 0;
-    line-height: 0.8;
+    line-height: 0.76;
     color: var(--main-accent);
     display: inline-flex;
     justify-content: center;
