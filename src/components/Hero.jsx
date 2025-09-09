@@ -7,6 +7,7 @@ export default function Hero() {
     return (
         <div className='landing-hero'
             style={{
+                position: 'relative', // Added for absolute positioning context
                 backgroundImage: `url(${Cover})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',

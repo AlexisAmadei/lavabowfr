@@ -1,5 +1,5 @@
 .follow-mouse-button {
-    position: fixed !important; /* Force fixed positioning */
+    position: absolute !important; /* Changed from fixed to absolute */
     transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important; /* Smooth easing transition */
     will-change: transform; /* Optimize for frequent position changes */
     user-select: none; /* Prevent text selection */
