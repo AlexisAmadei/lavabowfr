@@ -8,4 +8,12 @@
     border-radius: 100px;
     border: 1px solid #FFF;
     background-color: transparent;
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+}
+
+.lava-button.outline:hover {
+    background-color: white;
+    color: black !important;
+    transform: scale(1.06);
 }

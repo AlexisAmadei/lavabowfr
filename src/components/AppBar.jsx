@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import LavaButton from './Design/LavaButton'
 import './styles/AppBar.css'
 import LavaTypo from './Design/LavaTypo'
