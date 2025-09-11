@@ -1,9 +1,10 @@
 import React from 'react'
 import './styles/Landing.css'
 import AppBar from '../components/AppBar'
-
-
-import Hero from '../components/Hero'
+import Hero from '../components/Hero/Hero'
+import AboutSection from '../components/AboutSection'
+import Newsletter from '../components/Newsletter'
+import { Flex } from '@chakra-ui/react'
 
 export default function Landing() {
     return (
@@ -11,9 +12,10 @@ export default function Landing() {
             <AppBar />
             <div className='landing-page'>
                 <Hero />
-                <div className='landing-body' style={{ height: '200px' }}>
-                    <h2>Body Section</h2>
-                </div>
+                <Flex direction={'column'} gap={'28'} className='landing-body' style={{ minHeight: '200px', padding: '2rem 0' }}>
+                    <AboutSection />
+                    <Newsletter />
+                </Flex>
             </div>
         </div>
     )

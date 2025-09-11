@@ -1,13 +1,48 @@
 .lava-typo {
-    font-family: 'Roboto' !important;
+    font-family: 'Whyte' !important;
+    display: inline-block;
+}
+
+h1.lava-typo {
+    color: inherit;
+    font-size: 96px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 104px;
+    margin: 0;
+    padding: 0;
+
+    text-align: left;
+}
+
+h2.lava-typo {
+    color: inherit;
+    font-family: 'Whyte';
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+
+    text-align: left;
+    margin-bottom: 24px;
 }
 
 p.lava-typo {
     color: inherit;
     font-size: 16px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 300;
     line-height: normal;
     margin: 0;
     padding: 0;
+
+    text-align: left;
+}
+
+span.lava-typo.accent {
+    color: var(--main-accent);
+}
+
+span.lava-typo.bold {
+    font-weight: 700;
 }

@@ -1,0 +1,4 @@
+.about-section-image {
+    /* background: linear-gradient(270deg, rgba(0, 0, 0, 0.00) 0%, #000 115.05%), url('../../assets/about-section.jpg') lightgray -11.592px 0px / 115.912% 100% no-repeat; */
+    align-self: stretch;
+}
