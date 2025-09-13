@@ -1,8 +1,9 @@
 import React from 'react'
 import LavaButton from './Design/LavaButton'
-import './styles/AppBar.css'
 import LavaTypo from './Design/LavaTypo'
 import { HiArrowLongRight } from 'react-icons/hi2'
+import { AbsoluteCenter } from '@chakra-ui/react'
+import './styles/AppBar.css'
 
 export default function AppBar() {
     const menuItems = [
@@ -15,7 +16,12 @@ export default function AppBar() {
     ]
 
     return (
-        <div className='app-bar'>
+        <AbsoluteCenter className='app-bar'
+            axis={'horizontal'}
+            direction={'row'}
+            gap={4}
+            mt={4}
+        >
             {menuItems.map(item => (
                 <LavaButton key={item.name} variant={item.variant} className="app-bar__button">
                     <LavaTypo variant='text'>{item.name}</LavaTypo>
@@ -26,6 +32,6 @@ export default function AppBar() {
                     )}
                 </LavaButton>
             ))}
-        </div>
+        </AbsoluteCenter>
     )
 }
