@@ -1,7 +1,7 @@
 .hero-typo {
-    width: 100%;
-    max-width: 100%;
-    margin-top: 6px;
+    display: grid;
+    place-items: center;
+    row-gap: 0;
 }
 
 .hero-typo p {
@@ -10,16 +10,12 @@
     font-weight: bold;
     font-size: 16vw;
     letter-spacing: 0.1em;
-    width: 100%;
-    padding: 0;
-    line-height: 0.74;
+    line-height: var(--hero-line-height);
     color: var(--main-accent);
-    display: inline-flex;
-    justify-content: center;
-    text-align: center;
 }
 
+/* keep your outline style as before */
 .hero-typo p#outline {
     -webkit-text-stroke: 4px var(--main-accent);
-    color: transparent !important;
+    color: transparent;
 }
