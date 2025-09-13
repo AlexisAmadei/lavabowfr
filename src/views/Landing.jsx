@@ -1,11 +1,11 @@
 import React from 'react'
-import './styles/Landing.css'
 import AppBar from '../components/AppBar'
 import Hero from '../components/Hero/Hero'
 import AboutSection from '../components/AboutSection'
 import Newsletter from '../components/Newsletter'
 import { Flex } from '@chakra-ui/react'
 import Music from '@/components/Music'
+import './styles/Landing.css'
 
 export default function Landing() {
     return (
@@ -13,10 +13,10 @@ export default function Landing() {
             <AppBar />
             <div className='landing-page'>
                 <Hero />
-                <Flex direction={'column'} className='landing-body'>
+                <Flex direction={'column'} className='landing-body' width={'100%'}>
                     <AboutSection />
                     <Music />
-                    {/* <Newsletter /> */}
+                    <Newsletter />
                 </Flex>
             </div>
         </div>

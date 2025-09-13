@@ -20,15 +20,13 @@ h1.lava-typo {
 
 h2.lava-typo {
     color: inherit;
-    font-family: 'Whyte';
-    font-size: 48px;
+    font-family: 'Cossette Titre', sans-serif !important;
+    font-size: 50px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
 
     text-align: left;
-    margin-bottom: 16px;
-
 }
 
 h3.lava-typo {
@@ -53,6 +51,7 @@ p.lava-typo {
     padding: 0;
 
     text-align: left;
+    font-family: 'Whyte', sans-serif !important;
 }
 
 span.lava-typo.accent {
