@@ -6,7 +6,15 @@ import './styles/AboutSection.css'
 
 export default function AboutSection() {
     return (
-        <Flex paddingX={16} direction={'column'} alignItems={'flex-start'} textAlign={'center'} maxWidth={1400}>
+        <Flex
+            className='about-section'
+            paddingX={16}
+            paddingY={'100px'}
+            direction={'column'}
+            alignItems={'flex-start'}
+            textAlign={'center'}
+            maxWidth={1400}
+        >
             <LavaTypo variant='h1'>All is about THA Pink Poney</LavaTypo>
             <Flex gap={16}>
                 <LavaTypo variant='text'>
