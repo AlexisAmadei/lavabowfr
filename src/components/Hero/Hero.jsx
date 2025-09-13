@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Flex } from '@chakra-ui/react'
 import HeroTypo from '../Design/HeroTypo'
 import Logo from '../Design/Logo'
-import Cover from '../../assets/cover.jpg'
+import Cover from '../../assets/cover.webp'
 import CursorButton from '../CursorButton'
 import Spotlight from './Spotlight'
 

@@ -1,7 +1,7 @@
 import { Box, Flex } from '@chakra-ui/react'
 import React from 'react'
 import LavaTypo from './Design/LavaTypo'
-import aboutSection from '../assets/about-section.jpg'
+import aboutSection from '../assets/about-section.webp'
 import './styles/AboutSection.css'
 
 export default function AboutSection() {
@@ -28,7 +28,7 @@ export default function AboutSection() {
                     Lava Bow, c’est une proposition live radicale et libre, à contre-courant des formats policés. Leur mot d’ordre : <LavaTypo variant={'accent'}>“All is about tha pink poney”</LavaTypo>.
                 </LavaTypo>
                 <Box className='about-section-image'>
-                    <img src={aboutSection} />
+                    <img src={aboutSection} alt="About Lava Bow" />
                 </Box>
             </Flex>
         </Flex>
