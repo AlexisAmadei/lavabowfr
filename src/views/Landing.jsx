@@ -5,6 +5,7 @@ import Hero from '../components/Hero/Hero'
 import AboutSection from '../components/AboutSection'
 import Newsletter from '../components/Newsletter'
 import { Flex } from '@chakra-ui/react'
+import Music from '@/components/Music'
 
 export default function Landing() {
     return (
@@ -12,9 +13,10 @@ export default function Landing() {
             <AppBar />
             <div className='landing-page'>
                 <Hero />
-                <Flex direction={'column'} gap={'28'} className='landing-body' style={{ minHeight: '200px', padding: '2rem 0' }}>
+                <Flex direction={'column'} className='landing-body'>
                     <AboutSection />
-                    <Newsletter />
+                    <Music />
+                    {/* <Newsletter /> */}
                 </Flex>
             </div>
         </div>
