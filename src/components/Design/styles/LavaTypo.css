@@ -10,9 +10,12 @@ h1.lava-typo {
     font-weight: 700;
     line-height: 104px;
     margin: 0;
+    margin-bottom: 40px;
     padding: 0;
 
-    text-align: left;
+    text-align: center;
+    font-family: 'Cossette Titre', sans-serif !important;
+    width: 100%;
 }
 
 h2.lava-typo {
@@ -24,7 +27,20 @@ h2.lava-typo {
     line-height: normal;
 
     text-align: left;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
+
+}
+
+h3.lava-typo {
+    color: inherit;
+    font-family: 'Whyte';
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+
+    text-align: left;
+
 }
 
 p.lava-typo {

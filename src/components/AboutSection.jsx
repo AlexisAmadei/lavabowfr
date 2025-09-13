@@ -7,7 +7,7 @@ import './styles/AboutSection.css'
 export default function AboutSection() {
     return (
         <Flex paddingX={16} direction={'column'} alignItems={'flex-start'} textAlign={'center'} maxWidth={1400}>
-            <LavaTypo variant='subtitle'>All is about THA Pink Poney</LavaTypo>
+            <LavaTypo variant='h1'>All is about THA Pink Poney</LavaTypo>
             <Flex gap={16}>
                 <LavaTypo variant='text'>
                     Lava Bow, c’est un <LavaTypo variant={'accent'}>trio alternatif</LavaTypo> né à Asnières-sur-Seine, aux frontières du chaos sonore et de l’intime viscéral. Composé de Côme (guitare/chant), Sam (violoncelle/chant) et Alexis (batterie), le groupe <LavaTypo variant={'accent'}>casse les codes du rock traditionnel</LavaTypo> avec une formule audacieuse : <LavaTypo variant={'accent'}>pas de basse, mais un violoncelle amplifié et malmené</LavaTypo>, qui tient autant le groove que les envolées lyriques.

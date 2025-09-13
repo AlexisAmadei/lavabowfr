@@ -3,11 +3,14 @@ import './styles/LavaTypo.css'
 
 export default function LavaTypo({ variant, children, styles }) {
     switch (variant) {
-        case 'title':
+        case 'h1':
             return <h1 className='lava-typo' style={styles}>{children}</h1>
 
-        case 'subtitle':
+        case 'h2':
             return <h2 className='lava-typo' style={styles}>{children}</h2>
+
+        case 'h3':
+            return <h3 className='lava-typo' style={styles}>{children}</h3>
 
         case 'accent':
             return <span className='lava-typo accent' style={styles}>{children}</span>
