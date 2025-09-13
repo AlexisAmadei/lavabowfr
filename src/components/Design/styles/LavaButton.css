@@ -1,19 +1,24 @@
-.lava-button.outline {
+.lava-button {
     display: flex;
     padding: 4px 16px;
     justify-content: center;
     align-items: center;
     gap: 10px;
-
     border-radius: 100px;
-    border: 1px solid #FFF;
-    background-color: transparent;
     cursor: pointer;
     transition: all 0.1s ease-in-out;
 }
 
-.lava-button.outline:hover {
+.lava-button.outlined {
+    border: 1px solid #FFF;
+    background-color: transparent;
+}
+
+.lava-button.outlined:hover {
     background-color: white;
     color: black !important;
-    transform: scale(1.06);
+}
+
+.lava-button.filled {
+    background-color: var(--secondary-accent);
 }

@@ -11,3 +11,21 @@
     transform: translate(-50%, 0);
     max-height: 64px;
 }
+
+.app-bar__icon-on-hover {
+    display: inline-flex;
+    align-items: center;
+    opacity: 0;
+    transform: translateX(-16px);
+    transition: opacity 0.2s, transform 0.2s;
+    pointer-events: none;
+    width: 0;
+    overflow: hidden;
+}
+.app-bar__button:hover .app-bar__icon-on-hover {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+    width: auto;
+    overflow: visible;
+}
