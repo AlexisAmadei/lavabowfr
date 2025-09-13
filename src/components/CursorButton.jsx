@@ -75,7 +75,7 @@ export default function CursorButton() {
 
     return (
         <div ref={heroRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
-            <LavaButton variant={'outline'} className='follow-mouse-button' style={followButtonStyle}>
+            <LavaButton variant={'outlined'} className='follow-mouse-button' style={followButtonStyle}>
                 <FaPlay />
                 <LavaTypo>Voir le clip</LavaTypo>
             </LavaButton>
