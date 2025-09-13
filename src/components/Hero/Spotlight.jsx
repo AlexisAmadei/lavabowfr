@@ -12,7 +12,7 @@ export default function Spotlight() {
 
             <Flex direction={'row'} gap={4} marginTop={4}>
                 <LavaButton variant='filled'>
-                    <LavaTypo variant='h3'>Écouter</LavaTypo>
+                    <LavaTypo variant='h3' styles={{ padding: '8px 16px' }}>Écouter</LavaTypo>
                 </LavaButton>
                 <LavaButton variant='outlined'>
                     <LavaTypo variant='h3' styles={{ padding: '8px 16px' }}>Acheter</LavaTypo>
