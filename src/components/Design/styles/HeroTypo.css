@@ -20,6 +20,6 @@
 }
 
 .hero-typo p#outline {
-    -webkit-text-stroke: 1px var(--main-accent);
+    -webkit-text-stroke: 4px var(--main-accent);
     color: transparent !important;
 }
