@@ -16,13 +16,13 @@ export default function AboutSection() {
                     Naviguant entre <LavaTypo variant={'bold'}>punk progressif, grunge poétique et rock abrasif</LavaTypo>, Lava Bow construit un univers brut, presque scénique, où chaque morceau est une montée en tension. Influencés par Nirvana, The Clash, les Red Hot Chili Peppers ou encore System of a Down, le groupe développe une <LavaTypo variant={'accent'}>signature unique mêlant riffs rageurs, chant habité, rythmiques puissantes et textures inattendues</LavaTypo>. Lava Bow se définit aujourd’hui comme un groupe de Post Alternative Progressive Punk Experimental Blues (globalement, ils ont beaucoup d’inspiration).
                     <br /><br />
 
-                    Depuis leur début en 2017, ils ont sorti trois projets, un premier album encore enregistré dans leur chambre d’ado. Puis ensuite leur premier album studio “Mirrors”. Leur dernier projet date de 2020 avec leur EP “Attention aux raccourcis”.
+                    Depuis leur début en 2017, ils ont sorti <LavaTypo variant='accent'>trois projets</LavaTypo>, un premier album encore enregistré dans leur chambre d’ado. Puis ensuite leur <LavaTypo variant='accent'>premier album studio “Mirrors”</LavaTypo>. Leur dernier projet date de 2020 avec leur <LavaTypo variant='accent'>EP “Attention aux raccourcis”</LavaTypo>.
                     <br /><br />
                     Depuis 2020, Lava Bow enchaîne les scènes indépendantes de la région parisienne avec une énergie communicative, des shows intenses et une relation directe avec le public. Leurs titres, souvent composés à trois voix, traitent de l’aliénation contemporaine, des rêves bizarres et de l’absurde quotidien, le tout avec une bonne dose d’autodérision.
                     <br /><br />
 
                     En 2025, ils sortent une live session (“LAVA SESSION #1”), enregistré en conditions réelles, qui capture toute l’urgence et la sincérité du trio. On y retrouve notamment “Big Fish”, “Horse Pink Poney?!” et une reprise grinçante de “I Shot the Sheriff”.
-                    Plus tard, ils sortiront la version studio de Big Fish leur dernier single sortie à ce jour.
+                    Plus tard, ils sortiront la version studio de <LavaTypo variant='accent'>Big Fish leur dernier single sortie à ce jour</LavaTypo>.
                     <br /><br />
 
                     Lava Bow, c’est une proposition live radicale et libre, à contre-courant des formats policés. Leur mot d’ordre : <LavaTypo variant={'accent'}>“All is about tha pink poney”</LavaTypo>.
