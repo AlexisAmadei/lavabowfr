@@ -14,7 +14,7 @@ export default function Music() {
             textAlign={'center'}
             gap={8}
             paddingX={16}
-            maxWidth={1400}
+            // maxWidth={1400}
         >
             <LavaTypo variant='h1'>Notre Musique</LavaTypo>
             <iframe data-testid="embed-iframe"
