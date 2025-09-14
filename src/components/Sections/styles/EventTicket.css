@@ -1,0 +1,56 @@
+
+.event-ticket {
+    display: flex;
+    padding: 12px;
+    align-items: flex-end;
+    gap: 10px;
+    flex: 1 0 0;
+    align-self: stretch;
+    grid-row: 1 / span 1;
+    grid-column: 1 / span 1;
+    color: #000
+}
+
+.event-title {
+    font-family: "Cossette Titre";
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-transform: uppercase;
+}
+
+.title-img img {
+    flex: 1 0 0;
+    align-self: stretch;
+}
+
+.event-infos {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex: 1 0 0;
+    align-self: stretch;
+}
+.event-description {
+    color: #000;
+    text-align: justify;
+    font-family: Whyte;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 25px;
+    /* 104.167% */
+}
+.event-details {
+    color: #000;
+    font-family: "Cossette Titre";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-transform: uppercase;
+
+    width: 100%;
+}

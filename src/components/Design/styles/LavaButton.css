@@ -23,4 +23,5 @@
 
 .lava-button.filled {
     background-color: var(--secondary-accent);
+    color: white !important;
 }
