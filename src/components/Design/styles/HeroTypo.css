@@ -1,4 +1,12 @@
+/*
+* Prefixed by:
+* PostCSS: v7.0.29,
+* Autoprefixer: v9.7.6
+* Browsers: last 4 version
+*/
+
 .hero-typo {
+    display: -ms-grid;
     display: grid;
     place-items: center;
     row-gap: 0;
