@@ -2,7 +2,7 @@ import { Flex } from '@chakra-ui/react'
 import React from 'react'
 import LavaTypo from '@/components/Design/LavaTypo'
 import LavaInput from '@/components/Design/LavaInput'
-import bgPic from '@/assets/newsletter.webp'
+import bgPic from '@/assets/img/newsletter.webp'
 import Section from '@/components/Design/Section'
 
 export default function Newsletter() {
@@ -17,7 +17,7 @@ export default function Newsletter() {
 
                 <LavaInput
                     type='email'
-                    placeholder='Ton email'
+                    placeholder='Email'
                 />
             </Flex>
         </Section>

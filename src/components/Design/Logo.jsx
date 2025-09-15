@@ -1,6 +1,5 @@
 import React from 'react'
-import logo from '../../assets/logo.svg'
-import { Box } from '@chakra-ui/react'
+import logo from '@/assets/icons/logo.svg'
 
 export default function Logo({ h, w }) {
     return (

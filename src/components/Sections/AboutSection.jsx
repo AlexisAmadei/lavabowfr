@@ -1,7 +1,7 @@
 import { Box, Flex } from '@chakra-ui/react'
 import React from 'react'
 import LavaTypo from '@/components/Design/LavaTypo'
-import aboutSection from '@/assets/about-section.webp'
+import aboutSection from '@/assets/img/about-section.webp'
 import './styles/AboutSection.css'
 
 export default function AboutSection() {

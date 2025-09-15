@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, Flex } from '@chakra-ui/react'
-import Cover from '@/assets/cover.webp'
+import Cover from '@/assets/img/cover.webp'
 import Logo from '@/components/Design/Logo'
 import Spotlight from './Spotlight'
 import CursorButton from '../CursorButton/CursorButton'
