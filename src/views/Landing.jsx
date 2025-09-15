@@ -7,6 +7,7 @@ import { Flex } from '@chakra-ui/react'
 import Music from '@/components/Sections/Music'
 import './styles/Landing.css'
 import NextEvents from '@/components/Sections/NextEvents'
+import Videos from '../components/Sections/Videos'
 
 export default function Landing() {
     return (
@@ -19,6 +20,7 @@ export default function Landing() {
                     <Music />
                     <Newsletter />
                     <NextEvents />
+                    <Videos />
                 </Flex>
             </div>
         </div>
