@@ -1,9 +1,9 @@
 import React from 'react'
 import LavaButton from '@/components/Design/LavaButton'
 import LavaTypo from '@/components/Design/LavaTypo'
-import { HiArrowLongRight } from 'react-icons/hi2'
 import { AbsoluteCenter } from '@chakra-ui/react'
 import './AppBar.css'
+import { ArrowIcon } from '@/components/Design/Icons'
 
 export default function AppBar() {
     const menuItems = [
@@ -12,7 +12,7 @@ export default function AppBar() {
         { name: 'Next events', link: '/events', variant: 'outlined' },
         { name: 'Videos', link: '/videos', variant: 'outlined' },
         { name: 'Photos', link: '/photos', variant: 'outlined' },
-        { name: 'Contact', link: '/contact', variant: 'filled', endIcon: HiArrowLongRight },
+        { name: 'Contact', link: '/contact', variant: 'filled', endIcon: ArrowIcon },
     ]
 
     return (
