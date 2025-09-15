@@ -6,7 +6,7 @@ import Spotlight from './Spotlight'
 import CursorButton from '../CursorButton/CursorButton'
 import HeroTypo from '@/components/Design/HeroTypo'
 
-export default function Hero() {
+export default function Hero({ userOS }) {
     return (
         <div className='landing-hero'
             style={{
@@ -16,6 +16,7 @@ export default function Hero() {
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
                 minHeight: '100vh',
+                paddingTop: userOS === 'MacOS' ? '44px' : '2px'
             }}
         >
             <Flex direction='column' width='100%' height='100%' justifyContent={'space-between'} className='landing-hero-content'>

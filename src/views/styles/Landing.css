@@ -10,8 +10,6 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    /* Compensate for hero typo line-height */
-    padding-top: calc(1em * (1 - var(--hero-line-height, 1.2)));
 }
 
 .landing-hero-content {
