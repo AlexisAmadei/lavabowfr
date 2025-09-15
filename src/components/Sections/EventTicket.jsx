@@ -4,6 +4,8 @@ import { Box, Flex } from '@chakra-ui/react'
 import Logo from '../Design/Logo'
 import LavaButton from '../Design/LavaButton'
 
+const Divider = () => <div style={{ width: '1px', backgroundColor: '#00000052', height: '100%' }} />
+
 export default function EventTicket({ event }) {
     return (
         <Flex
@@ -19,7 +21,7 @@ export default function EventTicket({ event }) {
                 <div style={{ height:'115px', width: '198px', backgroundColor:'gray'}}></div>
             </Flex>
 
-            <div className='vertical-divider' style={{ width: '1px', backgroundColor: '#000000ff', height: '100%' }}></div>
+            <Divider />
 
             <Flex className='event-infos'
                 direction={'column'}
@@ -56,7 +58,7 @@ export default function EventTicket({ event }) {
                 </Box>
             </Flex>
 
-            <div className='vertical-divider' style={{ width: '1px', backgroundColor: '#000000ff', height: '100%' }}></div>
+            <Divider />
 
             <Flex className='event-action'
                 direction={'column'}
