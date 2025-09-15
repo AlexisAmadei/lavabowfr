@@ -15,7 +15,9 @@ export default function Music() {
             src="https://open.spotify.com/embed/artist/54Y8JDIfmIb2zlHrB2ZoVF?utm_source=generator&theme=0"
             width="100%"
             height="352"
-            loading="lazy"></iframe>
+            loading="lazy"
+            name='spotify-embed'
+            ></iframe>
         </Section>
     )
 }

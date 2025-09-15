@@ -20,6 +20,27 @@ const styles = {
     }
 }
 
+const videoList = [
+    {
+        link: "https://www.youtube.com/embed/Rbszi6x8mXE?controls=0",
+    },
+    {
+        link: "https://www.youtube.com/embed/Rbszi6x8mXE?controls=1",
+    },
+    {
+        link: "https://www.youtube.com/embed/Rbszi6x8mXE?controls=1",
+    },
+    {
+        link: "https://www.youtube.com/embed/Rbszi6x8mXE?controls=1",
+    },
+    {
+        link: "https://www.youtube.com/embed/Rbszi6x8mXE?controls=1",
+    },
+    {
+        link: "https://www.youtube.com/embed/Rbszi6x8mXE?controls=1",
+    },
+]
+
 export default function Videos() {
     return (
         <Section id='videos'>
@@ -32,35 +53,17 @@ export default function Videos() {
                         <Box sx={styles.videoContainer}>
                             <iframe id="ytplayer" type="text/html" width="996" height="600"
                                 src="https://www.youtube.com/embed/Rbszi6x8mXE?autoplay=1&controls=1"
-                                frameborder="0" allowfullscreen>
-                            </iframe>
+                                name='youtube-embed' loading='lazy'
+                            ></iframe>
                         </Box>
                     </Flex>
                     <Flex className='video-list' direction={'column'} gap={3} maxHeight={'700px'} overflowY={'auto'}>
-                        <iframe id="ytplayer" type="text/html" width="320" height="180"
-                            src="https://www.youtube.com/embed/Rbszi6x8mXE?controls=0"
-                            frameborder="0" allowfullscreen>
-                        </iframe>
-                        <iframe id="ytplayer" type="text/html" width="320" height="180"
-                            src="https://www.youtube.com/embed/Rbszi6x8mXE?controls=1"
-                            frameborder="0" allowfullscreen>
-                        </iframe>
-                        <iframe id="ytplayer" type="text/html" width="320" height="180"
-                            src="https://www.youtube.com/embed/Rbszi6x8mXE?controls=1"
-                            frameborder="0" allowfullscreen>
-                        </iframe>
-                        <iframe id="ytplayer" type="text/html" width="320" height="180"
-                            src="https://www.youtube.com/embed/Rbszi6x8mXE?controls=1"
-                            frameborder="0" allowfullscreen>
-                        </iframe>
-                        <iframe id="ytplayer" type="text/html" width="320" height="180"
-                            src="https://www.youtube.com/embed/Rbszi6x8mXE?controls=1"
-                            frameborder="0" allowfullscreen>
-                        </iframe>
-                        <iframe id="ytplayer" type="text/html" width="320" height="180"
-                            src="https://www.youtube.com/embed/Rbszi6x8mXE?controls=1"
-                            frameborder="0" allowfullscreen>
-                        </iframe>
+                        {videoList.map((video, index) => (
+                            <iframe key={index} id="ytplayer" type="text/html" width="320" height="180"
+                                src={video.link}
+                                name='youtube-embed' loading='lazy'
+                            ></iframe>
+                        ))}
                     </Flex>
                 </Flex>
             </Flex>
