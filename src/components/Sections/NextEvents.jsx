@@ -12,7 +12,7 @@ const events = [
         date: '20/03/2025',
         location: 'Truskel',
         img: '',
-        link: 'http://www.google.com'
+        link: ''
     },
     {
         title: 'Titre de l\'event',
@@ -21,7 +21,7 @@ const events = [
         date: '20/03/2025',
         location: 'Truskel',
         img: '',
-        link: 'http://www.google.com'
+        link: ''
     },
     {
         title: 'Titre de l\'event',
@@ -30,7 +30,7 @@ const events = [
         date: '20/03/2025',
         location: 'Truskel',
         img: '',
-        link: 'http://www.google.com'
+        link: ''
     },
     {
         title: 'Titre de l\'event',
@@ -39,7 +39,7 @@ const events = [
         date: '20/03/2025',
         location: 'Truskel',
         img: '',
-        link: 'http://www.google.com'
+        link: ''
     },
 ]
 

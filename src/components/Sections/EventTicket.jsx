@@ -3,6 +3,7 @@ import './styles/EventTicket.css'
 import { Box, Flex } from '@chakra-ui/react'
 import Logo from '../Design/Logo'
 import LavaButton from '../Design/LavaButton'
+import Barcode from 'react-barcode'
 
 const Divider = () => <div style={{ width: '1px', backgroundColor: '#00000052', height: '100%' }} />
 
@@ -71,9 +72,9 @@ export default function EventTicket({ event }) {
                 </div>
 
                 <Flex direction={'column'} alignItems={'center'} gap={3}>
-                    <div style={{ height: '33px', width: '194px', backgroundColor: 'lightgray'}}>
-                        {/* BARCODE */}
-                    </div>
+                    <Box style={{ height: '33px', width: '194px' }} overflow={'hidden'}>
+                        <Barcode value={'lavabow'} height={33} displayValue={false} margin={0} />
+                    </Box>
                     <LavaButton variant={'filled'} style={{ width: '100%' }}>
                         Je prends ma place
                     </LavaButton>
