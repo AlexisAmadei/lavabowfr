@@ -7,7 +7,6 @@ import '@/components/Core/CursorButton/CursorButton.css';
 export default function CursorButton() {
     const [mousePosition, setMousePosition] = React.useState({ x: 0, y: 0 });
     const [defaultPosition, setDefaultPosition] = React.useState({ x: 0, y: 0 });
-    const [isVisible, setIsVisible] = React.useState(true); // Start visible at default position
     const [isFollowingMouse, setIsFollowingMouse] = React.useState(false);
     const heroRef = React.useRef(null);
 
@@ -20,7 +19,7 @@ export default function CursorButton() {
         transform: `translate(${currentPosition.x - 50}px, ${currentPosition.y - 25}px)`,
         zIndex: 9999,
         pointerEvents: 'none',
-        opacity: isVisible ? 1 : 0,
+        opacity: 1,
         transition: isFollowingMouse
             ? 'transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease'
             : 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease', // Slower transition when returning to default
