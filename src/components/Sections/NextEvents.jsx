@@ -2,7 +2,7 @@ import React from 'react'
 import Section from '../Design/Section'
 import LavaTypo from '../Design/LavaTypo'
 import EventTicket from './EventTicket'
-import { Flex, Grid, GridItem } from '@chakra-ui/react'
+import { Grid, GridItem } from '@chakra-ui/react'
 
 const events = [
     {
@@ -49,7 +49,7 @@ export default function NextEvents() {
             <LavaTypo variant={'h1'}>Retrouve nous en concert</LavaTypo>
             <Grid
                 className='events-list'
-                templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
+                templateColumns={{ base: "repeat(1, 1fr)", xl: "repeat(2, 1fr)" }}
                 gap="6"
             >
                 {events.map((event, index) => (
