@@ -8,6 +8,7 @@ import Music from '@/components/Sections/Music'
 import './styles/Landing.css'
 import NextEvents from '@/components/Sections/NextEvents'
 import Videos from '../components/Sections/Videos'
+import Pictures from '../components/Sections/Pictures'
 
 export default function Landing() {
     const [userOS, setUserOS] = React.useState('');
@@ -38,6 +39,7 @@ export default function Landing() {
                     <Newsletter />
                     <NextEvents />
                     <Videos />
+                    <Pictures />
                 </Flex>
             </div>
         </div>
