@@ -1,24 +1,33 @@
-import { Box, Input, InputGroup } from '@chakra-ui/react'
+import { Box, Field, Flex, IconButton, Input, InputGroup } from '@chakra-ui/react'
 import React from 'react'
-import { LuMail } from 'react-icons/lu'
 import './styles/LavaInput.css'
-import { HiArrowRight } from 'react-icons/hi2';
+import { ArrowIcon } from './Icons';
+import LavaTypo from '@/components/Design/LavaTypo';
 
-export default function LavaInput({ type, placeholder }) {
-    const [email, setEmail] = React.useState('');
-
+export default function LavaInput({ type, placeholder, error, value, setEmail, onClick }) {
     return (
-        <Box className='lava-input'>
-            <InputGroup startElement={<LuMail color='white' />}>
+        <Flex className='lava-input' alignItems={'center'} justifyContent={'center'} gap={2} flexDirection={'row'}>
+            <Field.Root invalid={error}>
+
                 <Input
                     placeholder={placeholder}
                     type={type}
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)} variant={'flushed'}
+                    value={value}
+                    onChange={(e) => setEmail(e.target.value)}
                     size={'xl'}
+                    // color={'white'}
+                    variant={'flushed'}
+                    _placeholder={{ color: "white" }}
                 />
-            </InputGroup>
-            <HiArrowRight className='lava-input-icon' />
-        </Box>
+                <Field.ErrorText>
+                    <LavaTypo variant='bold'>Met un vrai mail par contre</LavaTypo>
+                </Field.ErrorText>
+            </Field.Root>
+            <Box>
+                <IconButton onClick={() => onClick(value)} variant={'ghost'} rounded={'full'} aria-label='Send'>
+                    <ArrowIcon boxSize={6} color={'white'} />
+                </IconButton>
+            </Box>
+        </Flex>
     )
 }
