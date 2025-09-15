@@ -17,6 +17,6 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.863) 0%, rgba(0, 0, 0, 0) 100%);
+    background: linear-gradient(to right, var(--dark-background) 0%, rgba(0, 0, 0, 0) 100%);
     pointer-events: none;
 }
