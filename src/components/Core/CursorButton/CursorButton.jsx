@@ -1,8 +1,8 @@
 import React from 'react'
-import LavaButton from './Design/LavaButton'
-import LavaTypo from './Design/LavaTypo'
+import LavaButton from '@/components/Design/LavaButton'
+import LavaTypo from '@/components/Design/LavaTypo'
 import { FaPlay } from 'react-icons/fa';
-import './styles/CursorButton.css';
+import '@/components/Core/CursorButton/CursorButton.css';
 
 export default function CursorButton() {
     const [mousePosition, setMousePosition] = React.useState({ x: 0, y: 0 });

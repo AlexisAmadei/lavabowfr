@@ -1,9 +1,9 @@
 import { Flex } from '@chakra-ui/react'
 import React from 'react'
-import LavaTypo from './Design/LavaTypo'
-import LavaInput from './Design/LavaInput'
+import LavaTypo from '@/components/Design/LavaTypo'
+import LavaInput from '@/components/Design/LavaInput'
 import bgPic from '@/assets/newsletter.webp'
-import Section from './Design/Section'
+import Section from '@/components/Design/Section'
 
 export default function Newsletter() {
     return (

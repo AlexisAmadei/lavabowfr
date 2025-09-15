@@ -1,10 +1,9 @@
 import React from 'react'
 import { Box, Flex } from '@chakra-ui/react'
-import HeroTypo from '../Design/HeroTypo'
-import Logo from '../Design/Logo'
-import Cover from '../../assets/cover.webp'
-import CursorButton from '../CursorButton'
+import Cover from '@/assets/cover.webp'
+import Logo from '@/components/Design/Logo'
 import Spotlight from './Spotlight'
+import CursorButton from '../CursorButton/CursorButton'
 
 export default function Hero() {
     return (

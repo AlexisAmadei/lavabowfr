@@ -1,9 +1,9 @@
 import React from 'react'
-import LavaButton from './Design/LavaButton'
-import LavaTypo from './Design/LavaTypo'
+import LavaButton from '@/components/Design/LavaButton'
+import LavaTypo from '@/components/Design/LavaTypo'
 import { HiArrowLongRight } from 'react-icons/hi2'
 import { AbsoluteCenter } from '@chakra-ui/react'
-import './styles/AppBar.css'
+import './AppBar.css'
 
 export default function AppBar() {
     const menuItems = [

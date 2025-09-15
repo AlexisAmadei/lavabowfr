@@ -1,7 +1,7 @@
 import React from 'react'
-import LavaTypo from './Design/LavaTypo'
+import LavaTypo from '@/components/Design/LavaTypo'
+import Section from '@/components/Design/Section'
 import './styles/Music.css'
-import Section from './Design/Section'
 
 export default function Music() {
     return (

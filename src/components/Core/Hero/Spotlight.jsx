@@ -1,7 +1,7 @@
-import { Box, Flex } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
 import React from 'react'
-import LavaTypo from '../Design/LavaTypo'
-import LavaButton from '../Design/LavaButton'
+import LavaTypo from '@/components/Design/LavaTypo'
+import LavaButton from '@/components/Design/LavaButton'
 
 export default function Spotlight() {
     return (
