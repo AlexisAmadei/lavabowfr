@@ -24,13 +24,13 @@ export default function Videos() {
     return (
         <Section>
             <Flex direction={'column'} gap={8} width={'100%'} alignItems={'center'}>
-                <LavaTypo variant={'h1'}>Videos</LavaTypo>
+                <LavaTypo variant={'h1'}>Vidéos</LavaTypo>
 
-                <Flex justifyContent={'center'} direction={'row'} gap={3}>
-                    <Flex direction={'column'} gap={3} justifyContent={'flex-start'}>
+                <Flex justifyContent={'flex-start'} direction={'row'} gap={3}>
+                    <Flex direction={'column'} gap={3} justifyContent={'space-between'}>
                         <LavaTypo variant={'h2'}>Dernier clip</LavaTypo>
                         <Box sx={styles.videoContainer}>
-                            <iframe id="ytplayer" type="text/html" width="996" height="560"
+                            <iframe id="ytplayer" type="text/html" width="996" height="600"
                                 src="https://www.youtube.com/embed/Rbszi6x8mXE?autoplay=1&controls=1"
                                 frameborder="0" allowfullscreen>
                             </iframe>
