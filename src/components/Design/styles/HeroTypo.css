@@ -7,9 +7,9 @@
 .hero-typo p {
     margin: 0;
     font-family: 'Whyte';
-    font-weight: bold;
+    font-weight: 800;
     font-size: 16vw;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.09em;
     line-height: var(--hero-line-height);
     color: var(--main-accent);
 }
