@@ -4,12 +4,13 @@ import Cover from '@/assets/cover.webp'
 import Logo from '@/components/Design/Logo'
 import Spotlight from './Spotlight'
 import CursorButton from '../CursorButton/CursorButton'
+import HeroTypo from '@/components/Design/HeroTypo'
 
 export default function Hero() {
     return (
         <div className='landing-hero'
             style={{
-                position: 'relative', // Added for absolute positioning context
+                position: 'relative',
                 backgroundImage: `url(${Cover})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
