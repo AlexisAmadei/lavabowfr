@@ -14,6 +14,7 @@ export default function AboutSection() {
             alignItems={'flex-start'}
             textAlign={'center'}
             maxWidth={1520}
+            id='about'
         >
             <LavaTypo variant='h1'>All is about THA Pink Poney</LavaTypo>
             <Flex gap={16}>

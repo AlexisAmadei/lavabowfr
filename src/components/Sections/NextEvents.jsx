@@ -45,7 +45,7 @@ const events = [
 
 export default function NextEvents() {
     return (
-        <Section>
+        <Section id='events'>
             <LavaTypo variant={'h1'}>Retrouve nous en concert</LavaTypo>
             <Grid
                 className='events-list'

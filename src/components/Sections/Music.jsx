@@ -7,6 +7,7 @@ export default function Music() {
     return (
         <Section
             bgColor={'var(--secondary-accent)'}
+            id='music'
         >
             <LavaTypo variant='h1'>Notre Musique</LavaTypo>
             <iframe data-testid="embed-iframe"

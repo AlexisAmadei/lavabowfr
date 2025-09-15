@@ -37,7 +37,7 @@ export default function Newsletter() {
     }, [error]);
 
     return (
-        <Section bgImage={bgPic}>
+        <Section bgImage={bgPic} id='newsletter'>
             <Flex gap={8} direction={'column'} alignItems={'center'} position={'relative'}>
 
                 <Flex gap={3} direction={'column'} alignItems={'center'}>

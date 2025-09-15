@@ -22,7 +22,7 @@ const styles = {
 
 export default function Videos() {
     return (
-        <Section>
+        <Section id='videos'>
             <Flex direction={'column'} gap={8} width={'100%'} alignItems={'center'}>
                 <LavaTypo variant={'h1'}>Vidéos</LavaTypo>
 
