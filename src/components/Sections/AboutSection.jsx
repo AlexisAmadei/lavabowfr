@@ -13,7 +13,7 @@ export default function AboutSection() {
             direction={'column'}
             alignItems={'flex-start'}
             textAlign={'center'}
-            maxWidth={1400}
+            maxWidth={1520}
         >
             <LavaTypo variant='h1'>All is about THA Pink Poney</LavaTypo>
             <Flex gap={16}>
