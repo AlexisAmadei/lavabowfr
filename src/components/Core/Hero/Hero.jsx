@@ -21,7 +21,7 @@ export default function Hero({ userOS }) {
         >
             <Flex direction='column' width='100%' height='100%' justifyContent={'space-between'} className='landing-hero-content'>
                 <HeroTypo />
-                <Box width={'100%'} display={'flex'} flexDirection={'row'} position={'relative'} alignItems={'flex-end'} justifyContent={'space-between'} paddingX={16} paddingY={4}>
+                <Box width={'100%'} display={'flex'} flexDirection={'row'} position={'relative'} alignItems={'flex-end'} justifyContent={'space-between'} paddingX={16} paddingY={4} mb={4}>
                     <Logo h={76} w={76} />
                     <Spotlight />
                 </Box>
