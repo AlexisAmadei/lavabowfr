@@ -20,7 +20,7 @@ export default function AppBar() {
             axis={'horizontal'}
             direction={'row'}
             gap={4}
-            mt={4}
+            mt={6}
         >
             {menuItems.map(item => (
                 <LavaButton key={item.name} variant={item.variant} className="app-bar__button" onClick={() => {
