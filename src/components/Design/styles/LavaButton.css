@@ -8,7 +8,6 @@
     cursor: pointer;
     transition: all 0.1s ease-in-out;
     border: 1px solid transparent;
-
 }
 
 .lava-button.outlined {
@@ -18,7 +17,7 @@
 
 .lava-button.outlined:hover {
     background-color: white;
-    color: black !important;
+    color: black;
 }
 
 .lava-button.filled {
