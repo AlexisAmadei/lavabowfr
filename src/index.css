@@ -4,7 +4,7 @@
 
 :root {
     color-scheme: light dark;
-    color: rgba(255, 255, 255, 0.87);
+    color: rgba(255, 255, 255, 1);
     background-color: #0c0c0c;
 
     font-synthesis: none;
@@ -35,11 +35,4 @@ html, body {
 p {
     margin: 0;
     padding: 0;
-}
-
-@media (prefers-color-scheme: light) {
-    :root {
-        color: #213547;
-        background-color: #ffffff;
-    }
 }
