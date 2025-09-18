@@ -6,29 +6,39 @@ import { Box } from '@chakra-ui/react'
 
 const event = [
     {
-        title: 'Titre de l\'event',
+        title: 'Concert Lava Bow',
         image: '/src/assets/img/pictures-section/sample.png',
-        date: '20/03/2025'
+        date: '20/03/2025',
+        description: 'Une soirée musicale exceptionnelle avec Lava Bow. Découvrez leurs derniers titres dans une ambiance intimiste et chaleureuse.',
+        location: 'Salle Olympia, Paris'
     },
     {
-        title: 'Titre de l\'event',
+        title: 'Showcase Privé',
         image: '/src/assets/img/pictures-section/sample.png',
-        date: '21/03/2025'
+        date: '21/03/2025',
+        description: 'Un showcase exclusif pour les fans les plus fidèles. Une performance unique et des moments privilégiés avec le groupe.',
+        location: 'Studio Secret, Lyon'
     },
     {
-        title: 'Titre de l\'event',
+        title: 'Festival Rock',
         image: '/src/assets/img/pictures-section/sample.png',
-        date: '22/03/2025'
+        date: '22/03/2025',
+        description: 'Lava Bow en tête d\'affiche du plus grand festival rock de l\'été. Une performance énergique devant des milliers de fans.',
+        location: 'Parc des Expositions, Marseille'
     },
     {
-        title: 'Titre de l\'event',
+        title: 'Acoustic Session',
         image: '/src/assets/img/pictures-section/sample.png',
-        date: '23/03/2025'
+        date: '23/03/2025',
+        description: 'Une version acoustique et épurée des plus grands succès du groupe. Une expérience musicale intime et authentique.',
+        location: 'Café de la Musique, Bordeaux'
     },
     {
-        title: 'Titre de l\'event',
+        title: 'World Tour Finale',
         image: '/src/assets/img/pictures-section/sample.png',
-        date: '24/03/2025'
+        date: '24/03/2025',
+        description: 'La grande finale de la tournée mondiale. Un spectacle grandiose qui marquera l\'histoire du groupe et de ses fans.',
+        location: 'Stade de France, Paris'
     },
 ]
 
