@@ -1,0 +1,94 @@
+@keyframes rotate-clockwise {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.cd-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-width: 250px;
+    max-width: 350px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 8px solid rgba(255, 255, 255, 0.30);
+}
+
+.cd {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    animation: rotate-clockwise 20s linear infinite;
+    background:
+        url('../../../assets/img/noise.png'),
+        conic-gradient(from 180deg at 50% 50%,
+            #000 38.07692348957062deg,
+            #000 44.11679416894913deg,
+            #FFF 91.00963711738586deg,
+            #000 143.80128264427185deg,
+            #FFF 190.55105924606323deg,
+            #000 230.0490117073059deg,
+            #000 254.72930431365967deg,
+            #FFF 305.09567499160767deg,
+            #000 343.7336039543152deg,
+            #FFF 358.54671478271484deg),
+        conic-gradient(from 180deg at 50% 50%,
+            #000 38.07692348957062deg,
+            #000 44.11679416894913deg,
+            #FFF 91.00963711738586deg,
+            #000 143.80128264427185deg,
+            #FFF 190.55105924606323deg,
+            #000 230.0490117073059deg,
+            #000 254.72930431365967deg,
+            #FFF 305.09567499160767deg,
+            #000 343.7336039543152deg,
+            #FFF 358.54671478271484deg),
+        radial-gradient(farthest-corner at 34% 2.6%,
+            #2AD0CA 0%,
+            #E1F664 20.19%,
+            #FEB0FE 39.9%,
+            #ABB3FC 58.65%,
+            #5DF7A4 77.88%,
+            #58C4F6 100%);
+    background-blend-mode: overlay, screen, difference, normal;
+}
+
+.cd-inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.cd-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.cd-hole {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20%;
+    height: 20%;
+    background: var(--secondary-accent);
+    border: 8px solid rgba(255, 255, 255, 0.30);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
