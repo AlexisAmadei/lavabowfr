@@ -7,7 +7,44 @@
     align-self: stretch;
     grid-row: 1 / span 1;
     grid-column: 1 / span 1;
-    color: #000
+    color: #000;
+    background:
+        conic-gradient(
+            from 180deg at 50% 50%,
+            #000 38.07692348957062deg,
+            #000 44.11679416894913deg,
+            #FFF 91.00963711738586deg,
+            #000 143.80128264427185deg,
+            #FFF 190.55105924606323deg,
+            #000 230.0490117073059deg,
+            #000 254.72930431365967deg,
+            #FFF 305.09567499160767deg,
+            #000 343.7336039543152deg,
+            #FFF 358.54671478271484deg
+        ),
+        conic-gradient(
+            from 180deg at 50% 50%,
+            #000 38.07692348957062deg,
+            #000 44.11679416894913deg,
+            #FFF 91.00963711738586deg,
+            #000 143.80128264427185deg,
+            #FFF 190.55105924606323deg,
+            #000 230.0490117073059deg,
+            #000 254.72930431365967deg,
+            #FFF 305.09567499160767deg,
+            #000 343.7336039543152deg,
+            #FFF 358.54671478271484deg
+        ),
+        radial-gradient(
+            farthest-corner at 34% 2.6%,
+            #2AD0CA 0%,
+            #E1F664 20.19%,
+            #FEB0FE 39.9%,
+            #ABB3FC 58.65%,
+            #5DF7A4 77.88%,
+            #58C4F6 100%
+        );
+    background-blend-mode: screen, difference, normal;
 }
 
 .event-title {
@@ -54,3 +91,7 @@
 
     width: 100%;
 }
+
+/* .barcode-container rect {
+    fill: transparent !important;
+} */

@@ -72,7 +72,7 @@ export default function EventTicket({ event }) {
                 </div>
 
                 <Flex direction={'column'} alignItems={'center'} gap={3}>
-                    <Box style={{ height: '33px', width: '194px' }} overflow={'hidden'}>
+                    <Box style={{ height: '33px', width: '194px' }} overflow={'hidden'} className='barcode-container'>
                         <Barcode value={'lavabow'} height={33} displayValue={false} margin={0} />
                     </Box>
                     <LavaButton variant={'filled'} style={{ width: '100%' }}>
