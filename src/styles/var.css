@@ -6,4 +6,14 @@
     --tertiary-accent: #0000AA;
 
     --hero-line-height: 0.78;
+
+    --Text-text-primary: #FFFFFF;
+    --Text-text-secondary: #FFFFFF;
+    --Text-text-brand: #ED00E1;
+
+    --Background-bg-brand: #1217FC;
+
+    /* Responsive triggers */
+    --default-breakpoint: 1024px;
+    --mobile-breakpoint: 768px;
 }

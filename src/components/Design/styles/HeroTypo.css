@@ -1,10 +1,3 @@
-/*
-* Prefixed by:
-* PostCSS: v7.0.29,
-* Autoprefixer: v9.7.6
-* Browsers: last 4 version
-*/
-
 .hero-typo {
     display: -ms-grid;
     display: grid;
@@ -26,4 +19,19 @@
 .hero-typo p#outline {
     -webkit-text-stroke: 4px var(--main-accent);
     color: transparent;
+}
+
+@media screen and (max-width: 768px) {
+    .hero-typo {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        max-width: 100%;
+    }
+    .hero-typo p#outline {
+        font-size: 22vw;
+        white-space: nowrap;
+        justify-self: start;
+    }
 }

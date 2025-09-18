@@ -1,6 +1,7 @@
 .app-bar {
     z-index: 10;
     max-height: 64px;
+    width: 100%;
 }
 
 .app-bar__button {
@@ -18,10 +19,28 @@
     width: 0;
     overflow: hidden;
 }
+
 .app-bar__button:hover .app-bar__icon-on-hover {
     opacity: 1;
     transform: translateX(0);
     pointer-events: auto;
     width: auto;
     overflow: visible;
+}
+@media screen and (max-width: 768px) {
+    .app-bar__menu-burger>.lava-typo {
+        color: var(--Text-text-primary, #FFF);
+        font-family: "Cossette Titre" !important;
+        font-size: 24px !important;
+        font-style: normal !important;
+        font-weight: 700 !important;
+        line-height: normal !important;
+        text-decoration-line: underline !important;
+        text-decoration-style: solid !important;
+        text-decoration-skip-ink: auto !important;
+        text-decoration-thickness: auto !important;
+        text-underline-offset: auto !important;
+        text-underline-position: from-font !important;
+        text-transform: uppercase !important;
+    }
 }

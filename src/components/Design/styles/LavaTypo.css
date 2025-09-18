@@ -1,26 +1,21 @@
-.lava-typo {
-    font-family: 'Whyte' !important;
-    display: inline-block;
-}
-
 h1.lava-typo {
     color: inherit;
-    font-size: 96px;
+    font-size: 100px;
     font-style: normal;
     font-weight: 700;
-    line-height: 104px;
+    /* line-height: 104px; */
     margin: 0;
     margin-bottom: 40px;
     padding: 0;
 
     text-align: center;
-    font-family: 'Cossette Titre', sans-serif !important;
+    font-family: 'Cossette Titre', sans-serif;
     width: 100%;
 }
 
 h2.lava-typo {
-    color: inherit;
-    font-family: 'Cossette Titre', sans-serif !important;
+    color: var(--Text-text-primary, #FFF);
+    font-family: 'Cossette Titre', sans-serif;
     font-size: 50px;
     font-style: normal;
     font-weight: 700;
@@ -30,19 +25,17 @@ h2.lava-typo {
 }
 
 h3.lava-typo {
-    color: inherit;
-    font-family: 'Whyte';
-    font-size: 24px;
+    color: var(--Text-text-primary, #FFF);
+    text-align: center;
+    font-family: "Cossette Titre";
+    font-size: 30px;
     font-style: normal;
-    font-weight: 300;
+    font-weight: 700;
     line-height: normal;
-
-    text-align: left;
-
 }
 
 p.lava-typo {
-    color: inherit;
+    color: var(--Text-text-secondary, #FFF);
     font-size: 18px;
     font-style: normal;
     font-weight: 300;
@@ -60,4 +53,45 @@ span.lava-typo.accent {
 
 span.lava-typo.bold {
     font-weight: 700;
+}
+
+@media screen and (max-width: 768px) {
+    h1.lava-typo {
+        color: var(--Text-text-primary, #FFF);
+        text-align: center;
+        font-family: "Cossette Titre";
+        font-size: 50px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+    }
+
+    h2.lava-typo {
+        color: var(--Text-text-primary, #FFF);
+        text-align: center;
+        font-family: "Cossette Titre";
+        font-size: 48px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+    }
+
+    h3.lava-typo {
+        color: var(--Text-text-secondary, #FFF);
+        text-align: center;
+        font-family: 'Whyte';
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: normal;
+    }
+
+    p.lava-typo {
+        color: var(--Text-text-secondary, #FFF);
+        font-family: 'Whyte';
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: 20px;
+    }
 }

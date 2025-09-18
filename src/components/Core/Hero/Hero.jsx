@@ -5,8 +5,11 @@ import Logo from '@/components/Design/Logo'
 import Spotlight from './Spotlight'
 import CursorButton from '../CursorButton/CursorButton'
 import HeroTypo from '@/components/Design/HeroTypo'
+import useIsMobile from '../../../hooks/useIsMobile'
 
 export default function Hero({ userOS }) {
+    const isMobile = useIsMobile();
+
     return (
         <div className='landing-hero'
             style={{
@@ -21,12 +24,27 @@ export default function Hero({ userOS }) {
         >
             <Flex direction='column' width='100%' height='100%' justifyContent={'space-between'} className='landing-hero-content'>
                 <HeroTypo />
-                <Box width={'100%'} display={'flex'} flexDirection={'row'} position={'relative'} alignItems={'flex-end'} justifyContent={'space-between'} paddingX={16} paddingY={4} mb={4}>
-                    <Logo h={76} w={76} />
+                <Box
+                    className='hero-bottom'
+                    width={'100%'}
+                    display={'flex'}
+                    flexDirection={'row'}
+                    position={'relative'}
+                    alignItems={'flex-end'}
+                    justifyContent={'space-between'}
+                    paddingX={!isMobile ? 16 : 4}
+                    paddingY={4}
+                    mb={4}
+                >
+                    {!isMobile &&
+                        <Logo h={76} w={76} />
+                    }
                     <Spotlight />
                 </Box>
             </Flex>
-            <CursorButton />
+            {!isMobile && (
+                <CursorButton />
+            )}
         </div>
     )
 }

@@ -6,3 +6,8 @@
     justify-content: center;
     width: 100%;
 }
+@media screen and (max-width: 768px) {
+    .lava-section {
+        padding: 50px 24px;
+    }
+}

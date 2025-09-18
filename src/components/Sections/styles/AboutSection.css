@@ -20,3 +20,9 @@
     background: linear-gradient(to right, var(--dark-background) 0%, rgba(0, 0, 0, 0) 100%);
     pointer-events: none;
 }
+
+@media screen and (max-width: 1024px) {
+    .about-section-image::after {
+        background: linear-gradient(to bottom, var(--dark-background) 0%, rgba(0, 0, 0, 0) 100%);
+    }
+}
