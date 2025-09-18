@@ -1,8 +1,8 @@
 import React from 'react'
-import Section from '../Design/Section'
-import LavaTypo from '../Design/LavaTypo'
-import EventTicket from './EventTicket'
+import Section from '@/components/Design/Section'
+import LavaTypo from '@/components/Design/LavaTypo'
 import { Grid, GridItem } from '@chakra-ui/react'
+import EventTicket from './EventTicket'
 
 const events = [
     {

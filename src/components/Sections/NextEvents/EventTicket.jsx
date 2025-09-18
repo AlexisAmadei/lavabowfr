@@ -1,8 +1,8 @@
 import React, { useRef } from 'react'
-import './styles/EventTicket.css'
+import './EventTicket.css'
 import { Box, Flex } from '@chakra-ui/react'
-import Logo from '../Design/Logo'
-import LavaButton from '../Design/LavaButton'
+import Logo from '@/components/Design/Logo'
+import LavaButton from '@/components/Design/LavaButton'
 import Barcode from 'react-barcode'
 
 const Divider = () => <div style={{ width: '1px', backgroundColor: '#00000052', height: '100%' }} />

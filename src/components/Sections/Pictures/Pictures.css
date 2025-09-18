@@ -1,0 +1,34 @@
+.pic-frame {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    overflow: hidden;
+    z-index: 9999;
+    position: relative;
+}
+
+.pic-frame:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+    z-index: 99999;
+}
+
+.pic-frame h3 {
+    color: #000 !important;
+    font-family: "Cossette Titre" !important;
+    font-size: 30px !important;
+    font-style: normal !important;
+    font-weight: 700 !important;
+    line-height: normal !important;
+    text-transform: uppercase !important;
+}
+
+.pic-frame img {
+    width: 250px;
+    height: 250px;
+    min-width: 250px;
+    min-height: 250px;
+    aspect-ratio: 1/1;
+    border-radius: 4px;
+}

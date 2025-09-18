@@ -6,9 +6,9 @@ import Newsletter from '@/components/Sections/Newsletter'
 import { Flex } from '@chakra-ui/react'
 import Music from '@/components/Sections/Music'
 import './styles/Landing.css'
-import NextEvents from '@/components/Sections/NextEvents'
+import NextEvents from '../components/Sections/NextEvents/NextEvents'
 import Videos from '../components/Sections/Videos'
-import Pictures from '../components/Sections/Pictures'
+import Pictures from '../components/Sections/Pictures/Pictures'
 
 export default function Landing() {
     const [userOS, setUserOS] = React.useState('');
