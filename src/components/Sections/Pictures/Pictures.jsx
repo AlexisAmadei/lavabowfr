@@ -48,7 +48,7 @@ export default function Pictures() {
     // Generate random positions for each picture without overlaps
     useEffect(() => {
         const generateRandomPositions = () => {
-            const containerWidth = 1200 // Approximate container width
+            const containerWidth = 1400 // Approximate container width
             const containerHeight = 800 // Approximate container height
             const frameWidth = 290 // PicFrame width + padding
             const frameHeight = 350 // PicFrame height + padding

@@ -42,15 +42,13 @@
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
 }
 
-.pic-frame:hover {
+/* .pic-frame:hover {
     transform: scale(1.02);
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
     z-index: 99999;
-}
+} */
 
-.card.flipped .pic-frame:hover {
-    transform: rotateY(180deg) scale(1.02);
-}
+
 
 .pic-frame h3 {
     color: #000 !important;
