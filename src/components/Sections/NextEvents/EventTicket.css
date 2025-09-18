@@ -73,6 +73,12 @@
     font-weight: 400;
     line-height: 25px;
 }
+@media screen and (max-width: 768px) {
+    .event-description {
+        font-size: 18px;
+        line-height: 20px;
+    }
+}
 
 .event-details {
     color: #000;
@@ -84,6 +90,11 @@
     text-transform: uppercase;
 
     width: 100%;
+}
+@media screen and (max-width: 768px) {
+    .event-details {
+        font-size: 16px;
+    }
 }
 
 .event-ticket.pkm-v {
