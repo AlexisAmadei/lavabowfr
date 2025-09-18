@@ -1,6 +1,7 @@
 import React from 'react'
 import { Box, Flex } from '@chakra-ui/react'
 import Cover from '@/assets/img/cover.webp'
+import CoverMobile from '@/assets/img/cover-mobile.webp'
 import Logo from '@/components/Design/Logo'
 import Spotlight from './Spotlight'
 import CursorButton from '../CursorButton/CursorButton'
@@ -14,7 +15,7 @@ export default function Hero({ userOS }) {
         <div className='landing-hero'
             style={{
                 position: 'relative',
-                backgroundImage: `url(${Cover})`,
+                backgroundImage: !isMobile ? `url(${Cover})` : `url(${CoverMobile})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
