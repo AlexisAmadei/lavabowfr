@@ -29,6 +29,7 @@
     height: 100%;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
+    color: #000;
 }
 
 .pic-frame.front {
