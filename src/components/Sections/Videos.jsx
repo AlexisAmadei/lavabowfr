@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import Section from '@/components/Design/Section'
 import { Box, Flex } from '@chakra-ui/react'
 import LavaTypo from '../Design/LavaTypo'
+import useIsMobile from '../../hooks/useIsMobile'
 
 const styles = {
     videoContainer: {
@@ -43,6 +44,7 @@ const videoList = [
 
 export default function Videos() {
     const [maxHeight, setMaxHeight] = React.useState();
+    const isMobile = useIsMobile();
 
     useEffect(() => {
         const ref = document.getElementById('featured-video');
@@ -56,27 +58,46 @@ export default function Videos() {
             <Flex direction={'column'} gap={8} width={'100%'} alignItems={'center'}>
                 <LavaTypo variant={'h1'}>Vidéos</LavaTypo>
 
-                <Flex justifyContent={'flex-start'} direction={'row'} gap={3} height={'100%'}>
+                <Flex justifyContent={'flex-start'} direction={isMobile ? "column" : "row"} gap={3} height={'100%'}>
                     <Flex direction={'column'} gap={3} id='featured-video'>
                         <LavaTypo variant={'h2'}>Dernier clip</LavaTypo>
                         <Box sx={styles.videoContainer}>
-                            <iframe id="ytplayer" type="text/html" width="996" height="600"
+                            <iframe id="ytplayer" type="text/html" width={isMobile ? "100%" : "996"} height={isMobile ? "200" : "600"}
                                 src="https://www.youtube.com/embed/Rbszi6x8mXE?autoplay=1&controls=1"
                                 name='youtube-embed' loading='lazy'
                             ></iframe>
                         </Box>
                     </Flex>
-                    <Flex direction={'column'} maxHeight={maxHeight ?? '400px'} gap={3}>
+
+                    <Flex
+                        direction={'column'}
+                        maxHeight={maxHeight ?? '400px'}
+                        gap={3}
+                    >
                         <LavaTypo variant={'h3'}>Autres vidéos</LavaTypo>
-                        <Flex className='video-list' direction={'column'} gap={3} overflowY={'auto'} justifyContent={'space-between'}>
+                        <Box
+                            className='video-list'
+                            display={isMobile ? 'grid' : 'flex'}
+                            direction={'column'}
+                            flexDirection={isMobile ? 'unset' : 'column'}
+                            gap={3}
+                            overflowY={'auto'}
+                            justifyContent={'space-between'}
+
+                            rowGap={'24px'}
+                            columnGap={'24px'}
+                            gridTemplateRows={'93.00px minmax(0, 1fr)'}
+                            gridTemplateColumns={'repeat(2, minmax(0, 1fr))'}
+                        >
                             {videoList.map((video, index) => (
-                                <iframe key={index} id="ytplayer" type="text/html" width="320" height="180"
+                                <iframe key={index} id="ytplayer" type="text/html" width={isMobile ? '165px' : '320px'} height={isMobile ? '93px' : '180px'}
                                     src={video.link}
                                     name='youtube-embed' loading='lazy'
                                 ></iframe>
                             ))}
-                        </Flex>
+                        </Box>
                     </Flex>
+
                 </Flex>
             </Flex>
         </Section>
