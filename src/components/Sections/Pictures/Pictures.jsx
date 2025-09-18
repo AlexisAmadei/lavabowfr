@@ -3,6 +3,7 @@ import Section from '@/components/Design/Section'
 import LavaTypo from '@/components/Design/LavaTypo'
 import PicFrame from './PicFrame'
 import { Box } from '@chakra-ui/react'
+import useIsMobile from '../../../hooks/useIsMobile'
 
 const event = [
     {
@@ -43,6 +44,7 @@ const event = [
 ]
 
 export default function Pictures() {
+    const isMobile = useIsMobile();
     const [positions, setPositions] = useState([])
 
     // Generate random positions for each picture without overlaps
@@ -117,29 +119,75 @@ export default function Pictures() {
     return (
         <Section id="pictures">
             <LavaTypo variant="h1">Lava Bow en photos</LavaTypo>
-            <Box
-                position="relative"
-                width="100%"
-                height="800px"
-                overflow="hidden"
-                mt={8}
-                padding={4}
-            >
-                {event.map((e, index) => (
+            {!isMobile ? (
+                <Box
+                    position="relative"
+                    width="100%"
+                    height="800px"
+                    overflow="hidden"
+                    mt={8}
+                    padding={4}
+                >
+                    {event.map((e, index) => (
+                        <Box
+                            key={index}
+                            position="absolute"
+                            left={positions[index]?.x || 0}
+                            top={positions[index]?.y || 0}
+                            transform={`rotate(${positions[index]?.rotation || 0}deg)`}
+                            transition="all 0.3s ease"
+                            zIndex={9999 + index}
+                            overflow={'visible'}
+                        >
+                            <PicFrame event={e} />
+                        </Box>
+                    ))}
+                </Box>
+            ) : (
+                <Box
+                    width="100%"
+                    mt={8}
+                    overflow="hidden"
+                >
                     <Box
-                        key={index}
-                        position="absolute"
-                        left={positions[index]?.x || 0}
-                        top={positions[index]?.y || 0}
-                        transform={`rotate(${positions[index]?.rotation || 0}deg)`}
-                        transition="all 0.3s ease"
-                        zIndex={9999 + index}
-                        overflow={'visible'}
+                        display="flex"
+                        gap={4}
+                        paddingX={4}
+                        paddingY={2}
+                        overflowX="auto"
+                        overflowY="hidden"
+                        css={{
+                            '&::-webkit-scrollbar': {
+                                height: '8px',
+                            },
+                            '&::-webkit-scrollbar-track': {
+                                background: 'rgba(255, 255, 255, 0.1)',
+                                borderRadius: '10px',
+                            },
+                            '&::-webkit-scrollbar-thumb': {
+                                background: 'rgba(255, 41, 41, 0.7)',
+                                borderRadius: '10px',
+                            },
+                            '&::-webkit-scrollbar-thumb:hover': {
+                                background: 'rgba(255, 41, 41, 0.9)',
+                            },
+                        }}
                     >
-                        <PicFrame event={e} />
+                        {event.map((e, index) => (
+                            <Box
+                                key={index}
+                                flexShrink={0}
+                                transition="all 0.3s ease"
+                                _hover={{
+                                    transform: 'scale(1.02)',
+                                }}
+                            >
+                                <PicFrame event={e} />
+                            </Box>
+                        ))}
                     </Box>
-                ))}
-            </Box>
+                </Box>
+            )}
         </Section>
     )
 }
