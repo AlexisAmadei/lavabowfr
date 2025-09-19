@@ -4,6 +4,7 @@ import LavaTypo from '@/components/Design/LavaTypo'
 import { Grid, GridItem } from '@chakra-ui/react'
 import EventTicket from './EventTicket'
 import useIsMobile from '../../../hooks/useIsMobile'
+import sample from '@/assets/img/events/events-1.webp'
 
 const events = [
     {
@@ -12,7 +13,7 @@ const events = [
         price: '6',
         date: '20/03/2025',
         location: 'Truskel',
-        img: '/src/assets/img/events/events-1.webp',
+        img: sample,
         link: ''
     },
     {
@@ -21,7 +22,7 @@ const events = [
         price: '6',
         date: '20/03/2025',
         location: 'Truskel',
-        img: '/src/assets/img/events/events-1.webp',
+        img: sample,
         link: ''
     },
     {
@@ -30,7 +31,7 @@ const events = [
         price: '6',
         date: '20/03/2025',
         location: 'Truskel',
-        img: './src/assets/img/events/events-1.webp',
+        img: sample,
         link: ''
     },
     {
@@ -39,7 +40,7 @@ const events = [
         price: '6',
         date: '20/03/2025',
         location: 'Truskel',
-        img: './src/assets/img/events/events-1.webp',
+        img: sample,
         link: ''
     },
 ]
