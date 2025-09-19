@@ -18,8 +18,8 @@
 .follow-mouse-button:active,
 .follow-mouse-button.pressed {
     background: linear-gradient(to right,
-            var(--secondary-accent) 0%,
-            var(--main-accent) var(--fill-progress, 0%),
+            white 0%,
+            white var(--fill-progress, 0%),
             transparent var(--fill-progress, 0%),
             transparent 100%) !important;
     background-size: 100% 100%;
