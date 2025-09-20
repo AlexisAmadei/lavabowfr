@@ -1,5 +1,5 @@
-import { Box, Flex } from '@chakra-ui/react'
 import React from 'react'
+import { Box, Flex } from '@chakra-ui/react'
 import LavaTypo from '@/components/Design/LavaTypo'
 import aboutSection from '@/assets/img/about-section.webp'
 import './styles/AboutSection.css'
@@ -10,7 +10,7 @@ export default function AboutSection() {
     const isMobile = useIsMobile();
 
     return (
-        <Section>
+        <Section contained={true}>
             <Flex
                 className='about-section'
                 direction={'column'}
@@ -19,6 +19,7 @@ export default function AboutSection() {
                 id='about'
             >
                 <LavaTypo variant='h1'>All is about THA Pink Poney</LavaTypo>
+
                 <Flex gap={16} direction={isMobile ? 'column' : 'row'}>
                     <LavaTypo variant='text'>
                         Lava Bow, c’est un <LavaTypo variant={'accent'}>trio alternatif</LavaTypo> né à Asnières-sur-Seine, aux frontières du chaos sonore et de l’intime viscéral. Composé de Côme (guitare/chant), Sam (violoncelle/chant) et Alexis (batterie), le groupe <LavaTypo variant={'accent'}>casse les codes du rock traditionnel</LavaTypo> avec une formule audacieuse : <LavaTypo variant={'accent'}>pas de basse, mais un violoncelle amplifié et malmené</LavaTypo>, qui tient autant le groove que les envolées lyriques.
@@ -38,6 +39,7 @@ export default function AboutSection() {
 
                         Lava Bow, c’est une proposition live radicale et libre, à contre-courant des formats policés. Leur mot d’ordre : <LavaTypo variant={'accent'}>“All is about tha pink poney”</LavaTypo>.
                     </LavaTypo>
+
                     <Box className='about-section-image'>
                         <img src={aboutSection} alt="About Lava Bow" />
                     </Box>
