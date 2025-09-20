@@ -11,6 +11,7 @@ export default function CursorButton() {
     const [isPressed, setIsPressed] = React.useState(false);
     const [isUnfilling, setIsUnfilling] = React.useState(false);
     const [fillProgress, setFillProgress] = React.useState(0);
+
     const heroRef = React.useRef(null);
     const pressStartTime = React.useRef(null);
     const animationFrame = React.useRef(null);
@@ -57,7 +58,7 @@ export default function CursorButton() {
         // Initialize default position based on hero size
         const rect = heroElement.getBoundingClientRect();
         const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
+        const centerY = rect.height - 100;
 
         setDefaultPosition({ x: centerX, y: centerY });
 
@@ -141,21 +142,12 @@ export default function CursorButton() {
     return (
         <div ref={heroRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
             <LavaButton
-                variant={'outlined'} 
+                variant={'outlined'}
                 className={`follow-mouse-button ${isPressed || isUnfilling ? 'pressed' : ''}`}
                 style={followButtonStyle}
-                onMouseDown={(e) => {
-                    console.log('LavaButton onMouseDown triggered');
-                    handleMouseDown();
-                }}
-                onMouseUp={(e) => {
-                    console.log('LavaButton onMouseUp triggered');
-                    handleMouseUp();
-                }}
-                onMouseLeave={(e) => {
-                    console.log('LavaButton onMouseLeave triggered');
-                    handleMouseUp();
-                }}
+                onMouseDown={() => handleMouseDown()}
+                onMouseUp={() => handleMouseUp()}
+                onMouseLeave={() => handleMouseUp()}
             >
                 <FaPlay color={isPressed ? 'black' : 'white'} />
                 <LavaTypo>Voir le clip</LavaTypo>
