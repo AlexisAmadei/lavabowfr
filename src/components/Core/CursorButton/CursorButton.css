@@ -24,6 +24,20 @@
             transparent 100%) !important;
     background-size: 100% 100%;
     transition: none;
+    position: relative;
+}
+
+.follow-mouse-button:active .lava-typo,
+.follow-mouse-button.pressed .lava-typo {
+    color: transparent !important;
+    background: linear-gradient(to right,
+            black 0%,
+            black var(--fill-progress, 0%),
+            white var(--fill-progress, 0%),
+            white 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 @keyframes makeItfadeIn {

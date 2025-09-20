@@ -140,7 +140,7 @@ export default function CursorButton() {
 
     return (
         <div ref={heroRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
-            <LavaButton 
+            <LavaButton
                 variant={'outlined'} 
                 className={`follow-mouse-button ${isPressed || isUnfilling ? 'pressed' : ''}`}
                 style={followButtonStyle}
@@ -157,7 +157,7 @@ export default function CursorButton() {
                     handleMouseUp();
                 }}
             >
-                <FaPlay />
+                <FaPlay color={isPressed ? 'black' : 'white'} />
                 <LavaTypo>Voir le clip</LavaTypo>
             </LavaButton>
         </div>
