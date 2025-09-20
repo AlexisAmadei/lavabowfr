@@ -1,15 +1,15 @@
 import React from 'react'
 import './styles/Section.css'
-import LavaTypo from './LavaTypo'
 
-export default function Section({ children, bgImage, bgColor, id }) {
+export default function Section({ children, bgImage, bgColor, id, contained }) {
     return (
         <div className='lava-section' id={id}
             style={{
                 backgroundImage: `url(${bgImage})`,
                 backgroundColor: bgColor,
                 backgroundSize: 'cover',
-                backgroundPosition: 'center'
+                backgroundPosition: 'center',
+                maxWidth: contained ? '1500px' : '100%',
             }}
         >
             {children}
