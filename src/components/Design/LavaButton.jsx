@@ -1,12 +1,21 @@
 import React from 'react'
 import './styles/LavaButton.css'
 
-export default function LavaButton({ variant, children, onClick, startIcon, style, className, ...props }) {
+export default function LavaButton({
+    variant,
+    children,
+    onClick,
+    startIcon,
+    style,
+    className,
+    padding,
+    ...props
+}) {
     return (
         <button
             className={`lava-button ${variant} ${className || ''}`}
             onClick={onClick}
-            style={style}
+            style={{ padding, ...style }}
             {...props}
         >
             {startIcon && <span className="start-icon">{startIcon}</span>}

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Flex } from '@chakra-ui/react'
-import LavaTypo from '@/components/Design/LavaTypo'
-import LavaButton from '@/components/Design/LavaButton'
+import LavaTypo from '../../Design/LavaTypo'
+import LavaButton from '../../Design/LavaButton'
 import useIsMobile from '../../../hooks/useIsMobile'
 
 export default function Spotlight() {
@@ -14,11 +14,11 @@ export default function Spotlight() {
             <LavaTypo variant={'text'} styles={{ marginBottom: !isMobile ? '24px' : '' }}>Notre dernier single disponible partout</LavaTypo>
 
             <Flex direction={'row'} gap={4} marginTop={4}>
-                <LavaButton variant='filled'>
-                    <LavaTypo variant='text'>Écouter</LavaTypo>
+                <LavaButton variant='filled' padding={'16px 32px'}>
+                    <LavaTypo variant='text' size={'24px'}>Écouter</LavaTypo>
                 </LavaButton>
-                <LavaButton variant='outlined'>
-                    <LavaTypo variant='text'>Acheter</LavaTypo>
+                <LavaButton variant='outlined' padding={'16px 32px'}>
+                    <LavaTypo variant='text' size={'24px'}>Acheter</LavaTypo>
                 </LavaButton>
             </Flex>
 
