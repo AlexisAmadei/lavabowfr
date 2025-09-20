@@ -9,7 +9,7 @@ export default function Section({ children, bgImage, bgColor, id, contained }) {
                 backgroundColor: bgColor,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                maxWidth: contained ? '1500px' : '100%',
+                maxWidth: contained ? '1700px' : '100%',
             }}
         >
             {children}
