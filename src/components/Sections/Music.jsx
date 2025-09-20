@@ -3,7 +3,7 @@ import LavaTypo from '@/components/Design/LavaTypo'
 import Section from '@/components/Design/Section'
 import './styles/Music.css'
 import { Flex } from '@chakra-ui/react'
-import CompactDisc from '../Core/CompactDisc/CompactDisc'
+import CompactDisk from '../Core/CompactDisk/CompactDisk'
 
 export default function Music() {
     return (
@@ -19,7 +19,7 @@ export default function Music() {
                 justifyContent={'space-around'}
                 gap={10}
             >
-                <CompactDisc />
+                <CompactDisk />
                 <iframe data-testid="embed-iframe"
                     style={{ borderRadius: '12px' }}
                     src="https://open.spotify.com/embed/artist/54Y8JDIfmIb2zlHrB2ZoVF?utm_source=generator&theme=0"

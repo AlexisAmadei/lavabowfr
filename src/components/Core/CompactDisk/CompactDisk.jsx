@@ -1,9 +1,9 @@
-// CompactDisc.jsx
+// CompactDisk.jsx
 import React from 'react';
 import { Box } from '@chakra-ui/react';
-import './CompactDisc.css';
+import './CompactDisk.css';
 
-export default function CompactDisc() {
+export default function CompactDisk() {
     return (
         <Box className='cd-container' width={'100%'}>
             <Box className='cd'>
