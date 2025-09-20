@@ -11,7 +11,7 @@
 }
 
 .lava-button.outlined {
-    border: 1px solid #FFF !important;
+    border: 1px solid #FFF;
     background-color: transparent;
 }
 
@@ -22,7 +22,7 @@
 
 .lava-button.filled {
     background-color: var(--secondary-accent);
-    color: white !important;
+    color: white;
 }
 
 @media screen and (max-width: 768px) {
