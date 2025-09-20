@@ -14,10 +14,10 @@ export default function Spotlight() {
             <LavaTypo variant={'text'} styles={{ marginBottom: !isMobile ? '24px' : '' }}>Notre dernier single disponible partout</LavaTypo>
 
             <Flex direction={'row'} gap={4} marginTop={4}>
-                <LavaButton variant='filled' padding={'16px 32px'}>
+                <LavaButton variant='filled' padding={'12px 40px'}>
                     <LavaTypo variant='text' size={'24px'}>Écouter</LavaTypo>
                 </LavaButton>
-                <LavaButton variant='outlined' padding={'16px 32px'}>
+                <LavaButton variant='outlined' padding={'12px 40px'}>
                     <LavaTypo variant='text' size={'24px'}>Acheter</LavaTypo>
                 </LavaButton>
             </Flex>
