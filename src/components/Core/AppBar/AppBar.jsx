@@ -6,6 +6,7 @@ import './AppBar.css'
 import Logo from '../../Design/Logo'
 import useIsMobile from '../../../hooks/useIsMobile'
 import { LuMoveRight } from 'react-icons/lu'
+import Socials from './Socials'
 
 export default function AppBar() {
   const menuItems = [
@@ -27,6 +28,7 @@ export default function AppBar() {
     >
       {!isMobile ? (
         <Flex gap={4}>
+          <Socials />
           {menuItems.map(item => (
             <LavaButton key={item.name} variant={item.variant} className="app-bar__button" onClick={() => {
               const section = document.querySelector(item.link)
