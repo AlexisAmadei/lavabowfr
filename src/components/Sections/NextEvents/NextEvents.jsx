@@ -1,10 +1,12 @@
 import React from 'react'
 import Section from '@/components/Design/Section'
 import LavaTypo from '@/components/Design/LavaTypo'
-import { Grid, GridItem } from '@chakra-ui/react'
+import { Box, Grid, GridItem } from '@chakra-ui/react'
 import EventTicket from './EventTicket'
 import useIsMobile from '../../../hooks/useIsMobile'
 import sample from '@/assets/img/events/events-1.webp'
+import LavaButton from '@/components/Design/LavaButton'
+import noEventBg from '@/assets/img/events/no-events.webp'
 
 const events = [
   {
@@ -45,9 +47,32 @@ const events = [
   },
 ]
 
+const noEvent = [];
+
 export default function NextEvents() {
   const isMobile = useIsMobile();
 
+  if (noEvent.length === 0) {
+    return (
+      <Box
+        id='events'
+        className='lava-section'
+        gap={'72px'}
+        height='700px'
+        backgroundImage={`url(${noEventBg})`}
+        backgroundSize='cover'
+        backgroundPosition={'center'}
+        background={'radial-gradient(56.7% 49.96% at 50% 50%, rgba(0, 0, 0, 0.00) 0%, #000 100%), url(' + noEventBg + ') lightgray 50% / cover no-repeat;'}
+      >
+        <LavaTypo variant={'h2'}>
+          Comme toi, Côme attend patiemment le prochain évènement...
+        </LavaTypo>
+        <LavaButton variant={'outlined'} padding={'24px 48px'}>
+          <LavaTypo variant={'text'}>En attendant suis nos aventures ici</LavaTypo>
+        </LavaButton>
+      </Box>
+    )
+  }
   return (
     <Section id='events'>
       <LavaTypo variant={'h1'}>Retrouve nous en concert</LavaTypo>
