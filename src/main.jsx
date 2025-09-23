@@ -6,13 +6,13 @@ import './index.css'
 import { ChakraProvider, defaultSystem } from '@chakra-ui/react'
 
 createRoot(document.getElementById('root')).render(
-    <StrictMode>
-        <BrowserRouter>
-            <ChakraProvider value={defaultSystem}>
-                <Routes>
-                    <Route path="/" element={<Landing />} />
-                </Routes>
-            </ChakraProvider>
-        </BrowserRouter>
-    </StrictMode>,
+  <StrictMode>
+    <BrowserRouter>
+      <ChakraProvider value={defaultSystem}>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+        </Routes>
+      </ChakraProvider>
+    </BrowserRouter>
+  </StrictMode>,
 )

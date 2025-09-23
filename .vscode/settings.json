@@ -1,11 +1,13 @@
 {
-  "workbench.colorCustomizations": {
-    "statusBar.background": "#0000AA",
-    "titleBar.activeBackground": "#0000AA",
-    "titleBar.activeForeground": "#ffffff",
-    "titleBar.inactiveBackground": "#00008892",
-    "titleBar.inactiveForeground": "#ffffffb3"
-  },
-  "editor.tabSize": 2,
-  "editor.insertSpaces": true
+    "workbench.colorCustomizations": {
+        "statusBar.background": "#0000AA",
+        "titleBar.activeBackground": "#0000AA",
+        "titleBar.activeForeground": "#ffffff",
+        "titleBar.inactiveBackground": "#00008892",
+        "titleBar.inactiveForeground": "#ffffffb3"
+    },
+    "[javascriptreact]": {
+        "editor.tabSize": 2
+    },
+    "editor.insertSpaces": true
 }
