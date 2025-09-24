@@ -47,7 +47,7 @@ const events = [
   },
 ]
 
-const noEvent = [];
+const noEvent = events;
 
 export default function NextEvents() {
   const isMobile = useIsMobile();
@@ -83,7 +83,7 @@ export default function NextEvents() {
         width={isMobile ? "100%" : "auto"}
       >
         {events.map((event, index) => (
-          <GridItem key={index} >
+          <GridItem key={index}>
             <EventTicket event={event} />
           </GridItem>
         ))}

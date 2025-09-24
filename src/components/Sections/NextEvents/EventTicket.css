@@ -8,6 +8,7 @@
     grid-row: 1 / span 1;
     grid-column: 1 / span 1;
     color: #000;
+    border-radius: 2px;
     background:
         conic-gradient(from 180deg at 50% 50%,
             #000 38.07692348957062deg,
@@ -39,6 +40,11 @@
             #5DF7A4 77.88%,
             #58C4F6 100%);
     background-blend-mode: screen, difference, normal;
+    background-image: url('../../../assets/holo-noise.webp');
+    background-size: contain;
+    background-repeat: repeat;
+    background-position: center;
+    box-shadow: 0px 5px 16px #adadad82;
 }
 
 .event-title {
@@ -73,6 +79,7 @@
     font-weight: 400;
     line-height: 25px;
 }
+
 @media screen and (max-width: 768px) {
     .event-description {
         font-size: 18px;
@@ -91,6 +98,7 @@
 
     width: 100%;
 }
+
 @media screen and (max-width: 768px) {
     .event-details {
         font-size: 16px;
