@@ -58,7 +58,7 @@ export default function NextEvents() {
         id='events'
         className='lava-section'
         gap={'72px'}
-        height='700px'
+        height='800px'
         backgroundImage={`url(${noEventBg})`}
         backgroundSize='cover'
         backgroundPosition={'center'}
@@ -68,7 +68,7 @@ export default function NextEvents() {
           Comme toi, Côme attend patiemment le prochain évènement...
         </LavaTypo>
         <LavaButton variant={'outlined'} padding={'24px 48px'}>
-          <LavaTypo variant={'text'}>En attendant suis nos aventures ici</LavaTypo>
+          <LavaTypo variant={'text'} styles={{ fontWeight: 500 }}>En attendant suis nos aventures ici</LavaTypo>
         </LavaButton>
       </Box>
     )
