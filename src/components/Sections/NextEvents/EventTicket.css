@@ -9,7 +9,7 @@
     grid-column: 1 / span 1;
     color: #000;
     border-radius: 2px;
-    background:
+    /* background:
         conic-gradient(from 180deg at 50% 50%,
             #000 38.07692348957062deg,
             #000 44.11679416894913deg,
@@ -43,8 +43,45 @@
     background-image: url('../../../assets/holo-noise.webp');
     background-size: contain;
     background-repeat: repeat;
-    background-position: center;
-    box-shadow: 0px 5px 16px #adadad82;
+    background-position: center; */
+}
+
+.event-ticket-hue {
+    /* background:
+        conic-gradient(from 180deg at 50% 50%,
+            #000 38.07692348957062deg,
+            #000 44.11679416894913deg,
+            #FFF 91.00963711738586deg,
+            #000 143.80128264427185deg,
+            #FFF 190.55105924606323deg,
+            #000 230.0490117073059deg,
+            #000 254.72930431365967deg,
+            #FFF 305.09567499160767deg,
+            #000 343.7336039543152deg,
+            #FFF 358.54671478271484deg),
+        conic-gradient(from 180deg at 50% 50%,
+            #000 38.07692348957062deg,
+            #000 44.11679416894913deg,
+            #FFF 91.00963711738586deg,
+            #000 143.80128264427185deg,
+            #FFF 190.55105924606323deg,
+            #000 230.0490117073059deg,
+            #000 254.72930431365967deg,
+            #FFF 305.09567499160767deg,
+            #000 343.7336039543152deg,
+            #FFF 358.54671478271484deg),
+        radial-gradient(farthest-corner at 34% 2.6%,
+            #2AD0CA 0%,
+            #E1F664 20.19%,
+            #FEB0FE 39.9%,
+            #ABB3FC 58.65%,
+            #5DF7A4 77.88%,
+            #58C4F6 100%);
+    background-blend-mode: screen, difference, normal;
+    background-image: url('../../../assets/holo-noise.webp');
+    background-size: contain;
+    background-repeat: repeat;
+    background-position: center; */
 }
 
 .event-title {
@@ -138,6 +175,48 @@
     transform: rotateX(var(--rx)) rotateY(var(--ry));
     transition: transform 140ms ease;
 }
+
+/* .pkm-v-holo {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  mix-blend-mode: color-dodge;
+  opacity: 0.9;
+  filter: saturate(1.03) contrast(1.03);
+
+  background:
+    conic-gradient(
+      from calc(var(--theta, 0deg) + 180deg) at 50% 50%,
+      #000 38.07692348957062deg,
+      #000 44.11679416894913deg,
+      #FFF 91.00963711738586deg,
+      #000 143.80128264427185deg,
+      #FFF 190.55105924606323deg,
+      #000 230.0490117073059deg,
+      #000 254.72930431365967deg,
+      #FFF 305.09567499160767deg,
+      #000 343.7336039543152deg,
+      #FFF 358.54671478271484deg
+    ),
+    conic-gradient(
+      from calc(var(--theta, 0deg) * -1 + 90deg) at 50% 50%,
+      rgba(255,255,255,0.00) 0deg,
+      rgba(255,255,255,0.15) 100deg,
+      rgba(255,255,255,0.00) 160deg,
+      rgba(255,255,255,0.18) 220deg,
+      rgba(255,255,255,0.00) 360deg
+    ),
+
+    conic-gradient(
+      from var(--theta, 0deg) at 50% 50%,
+      rgba(255,255,255,0.10) 0deg,
+      rgba(0,0,0,0.00) 120deg,
+      rgba(255,255,255,0.10) 240deg,
+      rgba(0,0,0,0.00) 360deg
+    );
+  background-blend-mode: screen, screen, normal;
+} */
 
 .event-ticket.pkm-v>*:not(.pkm-v-noise) {
     transform: translate3d(var(--tx), var(--ty), 0);
