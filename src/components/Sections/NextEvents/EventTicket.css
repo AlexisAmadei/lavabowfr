@@ -8,7 +8,6 @@
     grid-row: 1 / span 1;
     grid-column: 1 / span 1;
     color: #000;
-    border-radius: 8px;
 
     /* Enhanced inner card depth */
     background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);
@@ -29,7 +28,7 @@
 .event-ticket-hue {
     /* Card depth and elevation */
     position: relative;
-    border-radius: 12px;
+    /* border-radius: 12px; */
     background: linear-gradient(145deg, #ffffff, #f8f8f8);
     box-shadow:
         /* Main card shadow */
@@ -150,48 +149,6 @@
     transition: transform 140ms ease;
 }
 
-/* .pkm-v-holo {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  border-radius: inherit;
-  mix-blend-mode: color-dodge;
-  opacity: 0.9;
-  filter: saturate(1.03) contrast(1.03);
-
-  background:
-    conic-gradient(
-      from calc(var(--theta, 0deg) + 180deg) at 50% 50%,
-      #000 38.07692348957062deg,
-      #000 44.11679416894913deg,
-      #FFF 91.00963711738586deg,
-      #000 143.80128264427185deg,
-      #FFF 190.55105924606323deg,
-      #000 230.0490117073059deg,
-      #000 254.72930431365967deg,
-      #FFF 305.09567499160767deg,
-      #000 343.7336039543152deg,
-      #FFF 358.54671478271484deg
-    ),
-    conic-gradient(
-      from calc(var(--theta, 0deg) * -1 + 90deg) at 50% 50%,
-      rgba(255,255,255,0.00) 0deg,
-      rgba(255,255,255,0.15) 100deg,
-      rgba(255,255,255,0.00) 160deg,
-      rgba(255,255,255,0.18) 220deg,
-      rgba(255,255,255,0.00) 360deg
-    ),
-
-    conic-gradient(
-      from var(--theta, 0deg) at 50% 50%,
-      rgba(255,255,255,0.10) 0deg,
-      rgba(0,0,0,0.00) 120deg,
-      rgba(255,255,255,0.10) 240deg,
-      rgba(0,0,0,0.00) 360deg
-    );
-  background-blend-mode: screen, screen, normal;
-} */
-
 .event-ticket.pkm-v>*:not(.pkm-v-noise) {
     transform: translate3d(var(--tx), var(--ty), 0);
     transition: transform 140ms ease;
@@ -202,7 +159,6 @@
     content: "";
     position: absolute;
     inset: -2px;
-    border-radius: inherit;
     pointer-events: none;
     opacity: var(--holo-opacity, 0.9);
     filter: saturate(var(--holo-sat, 1.15)) contrast(var(--holo-contrast, 1.1));
@@ -248,7 +204,6 @@
     content: "";
     position: absolute;
     inset: 0;
-    border-radius: inherit;
     pointer-events: none;
     mix-blend-mode: soft-light;
     opacity: 0.10;
@@ -297,7 +252,6 @@
     left: 0;
     right: 0;
     bottom: 0;
-    border-radius: 12px;
     background: linear-gradient(135deg,
             rgba(255, 255, 255, 0.1) 0%,
             transparent 50%,
@@ -325,7 +279,6 @@
     bottom: -2px;
     left: -2px;
     background: linear-gradient(135deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.01));
-    border-radius: 6px;
     z-index: -1;
 }
 
@@ -347,7 +300,6 @@
 /* Add depth to the barcode area */
 .barcode-container {
     background: linear-gradient(145deg, #f8f8f8, #ffffff);
-    border-radius: 4px;
     padding: 2px 4px;
     box-shadow:
         inset 0 1px 3px rgba(0, 0, 0, 0.1),
