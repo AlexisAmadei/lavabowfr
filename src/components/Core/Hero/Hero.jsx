@@ -37,15 +37,11 @@ export default function Hero({ userOS }) {
           paddingY={4}
           mb={4}
         >
-          {!isMobile &&
-            <Logo h={76} w={76} />
-          }
+          {!isMobile && <Logo h={76} w={76} />}
           <Spotlight />
         </Box>
       </Flex>
-      {!isMobile && (
-        <CursorButton />
-      )}
+      {!isMobile && <CursorButton />}
     </div>
   )
 }

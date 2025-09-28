@@ -20,11 +20,11 @@ export default function AppBar() {
   const isMobile = useIsMobile();
 
   return (
-    <AbsoluteCenter className='app-bar'
+    <Flex className='app-bar'
       axis={'horizontal'}
-      direction={'row'}
       mt={6}
-      width={'100%'}
+      position={'absolute'}
+      top={0}
     >
       {!isMobile ? (
         <Flex gap={4}>
@@ -59,6 +59,6 @@ export default function AppBar() {
           </div>
         </Flex>
       )}
-    </AbsoluteCenter>
+    </Flex>
   )
 }
