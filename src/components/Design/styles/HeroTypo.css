@@ -21,6 +21,17 @@
     color: transparent;
 }
 
+.marquee-track > span {
+    margin: 0;
+    font-family: 'Whyte';
+    font-weight: 800;
+    font-size: 16vw;
+    letter-spacing: 0.09em;
+    line-height: var(--hero-line-height);
+    -webkit-text-stroke: 4px var(--main-accent);
+    color: transparent;
+}
+
 @media screen and (max-width: 768px) {
     .hero-typo {
         display: flex;
@@ -29,6 +40,7 @@
         gap: 0;
         max-width: 100%;
     }
+
     .hero-typo p#outline {
         font-size: 22vw;
         white-space: nowrap;
