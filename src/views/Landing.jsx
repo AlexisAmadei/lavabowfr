@@ -9,8 +9,10 @@ import './styles/Landing.css'
 import NextEvents from '../components/Sections/NextEvents/NextEvents'
 import Videos from '../components/Sections/Videos'
 import Pictures from '../components/Sections/Pictures/Pictures'
+import useIsMobile from '@/hooks/useIsMobile'
 
 export default function Landing() {
+  const isMobile = useIsMobile();
   const [userOS, setUserOS] = React.useState('');
 
   function getOperatingSystem(window) {
@@ -30,7 +32,7 @@ export default function Landing() {
   }, []);
   return (
     <div className='app-wrapper'>
-      <AppBar />
+      {!isMobile && <AppBar />}
       <div className='landing-page'>
         <Hero userOS={userOS} />
         <Flex direction={'column'} className='landing-body' width={'100%'}>

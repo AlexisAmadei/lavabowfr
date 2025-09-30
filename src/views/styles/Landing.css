@@ -10,6 +10,7 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    gap: 16px;
 }
 
 .landing-hero-content {
@@ -31,10 +32,4 @@
 .app-wrapper {
     width: 100%;
     min-height: 100vh;
-}
-
-@media screen and (max-width: 768px) {
-    .hero-typo {
-        padding-top: 96px;
-    }
 }

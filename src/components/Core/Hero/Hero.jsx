@@ -7,6 +7,7 @@ import Spotlight from './Spotlight'
 import CursorButton from '../CursorButton/CursorButton'
 import HeroTypo from '@/components/Design/HeroTypo'
 import useIsMobile from '../../../hooks/useIsMobile'
+import MobileAppBar from '../AppBar/MobileAppBar'
 
 export default function Hero({ userOS }) {
   const isMobile = useIsMobile();
@@ -20,9 +21,10 @@ export default function Hero({ userOS }) {
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         minHeight: '100vh',
-        paddingTop: userOS === 'MacOS' ? '44px' : '2px'
+        paddingTop: '8px'
       }}
     >
+      {isMobile && <MobileAppBar />}
       <Flex direction='column' width='100%' height='100%' justifyContent={'space-between'} className='landing-hero-content'>
         <HeroTypo />
         <Box
