@@ -13,6 +13,7 @@ export default function AppBar() {
       mt={6}
       position={'absolute'}
       top={0}
+      justifyContent={'center'}
     >
       <Flex gap={4}>
         <Socials />
