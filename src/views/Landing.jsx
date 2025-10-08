@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import AppBar from '@/components/Core/AppBar/AppBar'
+import React, { useEffect, useState } from 'react'
+// Remove the static AppBar import
 import Hero from '@/components/Core/Hero/Hero'
 import AboutSection from '@/components/Sections/AboutSection'
 import Newsletter from '@/components/Sections/Newsletter'
@@ -14,7 +14,8 @@ import ScrollToTop from '@/components/Core/ScrollToTop/ScrollToTop'
 
 export default function Landing() {
   const isMobile = useIsMobile();
-  const [userOS, setUserOS] = React.useState('');
+  const [userOS, setUserOS] = useState('');
+  const [AppBar, setAppBar] = useState(null);
 
   function getOperatingSystem(window) {
     let operatingSystem = 'Not known';
@@ -31,10 +32,24 @@ export default function Landing() {
     localStorage.setItem('userOS', getOperatingSystem(window));
     setUserOS(getOperatingSystem(window));
   }, []);
+
+  useEffect(() => {
+    if (!isMobile) {
+      import('@/components/Core/AppBar/AppBar')
+        .then((module) => {
+          setAppBar(() => module.default);
+        })
+        .catch((error) => {
+          console.error('Error loading AppBar:', error);
+        });
+    } else {
+      setAppBar(null);
+    }
+  }, [isMobile]);
+
   return (
     <div className='app-wrapper'>
-
-      {!isMobile && <AppBar />}
+      {!isMobile && AppBar && <AppBar />}
       <div className='landing-page'>
         <Hero userOS={userOS} />
         <Flex direction={'column'} className='landing-body' width={'100%'} overflow={'hidden'}>
