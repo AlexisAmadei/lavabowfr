@@ -1,6 +1,6 @@
 // Marquee.jsx
 import React from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 
 /**
  * Marquee
@@ -39,14 +39,6 @@ export default function Marquee({
       </div>
     );
   }
-
-  /**
-   * We animate `x` from 0 to `-loopWidth` and repeat forever.
-   * `loopWidth` will be read from a CSS custom property that equals the width
-   * of one “track” (content + gap). We set it on the track via inline style
-   * after layout using the `--loop` trick (pure CSS, no refs needed).
-   */
-  const durationFromPx = (px) => Math.max(0.1, px / speed);
 
   // We can’t measure here without refs; instead we animate a percentage track.
   // The trick: duplicate the track twice and animate from 0% to -50%.

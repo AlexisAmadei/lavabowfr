@@ -5,6 +5,7 @@ import { Flex } from '@chakra-ui/react'
 import './AppBar.css'
 import Socials from './Socials'
 import menuItems from '@/lib/menuItems'
+import { scrollToSection } from '@/utils/navigation'
 
 export default function AppBar() {
   return (
@@ -18,10 +19,7 @@ export default function AppBar() {
       <Flex gap={4}>
         <Socials />
         {menuItems.map(item => (
-          <LavaButton key={item.name} variant={item.variant} className="app-bar__button" onClick={() => {
-            const section = document.querySelector(item.link)
-            section.scrollIntoView({ behavior: 'smooth' })
-          }}>
+          <LavaButton key={item.name} variant={item.variant} className="app-bar__button" onClick={() => scrollToSection(item.link)}>
             <LavaTypo variant='text'>{item.name}</LavaTypo>
             {item.endIcon && (
               <span className="app-bar__icon-on-hover">
