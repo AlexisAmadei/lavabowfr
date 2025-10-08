@@ -20,14 +20,12 @@ export default function LavaInput({ type, placeholder, error, value, setEmail, o
           _placeholder={{ color: "white" }}
         />
         <Field.ErrorText>
-          <LavaTypo variant='bold'>Met un vrai mail par contre</LavaTypo>
+          <LavaTypo variant='bold'>Mets un vrai mail par contre</LavaTypo>
         </Field.ErrorText>
       </Field.Root>
-      <Box>
-        <IconButton onClick={() => onClick(value)} variant={'ghost'} rounded={'full'} aria-label='Send'>
-          <ArrowIcon boxSize={6} color={'white'} />
-        </IconButton>
-      </Box>
+      <IconButton onClick={() => onClick(value)} variant={'ghost'} rounded={'full'} aria-label='Send' className='lava-input-button'>
+        <ArrowIcon boxSize={6} color={'white'} />
+      </IconButton>
     </Flex>
   )
 }
