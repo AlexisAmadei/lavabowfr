@@ -2,6 +2,7 @@ import { Box, Flex } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import LavaTypo from '../../Design/LavaTypo'
 import './Pictures.css'
+import { EVENT_DEFAULTS } from '@/constants/events'
 
 export default function PicFrame({ event }) {
   const [isFlipped, setIsFlipped] = useState(false)
@@ -23,7 +24,7 @@ export default function PicFrame({ event }) {
           justifyContent={'space-between'}
         >
           <img src={event.image} alt={event.title} />
-          <LavaTypo variant='h3'>{event.title ?? "Titre de l'event"}</LavaTypo>
+          <LavaTypo variant='h3'>{event.title ?? EVENT_DEFAULTS.title}</LavaTypo>
           <Box
             color={'#ff2929e2'}
             position={'absolute'}
@@ -38,7 +39,7 @@ export default function PicFrame({ event }) {
                 fontWeight: '400'
               }}
             >
-              {event.date ?? "20/03/2025"}
+              {event.date ?? EVENT_DEFAULTS.date}
             </LavaTypo>
           </Box>
         </Flex>
@@ -54,14 +55,14 @@ export default function PicFrame({ event }) {
           textAlign={'center'}
         >
           <LavaTypo variant='h3' styles={{ marginBottom: '10px' }}>
-            {event.title ?? "Titre de l'event"}
+            {event.title ?? EVENT_DEFAULTS.title}
           </LavaTypo>
           <LavaTypo variant='body1' styles={{ fontSize: '16px', lineHeight: '1.4' }}>
-            {event.description ?? "Découvrez les moments forts de cet événement exceptionnel. Une expérience unique remplie d'émotions et de souvenirs inoubliables."}
+            {event.description ?? EVENT_DEFAULTS.description}
           </LavaTypo>
           <Box mt={4}>
             <LavaTypo variant='body2' styles={{ fontSize: '14px', color: '#ff2929e2', fontWeight: 'bold' }}>
-              Date: {event.date ?? "20/03/2025"}
+              Date: {event.date ?? EVENT_DEFAULTS.date}
             </LavaTypo>
             {event.location && (
               <LavaTypo variant='body2' styles={{ fontSize: '14px', color: '#666', marginTop: '5px' }}>

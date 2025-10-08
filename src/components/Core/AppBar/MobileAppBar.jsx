@@ -4,6 +4,7 @@ import menuItems from '@/lib/menuItems'
 import { Box, Flex, VStack } from '@chakra-ui/react'
 import React from 'react'
 import { motion } from 'motion/react'
+import { scrollToSection } from '@/utils/navigation'
 
 export default function MobileAppBar() {
   const [open, setOpen] = React.useState(false)
@@ -58,10 +59,7 @@ export default function MobileAppBar() {
               <LavaTypo variant='h3'>Close</LavaTypo>
               <VStack spacing={2} alignItems={'flex-end'}>
                 {menuItems.map(item => (
-                  <LavaTypo variant={'text'} key={item.name} onClick={() => {
-                    const section = document.querySelector(item.link)
-                    section.scrollIntoView({ behavior: 'smooth' })
-                  }}>
+                  <LavaTypo variant={'text'} key={item.name} onClick={() => scrollToSection(item.link)}>
                     {item.name}
                   </LavaTypo>
                 ))}
