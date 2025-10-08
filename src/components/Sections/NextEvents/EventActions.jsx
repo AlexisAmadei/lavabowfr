@@ -1,8 +1,12 @@
 import LavaButton from '@/components/Design/LavaButton'
+import Logo from '@/components/Design/Logo'
 import { Box, Flex } from '@chakra-ui/react'
 import Barcode from 'react-barcode'
+import useIsMobile from '@/hooks/useIsMobile'
 
 export default function EventActions() {
+  const isMobile = useIsMobile()
+  
   return (
     <Flex
       className="event-action"
