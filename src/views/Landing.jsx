@@ -11,10 +11,13 @@ import Videos from '../components/Sections/Videos'
 import Pictures from '../components/Sections/Pictures/Pictures'
 import useIsMobile from '@/hooks/useIsMobile'
 import ScrollToTop from '@/components/Core/ScrollToTop/ScrollToTop'
+import useIsInView from '@/hooks/useIsInView'
 
 export default function Landing() {
   const isMobile = useIsMobile();
   const [userOS, setUserOS] = React.useState('');
+  const ref = React.useRef(null);
+  const isInView = useIsInView(ref, 0.03);
 
   function getOperatingSystem(window) {
     let operatingSystem = 'Not known';
@@ -37,8 +40,8 @@ export default function Landing() {
       {!isMobile && <AppBar />}
       <div className='landing-page'>
         <Hero userOS={userOS} />
-        <Flex direction={'column'} className='landing-body' width={'100%'} overflow={'hidden'}>
-          <ScrollToTop />
+        <Flex ref={ref} direction={'column'} className='landing-body' width={'100%'} overflow={'hidden'}>
+          <ScrollToTop isVisible={isInView} />
           <AboutSection />
           <Music />
           <Newsletter />
