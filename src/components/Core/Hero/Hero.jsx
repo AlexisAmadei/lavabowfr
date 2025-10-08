@@ -9,7 +9,7 @@ import HeroTypo from '@/components/Design/HeroTypo'
 import useIsMobile from '../../../hooks/useIsMobile'
 import MobileAppBar from '../AppBar/MobileAppBar'
 
-export default function Hero({ userOS }) {
+export default function Hero() {
   const isMobile = useIsMobile();
 
   return (
