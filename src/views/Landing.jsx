@@ -10,6 +10,7 @@ import NextEvents from '../components/Sections/NextEvents/NextEvents'
 import Videos from '../components/Sections/Videos'
 import Pictures from '../components/Sections/Pictures/Pictures'
 import useIsMobile from '@/hooks/useIsMobile'
+import ScrollToTop from '@/components/Core/ScrollToTop/ScrollToTop'
 
 export default function Landing() {
   const isMobile = useIsMobile();
@@ -32,10 +33,12 @@ export default function Landing() {
   }, []);
   return (
     <div className='app-wrapper'>
+
       {!isMobile && <AppBar />}
       <div className='landing-page'>
         <Hero userOS={userOS} />
-        <Flex direction={'column'} className='landing-body' width={'100%'}>
+        <Flex direction={'column'} className='landing-body' width={'100%'} overflow={'hidden'}>
+          <ScrollToTop />
           <AboutSection />
           <Music />
           <Newsletter />
