@@ -1,5 +1,4 @@
-import React from 'react'
-import AppBar from '@/components/Core/AppBar/AppBar'
+import React, { useEffect, useState } from 'react'
 import Hero from '@/components/Core/Hero/Hero'
 import AboutSection from '@/components/Sections/AboutSection'
 import Newsletter from '@/components/Sections/Newsletter'
@@ -17,11 +16,25 @@ export default function Landing() {
   const isMobile = useIsMobile();
   const ref = React.useRef(null);
   const isInView = useIsInView(ref, 0.03);
+  const [AppBar, setAppBar] = useState(null);
+
+  useEffect(() => {
+    if (!isMobile) {
+      import('@/components/Core/AppBar/AppBar')
+        .then((module) => {
+          setAppBar(() => module.default);
+        })
+        .catch((error) => {
+          console.error('Error loading AppBar:', error);
+        });
+    } else {
+      setAppBar(null);
+    }
+  }, [isMobile]);
 
   return (
     <div className='app-wrapper'>
-
-      {!isMobile && <AppBar />}
+      {!isMobile && AppBar && <AppBar />}
       <div className='landing-page'>
         <Hero />
         <Flex ref={ref} direction={'column'} className='landing-body' width={'100%'} overflow={'hidden'}>
