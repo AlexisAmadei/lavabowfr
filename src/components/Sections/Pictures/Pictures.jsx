@@ -118,7 +118,7 @@ export default function Pictures() {
   }, [])
 
   return (
-    <Section id="pictures">
+    <Section id="photos">
       <LavaTypo variant="h1">Lava Bow en photos</LavaTypo>
       {!isMobile ? (
         <Box
