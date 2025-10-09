@@ -3,7 +3,7 @@ import { Button } from '@chakra-ui/react'
 import { FaArrowRight } from 'react-icons/fa'
 import './ScrollToTop.css'
 
-export default function ScrollToTop() {
+export default function ScrollToTop({ isVisible }) {
   return (
     <div className='scroll-to-top-container' style={{ display: isVisible ? 'block' : 'none' }}>
       <Button
