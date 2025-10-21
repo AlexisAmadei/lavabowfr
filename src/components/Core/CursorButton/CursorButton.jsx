@@ -83,12 +83,17 @@ export default function CursorButton() {
     const updateProgress = () => {
       if (isPressed && pressStartTime.current) {
         const elapsed = Date.now() - pressStartTime.current;
-        const duration = 1000;
+        const duration = 500;
         const progress = Math.min((elapsed / duration) * 100, 100);
         setFillProgress(progress);
 
         if (progress < 100) {
           animationFrame.current = requestAnimationFrame(updateProgress);
+        }
+        if (progress === 100) {
+          window.open('https://youtu.be/Rbszi6x8mXE', '_blank');
+          setIsPressed(false);
+          setFillProgress(0);
         }
       }
     };
