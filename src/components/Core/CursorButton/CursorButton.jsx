@@ -55,6 +55,20 @@ export default function CursorButton() {
       setIsFollowingMouse(false);
     };
 
+    const handleSpotlightEnter = () => {
+      // Reset to default position when entering spotlight
+      setIsFollowingMouse(false);
+      const rect = heroElement.getBoundingClientRect();
+      const centerX = rect.width / 2;
+      const centerY = rect.height - 100;
+      setMousePosition({ x: centerX, y: centerY });
+    };
+
+    const handleSpotlightLeave = () => {
+      // Resume following mouse when leaving spotlight
+      setIsFollowingMouse(true);
+    };
+
     // Initialize default position based on hero size
     const rect = heroElement.getBoundingClientRect();
     const centerX = rect.width / 2;
@@ -71,10 +85,23 @@ export default function CursorButton() {
     heroElement.addEventListener('mouseenter', handleMouseEnter);
     heroElement.addEventListener('mouseleave', handleMouseLeave);
 
+    // Add event listener for spotlight element
+    const spotlightElement = document.querySelector('.spotlight');
+    if (spotlightElement) {
+      spotlightElement.addEventListener('mouseenter', handleSpotlightEnter);
+      spotlightElement.addEventListener('mouseleave', handleSpotlightLeave);
+    }
+
     return () => {
       heroElement.removeEventListener('mousemove', handleMouseMove);
       heroElement.removeEventListener('mouseenter', handleMouseEnter);
       heroElement.removeEventListener('mouseleave', handleMouseLeave);
+
+      // Clean up spotlight event listeners
+      if (spotlightElement) {
+        spotlightElement.removeEventListener('mouseenter', handleSpotlightEnter);
+        spotlightElement.removeEventListener('mouseleave', handleSpotlightLeave);
+      }
     };
   }, [isFollowingMouse]);
 

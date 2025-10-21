@@ -9,7 +9,7 @@ export default function Spotlight() {
   const mP = isMobile ? '12px 24px' : '12px 32px';
 
   return (
-    <Flex direction={'column'} alignItems={isMobile ? 'center' : 'flex-end'} width={isMobile ? '100%' : 'auto'}>
+    <Flex direction={'column'} alignItems={isMobile ? 'center' : 'flex-end'} width={isMobile ? '100%' : 'auto'} className='spotlight'>
 
       <LavaTypo variant={'h2'} styles={{ marginBottom: isMobile ? '8px' : '' }}>“Big Fish”</LavaTypo>
       <LavaTypo variant={'text'} styles={{ marginBottom: !isMobile ? '24px' : '' }}>Notre dernier single disponible partout</LavaTypo>
