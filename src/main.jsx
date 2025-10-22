@@ -4,9 +4,9 @@ import { BrowserRouter, Route, Routes } from 'react-router'
 import Landing from './views/Landing.jsx'
 import './index.css'
 import { ChakraProvider, defaultSystem } from '@chakra-ui/react'
-import AdminLayout from './Layouts/AdminLayout.jsx'
 import Login from './views/Admin/Login.jsx'
 import Dashboard from './views/Admin/Dashboard.jsx'
+import AdminLayout from './Layouts/AdminLayout.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -15,8 +15,8 @@ createRoot(document.getElementById('root')).render(
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/admin" element={<AdminLayout />}>
-            <Route path="login" element={<Login />} />
-            <Route path="dashboard" element={<Dashboard />} />
+            <Route path='login' index element={<Login />} />
+            <Route path='dashboard' element={<Dashboard />} />
           </Route>
         </Routes>
       </ChakraProvider>
