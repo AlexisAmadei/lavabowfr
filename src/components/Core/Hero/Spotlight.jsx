@@ -3,27 +3,56 @@ import { Flex } from '@chakra-ui/react'
 import LavaTypo from '../../Design/LavaTypo'
 import LavaButton from '../../Design/LavaButton'
 import useIsMobile from '../../../hooks/useIsMobile'
-import { SPOTLIGHT_CONTENT } from '@/constants/spotlight'
 import { AnimatePresence, motion } from "motion/react"
+import { supabase } from '@/utils/supabase'
 
 export default function Spotlight() {
   const isMobile = useIsMobile();
   const mP = isMobile ? '12px 24px' : '12px 32px';
 
   const [timer, setTimer] = React.useState(0);
-  const [activeContent, setActiveContent] = React.useState(SPOTLIGHT_CONTENT[timer]);
+  const [spotlightData, setSpotlightData] = React.useState([]);
+  const [activeContent, setActiveContent] = React.useState(spotlightData[timer]);
+
+  async function fetchSpotlightData() {
+    try {
+      let { data: section_spotlight, error } = await supabase
+        .from('section_spotlight')
+        .select('*')
+
+      if (error) {
+        console.error('Error fetching spotlight content:', error);
+        return;
+      }
+      setSpotlightData(section_spotlight);
+    } catch (error) {
+      console.error('Error fetching spotlight content:', error);
+    }
+  }
+
+  useEffect(() => {
+    fetchSpotlightData();
+  }, []);
 
   React.useEffect(() => {
+    if (spotlightData.length === 0 || spotlightData.length < 2) {
+      setActiveContent(spotlightData[0]);
+      return;
+    }
     const interval = setInterval(() => {
       setTimer(prev => {
-        const nextIndex = (prev + 1) % SPOTLIGHT_CONTENT.length;
-        setActiveContent(SPOTLIGHT_CONTENT[nextIndex]);
+        const nextIndex = (prev + 1) % spotlightData.length;
+        setActiveContent(spotlightData[nextIndex]);
         return nextIndex;
       });
     }, 10000); // Change every 10 seconds
 
     return () => clearInterval(interval);
-  }, []);
+  }, [spotlightData]);
+
+  if (spotlightData.length === 0 || !activeContent) {
+    return null; // hide spotlight if no content available
+  }
 
   return (
     <Flex direction={'column'} alignItems={isMobile ? 'center' : 'flex-end'} width={isMobile ? '100%' : 'auto'} className='spotlight'>
@@ -38,14 +67,14 @@ export default function Spotlight() {
           transition={{ duration: 0.5, ease: "easeInOut" }}
           style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: isMobile ? 'center' : 'flex-end' }}
         >
-          <LavaTypo variant={'h2'} styles={{ marginBottom: isMobile ? '8px' : '' }}>{activeContent.title}</LavaTypo>
-          <LavaTypo variant={'text'} styles={{ marginBottom: !isMobile ? '24px' : '' }}>{activeContent.subtitle}</LavaTypo>
+          <LavaTypo variant={'h2'} styles={{ marginBottom: isMobile ? '8px' : '' }}>{activeContent?.title}</LavaTypo>
+          <LavaTypo variant={'text'} styles={{ marginBottom: !isMobile ? '24px' : '' }}>{activeContent?.subtitle}</LavaTypo>
         </motion.div>
       </AnimatePresence>
 
       {/* Static buttons */}
       <Flex direction={'row'} gap={4} marginTop={4}>
-        <LavaButton variant='filled' padding={mP} onClick={() => window.open(activeContent.link, '_blank')}>
+        <LavaButton variant='filled' padding={mP} onClick={() => window.open(activeContent?.link, '_blank')}>
           <LavaTypo variant='text' size={isMobile ? '6vw' : '24px'}>Écouter</LavaTypo>
         </LavaButton>
         <LavaButton variant='outlined' padding={mP}>
