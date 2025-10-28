@@ -19,6 +19,8 @@ export default function Spotlight() {
       let { data: section_spotlight, error } = await supabase
         .from('section_spotlight')
         .select('*')
+        .neq('status', 'DELETED')
+        .order('id', { ascending: true });
 
       if (error) {
         console.error('Error fetching spotlight content:', error);
@@ -29,6 +31,7 @@ export default function Spotlight() {
       console.error('Error fetching spotlight content:', error);
     }
   }
+
   useEffect(() => {
     fetchSpotlightData();
   }, []);
