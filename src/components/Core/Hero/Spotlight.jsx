@@ -12,7 +12,7 @@ export default function Spotlight() {
 
   const [timer, setTimer] = React.useState(0);
   const [spotlightData, setSpotlightData] = React.useState([]);
-  const [activeContent, setActiveContent] = React.useState(spotlightData[timer]);
+  const [activeContent, setActiveContent] = React.useState(spotlightData[0]);
 
   async function fetchSpotlightData() {
     try {
@@ -29,16 +29,12 @@ export default function Spotlight() {
       console.error('Error fetching spotlight content:', error);
     }
   }
-
   useEffect(() => {
     fetchSpotlightData();
   }, []);
 
   React.useEffect(() => {
-    if (spotlightData.length === 0 || spotlightData.length < 2) {
-      setActiveContent(spotlightData[0]);
-      return;
-    }
+    setActiveContent(spotlightData[0]);
     const interval = setInterval(() => {
       setTimer(prev => {
         const nextIndex = (prev + 1) % spotlightData.length;
@@ -49,6 +45,7 @@ export default function Spotlight() {
 
     return () => clearInterval(interval);
   }, [spotlightData]);
+
 
   if (spotlightData.length === 0 || !activeContent) {
     return null; // hide spotlight if no content available
