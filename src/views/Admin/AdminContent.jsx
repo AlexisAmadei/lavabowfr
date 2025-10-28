@@ -1,11 +1,11 @@
+import DeleteDialog from '@/components/Core/Admin/DeleteDialog';
+import EditableDataListItem from '@/components/Core/Admin/EditableDataListItem';
 import LavaButton from '@/components/Design/LavaButton';
 import LavaTypo from '@/components/Design/LavaTypo';
 import { deleteSpotlightItem, fetchSpotlightContent, insertSpotlightItem, updateSpotlightItem } from '@/utils/supabase';
-import { Box, Button, DataList, Dialog, Editable, Field, Fieldset, Flex, IconButton, Input, Portal } from '@chakra-ui/react';
+import { Box, Button, DataList, Dialog, Field, Fieldset, Flex, Input, Portal } from '@chakra-ui/react';
 import React, { useEffect } from 'react'
-import { BsTrashFill } from 'react-icons/bs';
-
-import { LuCheck, LuPencilLine, LuX } from 'react-icons/lu';
+import { BsPlusCircleFill, BsTrashFill } from 'react-icons/bs';
 
 export default function AdminContent() {
   const [open, setOpen] = React.useState(false);
@@ -75,7 +75,7 @@ export default function AdminContent() {
     <Box direction={'column'}>
       <Flex mb={4} justifyContent={'space-between'} alignItems={'center'}>
         <LavaTypo variant={'h3'} styles={{ color: 'black', marginBottom: '16px', textAlign: 'left' }}>Spotlight</LavaTypo>
-        <LavaButton variant={'filled'} onClick={() => setOpen(true)}>Ajouter un élément</LavaButton>
+        <LavaButton variant={'filled'} onClick={() => setOpen(true)}><BsPlusCircleFill/> Ajouter un élément</LavaButton>
       </Flex>
 
       <Flex
@@ -99,133 +99,33 @@ export default function AdminContent() {
           >
             <React.Fragment key={item.id}>
 
-              <DataList.Item>
-                <DataList.ItemLabel>Titre</DataList.ItemLabel>
-                <DataList.ItemValue>
-                  <Editable.Root
-                    defaultValue={item.title}
-                    onValueCommit={(e) => handleUpdateField(item.id, 'title', e.value)}
-                    placeholder="Titre"
-                    submitMode="both"
-                  >
-                    <Editable.Preview />
-                    <Editable.Input />
-                    <Editable.Control>
-                      <Editable.EditTrigger asChild>
-                        <IconButton variant="ghost" size="xs" aria-label="Edit">
-                          <LuPencilLine />
-                        </IconButton>
-                      </Editable.EditTrigger>
-                      <Editable.CancelTrigger asChild>
-                        <IconButton variant="outline" size="xs" aria-label="Cancel">
-                          <LuX />
-                        </IconButton>
-                      </Editable.CancelTrigger>
-                      <Editable.SubmitTrigger asChild>
-                        <IconButton variant="outline" size="xs" aria-label="Submit" colorPalette="green">
-                          <LuCheck />
-                        </IconButton>
-                      </Editable.SubmitTrigger>
-                    </Editable.Control>
-                  </Editable.Root>
-                </DataList.ItemValue>
-              </DataList.Item>
+              <EditableDataListItem
+                label="Titre"
+                value={item.title}
+                placeholder="Titre"
+                onValueCommit={(value) => handleUpdateField(item.id, 'title', value)}
+              />
 
-              <DataList.Item>
-                <DataList.ItemLabel>Sous-Titre</DataList.ItemLabel>
-                <DataList.ItemValue>
-                  <Editable.Root
-                    defaultValue={item.subtitle}
-                    onValueCommit={(e) => handleUpdateField(item.id, 'subtitle', e.value)}
-                    placeholder="Sous-titre"
-                    submitMode="both"
-                  >
-                    <Editable.Preview />
-                    <Editable.Input />
-                    <Editable.Control>
-                      <Editable.EditTrigger asChild>
-                        <IconButton variant="ghost" size="xs" aria-label="Edit">
-                          <LuPencilLine />
-                        </IconButton>
-                      </Editable.EditTrigger>
-                      <Editable.CancelTrigger asChild>
-                        <IconButton variant="outline" size="xs" aria-label="Cancel">
-                          <LuX />
-                        </IconButton>
-                      </Editable.CancelTrigger>
-                      <Editable.SubmitTrigger asChild>
-                        <IconButton variant="outline" size="xs" aria-label="Submit" colorPalette="green">
-                          <LuCheck />
-                        </IconButton>
-                      </Editable.SubmitTrigger>
-                    </Editable.Control>
-                  </Editable.Root>
-                </DataList.ItemValue>
-              </DataList.Item>
+              <EditableDataListItem
+                label="Sous-Titre"
+                value={item.subtitle}
+                placeholder="Sous-titre"
+                onValueCommit={(value) => handleUpdateField(item.id, 'subtitle', value)}
+              />
 
-              <DataList.Item>
-                <DataList.ItemLabel>Lien d'écoute</DataList.ItemLabel>
-                <DataList.ItemValue>
-                  <Editable.Root
-                    defaultValue={item.listen_link}
-                    onValueCommit={(e) => handleUpdateField(item.id, 'listen_link', e.value)}
-                    placeholder="Lien d'écoute"
-                    submitMode="both"
-                  >
-                    <Editable.Preview />
-                    <Editable.Input />
-                    <Editable.Control>
-                      <Editable.EditTrigger asChild>
-                        <IconButton variant="ghost" size="xs" aria-label="Edit">
-                          <LuPencilLine />
-                        </IconButton>
-                      </Editable.EditTrigger>
-                      <Editable.CancelTrigger asChild>
-                        <IconButton variant="outline" size="xs" aria-label="Cancel">
-                          <LuX />
-                        </IconButton>
-                      </Editable.CancelTrigger>
-                      <Editable.SubmitTrigger asChild>
-                        <IconButton variant="outline" size="xs" aria-label="Submit" colorPalette="green">
-                          <LuCheck />
-                        </IconButton>
-                      </Editable.SubmitTrigger>
-                    </Editable.Control>
-                  </Editable.Root>
-                </DataList.ItemValue>
-              </DataList.Item>
+              <EditableDataListItem
+                label="Lien d'écoute"
+                value={item.listen_link}
+                placeholder="Lien d'écoute"
+                onValueCommit={(value) => handleUpdateField(item.id, 'listen_link', value)}
+              />
 
-              <DataList.Item>
-                <DataList.ItemLabel>Lien d'achat</DataList.ItemLabel>
-                <DataList.ItemValue>
-                  <Editable.Root
-                    defaultValue={item.buy_link}
-                    onValueCommit={(e) => handleUpdateField(item.id, 'buy_link', e.value)}
-                    placeholder="Lien d'achat"
-                    submitMode="both"
-                  >
-                    <Editable.Preview />
-                    <Editable.Input />
-                    <Editable.Control>
-                      <Editable.EditTrigger asChild>
-                        <IconButton variant="ghost" size="xs" aria-label="Edit">
-                          <LuPencilLine />
-                        </IconButton>
-                      </Editable.EditTrigger>
-                      <Editable.CancelTrigger asChild>
-                        <IconButton variant="outline" size="xs" aria-label="Cancel">
-                          <LuX />
-                        </IconButton>
-                      </Editable.CancelTrigger>
-                      <Editable.SubmitTrigger asChild>
-                        <IconButton variant="outline" size="xs" aria-label="Submit" colorPalette="green">
-                          <LuCheck />
-                        </IconButton>
-                      </Editable.SubmitTrigger>
-                    </Editable.Control>
-                  </Editable.Root>
-                </DataList.ItemValue>
-              </DataList.Item>
+              <EditableDataListItem
+                label="Lien d'achat"
+                value={item.buy_link}
+                placeholder="Lien d'achat"
+                onValueCommit={(value) => handleUpdateField(item.id, 'buy_link', value)}
+              />
             </React.Fragment>
             <Box position={'absolute'} top={2} right={2}>
               <Button
@@ -308,31 +208,13 @@ export default function AdminContent() {
         </Portal>
       </Dialog.Root>
 
-      <Dialog.Root lazyMount open={openDeleteDialog} onOpenChange={(e) => setOpenDeleteDialog(e.open)} placement={'center'}>
-        <Portal>
-          <Dialog.Backdrop />
-          <Dialog.Positioner>
-            <Dialog.Content>
-              <Dialog.Header>
-                <Dialog.Title color={'black'}>Supprimer le Spotlight</Dialog.Title>
-              </Dialog.Header>
-
-              <Dialog.Body color={'black'}>
-                Êtes-vous sûr de vouloir supprimer ce Spotlight ?
-              </Dialog.Body>
-
-              <Dialog.Footer>
-                <Button variant={'subtle'} colorPalette={'red'} onClick={() => handleDeleteSpotlightItem(itemToDelete)}>
-                  Supprimer
-                </Button>
-                <Button variant={'subtle'} colorPalette={'gray'} onClick={() => setOpenDeleteDialog(false)}>
-                  Annuler
-                </Button>
-              </Dialog.Footer>
-            </Dialog.Content>
-          </Dialog.Positioner>
-        </Portal>
-      </Dialog.Root>
+      <DeleteDialog
+        openDeleteDialog={openDeleteDialog}
+        setOpenDeleteDialog={setOpenDeleteDialog}
+        handleDelete={handleDeleteSpotlightItem}
+        itemToDelete={itemToDelete}
+        dialogTitle="Supprimer le Spotlight"
+      />
     </Box>
   )
 }
