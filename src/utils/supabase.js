@@ -29,6 +29,7 @@ export const fetchSpotlightContent = async (setSpotlightContent) => {
         .from('section_spotlight')
         .select('*')
         .neq('status', 'DELETED')
+        .order('id', { ascending: true })
     if (error) {
         console.error('Error fetching spotlight content:', error);
     } else {
