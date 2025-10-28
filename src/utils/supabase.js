@@ -28,6 +28,7 @@ export const fetchSpotlightContent = async (setSpotlightContent) => {
     let { data: section_spotlight, error } = await supabase
         .from('section_spotlight')
         .select('*')
+        .neq('status', 'DELETED')
     if (error) {
         console.error('Error fetching spotlight content:', error);
     } else {
@@ -113,19 +114,17 @@ export const updateSpotlightItem = async (id, updatedItem) => {
 
 /**
  * Deletes a spotlight item by ID.
- * @param {number|string} id - The ID of the spotlight item to delete.
+ * @param {number} id - The ID of the spotlight item to delete.
  * @returns {Promise<boolean|null>} True if deletion was successful, null if there was an error.
  */
 export const deleteSpotlightItem = async (id) => {
-    const { error } = await supabase
+    const { error: updateError } = await supabase
         .from('section_spotlight')
-        .delete()
+        .update({ status: 'DELETED' })
         .eq('id', id)
-
-    if (error) {
-        console.error('Error deleting spotlight item:', error);
+    if (updateError) {
+        console.error('Error deleting spotlight item:', updateError);
         return null;
     }
-
     return true;
 }

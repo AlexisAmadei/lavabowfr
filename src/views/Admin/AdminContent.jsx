@@ -1,10 +1,10 @@
 import LavaButton from '@/components/Design/LavaButton';
 import LavaTypo from '@/components/Design/LavaTypo';
-import { fetchSpotlightContent, insertSpotlightItem, supabase, updateSpotlightItem } from '@/utils/supabase';
-import { Box, Button, CloseButton, DataList, Dialog, Editable, Field, Fieldset, Flex, Grid, GridItem, IconButton, Input, Portal } from '@chakra-ui/react';
+import { deleteSpotlightItem, fetchSpotlightContent, insertSpotlightItem, updateSpotlightItem } from '@/utils/supabase';
+import { Box, Button, DataList, Dialog, Editable, Field, Fieldset, Flex, IconButton, Input, Portal } from '@chakra-ui/react';
 import React, { useEffect } from 'react'
+import { BsTrashFill } from 'react-icons/bs';
 
-import { BsPlusCircleFill } from 'react-icons/bs';
 import { LuCheck, LuPencilLine, LuX } from 'react-icons/lu';
 
 export default function AdminContent() {
@@ -17,6 +17,8 @@ export default function AdminContent() {
     listen_link: '',
     buy_link: ''
   });
+  const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
+  const [itemToDelete, setItemToDelete] = React.useState(null);
 
   const handleAddSpotlightItem = async () => {
     setOpen(false);
@@ -57,6 +59,14 @@ export default function AdminContent() {
     }
   };
 
+  const handleDeleteSpotlightItem = async (itemId) => {
+    setOpenDeleteDialog(false);
+    setItemToDelete(null);
+    console.log('Deleting item with ID:', itemId);
+    await deleteSpotlightItem(itemId);
+    await fetchSpotlightContent(setSpotlightContent);
+  };
+
   useEffect(() => {
     fetchSpotlightContent(setSpotlightContent);
   }, []);
@@ -73,6 +83,7 @@ export default function AdminContent() {
         gap={2}
         flexWrap={'wrap'}
         textAlign={'left'}
+        justifyContent={'space-between'}
       >
         {spotlightContent.map((item) => (
           <DataList.Root size={'lg'} orientation={'horizontal'} color={'black'}
@@ -84,6 +95,7 @@ export default function AdminContent() {
             borderWidth={'1px'}
             borderColor={'gray.300'}
             width={'full'}
+            position={'relative'}
           >
             <React.Fragment key={item.id}>
 
@@ -215,6 +227,17 @@ export default function AdminContent() {
                 </DataList.ItemValue>
               </DataList.Item>
             </React.Fragment>
+            <Box position={'absolute'} top={2} right={2}>
+              <Button
+                variant={'subtle'} colorPalette={'red'} size={'sm'} py={1} leftIcon={<BsTrashFill />}
+                onClick={() => {
+                  setItemToDelete(item.id);
+                  setOpenDeleteDialog(true);
+                }}
+              >
+                Supprimer
+              </Button>
+            </Box>
           </DataList.Root>
         ))}
       </Flex>
@@ -280,6 +303,32 @@ export default function AdminContent() {
                 </Fieldset.Root>
               </Dialog.Body>
 
+            </Dialog.Content>
+          </Dialog.Positioner>
+        </Portal>
+      </Dialog.Root>
+
+      <Dialog.Root lazyMount open={openDeleteDialog} onOpenChange={(e) => setOpenDeleteDialog(e.open)} placement={'center'}>
+        <Portal>
+          <Dialog.Backdrop />
+          <Dialog.Positioner>
+            <Dialog.Content>
+              <Dialog.Header>
+                <Dialog.Title color={'black'}>Supprimer le Spotlight</Dialog.Title>
+              </Dialog.Header>
+
+              <Dialog.Body color={'black'}>
+                Êtes-vous sûr de vouloir supprimer ce Spotlight ?
+              </Dialog.Body>
+
+              <Dialog.Footer>
+                <Button variant={'subtle'} colorPalette={'red'} onClick={() => handleDeleteSpotlightItem(itemToDelete)}>
+                  Supprimer
+                </Button>
+                <Button variant={'subtle'} colorPalette={'gray'} onClick={() => setOpenDeleteDialog(false)}>
+                  Annuler
+                </Button>
+              </Dialog.Footer>
             </Dialog.Content>
           </Dialog.Positioner>
         </Portal>
