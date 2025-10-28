@@ -13,7 +13,6 @@ export default function AdminLayout() {
   useEffect( () => {
     async function fetchUser() {
       const user = await getUser()
-      console.log('user', user)
       if (!user) {
         navigate('/admin/login')
       }
