@@ -1,5 +1,6 @@
 import DeleteDialog from '@/components/Core/Admin/DeleteDialog';
 import EditableDataListItem from '@/components/Core/Admin/EditableDataListItem';
+import Divider from '@/components/Design/Divider';
 import LavaButton from '@/components/Design/LavaButton';
 import LavaTypo from '@/components/Design/LavaTypo';
 import { deleteSpotlightItem, fetchSpotlightContent, insertSpotlightItem, updateSpotlightItem } from '@/utils/supabase';
@@ -84,6 +85,7 @@ export default function AdminContent() {
         flexWrap={'wrap'}
         textAlign={'left'}
         justifyContent={'space-between'}
+        mb={8}
       >
         {spotlightContent.map((item) => (
           <DataList.Root size={'lg'} orientation={'horizontal'} color={'black'}
@@ -140,6 +142,11 @@ export default function AdminContent() {
             </Box>
           </DataList.Root>
         ))}
+      </Flex>
+
+      <Flex mb={4} justifyContent={'space-between'} alignItems={'center'}>
+        <LavaTypo variant={'h3'} styles={{ color: 'black', marginBottom: '16px', textAlign: 'left' }}>Events</LavaTypo>
+        <LavaButton variant={'filled'} onClick={() => setOpen(true)}><BsPlusCircleFill /> Ajouter un élément</LavaButton>
       </Flex>
 
       <Dialog.Root lazyMount open={open} onOpenChange={(e) => setOpen(e.open)} placement={'center'}>
