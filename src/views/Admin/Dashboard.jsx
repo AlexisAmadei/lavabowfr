@@ -1,69 +1,88 @@
-import { Box, Container, Flex, Text } from '@chakra-ui/react'
+import { Box, Container, Flex, Grid, GridItem, Text } from '@chakra-ui/react'
 import React from 'react'
 import { ADMIN_MENU_ITEMS } from '@/constants/menuItems'
+import LavaTypo from '@/components/Design/LavaTypo';
 
 export default function Dashboard() {
   const [selectedMenuItem, setSelectedMenuItem] = React.useState(ADMIN_MENU_ITEMS[0]);
   return (
-    <Container
-      display={'flex'}
-      flexDirection={'row'}
-      height={'100vh'}
-      width={'100%'}
-      gap={4}
-      p={1}
-      mr={0}
+    <Grid
+      templateColumns="repeat(8, 1fr)"
+      minH="100vh"
+      gap={0}
+      backgroundColor={'var(--tertiary-accent)'}
     >
-      <Flex className="sidenav"
-        width={'10%'}
-        display={'flex'}
-        justifyContent={'flex-start'}
-        alignItems={'center'}
-        direction={'column'}
+      <GridItem
+        colSpan={1}
+        h="100vh"
+        p={4}
+        borderRight="1px solid"
+        borderColor="whiteAlpha.400"
       >
-        <Text fontSize={'1xl'} fontWeight={'bold'} my={8}>
-          Lava Admin
-        </Text>
         <Flex
-          textAlign={"left"}
-          width={'100%'}
-          direction={'column'}
-          gap={1}
+          className="sidenav"
+          h="100%"
+          direction="column"
+          alignItems="flex-start"
         >
-          {ADMIN_MENU_ITEMS.map((item) => (
-            <Box key={item.path}
-              marginTop={4}
-              cursor={'pointer'}
-              onClick={() => setSelectedMenuItem(item)}
-              borderRadius={5}
-              backgroundColor={selectedMenuItem.path === item.path ? 'whiteAlpha.900' : 'transparent'}
-              color={selectedMenuItem.path === item.path ? 'black' : ''}
-              padding={1}
-              display={'flex'}
-              alignItems={'center'}
-            >
-              <item.icon size={16} style={{ marginRight: 8 }} />
-              <Text fontSize={'md'}>{item.label}</Text>
-            </Box>
-          ))}
+          <Text fontSize="xl" fontWeight="bold" mb={8}>
+            Lava Admin
+          </Text>
+          <Flex
+            width="100%"
+            direction="column"
+            gap={1}
+          >
+            {ADMIN_MENU_ITEMS.map((item) => (
+              <Box
+                key={item.path}
+                cursor="pointer"
+                onClick={() => setSelectedMenuItem(item)}
+                borderRadius={5}
+                backgroundColor={selectedMenuItem.path === item.path ? 'whiteAlpha.900' : 'transparent'}
+                color={selectedMenuItem.path === item.path ? 'black' : 'inherit'}
+                p={2}
+                display="flex"
+                alignItems="center"
+                transition="all 0.2s"
+                _hover={{
+                  backgroundColor: selectedMenuItem.path === item.path ? 'whiteAlpha.900' : 'whiteAlpha.200'
+                }}
+              >
+                <item.icon size={16} style={{ marginRight: 8 }} />
+                <Text fontSize="md">{item.label}</Text>
+              </Box>
+            ))}
+          </Flex>
         </Flex>
-      </Flex>
-      <Flex className="main-content"
-        backgroundColor={'whitesmoke'}
-        width={'100%'}
-        borderRadius={5}
-        m={2}
-        p={2}
+      </GridItem>
+
+      <GridItem
+        colSpan={7}
+        h="100vh"
+        p={4}
       >
-        <Text fontSize={'2xl'} padding={4} color={'black'} ml={4}>
-          {selectedMenuItem.label}
-        </Text>
         <Flex
-          direction={'column'}
+          className="main-content"
+          backgroundColor="white"
+          h="100%"
+          borderRadius={5}
+          p={6}
+          direction="column"
         >
-          {/* Main dashboard content goes here */}
+          {/* <LavaTypo styles={{ color: 'black', marginBottom: '16px' }} variant={'h2'}>
+            {selectedMenuItem.label}
+          </LavaTypo> */}
+          <Flex
+            direction="column"
+            flex={1}
+            overflowY="auto"
+          >
+            {/* Main dashboard content goes here */}
+            {selectedMenuItem.component && <selectedMenuItem.component />}
+          </Flex>
         </Flex>
-      </Flex>
-    </Container>
+      </GridItem>
+    </Grid>
   )
 }

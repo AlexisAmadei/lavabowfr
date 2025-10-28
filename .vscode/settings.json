@@ -9,5 +9,13 @@
     "[javascriptreact]": {
         "editor.tabSize": 2
     },
-    "editor.insertSpaces": true
+    "editor.insertSpaces": true,
+    "chat.mcp.serverSampling": {
+        "lavabowfr/.vscode/mcp.json: chakra-ui": {
+            "allowedModels": [
+                "copilot/gpt-5-mini",
+                "copilot/claude-sonnet-4.5"
+            ]
+        }
+    }
 }
