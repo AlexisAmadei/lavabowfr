@@ -64,7 +64,7 @@ export default function Spotlight() {
           transition={{ duration: 0.5, ease: "easeInOut" }}
           style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: isMobile ? 'center' : 'flex-end' }}
         >
-          <LavaTypo variant={'h2'} styles={{ marginBottom: isMobile ? '8px' : '' }}>{activeContent?.title}</LavaTypo>
+          <LavaTypo variant={'h2'} styles={{ marginBottom: isMobile ? '8px' : '' }}>“{activeContent?.title}”</LavaTypo>
           <LavaTypo variant={'text'} styles={{ marginBottom: !isMobile ? '24px' : '' }}>{activeContent?.subtitle}</LavaTypo>
         </motion.div>
       </AnimatePresence>
