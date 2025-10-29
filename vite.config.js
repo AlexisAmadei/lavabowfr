@@ -11,5 +11,6 @@ export default defineConfig({
             'components': '/src/components',
             'hooks': '/src/hooks',
         },
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.json']
     },
 })

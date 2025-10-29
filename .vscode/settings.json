@@ -6,7 +6,7 @@
         "titleBar.inactiveBackground": "#00008892",
         "titleBar.inactiveForeground": "#ffffffb3"
     },
-    "[javascriptreact]": {
+    "[javascriptreact, typescriptreact]": {
         "editor.tabSize": 2
     },
     "editor.insertSpaces": true,
