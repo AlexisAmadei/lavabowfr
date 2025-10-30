@@ -211,12 +211,12 @@ export const updateEventItem = async (
     id: number,
     updatedEvent: EventItem
 ): Promise<EventItem[] | null> => {
-    const { title, description, price, date, place, link, img } = updatedEvent;
+    const { title, description, price, date, place, link, img, status } = updatedEvent;
 
     try {
         const { data, error: updateError } = await supabase
             .from('section_events')
-            .update({ title, description, price, date, place, link, img })
+            .update({ title, description, price, date, place, link, img, status })
             .eq('id', id)
             .select();
 
