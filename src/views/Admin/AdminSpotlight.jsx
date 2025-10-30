@@ -3,9 +3,9 @@ import EditableDataListItem from '@/components/Core/Admin/EditableDataListItem';
 import LavaButton from '@/components/Design/LavaButton';
 import LavaTypo from '@/components/Design/LavaTypo';
 import { deleteSpotlightItem, fetchSpotlightContent, insertSpotlightItem, updateSpotlightItem } from '@/utils/supabase';
-import { Box, Button, DataList, Flex, IconButton, Menu, Portal } from '@chakra-ui/react';
+import { Box, DataList, Flex, IconButton, Menu, Portal } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
-import { BsPlusCircleFill, BsThreeDotsVertical, BsTrashFill } from 'react-icons/bs';
+import { BsPlusCircleFill, BsThreeDotsVertical } from 'react-icons/bs';
 import AddSpotlightDialog from '../../components/Core/Admin/AddSpotlightDialog';
 
 export default function AdminSpotlight() {
@@ -53,7 +53,6 @@ export default function AdminSpotlight() {
   };
 
   const handleUpdateStatus = async (itemId, newStatus) => {
-    console.log('Updating status for item', itemId, 'to', newStatus);
     const currentItem = spotlightContent.find(item => item.id === itemId);
     if (!currentItem) return;
 
