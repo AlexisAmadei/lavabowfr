@@ -27,6 +27,7 @@ export default function Music() {
           height="352"
           loading="lazy"
           name='spotify-embed'
+          allow="encrypted-media"
         ></iframe>
       </Flex>
     </Section>
