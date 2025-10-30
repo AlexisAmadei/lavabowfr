@@ -67,18 +67,15 @@ export default function Dashboard() {
           backgroundColor="white"
           h="100%"
           borderRadius={5}
-          p={6}
+          px={4}
+          pr={0}
           direction="column"
         >
-          {/* <LavaTypo styles={{ color: 'black', marginBottom: '16px' }} variant={'h2'}>
-            {selectedMenuItem.label}
-          </LavaTypo> */}
           <Flex
             direction="column"
             flex={1}
             overflowY="auto"
           >
-            {/* Main dashboard content goes here */}
             {selectedMenuItem.component && <selectedMenuItem.component />}
           </Flex>
         </Flex>

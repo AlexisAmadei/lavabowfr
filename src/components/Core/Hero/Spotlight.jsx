@@ -19,7 +19,7 @@ export default function Spotlight() {
       let { data: section_spotlight, error } = await supabase
         .from('section_spotlight')
         .select('*')
-        .neq('status', 'DELETED')
+        .eq('status', 'ACTIVE')
         .order('id', { ascending: true });
 
       if (error) {

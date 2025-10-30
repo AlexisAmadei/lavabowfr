@@ -3,35 +3,21 @@ import EditableDataListItem from '@/components/Core/Admin/EditableDataListItem';
 import LavaButton from '@/components/Design/LavaButton';
 import LavaTypo from '@/components/Design/LavaTypo';
 import { deleteSpotlightItem, fetchSpotlightContent, insertSpotlightItem, updateSpotlightItem } from '@/utils/supabase';
-import { Box, Button, DataList, Dialog, Field, Fieldset, Flex, Input, Portal } from '@chakra-ui/react';
+import { Box, Button, DataList, Flex, IconButton, Menu, Portal } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
-import { BsPlusCircleFill, BsTrashFill } from 'react-icons/bs';
+import { BsPlusCircleFill, BsThreeDotsVertical, BsTrashFill } from 'react-icons/bs';
+import AddSpotlightDialog from '../../components/Core/Admin/AddSpotlightDialog';
 
 export default function AdminSpotlight() {
   const [open, setOpen] = React.useState(false);
   const [spotlightContent, setSpotlightContent] = React.useState([]);
-  const [newSpotlightItem, setNewSpotlightItem] = React.useState({
-    id: null,
-    title: '',
-    subtitle: '',
-    listen_link: '',
-    buy_link: ''
-  });
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
   const [itemToDelete, setItemToDelete] = React.useState(null);
 
-  const handleAddSpotlightItem = async () => {
+  const handleAddSpotlightItem = async (newSpotlightItem) => {
     setOpen(false);
     await insertSpotlightItem(newSpotlightItem);
     await fetchSpotlightContent(setSpotlightContent);
-    // Reset form
-    setNewSpotlightItem({
-      id: null,
-      title: '',
-      subtitle: '',
-      listen_link: '',
-      buy_link: ''
-    });
   };
 
   const handleUpdateField = async (itemId, field, value) => {
@@ -66,6 +52,25 @@ export default function AdminSpotlight() {
     await fetchSpotlightContent(setSpotlightContent);
   };
 
+  const handleUpdateStatus = async (itemId, newStatus) => {
+    console.log('Updating status for item', itemId, 'to', newStatus);
+    const currentItem = spotlightContent.find(item => item.id === itemId);
+    if (!currentItem) return;
+
+    // Check if status actually changed
+    if (currentItem.status === newStatus) {
+      return; // No change, skip update
+    }
+
+    // Update in Supabase
+    const result = await updateSpotlightItem(itemId, { status: newStatus });
+
+    if (result) {
+      // Refetch from database to confirm the update
+      await fetchSpotlightContent(setSpotlightContent);
+    }
+  };
+
   useEffect(() => {
     fetchSpotlightContent(setSpotlightContent);
   }, []);
@@ -73,7 +78,7 @@ export default function AdminSpotlight() {
   return (
     <Box direction={'column'}>
       <Flex mb={4} justifyContent={'space-between'} alignItems={'center'}>
-        <LavaTypo variant={'h3'} styles={{ color: 'black', marginBottom: '16px', textAlign: 'left' }}>Spotlight</LavaTypo>
+        <LavaTypo variant={'h3'} styles={{ color: 'black', marginBottom: '8px', textAlign: 'left' }}>Spotlight</LavaTypo>
         <LavaButton variant={'filled'} onClick={() => setOpen(true)}>
           <BsPlusCircleFill /> Ajouter un élément
         </LavaButton>
@@ -81,7 +86,7 @@ export default function AdminSpotlight() {
 
       <Flex
         direction={'row'}
-        gap={2}
+        gap={4}
         flexWrap={'wrap'}
         textAlign={'left'}
         justifyContent={'space-between'}
@@ -97,9 +102,10 @@ export default function AdminSpotlight() {
             key={item.id}
             borderRadius={'md'}
             borderWidth={'1px'}
-            borderColor={'gray.300'}
+            borderColor={'gray.200'}
             width={'full'}
             position={'relative'}
+            backgroundColor={'gray.50'}
           >
             <EditableDataListItem
               label="Titre"
@@ -129,87 +135,59 @@ export default function AdminSpotlight() {
               onValueCommit={(value) => handleUpdateField(item.id, 'buy_link', value)}
             />
 
+            <Box className='status-chip'
+              position={'absolute'}
+              top={'-10px'}
+              right={12}
+              backgroundColor={item.status === 'ACTIVE' ? 'green.100' : item.status === 'INACTIVE' ? 'red.100' : ''}
+              paddingX={2}
+              borderRadius={'full'}
+            >
+              <LavaTypo size={'14px'}>{item.status === 'ACTIVE' ? 'Spotlight actif' : item.status === 'INACTIVE' ? 'Spotlight inactif' : ''}</LavaTypo>
+            </Box>
+
             <Box position={'absolute'} top={2} right={2}>
-              <Button
-                variant={'subtle'}
-                colorPalette={'red'}
-                size={'sm'}
-                py={1}
-                onClick={() => {
-                  setItemToDelete(item.id);
-                  setOpenDeleteDialog(true);
-                }}
-              >
-                <BsTrashFill />
-                Supprimer
-              </Button>
+              <Menu.Root>
+                <Menu.Trigger asChild>
+                  <IconButton
+                    variant={'ghost'}
+                    size={'xs'}
+                    py={1}
+                  >
+                    <BsThreeDotsVertical />
+                  </IconButton>
+                </Menu.Trigger>
+                <Portal>
+                  <Menu.Positioner>
+                    <Menu.Content>
+                      <Menu.Item value={item.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE'} onSelect={() => handleUpdateStatus(item.id, item.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE')}>
+                        {item.status === 'ACTIVE' ? 'Désactiver' : 'Activer'}
+                      </Menu.Item>
+                      <Menu.Item
+                        value="delete"
+                        color="fg.error"
+                        _hover={{ bg: "bg.error", color: "fg.error" }}
+                        onSelect={() => {
+                          setItemToDelete(item.id);
+                          setOpenDeleteDialog(true);
+                        }}
+                      >
+                        Delete...
+                      </Menu.Item>
+                    </Menu.Content>
+                  </Menu.Positioner>
+                </Portal>
+              </Menu.Root>
             </Box>
           </DataList.Root>
         ))}
       </Flex>
 
-      <Dialog.Root lazyMount open={open} onOpenChange={(e) => setOpen(e.open)} placement={'center'}>
-        <Portal>
-          <Dialog.Backdrop />
-          <Dialog.Positioner>
-            <Dialog.Content>
-              <Dialog.Header>
-                <Dialog.Title color={'black'}>Ajouter un Spotlight</Dialog.Title>
-              </Dialog.Header>
-
-              <Dialog.Body color={'black'}>
-                <Fieldset.Root>
-                  <Fieldset.Content gap={1}>
-                    <Field.Root>
-                      <Field.Label>Titre</Field.Label>
-                      <Input
-                        title='Titre'
-                        placeholder='Titre'
-                        value={newSpotlightItem.title}
-                        onChange={(e) => setNewSpotlightItem({ ...newSpotlightItem, title: e.target.value })}
-                      />
-                    </Field.Root>
-
-                    <Field.Root>
-                      <Field.Label>Sous-Titre</Field.Label>
-                      <Input
-                        title='Sous-Titre'
-                        placeholder='Sous-Titre'
-                        value={newSpotlightItem.subtitle}
-                        onChange={(e) => setNewSpotlightItem({ ...newSpotlightItem, subtitle: e.target.value })}
-                      />
-                    </Field.Root>
-
-                    <Field.Root>
-                      <Field.Label>Lien d'écoute</Field.Label>
-                      <Input
-                        title="Lien d'écoute"
-                        placeholder="Lien d'écoute"
-                        value={newSpotlightItem.listen_link}
-                        onChange={(e) => setNewSpotlightItem({ ...newSpotlightItem, listen_link: e.target.value })}
-                      />
-                    </Field.Root>
-
-                    <Field.Root>
-                      <Field.Label>Lien d'achat</Field.Label>
-                      <Input
-                        title="Lien d'achat"
-                        placeholder="Lien d'achat"
-                        value={newSpotlightItem.buy_link}
-                        onChange={(e) => setNewSpotlightItem({ ...newSpotlightItem, buy_link: e.target.value })}
-                      />
-                    </Field.Root>
-                  </Fieldset.Content>
-
-                  <Button variant={'subtle'} colorPalette={'green'} onClick={handleAddSpotlightItem}>
-                    Ajouter le Spotlight
-                  </Button>
-                </Fieldset.Root>
-              </Dialog.Body>
-            </Dialog.Content>
-          </Dialog.Positioner>
-        </Portal>
-      </Dialog.Root>
+      <AddSpotlightDialog
+        open={open}
+        onClose={() => setOpen(false)}
+        onAdd={handleAddSpotlightItem}
+      />
 
       <DeleteDialog
         openDeleteDialog={openDeleteDialog}

@@ -4,7 +4,7 @@ import AdminEvents from './AdminEvents';
 
 export default function AdminContent() {
   return (
-    <Box flexDirection={'column'} display={'flex'} gap={8}>
+    <Box flexDirection={'column'} display={'flex'} gap={8} pr={2} mt={4}>
       <AdminSpotlight />
       <AdminEvents />
     </Box>

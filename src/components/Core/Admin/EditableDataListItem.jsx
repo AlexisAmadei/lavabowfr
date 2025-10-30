@@ -1,5 +1,5 @@
-import { DataList, Editable, IconButton } from '@chakra-ui/react'
 import React from 'react'
+import { DataList, Editable, IconButton } from '@chakra-ui/react'
 import { LuCheck, LuPencilLine, LuX } from 'react-icons/lu'
 
 /**

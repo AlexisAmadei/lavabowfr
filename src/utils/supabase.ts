@@ -92,12 +92,12 @@ export const updateSpotlightItem = async (
     id: number,
     updatedItem: SpotlightItem
 ): Promise<SpotlightItem[] | null> => {
-    const { title, subtitle, listen_link, buy_link } = updatedItem;
+    const { title, subtitle, listen_link, buy_link, status } = updatedItem;
 
     try {
         const { error: updateError } = await supabase
             .from('section_spotlight')
-            .update({ title, subtitle, listen_link, buy_link })
+            .update({ title, subtitle, listen_link, buy_link, status })
             .eq('id', id)
 
         if (updateError) {
@@ -199,4 +199,35 @@ export const insertEventItem = async (eventData: EventItem) => {
     }
 
     return data;
+}
+
+/**
+ * Updates an existing event item in the database.
+ * @param id - The ID of the event item to update.
+ * @param updatedEvent - The updated event item data.
+ * @returns Array containing the updated item data, or null if error.
+ */
+export const updateEventItem = async (
+    id: number,
+    updatedEvent: EventItem
+): Promise<EventItem[] | null> => {
+    const { title, description, price, date, place, link, img } = updatedEvent;
+
+    try {
+        const { data, error: updateError } = await supabase
+            .from('section_events')
+            .update({ title, description, price, date, place, link, img })
+            .eq('id', id)
+            .select();
+
+        if (updateError) {
+            console.error('Error updating event item:', updateError);
+            return null;
+        }
+
+        return data;
+    } catch (error) {
+        console.error('Exception updating event item:', error);
+        return null;
+    }
 }
