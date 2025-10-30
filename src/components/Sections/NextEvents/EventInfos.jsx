@@ -1,6 +1,6 @@
 import { Box, Flex } from '@chakra-ui/react'
 
-export default function EventInfos({ event}) {
+export default function EventInfos({ event }) {
   return (
     <Flex className="event-infos" direction="column" justifyContent="space-between">
       <p className="event-description">{event.description}</p>
@@ -11,11 +11,11 @@ export default function EventInfos({ event}) {
         </Flex>
         <Flex className="event-details" direction="row" justifyContent="space-between" pb={1}>
           <p>DATE</p><div style={{ flex: 1, borderBottom: '1px solid black' }} />
-          <p>{event.date}</p>
+          <p>{new Date(event.date).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: '2-digit' })}</p>
         </Flex>
         <Flex className="event-details" direction="row" justifyContent="space-between">
           <p>LIEU</p><div style={{ flex: 1, borderBottom: '1px solid black' }} />
-          <p>{event.location}</p>
+          <p>{event.place}</p>
         </Flex>
       </Box>
     </Flex>

@@ -1,58 +1,34 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Section from '@/components/Design/Section'
 import LavaTypo from '@/components/Design/LavaTypo'
 import { Box, Grid, GridItem } from '@chakra-ui/react'
 import EventTicket from './EventTicket'
 import useIsMobile from '../../../hooks/useIsMobile'
-import sample from '@/assets/img/events/events-1.webp'
 import LavaButton from '@/components/Design/LavaButton'
 import noEventBg from '@/assets/img/events/no-events.webp'
-
-const events = [
-  {
-    title: 'Titre de l\'event',
-    description: 'Description de l\'event',
-    price: '6',
-    date: '20/03/2025',
-    location: 'Truskel',
-    img: sample,
-    link: ''
-  },
-  {
-    title: 'Titre de l\'event',
-    description: 'Description de l\'event',
-    price: '6',
-    date: '20/03/2025',
-    location: 'Truskel',
-    img: sample,
-    link: ''
-  },
-  {
-    title: 'Titre de l\'event',
-    description: 'Description de l\'event',
-    price: '6',
-    date: '20/03/2025',
-    location: 'Truskel',
-    img: sample,
-    link: ''
-  },
-  {
-    title: 'Titre de l\'event',
-    description: 'Description de l\'event',
-    price: '6',
-    date: '20/03/2025',
-    location: 'Truskel',
-    img: sample,
-    link: ''
-  },
-]
-
-const noEvent = events;
+import { fetchEventsContent } from '@/utils/supabase'
 
 export default function NextEvents() {
   const isMobile = useIsMobile();
+  const [events, setEvents] = React.useState([]);
+  const [filteredEvents, setFilteredEvents] = React.useState([]);
 
-  if (noEvent.length === 0) {
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        await fetchEventsContent(setEvents);
+      } catch (error) {
+        console.error('Error fetching events:', error);
+      }
+    };
+    fetchEvents();
+  }, []);
+
+  useEffect(() => {
+    setFilteredEvents(events.filter(event => event.status !== 'INACTIVE'));
+  }, [events]);
+
+  if (filteredEvents.length === 0) {
     return (
       <Box
         id='events'
@@ -78,12 +54,12 @@ export default function NextEvents() {
       <LavaTypo variant={'h1'}>Retrouve nous en concert</LavaTypo>
       <Grid
         className='events-list'
-        templateColumns={{ base: "repeat(1, 1fr)", xl: "repeat(2, 1fr)" }}
+        templateColumns={{ base: "repeat(1, 1fr)" }}
         gap="6"
         width={isMobile ? "100%" : "auto"}
       >
-        {events.map((event, index) => (
-          <GridItem key={index}>
+        {filteredEvents.map((event, index) => (
+          <GridItem key={index} colSpan={1}>
             <EventTicket event={event} />
           </GridItem>
         ))}

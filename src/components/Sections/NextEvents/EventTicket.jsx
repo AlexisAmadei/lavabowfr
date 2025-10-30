@@ -1,14 +1,12 @@
 import React, { useRef, useEffect, useCallback } from 'react'
 import './EventTicket.css'
-import { Box, Flex } from '@chakra-ui/react'
-import Logo from '@/components/Design/Logo'
-import LavaButton from '@/components/Design/LavaButton'
-import Barcode from 'react-barcode'
+import { Flex } from '@chakra-ui/react'
 import useIsMobile from '../../../hooks/useIsMobile'
 import { useMotionValue, animate } from 'framer-motion'
 import Divider from '@/components/Design/Divider'
 import EventInfos from './EventInfos'
 import EventActions from './EventActions'
+import defaultImg from '@/assets/img/events/events-1.webp'
 
 export default function EventTicket({ event }) {
   const isMobile = useIsMobile();
@@ -112,9 +110,9 @@ export default function EventTicket({ event }) {
             <span className="event-title">{event.title}</span>
             <div
               style={{
-                background: `url(${event.img})`,
-                width: '100%',
-                height: '115px',
+                background: `url(${event.img || defaultImg})`,
+                width: '200px',
+                height: '120px',
                 objectFit: 'cover',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
