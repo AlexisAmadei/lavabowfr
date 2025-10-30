@@ -1,20 +1,11 @@
 import LavaButton from '@/components/Design/LavaButton'
 // @ts-ignore
 import LavaTypo from '@/components/Design/LavaTypo'
-import { fetchEventsContent } from '@/utils/supabase'
+import { EventItem } from '@/types/types'
+import { fetchEventsContent, insertEventItem } from '@/utils/supabase'
 import { Box, Button, Dialog, Field, Fieldset, Flex, Input, Portal } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import { BsPlusCircleFill } from 'react-icons/bs'
-
-interface EventItem {
-  id?: number;
-  title: string;
-  description: string;
-  price: number;
-  date: string;
-  place: string;
-  link: string;
-}
 
 export default function AdminEvents() {
   const [events, setEvents] = React.useState<EventItem[]>([])
@@ -30,9 +21,8 @@ export default function AdminEvents() {
 
   const handleAddEventItem = async () => {
     setOpen(false);
-    // TODO: Add API call to insert event
-    // await insertEventItem(newEventItem);
-    // await fetchEvents();
+    await insertEventItem(newEventItem);
+    fetchEventsContent(setEvents);
 
     // Reset form
     setNewEventItem({

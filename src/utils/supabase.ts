@@ -1,3 +1,4 @@
+import { EventItem, SpotlightItem } from '@/types/types';
 import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
@@ -6,28 +7,8 @@ export const supabase = createClient(supabaseUrl, supabaseKey)
 
 /* TYPE DEFINITIONS */
 interface SignInResponse {
-  data: any | null;
-  error: any | null;
-}
-
-export interface SpotlightItem {
-  id?: number;
-  title: string;
-  subtitle: string;
-  listen_link: string;
-  buy_link: string;
-  status?: string;
-}
-
-export interface EventItem {
-  id?: number;
-  title: string;
-  description: string;
-  price: number;
-  date: string;
-  place: string;
-  link: string;
-  status?: string;
+    data: any | null;
+    error: any | null;
 }
 
 /* AUTHENTICATION */
@@ -39,11 +20,11 @@ export interface EventItem {
  * @returns Object containing authentication data or error.
  */
 export const signInUser = async (email: string, password: string): Promise<SignInResponse> => {
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password
-  })
-  return { data, error }
+    const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+    })
+    return { data, error }
 }
 
 /* SPOTLIGHT SECTION FUNCTIONS */
@@ -53,19 +34,19 @@ export const signInUser = async (email: string, password: string): Promise<SignI
  * @param setSpotlightContent - React state setter function to update spotlight content.
  */
 export const fetchSpotlightContent = async (
-  setSpotlightContent: (content: SpotlightItem[]) => void
+    setSpotlightContent: (content: SpotlightItem[]) => void
 ): Promise<void> => {
-  const { data: section_spotlight, error } = await supabase
-    .from('section_spotlight')
-    .select('*')
-    .neq('status', 'DELETED')
-    .order('id', { ascending: true })
-  
-  if (error) {
-    console.error('Error fetching spotlight content:', error);
-  } else {
-    setSpotlightContent(section_spotlight || []);
-  }
+    const { data: section_spotlight, error } = await supabase
+        .from('section_spotlight')
+        .select('*')
+        .neq('status', 'DELETED')
+        .order('id', { ascending: true })
+
+    if (error) {
+        console.error('Error fetching spotlight content:', error);
+    } else {
+        setSpotlightContent(section_spotlight || []);
+    }
 }
 
 /**
@@ -74,31 +55,31 @@ export const fetchSpotlightContent = async (
  * @returns Array containing the inserted item data, or null if error.
  */
 export const insertSpotlightItem = async (item: SpotlightItem): Promise<SpotlightItem[] | null> => {
-  const { title, subtitle, listen_link, buy_link } = item;
+    const { title, subtitle, listen_link, buy_link } = item;
 
-  if (!title || !subtitle || !listen_link || !buy_link) {
-    console.error('All fields are required to insert a spotlight item.');
-    return null;
-  }
-
-  try {
-    const { data, error } = await supabase
-      .from('section_spotlight')
-      .insert([
-        { title, subtitle, listen_link, buy_link }
-      ])
-      .select()
-    
-    if (error) {
-      console.error('Error inserting spotlight item:', error);
-      return null;
+    if (!title || !subtitle || !listen_link || !buy_link) {
+        console.error('All fields are required to insert a spotlight item.');
+        return null;
     }
-    
-    return data;
-  } catch (error) {
-    console.error('Error inserting spotlight item:', error);
-    return null;
-  }
+
+    try {
+        const { data, error } = await supabase
+            .from('section_spotlight')
+            .insert([
+                { title, subtitle, listen_link, buy_link }
+            ])
+            .select()
+
+        if (error) {
+            console.error('Error inserting spotlight item:', error);
+            return null;
+        }
+
+        return data;
+    } catch (error) {
+        console.error('Error inserting spotlight item:', error);
+        return null;
+    }
 }
 
 /**
@@ -108,39 +89,39 @@ export const insertSpotlightItem = async (item: SpotlightItem): Promise<Spotligh
  * @returns Array containing the updated item data, or null if error.
  */
 export const updateSpotlightItem = async (
-  id: number,
-  updatedItem: SpotlightItem
+    id: number,
+    updatedItem: SpotlightItem
 ): Promise<SpotlightItem[] | null> => {
-  const { title, subtitle, listen_link, buy_link } = updatedItem;
+    const { title, subtitle, listen_link, buy_link } = updatedItem;
 
-  try {
-    const { error: updateError } = await supabase
-      .from('section_spotlight')
-      .update({ title, subtitle, listen_link, buy_link })
-      .eq('id', id)
+    try {
+        const { error: updateError } = await supabase
+            .from('section_spotlight')
+            .update({ title, subtitle, listen_link, buy_link })
+            .eq('id', id)
 
-    if (updateError) {
-      console.error('Error updating spotlight item:', updateError);
-      return null;
+        if (updateError) {
+            console.error('Error updating spotlight item:', updateError);
+            return null;
+        }
+
+        // Fetch the updated row
+        const { data, error: selectError } = await supabase
+            .from('section_spotlight')
+            .select('*')
+            .eq('id', id)
+            .single()
+
+        if (selectError) {
+            console.error('Error fetching updated item:', selectError);
+            return [updatedItem];
+        }
+
+        return [data];
+    } catch (error) {
+        console.error('Exception updating spotlight item:', error);
+        return null;
     }
-
-    // Fetch the updated row
-    const { data, error: selectError } = await supabase
-      .from('section_spotlight')
-      .select('*')
-      .eq('id', id)
-      .single()
-
-    if (selectError) {
-      console.error('Error fetching updated item:', selectError);
-      return [updatedItem];
-    }
-
-    return [data];
-  } catch (error) {
-    console.error('Exception updating spotlight item:', error);
-    return null;
-  }
 }
 
 /**
@@ -149,17 +130,17 @@ export const updateSpotlightItem = async (
  * @returns True if deletion was successful, null if there was an error.
  */
 export const deleteSpotlightItem = async (id: number): Promise<boolean | null> => {
-  const { error: updateError } = await supabase
-    .from('section_spotlight')
-    .update({ status: 'DELETED' })
-    .eq('id', id)
-  
-  if (updateError) {
-    console.error('Error deleting spotlight item:', updateError);
-    return null;
-  }
-  
-  return true;
+    const { error: updateError } = await supabase
+        .from('section_spotlight')
+        .update({ status: 'DELETED' })
+        .eq('id', id)
+
+    if (updateError) {
+        console.error('Error deleting spotlight item:', updateError);
+        return null;
+    }
+
+    return true;
 }
 
 /* EVENTS SECTION FUNCTIONS */
@@ -169,22 +150,53 @@ export const deleteSpotlightItem = async (id: number): Promise<boolean | null> =
  * @param setEventsContent - React state setter function to update events content.
  */
 export const fetchEventsContent = async (
-  setEventsContent: (events: EventItem[]) => void
+    setEventsContent: (events: EventItem[]) => void
 ): Promise<void> => {
-  try {
-    const { data: section_events, error } = await supabase
-      .from('section_events')
-      .select('*')
-      .neq('status', 'DELETED')
-      .order('date', { ascending: true });
+    try {
+        const { data: section_events, error } = await supabase
+            .from('section_events')
+            .select('*')
+            .neq('status', 'DELETED')
+            .order('date', { ascending: true });
 
-    if (error) {
-      console.error('Error fetching events content:', error);
-      return;
+        if (error) {
+            console.error('Error fetching events content:', error);
+            return;
+        }
+
+        setEventsContent(section_events || []);
+    } catch (error) {
+        console.error('Error fetching events content:', error);
+    }
+}
+
+/**
+ * Inserts a new event item into the database.
+ * @returns Array containing the inserted item data, or null if error.
+ */
+export const insertEventItem = async (eventData: EventItem) => {
+    if (!eventData.title || !eventData.description || !eventData.price || !eventData.date || !eventData.place) {
+        console.error('All fields are required to insert an event item.');
+        return null;
     }
 
-    setEventsContent(section_events || []);
-  } catch (error) {
-    console.error('Error fetching events content:', error);
-  }
+    const { data, error } = await supabase
+        .from('section_events')
+        .insert([
+            {
+                title: eventData.title,
+                description: eventData.description,
+                price: eventData.price,
+                date: eventData.date,
+                place: eventData.place,
+                link: eventData.link,
+                img: eventData.img || null,
+            }])
+        .select()
+    if (error) {
+        console.error('Error inserting event item:', error);
+        return null;
+    }
+
+    return data;
 }
