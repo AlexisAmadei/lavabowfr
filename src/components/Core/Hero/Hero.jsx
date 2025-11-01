@@ -1,7 +1,5 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Box, Flex } from '@chakra-ui/react'
-import Cover from '@/assets/img/cover.webp'
-import CoverMobile from '@/assets/img/cover-mobile.webp'
 import Logo from '@/components/Design/Logo'
 import Spotlight from './Spotlight'
 import CursorButton from '../CursorButton/CursorButton'
@@ -12,11 +10,26 @@ import MobileAppBar from '../AppBar/MobileAppBar'
 export default function Hero() {
   const isMobile = useIsMobile();
 
+  const [coverImage, setCoverImage] = React.useState(null);
+
+  useEffect(() => {
+    const loadImage = async () => {
+      if (isMobile) {
+        const image = await import('@/assets/img/cover-mobile.webp');
+        setCoverImage(image.default);
+      } else {
+        const image = await import('@/assets/img/cover.webp');
+        setCoverImage(image.default);
+      }
+    };
+    loadImage();
+  }, [isMobile]);
+
   return (
     <div className='landing-hero'
       style={{
         position: 'relative',
-        backgroundImage: !isMobile ? `url(${Cover})` : `url(${CoverMobile})`,
+        backgroundImage: coverImage ? `url(${coverImage})` : 'none',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
