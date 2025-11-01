@@ -1,37 +1,27 @@
 import { EventItem } from '@/types/types'
-import { Button, Dialog, Field, Fieldset, FileUpload, Input, Portal } from '@chakra-ui/react'
+import { Button, Dialog, Field, Fieldset, FileUpload, Input, Portal, Image, Box } from '@chakra-ui/react'
 import React from 'react'
 import { HiUpload } from 'react-icons/hi'
 
-interface AddEventDialogProps {
+interface EditEventDialogProps {
   open: boolean
   onClose: () => void
-  onAdd: (event: EventItem) => void
+  onUpdate: (event: EventItem) => void
+  event: EventItem
 }
 
-export default function AddEventDialog({ open, onClose, onAdd }: AddEventDialogProps) {
-  const [formData, setFormData] = React.useState<EventItem>({
-    title: '',
-    description: '',
-    price: 0,
-    date: '',
-    place: '',
-    link: '',
-    img: '',
-  })
+export default function EditEventDialog({ open, onClose, onUpdate, event }: EditEventDialogProps) {
+  const [formData, setFormData] = React.useState<EventItem>(event)
   const [uploadedFile, setUploadedFile] = React.useState<File | null>(null)
 
+  // Update formData when event prop changes
+  React.useEffect(() => {
+    setFormData(event)
+    setUploadedFile(null)
+  }, [event])
+
   const handleSubmit = () => {
-    onAdd(formData)
-    setFormData({
-      title: '',
-      description: '',
-      price: 0,
-      date: '',
-      place: '',
-      link: '',
-      img: '',
-    })
+    onUpdate(formData)
     setUploadedFile(null)
   }
 
@@ -41,44 +31,63 @@ export default function AddEventDialog({ open, onClose, onAdd }: AddEventDialogP
 
   const UploadImageComponent = () => {
     return (
-      <FileUpload.Root
-        accept={["image/heic", "image/jpeg", "image/png", "image/webp"]}
-        maxFiles={1}
-        onFileChange={(details) => {
-          const file = details.acceptedFiles[0];
-          if (file) {
-            setUploadedFile(file);
-            updateField('img', file);
-          }
-        }}
-      >
-        <FileUpload.HiddenInput />
-        <FileUpload.Label>Image de l'événement</FileUpload.Label>
-        <FileUpload.Trigger asChild>
-          <Button variant="subtle" size="sm" backgroundColor={'blue.50'}>
-            <HiUpload /> Télécharger une cover
-          </Button>
-        </FileUpload.Trigger>
-        {uploadedFile && (
-          <FileUpload.ItemGroup>
-            <FileUpload.Item file={uploadedFile}>
-              <FileUpload.ItemPreview asChild>
-                <FileUpload.ItemPreviewImage />
-              </FileUpload.ItemPreview>
-              <FileUpload.ItemContent>
-                <FileUpload.ItemName />
-                <FileUpload.ItemSizeText />
-              </FileUpload.ItemContent>
-              <FileUpload.ItemDeleteTrigger
-                onClick={() => {
-                  setUploadedFile(null);
-                  updateField('img', '');
-                }}
-              />
-            </FileUpload.Item>
-          </FileUpload.ItemGroup>
+      <Box>
+        {/* Show current image if exists and no new file is uploaded */}
+        {formData.img && typeof formData.img === 'string' && !uploadedFile && (
+          <Box mb={4}>
+            <Field.Label>Image actuelle</Field.Label>
+            <Image 
+              src={formData.img} 
+              alt="Event image" 
+              maxH="200px" 
+              objectFit="cover"
+              borderRadius="md"
+            />
+          </Box>
         )}
-      </FileUpload.Root>
+
+        <FileUpload.Root
+          accept={["image/heic", "image/jpeg", "image/png", "image/webp"]}
+          maxFiles={1}
+          onFileChange={(details) => {
+            const file = details.acceptedFiles[0];
+            if (file) {
+              setUploadedFile(file);
+              updateField('img', file);
+            }
+          }}
+        >
+          <FileUpload.HiddenInput />
+          <FileUpload.Label>
+            {uploadedFile ? 'Nouvelle image' : 'Changer l\'image de l\'événement'}
+          </FileUpload.Label>
+          <FileUpload.Trigger asChild>
+            <Button variant="subtle" size="sm" backgroundColor={'blue.50'}>
+              <HiUpload /> {uploadedFile ? 'Changer l\'image' : 'Télécharger une nouvelle cover'}
+            </Button>
+          </FileUpload.Trigger>
+          {uploadedFile && (
+            <FileUpload.ItemGroup>
+              <FileUpload.Item file={uploadedFile}>
+                <FileUpload.ItemPreview asChild>
+                  <FileUpload.ItemPreviewImage />
+                </FileUpload.ItemPreview>
+                <FileUpload.ItemContent>
+                  <FileUpload.ItemName />
+                  <FileUpload.ItemSizeText />
+                </FileUpload.ItemContent>
+                <FileUpload.ItemDeleteTrigger
+                  onClick={() => {
+                    setUploadedFile(null);
+                    // Restore original image URL if it existed
+                    updateField('img', event.img || '');
+                  }}
+                />
+              </FileUpload.Item>
+            </FileUpload.ItemGroup>
+          )}
+        </FileUpload.Root>
+      </Box>
     )
   }
 
@@ -89,7 +98,7 @@ export default function AddEventDialog({ open, onClose, onAdd }: AddEventDialogP
         <Dialog.Positioner>
           <Dialog.Content>
             <Dialog.Header>
-              <Dialog.Title color={'black'}>Ajouter un Event</Dialog.Title>
+              <Dialog.Title color={'black'}>Modifier l'événement</Dialog.Title>
             </Dialog.Header>
 
             <Dialog.Body color={'black'}>
@@ -155,8 +164,8 @@ export default function AddEventDialog({ open, onClose, onAdd }: AddEventDialogP
 
                 <UploadImageComponent />
 
-                <Button variant={'subtle'} colorPalette={'green'} onClick={handleSubmit}>
-                  Ajouter l'Event
+                <Button variant={'subtle'} colorPalette={'blue'} onClick={handleSubmit}>
+                  Sauvegarder
                 </Button>
               </Fieldset.Root>
             </Dialog.Body>

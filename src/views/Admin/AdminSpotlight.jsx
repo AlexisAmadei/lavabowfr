@@ -2,11 +2,11 @@ import DeleteDialog from '@/components/Core/Admin/DeleteDialog';
 import EditableDataListItem from '@/components/Core/Admin/EditableDataListItem';
 import LavaButton from '@/components/Design/LavaButton';
 import LavaTypo from '@/components/Design/LavaTypo';
-import { deleteSpotlightItem, fetchSpotlightContent, insertSpotlightItem, updateSpotlightItem } from '@/utils/supabase/supabase';
 import { Box, DataList, Flex, IconButton, Menu, Portal } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import { BsPlusCircleFill, BsThreeDotsVertical } from 'react-icons/bs';
 import AddSpotlightDialog from '../../components/Core/Admin/AddSpotlightDialog';
+import { deleteSpotlightItem, fetchSpotlightContent } from '@/utils/supabase/spotlight';
 
 export default function AdminSpotlight() {
   const [open, setOpen] = React.useState(false);

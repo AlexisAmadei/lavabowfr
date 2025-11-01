@@ -7,7 +7,7 @@ export interface EventItem {
     place: string;
     link?: string;
     status?: string;
-    img?: string;
+    img?: File | string;
 }
 
 export interface SpotlightItem {

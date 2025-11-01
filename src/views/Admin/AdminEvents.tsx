@@ -2,26 +2,37 @@ import LavaButton from '@/components/Design/LavaButton'
 // @ts-ignore
 import LavaTypo from '@/components/Design/LavaTypo'
 import { EventItem } from '@/types/types'
-import { fetchEventsContent, insertEventItem, updateEventItem } from '@/utils/supabase/supabase'
-import { Box, DataList, Flex, IconButton, Menu, Portal } from '@chakra-ui/react'
+import { Box, DataList, Flex, IconButton, Image, Menu, Portal } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import { BsPlusCircleFill, BsThreeDotsVertical } from 'react-icons/bs'
 // @ts-ignore
 import EditableDataListItem from '@/components/Core/Admin/EditableDataListItem'
 import AddEventDialog from '../../components/Core/Admin/AddEventDialog'
+import EditEventDialog from '../../components/Core/Admin/EditEventDialog'
 // @ts-ignore
 import DeleteDialog from '@/components/Core/Admin/DeleteDialog'
+import { fetchEventsContent, insertEventItem, updateEventItem } from '@/utils/supabase/events'
 
 export default function AdminEvents() {
   const [events, setEvents] = React.useState<EventItem[]>([])
   const [open, setOpen] = React.useState(false)
+  const [openEditDialog, setOpenEditDialog] = React.useState(false)
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false)
   const [itemToDelete, setItemToDelete] = React.useState<number | null>(null);
+  const [itemToEdit, setItemToEdit] = React.useState<EventItem | null>(null);
 
   const handleAddEventItem = async (newEventItem: EventItem) => {
     setOpen(false);
     await insertEventItem(newEventItem);
     fetchEventsContent(setEvents);
+  };
+
+  const handleUpdateEvent = async (updatedEvent: EventItem) => {
+    setOpenEditDialog(false);
+    if (updatedEvent.id) {
+      await updateEventItem(updatedEvent.id, updatedEvent);
+      fetchEventsContent(setEvents);
+    }
   };
 
   const handleUpdateField = async (id: number, field: keyof EventItem, value: string | number) => {
@@ -97,6 +108,23 @@ export default function AdminEvents() {
                 backgroundColor={'gray.50'}
                 position={'relative'}
               >
+                {/* Display event image if it exists */}
+                {event.img && typeof event.img === 'string' && (
+                  <DataList.Item>
+                    <DataList.ItemLabel>Image</DataList.ItemLabel>
+                    <DataList.ItemValue>
+                      <Image 
+                        src={event.img} 
+                        alt={event.title} 
+                        maxH="100px" 
+                        maxW="150px"
+                        objectFit="cover"
+                        borderRadius="md"
+                      />
+                    </DataList.ItemValue>
+                  </DataList.Item>
+                )}
+
                 <EditableDataListItem
                   label="Titre"
                   value={event.title}
@@ -164,6 +192,15 @@ export default function AdminEvents() {
                     <Portal>
                       <Menu.Positioner>
                         <Menu.Content>
+                          <Menu.Item 
+                            value="edit"
+                            onSelect={() => {
+                              setItemToEdit(event);
+                              setOpenEditDialog(true);
+                            }}
+                          >
+                            Modifier
+                          </Menu.Item>
                           <Menu.Item value={event.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE'} onSelect={() => event.id && handleUpdateStatus(event.id, event.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE')}>
                             {event.status === 'ACTIVE' ? 'Désactiver' : 'Activer'}
                           </Menu.Item>
@@ -194,6 +231,18 @@ export default function AdminEvents() {
         onClose={() => setOpen(false)}
         onAdd={handleAddEventItem}
       />
+
+      {itemToEdit && (
+        <EditEventDialog
+          open={openEditDialog}
+          onClose={() => {
+            setOpenEditDialog(false);
+            setItemToEdit(null);
+          }}
+          onUpdate={handleUpdateEvent}
+          event={itemToEdit}
+        />
+      )}
 
       <DeleteDialog
         openDeleteDialog={openDeleteDialog}
