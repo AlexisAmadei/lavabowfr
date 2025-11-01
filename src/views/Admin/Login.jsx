@@ -1,6 +1,6 @@
 import LavaButton from '@/components/Design/LavaButton';
 import LavaTypo from '@/components/Design/LavaTypo'
-import { signInUser } from '@/utils/supabase';
+import { signInUser } from '@/utils/supabase/users';
 import { AbsoluteCenter, Flex, Input } from '@chakra-ui/react'
 import React from 'react'
 import { useNavigate } from 'react-router';

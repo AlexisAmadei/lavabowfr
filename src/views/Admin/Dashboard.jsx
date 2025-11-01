@@ -1,10 +1,10 @@
-import { Box, Container, Flex, Grid, GridItem, Text } from '@chakra-ui/react'
+import { Box, Flex, Grid, GridItem, Text } from '@chakra-ui/react'
 import React from 'react'
 import { ADMIN_MENU_ITEMS } from '@/constants/menuItems'
-import LavaTypo from '@/components/Design/LavaTypo';
 
 export default function Dashboard() {
   const [selectedMenuItem, setSelectedMenuItem] = React.useState(ADMIN_MENU_ITEMS[0]);
+
   return (
     <Grid
       templateColumns="repeat(8, 1fr)"

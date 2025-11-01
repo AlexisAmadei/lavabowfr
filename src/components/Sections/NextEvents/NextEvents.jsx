@@ -6,7 +6,7 @@ import EventTicket from './EventTicket'
 import useIsMobile from '../../../hooks/useIsMobile'
 import LavaButton from '@/components/Design/LavaButton'
 import noEventBg from '@/assets/img/events/no-events.webp'
-import { fetchEventsContent } from '@/utils/supabase/supabase'
+import { fetchEventsContent } from '@/utils/supabase/events'
 
 export default function NextEvents() {
   const isMobile = useIsMobile();
