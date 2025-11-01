@@ -4,7 +4,7 @@ import LavaTypo from '../../Design/LavaTypo'
 import LavaButton from '../../Design/LavaButton'
 import useIsMobile from '../../../hooks/useIsMobile'
 import { AnimatePresence, motion } from "motion/react"
-import { supabase } from '@/utils/supabase'
+import { supabase } from '@/utils/supabase/supabase'
 
 export default function Spotlight() {
   const isMobile = useIsMobile();

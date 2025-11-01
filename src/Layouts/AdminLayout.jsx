@@ -1,4 +1,4 @@
-import { supabase } from '@/utils/supabase'
+import { supabase } from '@/utils/supabase/supabase'
 import React, { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router'
 

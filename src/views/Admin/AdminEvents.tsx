@@ -2,7 +2,7 @@ import LavaButton from '@/components/Design/LavaButton'
 // @ts-ignore
 import LavaTypo from '@/components/Design/LavaTypo'
 import { EventItem } from '@/types/types'
-import { fetchEventsContent, insertEventItem, updateEventItem } from '@/utils/supabase'
+import { fetchEventsContent, insertEventItem, updateEventItem } from '@/utils/supabase/supabase'
 import { Box, DataList, Flex, IconButton, Menu, Portal } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import { BsPlusCircleFill, BsThreeDotsVertical } from 'react-icons/bs'
