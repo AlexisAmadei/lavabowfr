@@ -113,10 +113,10 @@ export default function AdminEvents() {
                   <DataList.Item>
                     <DataList.ItemLabel>Image</DataList.ItemLabel>
                     <DataList.ItemValue>
-                      <Image 
-                        src={event.img} 
-                        alt={event.title} 
-                        maxH="100px" 
+                      <Image
+                        src={event.img}
+                        alt={event.title}
+                        maxH="100px"
                         maxW="150px"
                         objectFit="cover"
                         borderRadius="md"
@@ -192,7 +192,7 @@ export default function AdminEvents() {
                     <Portal>
                       <Menu.Positioner>
                         <Menu.Content>
-                          <Menu.Item 
+                          <Menu.Item
                             value="edit"
                             onSelect={() => {
                               setItemToEdit(event);
@@ -222,7 +222,7 @@ export default function AdminEvents() {
                 </Box>
               </DataList.Root>
             ))}
-            </Flex>
+          </Flex>
         )}
       </Flex>
 
