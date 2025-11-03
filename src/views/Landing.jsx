@@ -5,12 +5,13 @@ import Newsletter from '@/components/Sections/Newsletter'
 import { Flex } from '@chakra-ui/react'
 import Music from '@/components/Sections/Music'
 import './styles/Landing.css'
-import NextEvents from '../components/Sections/NextEvents/NextEvents'
-import Videos from '../components/Sections/Videos'
-import Pictures from '../components/Sections/Pictures/Pictures'
 import useIsMobile from '@/hooks/useIsMobile'
 import ScrollToTop from '@/components/Core/ScrollToTop/ScrollToTop'
 import useIsInView from '@/hooks/useIsInView'
+
+const Videos = React.lazy(() => import('../components/Sections/Videos'));
+const Pictures = React.lazy(() => import('../components/Sections/Pictures/Pictures'));
+const NextEvents = React.lazy(() => import('../components/Sections/NextEvents/NextEvents'));
 
 export default function Landing() {
   const isMobile = useIsMobile();

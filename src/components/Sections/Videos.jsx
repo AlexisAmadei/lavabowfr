@@ -83,7 +83,6 @@ export default function Videos() {
               gap={3}
               overflowY={'auto'}
               justifyContent={'space-between'}
-
               rowGap={'24px'}
               columnGap={'24px'}
               gridTemplateRows={'93.00px minmax(0, 1fr)'}

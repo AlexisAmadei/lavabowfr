@@ -4,11 +4,13 @@ import LavaTypo from '@/components/Design/LavaTypo'
 import LavaInput from '@/components/Design/LavaInput'
 import bgPic from '@/assets/img/newsletter.webp'
 import Section from '@/components/Design/Section'
+import useIsMobile from '@/hooks/useIsMobile'
 
 export default function Newsletter() {
   const [error, setError] = React.useState(false);
   const [email, setEmail] = React.useState('');
   const [submitted, setSubmitted] = React.useState(false);
+  const isMobile = useIsMobile();
 
   const handleSubmit = (email) => {
     if (!email) {
@@ -42,7 +44,7 @@ export default function Newsletter() {
 
         <Flex gap={3} direction={'column'} alignItems={'center'}>
           <LavaTypo variant={'h2'}>Newsletter</LavaTypo>
-          <LavaTypo variant={'text'}>Deviens un LAVA FAN et ne rate plus aucune actualité !</LavaTypo>
+          <LavaTypo variant={'text'} styles={{ textAlign: 'center' }}>Deviens un LAVA FAN et ne rate plus aucune actualité !</LavaTypo>
         </Flex>
 
         <Box width={'100%'} maxWidth={'400px'} position={'relative'}>

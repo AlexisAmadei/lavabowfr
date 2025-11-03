@@ -97,3 +97,10 @@
     border-radius: 50%;
     transform: translate(-50%, -50%);
 }
+
+@media screen and (max-width: 1024px) {
+    .cd-container {
+        min-width: 320px;
+        max-width: 320px;
+    }
+}

@@ -90,7 +90,6 @@ export default function EventTicket({ event }) {
     >
       <Flex
         className="event-ticket pkm-v"
-        direction={!isMobile ? "row" : "column"}
         padding="6px"
         gap="10px"
         h="100%"
@@ -104,6 +103,7 @@ export default function EventTicket({ event }) {
           backgroundColor="#f3f3f3ff"
           padding="12px"
           justifyContent="space-between"
+          direction={!isMobile ? "row" : "column"}
           width="100%"
         >
           <Flex direction="column" gap="6px" alignItems="flex-start" className="title-img" width={!isMobile ? "auto" : "100%"}>
@@ -129,6 +129,7 @@ export default function EventTicket({ event }) {
           <EventActions />
         </Flex>
       </Flex>
+
     </div>
   );
 }

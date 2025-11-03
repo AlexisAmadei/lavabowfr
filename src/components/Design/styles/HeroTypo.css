@@ -21,7 +21,7 @@
     color: transparent;
 }
 
-.marquee-track > span {
+.marquee-track>span {
     margin: 0;
     font-family: 'Whyte';
     font-weight: 800;
@@ -34,16 +34,24 @@
 
 @media screen and (max-width: 768px) {
     .hero-typo {
+        display: -webkit-box;
+        display: -ms-flexbox;
         display: flex;
-        flex-direction: column;
-        align-items: flex-start;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+                flex-direction: column;
+        -webkit-box-align: start;
+            -ms-flex-align: start;
+                align-items: flex-start;
         gap: 0;
         max-width: 100%;
     }
-
     .hero-typo p#outline {
         font-size: 22vw;
         white-space: nowrap;
-        justify-self: start;
+        -ms-grid-column-align: start;
+            justify-self: start;
+        line-height: 0.9;
     }
 }

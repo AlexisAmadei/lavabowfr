@@ -5,8 +5,11 @@ import './styles/Music.css'
 import { Flex } from '@chakra-ui/react'
 import CompactDisk from '../Core/CompactDisk/CompactDisk'
 import { motion } from 'framer-motion'
+import useIsMobile from '@/hooks/useIsMobile'
 
 export default function Music() {
+  const isMobile = useIsMobile();
+
   return (
     <Section
       bgColor={'var(--secondary-accent)'}
@@ -15,7 +18,7 @@ export default function Music() {
       <LavaTypo variant='h1'>Notre Musique</LavaTypo>
       <Flex
         width={'100%'}
-        direction={'row'}
+        direction={isMobile ? 'column' : 'row'}
         alignItems={'center'}
         justifyContent={'space-around'}
         gap={10}
