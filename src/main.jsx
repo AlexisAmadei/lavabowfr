@@ -3,7 +3,8 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Route, Routes } from 'react-router'
 import Landing from './views/Landing.jsx'
 import './index.css'
-import { ChakraProvider, defaultSystem, Spinner } from '@chakra-ui/react'
+import { ChakraProvider, defaultSystem } from '@chakra-ui/react'
+import Loading from './components/Design/Loading.jsx'
 
 // Dynamically import admin components
 const Login = lazy(() => import('./views/Admin/Login.jsx'))
@@ -17,17 +18,17 @@ createRoot(document.getElementById('root')).render(
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/admin" element={
-            <Suspense fallback={<Spinner size="xl" />}>
+            <Suspense fallback={<Loading />}>
               <AdminLayout />
             </Suspense>
           }>
             <Route path='login' index element={
-              <Suspense fallback={<Spinner size="xl" />}>
+              <Suspense fallback={<Loading />}>
                 <Login />
               </Suspense>
             } />
             <Route path='dashboard' element={
-              <Suspense fallback={<Spinner size="xl" />}>
+              <Suspense fallback={<Loading />}>
                 <Dashboard />
               </Suspense>
             } />
