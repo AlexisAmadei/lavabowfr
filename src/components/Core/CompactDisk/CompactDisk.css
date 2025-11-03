@@ -41,20 +41,6 @@
     pointer-events: none;
     opacity: 0.3;
     z-index: 0;
-
-    /* Subtle holographic overlay effect */
-    background:
-        conic-gradient(from 180deg at 50% 50%,
-            transparent 38.0769deg,
-            transparent 44.1168deg,
-            rgba(255, 255, 255, 0.2) 91.0096deg,
-            transparent 143.8013deg,
-            rgba(255, 255, 255, 0.2) 190.5511deg,
-            transparent 230.0490deg,
-            transparent 254.7293deg,
-            rgba(255, 255, 255, 0.2) 305.0957deg,
-            transparent 343.7336deg,
-            rgba(255, 255, 255, 0.2) 358.5467deg);
 }
 
 .cd::after {
@@ -65,12 +51,7 @@
     pointer-events: none;
     mix-blend-mode: soft-light;
     opacity: 0.12;
-    background: url("data:image/svg+xml;utf8,\
-<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'>\
-<filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/></filter>\
-<rect width='100%' height='100%' filter='url(#n)' opacity='0.85'/></svg>");
     background-size: 160px 160px;
-    animation: cdNoiseDrift 22s linear infinite;
     z-index: 2;
 }
 
