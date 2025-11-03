@@ -4,6 +4,7 @@ import Section from '@/components/Design/Section'
 import './styles/Music.css'
 import { Flex } from '@chakra-ui/react'
 import CompactDisk from '../Core/CompactDisk/CompactDisk'
+import { motion } from 'framer-motion'
 
 export default function Music() {
   return (
@@ -19,7 +20,16 @@ export default function Music() {
         justifyContent={'space-around'}
         gap={10}
       >
-        <CompactDisk />
+        <motion.div
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{
+            duration: 0.4,
+            scale: { type: "spring", visualDuration: 0.4, bounce: 0.5 },
+          }}
+        >
+          <CompactDisk />
+        </motion.div>
         <iframe data-testid="embed-iframe"
           style={{ borderRadius: '12px' }}
           src="https://open.spotify.com/embed/artist/54Y8JDIfmIb2zlHrB2ZoVF?utm_source=generator&theme=0"

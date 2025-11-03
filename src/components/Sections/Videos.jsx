@@ -44,7 +44,7 @@ const videoList = [
 
 export default function Videos() {
   const [maxHeight, setMaxHeight] = React.useState();
-  const isMobile = useIsMobile();
+  const isMobile = useIsMobile(1300);
 
   useEffect(() => {
     const ref = document.getElementById('featured-video');
