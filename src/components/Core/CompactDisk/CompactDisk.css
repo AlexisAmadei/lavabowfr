@@ -29,39 +29,8 @@
     overflow: hidden;
     animation: rotate-clockwise 20s linear infinite;
 
-    /* Holographic background (same recipe as tickets, centered) */
-    background:
-        url('../../../assets/img/noise.png'),
-        conic-gradient(from 180deg at 50% 50%,
-            #000 38.0769deg,
-            #000 44.1168deg,
-            #FFF 91.0096deg,
-            #000 143.8013deg,
-            #FFF 190.5511deg,
-            #000 230.0490deg,
-            #000 254.7293deg,
-            #FFF 305.0957deg,
-            #000 343.7336deg,
-            #FFF 358.5467deg),
-        conic-gradient(from 180deg at 50% 50%,
-            #000 38.0769deg,
-            #000 44.1168deg,
-            #FFF 91.0096deg,
-            #000 143.8013deg,
-            #FFF 190.5511deg,
-            #000 230.0490deg,
-            #000 254.7293deg,
-            #FFF 305.0957deg,
-            #000 343.7336deg,
-            #FFF 358.5467deg),
-        radial-gradient(farthest-corner at 34% 2.6%,
-            #2AD0CA 0%,
-            #E1F664 20.19%,
-            #FEB0FE 39.9%,
-            #ABB3FC 58.65%,
-            #5DF7A4 77.88%,
-            #58C4F6 100%);
-    background-blend-mode: overlay, screen, difference, normal;
+    /* Album cover background */
+    background: url('../../../assets/img/music/cd-cover.jpg') center/cover no-repeat;
 }
 
 .cd::before {
@@ -70,43 +39,22 @@
     inset: -2px;
     border-radius: inherit;
     pointer-events: none;
-    opacity: 0.9;
-    filter: saturate(1.15) contrast(1.1);
+    opacity: 0.3;
     z-index: 0;
 
-    /* Fixed holo light (centered, no mouse-based rotation) */
+    /* Subtle holographic overlay effect */
     background:
-        url('../../../assets/img/noise.png'),
         conic-gradient(from 180deg at 50% 50%,
-            #000 38.0769deg,
-            #000 44.1168deg,
-            #FFF 91.0096deg,
-            #000 143.8013deg,
-            #FFF 190.5511deg,
-            #000 230.0490deg,
-            #000 254.7293deg,
-            #FFF 305.0957deg,
-            #000 343.7336deg,
-            #FFF 358.5467deg),
-        conic-gradient(from 180deg at 50% 50%,
-            #000 38.0769deg,
-            #000 44.1168deg,
-            #FFF 91.0096deg,
-            #000 143.8013deg,
-            #FFF 190.5511deg,
-            #000 230.0490deg,
-            #000 254.7293deg,
-            #FFF 305.0957deg,
-            #000 343.7336deg,
-            #FFF 358.5467deg),
-        radial-gradient(farthest-corner at 34% 2.6%,
-            #2AD0CA 0%,
-            #E1F664 20.19%,
-            #FEB0FE 39.9%,
-            #ABB3FC 58.65%,
-            #5DF7A4 77.88%,
-            #58C4F6 100%);
-    background-blend-mode: overlay, screen, difference, normal;
+            transparent 38.0769deg,
+            transparent 44.1168deg,
+            rgba(255, 255, 255, 0.2) 91.0096deg,
+            transparent 143.8013deg,
+            rgba(255, 255, 255, 0.2) 190.5511deg,
+            transparent 230.0490deg,
+            transparent 254.7293deg,
+            rgba(255, 255, 255, 0.2) 305.0957deg,
+            transparent 343.7336deg,
+            rgba(255, 255, 255, 0.2) 358.5467deg);
 }
 
 .cd::after {
