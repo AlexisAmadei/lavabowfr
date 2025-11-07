@@ -43,4 +43,42 @@
         text-underline-position: from-font !important;
         text-transform: uppercase !important;
     }
+
+    @keyframes ballToRect {
+        0% {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+        100% {
+            width: 100vw;
+            height: 250px;
+            border-radius: 0;
+        }
+    }
+
+    @keyframes rectToBall {
+        0% {
+            width: 100vw;
+            height: 250px;
+            border-radius: 0;
+        }
+        100% {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+    }
+
+    .mobile-menu-animation {
+        animation: ballToRect 0.4s ease-out forwards;
+        transform-origin: top right;
+        overflow: hidden;
+    }
+
+    .mobile-menu-closing {
+        animation: rectToBall 0.4s ease-in forwards;
+        transform-origin: top right;
+        overflow: hidden;
+    }
 }

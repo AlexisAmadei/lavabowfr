@@ -8,9 +8,18 @@ import { scrollToSection } from '@/utils/navigation'
 
 export default function MobileAppBar() {
   const [open, setOpen] = React.useState(false)
+  const [isClosing, setIsClosing] = React.useState(false)
 
   const handleMenuToggle = () => {
-    setOpen(!open)
+    if (open) {
+      setIsClosing(true)
+      setTimeout(() => {
+        setOpen(false)
+        setIsClosing(false)
+      }, 400) // Match animation duration
+    } else {
+      setOpen(true)
+    }
   }
   return (
     <Flex
@@ -41,44 +50,33 @@ export default function MobileAppBar() {
                 zIndex: 9
               }}
             />
-            <motion.div
-              transition={{ duration: 0.3, ease: 'easeOut' }}
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0 }}
-              style={{ transformOrigin: 'top right', position: 'fixed', top: 0, right: 0, zIndex: 10 }}
+            <Box
+              onClick={() => handleMenuToggle()}
+              className={`app-bar__menu-burger ${isClosing ? 'mobile-menu-closing' : 'mobile-menu-animation'}`}
+              display={'flex'}
+              paddingBottom={'24px'}
+              paddingLeft={'16px'}
+              paddingRight={'16px'}
+              paddingTop={'24px'}
+              flexDirection={'column'}
+              alignItems={'flex-end'}
+              justifyContent={'flex-start'}
+              gap={'16px'}
+              position={'fixed'}
+              top={0}
+              right={0}
+              zIndex={10}
+              backgroundColor={'var(--Background-bg-brand)'}
             >
-
-              <Box
-                onClick={() => handleMenuToggle()}
-                className={'app-bar__menu-burger'}
-                display={'flex'}
-                width={'100vw'}
-                paddingBottom={'24px'}
-                paddingLeft={'16px'}
-                paddingRight={'16px'}
-                paddingTop={'24px'}
-                flexDirection={'column'}
-                alignItems={'flex-end'}
-                justifyContent={'flex-start'}
-                gap={'16px'}
-
-                position={'fixed'}
-                top={0}
-                right={0}
-                zIndex={10}
-                backgroundColor={'var(--Background-bg-brand)'}
-              >
-                <LavaTypo variant='h3'>Close</LavaTypo>
-                <VStack spacing={2} alignItems={'flex-end'}>
-                  {menuItems.map(item => (
-                    <LavaTypo variant={'text'} key={item.name} onClick={() => scrollToSection(item.link)}>
-                      {item.name}
-                    </LavaTypo>
-                  ))}
-                </VStack>
-              </Box>
-            </motion.div>
+              <LavaTypo variant='h3'>Close</LavaTypo>
+              <VStack spacing={2} alignItems={'flex-end'}>
+                {menuItems.map(item => (
+                  <LavaTypo variant={'text'} key={item.name} onClick={() => scrollToSection(item.link)}>
+                    {item.name}
+                  </LavaTypo>
+                ))}
+              </VStack>
+            </Box>
           </>
         )}
       </div>
