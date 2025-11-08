@@ -36,57 +36,61 @@ export default function EditEventDialog({ open, onClose, onUpdate, event }: Edit
         {formData.img && typeof formData.img === 'string' && !uploadedFile && (
           <Box mb={4}>
             <Field.Label>Image actuelle</Field.Label>
-            <Image 
-              src={formData.img} 
-              alt="Event image" 
-              maxH="200px" 
+            <Image
+              src={formData.img}
+              alt="Event image"
+              maxH="200px"
               objectFit="cover"
               borderRadius="md"
             />
           </Box>
         )}
 
-        <FileUpload.Root
-          accept={["image/heic", "image/jpeg", "image/png", "image/webp"]}
-          maxFiles={1}
-          onFileChange={(details) => {
-            const file = details.acceptedFiles[0];
-            if (file) {
-              setUploadedFile(file);
-              updateField('img', file);
-            }
-          }}
-        >
-          <FileUpload.HiddenInput />
-          <FileUpload.Label>
-            {uploadedFile ? 'Nouvelle image' : 'Changer l\'image de l\'événement'}
-          </FileUpload.Label>
-          <FileUpload.Trigger asChild>
-            <Button variant="subtle" size="sm" backgroundColor={'blue.50'}>
-              <HiUpload /> {uploadedFile ? 'Changer l\'image' : 'Télécharger une nouvelle cover'}
-            </Button>
-          </FileUpload.Trigger>
-          {uploadedFile && (
-            <FileUpload.ItemGroup>
-              <FileUpload.Item file={uploadedFile}>
-                <FileUpload.ItemPreview asChild>
-                  <FileUpload.ItemPreviewImage />
-                </FileUpload.ItemPreview>
-                <FileUpload.ItemContent>
-                  <FileUpload.ItemName />
-                  <FileUpload.ItemSizeText />
-                </FileUpload.ItemContent>
-                <FileUpload.ItemDeleteTrigger
-                  onClick={() => {
-                    setUploadedFile(null);
-                    // Restore original image URL if it existed
-                    updateField('img', event.img || '');
-                  }}
-                />
-              </FileUpload.Item>
-            </FileUpload.ItemGroup>
-          )}
-        </FileUpload.Root>
+        <Field.Root>
+
+          <FileUpload.Root
+            accept={["image/heic", "image/jpeg", "image/png", "image/webp"]}
+            maxFiles={1}
+            onFileChange={(details) => {
+              const file = details.acceptedFiles[0];
+              if (file) {
+                setUploadedFile(file);
+                updateField('img', file);
+              }
+            }}
+          >
+            <FileUpload.HiddenInput />
+            <FileUpload.Label>
+              {uploadedFile ? 'Nouvelle image' : 'Changer l\'image de l\'événement'}
+            </FileUpload.Label>
+            <FileUpload.Trigger asChild>
+              <Button variant="subtle" size="sm" backgroundColor={'blue.50'}>
+                <HiUpload /> {uploadedFile ? 'Changer l\'image' : 'Télécharger une nouvelle cover'}
+              </Button>
+            </FileUpload.Trigger>
+            {uploadedFile && (
+              <FileUpload.ItemGroup>
+                <FileUpload.Item file={uploadedFile}>
+                  <FileUpload.ItemPreview asChild>
+                    <FileUpload.ItemPreviewImage />
+                  </FileUpload.ItemPreview>
+                  <FileUpload.ItemContent>
+                    <FileUpload.ItemName />
+                    <FileUpload.ItemSizeText />
+                  </FileUpload.ItemContent>
+                  <FileUpload.ItemDeleteTrigger
+                    onClick={() => {
+                      setUploadedFile(null);
+                      // Restore original image URL if it existed
+                      updateField('img', event.img || '');
+                    }}
+                  />
+                </FileUpload.Item>
+              </FileUpload.ItemGroup>
+            )}
+          </FileUpload.Root>
+        </Field.Root>
+
       </Box>
     )
   }

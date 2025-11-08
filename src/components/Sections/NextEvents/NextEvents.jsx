@@ -67,7 +67,9 @@ export default function NextEvents() {
   }, []);
 
   useEffect(() => {
-    setFilteredEvents(events.filter(event => event.status !== 'INACTIVE'));
+    const filtered = events.filter(event => event.status !== 'INACTIVE');
+      const sorted = filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
+      setFilteredEvents(sorted);
   }, [events]);
 
   if (filteredEvents.length === 0) {
