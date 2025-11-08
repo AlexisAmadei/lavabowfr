@@ -1,6 +1,8 @@
 import { Box, Flex, Grid, GridItem, Text } from '@chakra-ui/react'
 import React from 'react'
 import { ADMIN_MENU_ITEMS } from '@/constants/menuItems'
+import { Link } from 'react-router';
+import { BsHouseFill } from 'react-icons/bs';
 
 export default function Dashboard() {
   const [selectedMenuItem, setSelectedMenuItem] = React.useState(ADMIN_MENU_ITEMS[0]);
@@ -54,6 +56,10 @@ export default function Dashboard() {
               </Box>
             ))}
           </Flex>
+
+          <Link to="/" style={{ marginTop: 'auto', textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <BsHouseFill /> Retour au site
+          </Link>
         </Flex>
       </GridItem>
 
