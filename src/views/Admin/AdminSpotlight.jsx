@@ -6,7 +6,7 @@ import { Box, DataList, Flex, IconButton, Menu, Portal } from '@chakra-ui/react'
 import React, { useEffect } from 'react';
 import { BsPlusCircleFill, BsThreeDotsVertical } from 'react-icons/bs';
 import AddSpotlightDialog from '../../components/Core/Admin/AddSpotlightDialog';
-import { deleteSpotlightItem, fetchSpotlightContent } from '@/utils/supabase/spotlight';
+import { deleteSpotlightItem, fetchSpotlightContent, updateSpotlightItem } from '@/utils/supabase/spotlight';
 
 export default function AdminSpotlight() {
   const [open, setOpen] = React.useState(false);
