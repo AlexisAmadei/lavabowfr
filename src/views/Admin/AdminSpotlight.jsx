@@ -2,7 +2,7 @@ import DeleteDialog from '@/components/Core/Admin/DeleteDialog';
 import EditableDataListItem from '@/components/Core/Admin/EditableDataListItem';
 import LavaButton from '@/components/Design/LavaButton';
 import LavaTypo from '@/components/Design/LavaTypo';
-import { Box, DataList, Flex, IconButton, Menu, Portal } from '@chakra-ui/react';
+import { Box, Button, DataList, Flex, IconButton, Menu, Portal } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import { BsPlusCircleFill, BsThreeDotsVertical } from 'react-icons/bs';
 import AddSpotlightDialog from '../../components/Core/Admin/AddSpotlightDialog';
@@ -70,6 +70,10 @@ export default function AdminSpotlight() {
     }
   };
 
+  const testLink = (link) => {
+    window.open(link, '_blank');
+  };
+
   useEffect(() => {
     fetchSpotlightContent(setSpotlightContent);
   }, []);
@@ -120,19 +124,25 @@ export default function AdminSpotlight() {
               onValueCommit={(value) => handleUpdateField(item.id, 'subtitle', value)}
             />
 
-            <EditableDataListItem
-              label="Lien d'écoute"
-              value={item.listen_link}
-              placeholder="Lien d'écoute"
-              onValueCommit={(value) => handleUpdateField(item.id, 'listen_link', value)}
-            />
+            <Flex direction={'row'} alignItems={'center'} gap={2}>
+              <EditableDataListItem
+                label="Lien d'écoute"
+                value={item.listen_link}
+                placeholder="Lien d'écoute"
+                onValueCommit={(value) => handleUpdateField(item.id, 'listen_link', value)}
+              />
+              <Button height={'fit-content'} py={1} px={2} colorPalette={'blue'} variant='subtle' onClick={(e) => testLink(item.listen_link)}>Tester le lien</Button>
+            </Flex>
 
-            <EditableDataListItem
-              label="Lien d'achat"
-              value={item.buy_link}
-              placeholder="Lien d'achat"
-              onValueCommit={(value) => handleUpdateField(item.id, 'buy_link', value)}
-            />
+            <Flex direction={'row'} alignItems={'center'} gap={2}>
+              <EditableDataListItem
+                label="Lien d'achat"
+                value={item.buy_link}
+                placeholder="Lien d'achat"
+                onValueCommit={(value) => handleUpdateField(item.id, 'buy_link', value)}
+              />
+              <Button height={'fit-content'} py={1} px={2} colorPalette={'blue'} variant='subtle' onClick={(e) => testLink(item.buy_link)}>Tester le lien</Button>
+            </Flex>
 
             <Box className='status-chip'
               position={'absolute'}

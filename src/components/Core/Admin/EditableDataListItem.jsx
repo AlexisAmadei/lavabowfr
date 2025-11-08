@@ -13,7 +13,7 @@ import { LuCheck, LuPencilLine, LuX } from 'react-icons/lu'
  */
 export default function EditableDataListItem({ label, value, placeholder, onValueCommit }) {
   return (
-    <DataList.Item>
+    <DataList.Item width={'100%'}>
       <DataList.ItemLabel>{label}</DataList.ItemLabel>
       <DataList.ItemValue>
         <Editable.Root
