@@ -77,7 +77,7 @@ export default function NextEvents() {
       <Box
         id='events'
         className='lava-section'
-        gap={'72px'}
+        gap={'48px'}
         height={isMobile ? '300px' : '800px'}
         backgroundImage={`url(${noEventBg})`}
         backgroundSize='cover'
@@ -87,6 +87,9 @@ export default function NextEvents() {
         <LavaTypo variant={'h2'} size={isMobile && '22px'}>
           Comme toi, Côme attend patiemment le prochain évènement...
         </LavaTypo>
+        <LavaButton variant='outlined' onClick={() => window.open('https://www.instagram.com/lava_bow/', '_blank')}>
+          <LavaTypo variant={'h4'} styles={{ padding: '12px 24px' }}>En attendant suis nos aventures ici</LavaTypo>
+        </LavaButton>
       </Box>
     )
   }
