@@ -78,10 +78,10 @@ span.lava-typo.bold {
     h3.lava-typo {
         color: var(--Text-text-secondary, #FFF);
         text-align: center;
-        font-family: 'Whyte';
+        font-family: 'Cossette Titre';
         font-size: 18px;
         font-style: normal;
-        font-weight: 300;
+        font-weight: 700;
         line-height: normal;
     }
 

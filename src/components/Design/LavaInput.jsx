@@ -4,28 +4,34 @@ import './styles/LavaInput.css'
 import { ArrowIcon } from './Icons';
 import LavaTypo from '@/components/Design/LavaTypo';
 
-export default function LavaInput({ type, placeholder, error, value, setEmail, onClick }) {
+export default function LavaInput({ type, placeholder, error, value, setEmail, onClick, variant, fullWidth }) {
+
+  const endIcon = (
+    <IconButton onClick={() => onClick(value)} variant={'ghost'} rounded={'full'} aria-label='Send' className='lava-input-button'>
+      <ArrowIcon boxSize={6} color={'white'} />
+    </IconButton>
+  )
+
   return (
-    <Flex className='lava-input' alignItems={'center'} justifyContent={'center'} gap={2} flexDirection={'row'}>
+    <Flex className={`lava-input ${variant}`} alignItems={'center'} justifyContent={'center'} gap={2} flexDirection={'row'}>
       <Field.Root invalid={error}>
 
-        <Input
-          placeholder={placeholder}
-          type={type}
-          value={value}
-          onChange={(e) => setEmail(e.target.value)}
-          size={'xl'}
-          // color={'white'}
-          variant={'flushed'}
-          _placeholder={{ color: "white" }}
-        />
+        <InputGroup endElement={endIcon}>
+          <Input
+            placeholder={placeholder}
+            type={type}
+            value={value}
+            onChange={(e) => setEmail(e.target.value)}
+            size={'xl'}
+            borderRadius={'50px'}
+            _placeholder={{ color: "white" }}
+            width={fullWidth ? '100%' : 'auto'}
+          />
+        </InputGroup>
         <Field.ErrorText>
           <LavaTypo variant='bold'>Mets un vrai mail par contre</LavaTypo>
         </Field.ErrorText>
       </Field.Root>
-      <IconButton onClick={() => onClick(value)} variant={'ghost'} rounded={'full'} aria-label='Send' className='lava-input-button'>
-        <ArrowIcon boxSize={6} color={'white'} />
-      </IconButton>
     </Flex>
   )
 }
