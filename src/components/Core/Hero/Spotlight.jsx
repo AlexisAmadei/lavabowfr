@@ -5,6 +5,7 @@ import LavaButton from '../../Design/LavaButton'
 import useIsMobile from '../../../hooks/useIsMobile'
 import { AnimatePresence, motion } from "motion/react"
 import { supabase } from '@/utils/supabase/supabase'
+import { LuMoveRight } from 'react-icons/lu'
 
 export default function Spotlight() {
   const isMobile = useIsMobile();
@@ -74,8 +75,11 @@ export default function Spotlight() {
 
       {/* Static buttons */}
       <Flex direction={'row'} gap={4} marginTop={4}>
-        <LavaButton variant='filled' padding={mP} onClick={() => window.open(activeContent?.link, '_blank')}>
+        <LavaButton variant='filled' padding={mP} onClick={() => window.open(activeContent?.link, '_blank')} className="app-bar__button">
           <LavaTypo variant='text' size={isMobile ? '6vw' : '24px'}>Écouter</LavaTypo>
+          <span className="app-bar__icon-on-hover">
+            <LuMoveRight size={30} strokeWidth={1} />
+          </span>
         </LavaButton>
         <LavaButton variant='outlined' padding={mP}>
           <LavaTypo variant='text' size={isMobile ? '6vw' : '24px'}>Acheter</LavaTypo>
