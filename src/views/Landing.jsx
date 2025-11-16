@@ -8,6 +8,7 @@ import './styles/Landing.css'
 import useIsMobile from '@/hooks/useIsMobile'
 import ScrollToTop from '@/components/Core/ScrollToTop/ScrollToTop'
 import useIsInView from '@/hooks/useIsInView'
+import Footer from '@/components/Sections/Footer'
 
 const Videos = React.lazy(() => import('../components/Sections/Videos'));
 const Pictures = React.lazy(() => import('../components/Sections/Pictures/Pictures'));
@@ -46,6 +47,7 @@ export default function Landing() {
           <NextEvents />
           <Videos />
           <Pictures />
+          <Footer />
         </Flex>
       </div>
     </div>
