@@ -49,7 +49,7 @@ export default function Hero() {
           alignItems={'flex-end'}
           justifyContent={'space-between'}
           paddingX={!isMobile ? 16 : 4}
-          mb={4}
+          mb={8}
         >
           {!isMobile && <Logo h={76} w={76} />}
           <Spotlight />
