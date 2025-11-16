@@ -23,7 +23,7 @@ export default function AppBar() {
             <LavaTypo variant='text'>{item.name}</LavaTypo>
             {item.endIcon && (
               <span className="app-bar__icon-on-hover">
-                <item.endIcon strokeWidth={2} />
+                <item.endIcon strokeWidth={1} size={30} />
               </span>
             )}
           </LavaButton>

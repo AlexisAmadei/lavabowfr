@@ -22,10 +22,12 @@ export default function Socials() {
             backgroundColor: 'white',
             padding: '12px',
             borderRadius: '50%',
+            cursor: 'pointer',
           }}
+          onClick={() => window.open(social.url, '_blank')}
         >
-          <a href={social.url} target='_blank' rel='noreferrer'>
-            <social.icon size={24} color='var(--Background-bg-brand)' />
+          <a>
+            <social.icon size={20} color='var(--Background-bg-brand)' />
           </a>
         </div>
       ))}
