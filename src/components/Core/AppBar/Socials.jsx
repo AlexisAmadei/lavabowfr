@@ -17,9 +17,15 @@ export default function Socials() {
       alignItems={'center'}
     >
       {socials_icons.map((social) => (
-        <div key={social.name}>
+        <div key={social.name}
+          style={{
+            backgroundColor: 'white',
+            padding: '12px',
+            borderRadius: '50%',
+          }}
+        >
           <a href={social.url} target='_blank' rel='noreferrer'>
-            <social.icon size={40} color='white' />
+            <social.icon size={24} color='var(--Background-bg-brand)' />
           </a>
         </div>
       ))}
