@@ -63,7 +63,7 @@ export default function Videos() {
             <LavaTypo variant={'h2'}>Dernier clip</LavaTypo>
             <Box sx={styles.videoContainer}>
               <iframe id="ytplayer" type="text/html" width={isMobile ? "100%" : "996"} height={isMobile ? "200" : "600"}
-                src="https://www.youtube.com/embed/Rbszi6x8mXE?autoplay=1&controls=1"
+                src="https://www.youtube.com/embed/Rbszi6x8mXE?autoplay=0&controls=1"
                 name='youtube-embed' loading='lazy'
               ></iframe>
             </Box>
