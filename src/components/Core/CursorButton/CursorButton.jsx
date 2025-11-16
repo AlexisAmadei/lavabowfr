@@ -176,7 +176,8 @@ export default function CursorButton() {
       <LavaButton
         variant={'outlined'}
         className={`follow-mouse-button ${isPressed || isUnfilling ? 'pressed' : ''}`}
-        style={followButtonStyle}
+        // style={followButtonStyle}
+        style={{ cursor: `${isPressed ? 'pointer' : ''}`, ...followButtonStyle }}
         onMouseDown={() => handleMouseDown()}
         onMouseUp={() => handleMouseUp()}
         onMouseLeave={() => handleMouseUp()}
