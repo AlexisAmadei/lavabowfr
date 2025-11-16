@@ -1,6 +1,6 @@
 import React from 'react'
 import { Flex } from '@chakra-ui/react'
-import { socialLinks } from '@/lib/socialLinks';
+import { socialLinks } from '@/lib/socialLinks'
 
 export default function Socials() {
   return (
@@ -14,14 +14,18 @@ export default function Socials() {
           style={{
             backgroundColor: 'white',
             padding: '12px',
-            borderRadius: '50%',
+            borderRadius: '50px',
             cursor: 'pointer',
+            color: 'var(--Background-bg-brand)',
+            height: '41px',
+            width: '41px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
           onClick={() => window.open(social.url, '_blank')}
         >
-          <a>
-            <social.icon size={20} color='var(--Background-bg-brand)' />
-          </a>
+          <social.icon size={20} />
         </div>
       ))}
     </Flex>

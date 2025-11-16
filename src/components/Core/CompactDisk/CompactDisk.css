@@ -14,8 +14,8 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-width: 390px;
-    max-width: 390px;
+    min-width: 420px;
+    max-width: 420px;
     aspect-ratio: 1;
     border-radius: 50%;
     border: 8px solid rgba(255, 255, 255, 0.30);
