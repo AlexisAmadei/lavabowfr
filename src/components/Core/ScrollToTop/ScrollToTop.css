@@ -5,6 +5,7 @@
     z-index: 9999;
     background-color: var(--Background-bg-brand, #1217fc);
     border-radius: 100px;
+    border: 0.2px solid var(--main-accent);
     width: 80px;
     height: 80px;
     flex-direction: column;
