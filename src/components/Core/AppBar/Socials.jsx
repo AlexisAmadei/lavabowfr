@@ -1,6 +1,7 @@
 import React from 'react'
 import { Flex } from '@chakra-ui/react'
 import { socialLinks } from '@/lib/socialLinks'
+import { transform } from 'motion'
 
 export default function Socials() {
   return (
@@ -22,7 +23,10 @@ export default function Socials() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            transition: 'transform 0.2s ease',
           }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
           onClick={() => window.open(social.url, '_blank')}
         >
           <social.icon size={20} />
