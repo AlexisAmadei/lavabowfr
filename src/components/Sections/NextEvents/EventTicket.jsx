@@ -14,6 +14,7 @@ export default function EventTicket({ event }) {
       width={'630px'}
       height={'170px'}
       backgroundColor={'var(--Background-bg-brand)'}
+      style={{ transform: 'scale(1.2)'}}
     >
       <Flex
         flexBasis={'1/2'}
@@ -26,18 +27,16 @@ export default function EventTicket({ event }) {
       >
         <Flex
           direction={'column'}
-          width={'45px'}
           height={'100%'}
           alignItems={'center'}
-          justifyContent={'space-between'}
           gap={2}
-          p={1}
+          mx={3}
         >
           <TicketPlacement type="Num" number="1" />
-          <Divider orientation='horizontal' color={'white'} dashed={true} thickness={'1px'} />
+          <Divider orientation='horizontal' color={'white'} thickness={'1px'} />
 
           <TicketPlacement type="Rang" number="15" />
-          <Divider orientation='horizontal' color={'white'} dashed={true} thickness={'1px'} />
+          <Divider orientation='horizontal' color={'white'} thickness={'1px'} />
 
           <TicketPlacement type="Siège" number="20" />
         </Flex>
