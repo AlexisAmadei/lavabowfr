@@ -4,13 +4,11 @@ import LavaTypo from '@/components/Design/LavaTypo'
 import LavaInput from '@/components/Design/LavaInput'
 import bgPic from '@/assets/img/newsletter.webp'
 import Section from '@/components/Design/Section'
-import useIsMobile from '@/hooks/useIsMobile'
 
 export default function Newsletter() {
   const [error, setError] = React.useState(false);
   const [email, setEmail] = React.useState('');
   const [submitted, setSubmitted] = React.useState(false);
-  const isMobile = useIsMobile();
 
   const handleSubmit = (email) => {
     if (!email) {
@@ -22,7 +20,6 @@ export default function Newsletter() {
       return;
     }
     setError(false);
-    console.log('Email submitted:', email);
     setEmail('');
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 5000);
@@ -55,6 +52,7 @@ export default function Newsletter() {
             value={email}
             setEmail={setEmail}
             onClick={() => handleSubmit(email)}
+            fullWidth={true}
           />
           {submitted &&
             <Box
