@@ -6,12 +6,13 @@ import LavaTypo from '@/components/Design/LavaTypo'
 import LavaButton from '@/components/Design/LavaButton'
 import Heads from '@/assets/img/events/heads.png'
 import Barcode from 'react-barcode'
+import TicketPlacement from './TicketPlacement'
 
 export default function EventTicket({ event }) {
   return (
     <Flex className='card-event'
-      width={'620px'}
-      height={'165px'}
+      width={'630px'}
+      height={'170px'}
       backgroundColor={'var(--Background-bg-brand)'}
     >
       <Flex
@@ -25,18 +26,20 @@ export default function EventTicket({ event }) {
       >
         <Flex
           direction={'column'}
-          width={'40px'}
+          width={'45px'}
           height={'100%'}
           alignItems={'center'}
           justifyContent={'space-between'}
           gap={2}
           p={1}
         >
-          <LavaTypo variant={'h3'} size={'30px'} style={{ transform: 'rotate(90deg)' }}>1</LavaTypo>
+          <TicketPlacement type="Num" number="1" />
           <Divider orientation='horizontal' color={'white'} dashed={true} thickness={'1px'} />
-          <LavaTypo variant={'h3'} size={'30px'} style={{ transform: 'rotate(90deg)' }}>2</LavaTypo>
+
+          <TicketPlacement type="Rang" number="15" />
           <Divider orientation='horizontal' color={'white'} dashed={true} thickness={'1px'} />
-          <LavaTypo variant={'h3'} size={'30px'} style={{ transform: 'rotate(90deg)' }}>15</LavaTypo>
+
+          <TicketPlacement type="Siège" number="20" />
         </Flex>
         <Divider orientation='vertical' color={'white'} />
 
@@ -76,7 +79,7 @@ export default function EventTicket({ event }) {
         height={'100%'}
         width={'100%'}
         alignItems={'center'}
-        justifyContent={'space-between'}
+        justifyContent={'space-evenly'}
         gap={1}
         py={1}
         position={'relative'}
@@ -89,6 +92,7 @@ export default function EventTicket({ event }) {
           height={'100%'}
           p={2}
           justifyContent={'space-between'}
+          paddingRight={'40px'}
         >
           <div className='heads'>
             <img src={Heads} alt='Event Heads' />
@@ -102,7 +106,7 @@ export default function EventTicket({ event }) {
                 lineHeight: 'normal'
               }}
             >
-              {event.description || "Sam t'as oublié la description"}
+              {event.description || "Sam t'as encore oublié la description.. spammez le sam@lavabow.fr"}
             </LavaTypo>
           </Box>
           <LavaButton style={{ backgroundColor: 'var(--main-accent)' }} fullWidth={true}>Ma place</LavaButton>
@@ -111,18 +115,23 @@ export default function EventTicket({ event }) {
         <Flex
           alignItems={'center'}
           justifyContent={'center'}
-          style={{ transform: 'rotate(90deg)', transformOrigin: ' center' }}
-          width={'fit-content'}
+          width={'30px'}
+          height={'100%'}
+          position={'absolute'}
+          right={'0'}
+          top={'0'}
+          backgroundColor={'white'}
         >
-          <Barcode
-            renderer='svg'
-            value={event?.ticketCode || 'https://lavabow.fr'}
-            width={1}
-            height={30}
-            displayValue={false}
-            background='transparent'
-            lineColor='#ffffffff'
-          />
+          <div style={{ transform: 'rotate(90deg)', width: 'fit-content' }}>
+            <Barcode
+              renderer='svg'
+              value={event?.ticketCode || 'https://lavabow.fr'}
+              width={1}
+              height={30}
+              displayValue={false}
+              background='transparent'
+            />
+          </div>
         </Flex>
       </Flex>
     </Flex>
