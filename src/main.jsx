@@ -10,6 +10,8 @@ import Loading from './components/Design/Loading.jsx'
 const Login = lazy(() => import('./views/Admin/Login.jsx'))
 const Dashboard = lazy(() => import('./views/Admin/Dashboard.jsx'))
 const AdminLayout = lazy(() => import('./Layouts/AdminLayout.jsx'))
+const AdminContent = lazy(() => import('./views/Admin/AdminContent.jsx'))
+const CloudStatus = lazy(() => import('./views/Admin/CloudStatus/CloudStatus.jsx'))
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -31,7 +33,18 @@ createRoot(document.getElementById('root')).render(
               <Suspense fallback={<Loading />}>
                 <Dashboard />
               </Suspense>
-            } />
+            }>
+              <Route index element={
+                <Suspense fallback={<Loading />}>
+                  <AdminContent />
+                </Suspense>
+              } />
+              <Route path='supabase-status' element={
+                <Suspense fallback={<Loading />}>
+                  <CloudStatus />
+                </Suspense>
+              } />
+            </Route>
           </Route>
         </Routes>
       </ChakraProvider>

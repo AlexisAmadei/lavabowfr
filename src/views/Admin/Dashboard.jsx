@@ -1,11 +1,11 @@
 import { Box, Flex, Grid, GridItem, Text } from '@chakra-ui/react'
 import React from 'react'
 import { ADMIN_MENU_ITEMS } from '@/constants/menuItems'
-import { Link } from 'react-router';
+import { Link, Outlet, useLocation } from 'react-router';
 import { BsHouseFill } from 'react-icons/bs';
 
 export default function Dashboard() {
-  const [selectedMenuItem, setSelectedMenuItem] = React.useState(ADMIN_MENU_ITEMS[0]);
+  const location = useLocation();
 
   return (
     <Grid
@@ -36,24 +36,28 @@ export default function Dashboard() {
             gap={1}
           >
             {ADMIN_MENU_ITEMS.map((item) => (
-              <Box
+              <Link
                 key={item.path}
-                cursor="pointer"
-                onClick={() => setSelectedMenuItem(item)}
-                borderRadius={5}
-                backgroundColor={selectedMenuItem.path === item.path ? 'whiteAlpha.900' : 'transparent'}
-                color={selectedMenuItem.path === item.path ? 'black' : 'inherit'}
-                p={2}
-                display="flex"
-                alignItems="center"
-                transition="all 0.2s"
-                _hover={{
-                  backgroundColor: selectedMenuItem.path === item.path ? 'whiteAlpha.900' : 'whiteAlpha.200'
-                }}
+                to={item.path}
+                style={{ textDecoration: 'none', color: 'inherit' }}
               >
-                <item.icon size={16} style={{ marginRight: 8 }} />
-                <Text fontSize="md">{item.label}</Text>
-              </Box>
+                <Box
+                  cursor="pointer"
+                  borderRadius={5}
+                  backgroundColor={location.pathname === item.path ? 'whiteAlpha.900' : 'transparent'}
+                  color={location.pathname === item.path ? 'black' : 'inherit'}
+                  p={2}
+                  display="flex"
+                  alignItems="center"
+                  transition="all 0.2s"
+                  _hover={{
+                    backgroundColor: location.pathname === item.path ? 'whiteAlpha.900' : 'whiteAlpha.200'
+                  }}
+                >
+                  <item.icon size={16} style={{ marginRight: 8 }} />
+                  <Text fontSize="md">{item.label}</Text>
+                </Box>
+              </Link>
             ))}
           </Flex>
 
@@ -82,7 +86,7 @@ export default function Dashboard() {
             flex={1}
             overflowY="auto"
           >
-            {selectedMenuItem.component && <selectedMenuItem.component />}
+            <Outlet />
           </Flex>
         </Flex>
       </GridItem>
