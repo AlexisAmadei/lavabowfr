@@ -1,5 +1,7 @@
 import AdminContent from "@/views/Admin/AdminContent";
-import { BsDatabaseFill } from "react-icons/bs";
+import CloudStatus from "@/views/Admin/CloudStatus/CloudStatus";
+import { icon } from "@fortawesome/fontawesome-svg-core";
+import { BsCloud, BsDatabaseFill } from "react-icons/bs";
 import { BsPeopleFill } from 'react-icons/bs';
 import { BsCart } from 'react-icons/bs';
 
@@ -19,5 +21,11 @@ export const ADMIN_MENU_ITEMS = [
         label: 'Merchandising',
         icon: BsCart,
         path: '/admin/merchandise'
+    },
+    {
+        label: 'Cloud Status',
+        icon: BsCloud,
+        path: '/admin/supabase-status',
+        component: CloudStatus
     }
 ]
