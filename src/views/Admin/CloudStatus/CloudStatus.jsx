@@ -11,6 +11,31 @@ export default function CloudStatus() {
     fetchRSSFeed();
   }, []);
 
+  const getStatusFromTitle = (title) => {
+    const lowerTitle = title.toLowerCase();
+    if (lowerTitle.includes('resolved') || lowerTitle.includes('completed') || lowerTitle.includes('operational')) {
+      return 'resolved';
+    } else if (lowerTitle.includes('investigating') || lowerTitle.includes('identified') || lowerTitle.includes('monitoring')) {
+      return 'investigating';
+    } else if (lowerTitle.includes('issue') || lowerTitle.includes('outage') || lowerTitle.includes('degraded')) {
+      return 'issue';
+    }
+    return 'neutral';
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'resolved':
+        return 'green.500';
+      case 'investigating':
+        return 'orange.500';
+      case 'issue':
+        return 'red.500';
+      default:
+        return 'gray.400';
+    }
+  };
+
   const fetchRSSFeed = async () => {
     try {
       setLoading(true);
@@ -25,12 +50,16 @@ export default function CloudStatus() {
       const xmlDoc = parser.parseFromString(text, 'text/xml');
 
       const items = xmlDoc.querySelectorAll('item');
-      const parsedItems = Array.from(items).slice(0, 5).map(item => ({
-        title: item.querySelector('title')?.textContent || '',
-        link: item.querySelector('link')?.textContent || '',
-        pubDate: item.querySelector('pubDate')?.textContent || '',
-        description: item.querySelector('description')?.textContent || ''
-      }));
+      const parsedItems = Array.from(items).slice(0, 5).map(item => {
+        const title = item.querySelector('title')?.textContent || '';
+        return {
+          title,
+          link: item.querySelector('link')?.textContent || '',
+          pubDate: item.querySelector('pubDate')?.textContent || '',
+          description: item.querySelector('description')?.textContent || '',
+          status: getStatusFromTitle(title)
+        };
+      });
 
       setFeedItems(parsedItems);
       setError(null);
@@ -99,7 +128,7 @@ export default function CloudStatus() {
           </Link>
         </Flex>
 
-        <Accordion.Root collapsible variant="outline">
+        <Accordion.Root collapsible variant="outline" textAlign={'left'}>
           {feedItems.map((item, index) => (
             <Accordion.Item key={index} value={`item-${index}`}>
               <Accordion.ItemTrigger
@@ -107,17 +136,26 @@ export default function CloudStatus() {
                 borderRadius={'md'}
                 _hover={{ backgroundColor: 'gray.100' }}
               >
-                <Flex direction={'column'} gap={2} flex="1" textAlign="left">
-                  <Text
-                    fontWeight={'bold'}
-                    color={'black'}
-                    fontSize={'md'}
-                  >
-                    {item.title}
-                  </Text>
-                  <Text fontSize={'xs'} color={'gray.600'}>
-                    {formatDate(item.pubDate)}
-                  </Text>
+                <Flex alignItems={'center'} gap={3} flex="1">
+                  <Box
+                    width={'12px'}
+                    height={'12px'}
+                    borderRadius={'full'}
+                    backgroundColor={getStatusColor(item.status)}
+                    flexShrink={0}
+                  />
+                  <Flex direction={'column'} gap={2} flex="1" textAlign="left">
+                    <Text
+                      fontWeight={'bold'}
+                      color={'black'}
+                      fontSize={'md'}
+                    >
+                      {item.title}
+                    </Text>
+                    <Text fontSize={'xs'} color={'gray.600'}>
+                      {formatDate(item.pubDate)}
+                    </Text>
+                  </Flex>
                 </Flex>
                 <Accordion.ItemIndicator />
               </Accordion.ItemTrigger>
