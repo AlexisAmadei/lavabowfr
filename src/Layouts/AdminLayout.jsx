@@ -1,6 +1,7 @@
 import { supabase } from '@/utils/supabase/supabase'
 import React, { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router'
+import { ADMIN_MENU_ITEMS } from '@/constants/menuItems'
 
 export default function AdminLayout() {
   const navigate = useNavigate()
@@ -17,11 +18,12 @@ export default function AdminLayout() {
       if (!user) {
         navigate('/admin/login')
       } else {
-        navigate('/admin/dashboard')
+        // Navigate to the first menu item
+        navigate(ADMIN_MENU_ITEMS[0].path)
       }
     }
     fetchUser()
-  }, [])
+  }, [navigate])
 
   return (
     <>

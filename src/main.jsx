@@ -1,10 +1,11 @@
 import { StrictMode, lazy, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Route, Routes } from 'react-router'
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router'
 import Landing from './views/Landing.jsx'
 import './index.css'
 import { ChakraProvider, defaultSystem } from '@chakra-ui/react'
 import Loading from './components/Design/Loading.jsx'
+import { ADMIN_MENU_ITEMS } from './constants/menuItems.js'
 
 // Dynamically import admin components
 const Login = lazy(() => import('./views/Admin/Login.jsx'))
@@ -22,7 +23,7 @@ createRoot(document.getElementById('root')).render(
               <AdminLayout />
             </Suspense>
           }>
-            <Route path='login' index element={
+            <Route path='login' element={
               <Suspense fallback={<Loading />}>
                 <Login />
               </Suspense>
@@ -31,7 +32,18 @@ createRoot(document.getElementById('root')).render(
               <Suspense fallback={<Loading />}>
                 <Dashboard />
               </Suspense>
-            } />
+            }>
+              {/* Dynamically generate routes from menu items */}
+              {ADMIN_MENU_ITEMS.map((item) => (
+                <Route
+                  key={item.path}
+                  path={item.path.replace('/admin/dashboard/', '')}
+                  element={<item.component />}
+                />
+              ))}
+              {/* Redirect to first menu item by default */}
+              <Route index element={<Navigate to={ADMIN_MENU_ITEMS[0].path.replace('/admin/dashboard/', '')} replace />} />
+            </Route>
           </Route>
         </Routes>
       </ChakraProvider>
