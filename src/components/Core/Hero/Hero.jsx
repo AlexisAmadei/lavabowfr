@@ -55,7 +55,7 @@ export default function Hero() {
           <Spotlight />
         </Box>
       </Flex>
-      {!isMobile && <CursorButton />}
+      {/* {!isMobile && <CursorButton />} */}
     </div>
   )
 }
