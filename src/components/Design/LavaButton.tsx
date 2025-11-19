@@ -21,8 +21,8 @@ export default function LavaButton({
   className = '',
   padding,
   fullWidth = false,
-  color = 'primary',
-  size = 'medium',
+  color,
+  size,
   disabled = false,
   type = 'button',
   ...props

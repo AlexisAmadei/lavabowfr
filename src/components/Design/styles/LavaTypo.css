@@ -43,7 +43,7 @@ p.lava-typo {
     padding: 0;
 
     text-align: left;
-    font-family: 'Whyte', sans-serif !important;
+    font-family: 'Stack Sans Text', sans-serif !important;
 }
 
 span.lava-typo.accent {
@@ -87,7 +87,7 @@ span.lava-typo.bold {
 
     p.lava-typo {
         color: var(--Text-text-secondary, #FFF);
-        font-family: 'Whyte';
+        font-family: 'Stack Sans Text', sans-serif !important;
         font-size: 18px;
         font-style: normal;
         font-weight: 300;
