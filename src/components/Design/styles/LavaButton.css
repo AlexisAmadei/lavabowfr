@@ -10,6 +10,10 @@
     border: 1.2px solid transparent;
 }
 
+.lava-button:hover {
+    transform: scale(1.02) !important;
+}
+
 .lava-button .app-bar__icon-on-hover {
     display: inline-flex;
     align-items: center;

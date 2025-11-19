@@ -149,7 +149,15 @@ export default function AdminEvents() {
 
                 <EditableDataListItem
                   label="Date"
-                  value={event.date}
+                  value={event.date ? (() => {
+                    const date = new Date(event.date);
+                    const day = date.getDate().toString().padStart(2, '0');
+                    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                    const year = date.getFullYear();
+                    const hours = date.getHours().toString().padStart(2, '0');
+                    const minutes = date.getMinutes().toString().padStart(2, '0');
+                    return `${day}/${month}/${year} - ${hours}:${minutes}`;
+                  })() : ''}
                   placeholder="Date"
                   onValueCommit={(value: string) => event.id && handleUpdateField(event.id, 'date', value)}
                 />

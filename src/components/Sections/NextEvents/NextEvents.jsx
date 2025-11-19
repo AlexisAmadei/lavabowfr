@@ -1,7 +1,7 @@
 import React, { useEffect, useState, forwardRef } from 'react'
 import Section from '@/components/Design/Section'
 import LavaTypo from '@/components/Design/LavaTypo'
-import { Box, Flex, Grid, GridItem } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 import EventTicket from './EventTicket'
 import useIsMobile from '../../../hooks/useIsMobile'
 import LavaButton from '@/components/Design/LavaButton'
@@ -68,8 +68,8 @@ export default function NextEvents() {
 
   useEffect(() => {
     const filtered = events.filter(event => event.status !== 'INACTIVE');
-      const sorted = filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
-      setFilteredEvents(sorted);
+    const sorted = filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
+    setFilteredEvents(sorted);
   }, [events]);
 
   if (filteredEvents.length === 0) {
@@ -189,18 +189,11 @@ export default function NextEvents() {
   return (
     <Section id='events'>
       <LavaTypo variant={'h1'}>Retrouve nous en concert</LavaTypo>
-      <Grid
-        className='events-list'
-        templateColumns={{ base: "repeat(1, 1fr)" }}
-        gap="6"
-        width={isMobile ? "100%" : "auto"}
-      >
+      <Flex mb={4} flexWrap={'wrap'} width={'100%'} direction={'column'} justifyContent={'space-around'} alignItems={'center'} gap={30}>
         {filteredEvents.map((event, index) => (
-          <GridItem key={index} colSpan={1}>
-            <EventTicket event={event} />
-          </GridItem>
+          <EventTicket event={event} key={index} />
         ))}
-      </Grid>
+      </Flex>
     </Section>
   )
 }

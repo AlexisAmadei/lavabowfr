@@ -74,7 +74,6 @@ export const insertEventItem = async (eventData: EventItem) => {
         const timestamp = Date.now();
         const fileName = `${timestamp}_${eventData.img.name}`;
         const uploadResult = await uploadFile(eventData.img, fileName);
-        
         if (uploadResult) {
             imgUrl = uploadResult; // Store the full public URL
         } else {

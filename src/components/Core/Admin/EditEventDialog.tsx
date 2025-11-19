@@ -16,12 +16,22 @@ export default function EditEventDialog({ open, onClose, onUpdate, event }: Edit
 
   // Update formData when event prop changes
   React.useEffect(() => {
-    setFormData(event)
+    // Convert ISO date to datetime-local format (YYYY-MM-DDTHH:mm)
+    const formattedEvent = {
+      ...event,
+      date: event.date ? new Date(event.date).toISOString().slice(0, 16) : ''
+    }
+    setFormData(formattedEvent)
     setUploadedFile(null)
   }, [event])
 
   const handleSubmit = () => {
-    onUpdate(formData)
+    // Convert datetime-local format to ISO string for database
+    const eventToUpdate = {
+      ...formData,
+      date: formData.date ? new Date(formData.date).toISOString() : ''
+    }
+    onUpdate(eventToUpdate)
     setUploadedFile(null)
   }
 
