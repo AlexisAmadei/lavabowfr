@@ -1,6 +1,6 @@
 import React from 'react'
 import './EventTicket.css'
-import { Box, Flex } from '@chakra-ui/react'
+import { Box, Flex, Image } from '@chakra-ui/react'
 import Divider from '@/components/Design/Divider'
 import LavaTypo from '@/components/Design/LavaTypo'
 import LavaButton from '@/components/Design/LavaButton'
@@ -15,7 +15,7 @@ export default function EventTicket({ event }) {
       width={'630px'}
       height={'170px'}
       backgroundColor={'var(--Background-bg-brand)'}
-      style={{ transform: 'scale(1.2)'}}
+      style={{ transform: 'scale(1.2)' }}
     >
       <Flex
         flexBasis={'1/2'}
@@ -25,13 +25,17 @@ export default function EventTicket({ event }) {
         justifyContent={'space-between'}
         gap={1}
         py={1}
+        p={1}
       >
         <Flex
           direction={'column'}
           height={'100%'}
           alignItems={'center'}
+          width={'40px'}
           gap={2}
           mx={3}
+          margin={0}
+          justify={'space-evenly'}
         >
           <TicketPlacement type="Num" number="1" />
           <Divider orientation='horizontal' color={'white'} thickness={'1px'} />
@@ -49,7 +53,7 @@ export default function EventTicket({ event }) {
 
           <Flex direction={'row'} width={'100%'} justifyContent={'space-between'} mt={'8px'} alignItems={'center'} gap={1}>
             <LavaTypo variant={'h3'} size={'16px'} styles={{ fontWeight: '400' }}>PRIX</LavaTypo>
-            <Divider orientation={'horizontal'} color={'#ffffffd8'} dashed={true} />
+            <Divider orientation={'horizontal'} color={'#ffffffd8'} dashed={true} thickness={'0.5px'} dashArray={'2 1'} />
             <LavaTypo variant={'h3'} size={'16px'} styles={{ fontWeight: '400' }}>{event?.price || '0'}€</LavaTypo>
           </Flex>
 
@@ -57,7 +61,7 @@ export default function EventTicket({ event }) {
 
           <Flex direction={'row'} width={'100%'} justifyContent={'space-between'} alignItems={'center'} gap={1}>
             <LavaTypo variant={'h3'} size={'16px'} styles={{ fontWeight: '400' }}>DATE</LavaTypo>
-            <Divider orientation={'horizontal'} color={'#ffffffd8'} dashed={true} />
+            <Divider orientation={'horizontal'} color={'#ffffffd8'} dashed={true} thickness={'0.5px'} dashArray={'2 1'}  />
             <LavaTypo variant={'h3'} size={'16px'} styles={{ fontWeight: '400' }}>{event?.date ? new Date(event.date).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' }) : "Sam t'as oublié la date"}</LavaTypo>
           </Flex>
 
@@ -65,7 +69,7 @@ export default function EventTicket({ event }) {
 
           <Flex direction={'row'} width={'100%'} justifyContent={'space-between'} alignItems={'center'} gap={1}>
             <LavaTypo variant={'h3'} size={'16px'} styles={{ fontWeight: '400' }}>LIEU</LavaTypo>
-            <Divider orientation={'horizontal'} color={'#ffffffd8'} dashed={true} />
+            <Divider orientation={'horizontal'} color={'#ffffffd8'} dashed={true} thickness={'0.5px'} dashArray={'2 1'}  />
             <LavaTypo variant={'h3'} size={'16px'} styles={{ fontWeight: '400' }}>{event?.place || "Sam t'as oublié le lieu"}</LavaTypo>
           </Flex>
         </Flex>
@@ -81,7 +85,6 @@ export default function EventTicket({ event }) {
         alignItems={'center'}
         justifyContent={'space-evenly'}
         gap={1}
-        py={1}
         position={'relative'}
         overflow={'hidden'}
       >
@@ -90,14 +93,14 @@ export default function EventTicket({ event }) {
           alignItems={'center'}
           width={'100%'}
           height={'100%'}
-          p={2}
+          py={3}
           justifyContent={'space-between'}
-          paddingRight={'40px'}
+          paddingX={1}
         >
-          <div className='heads' style={{ maxHeight: '55px'}}>
-            <img src={Heads} alt='Event Heads' />
+          <Flex className='heads' width={'100%'} justifyContent={'space-evenly'} alignItems={'center'}>
+            <Image src={Heads} alt='Event Heads' width={'auto'} height={'55px'} objectFit={'contain'} />
             <Logo h={50} w={50} />
-          </div>
+          </Flex>
           <Box className='description'>
             <LavaTypo size={'12px'}
               styles={{
@@ -113,6 +116,10 @@ export default function EventTicket({ event }) {
           <LavaButton style={{ backgroundColor: 'var(--main-accent)' }} fullWidth={true}>Ma place</LavaButton>
         </Flex>
 
+        <Box h={'100%'} marginRight={'40px'}>
+          <Divider orientation={'vertical'} color={'#ffffffd8'} dashed={true} thickness={'1.5px'} dashArray={'8 8'} rounded={true} />
+        </Box>
+
         <Flex
           alignItems={'center'}
           justifyContent={'center'}
@@ -122,6 +129,7 @@ export default function EventTicket({ event }) {
           right={'0'}
           top={'0'}
           backgroundColor={'white'}
+          zIndex={-1}
         >
           <div style={{ transform: 'rotate(90deg)', width: 'fit-content' }}>
             <Barcode
@@ -130,7 +138,8 @@ export default function EventTicket({ event }) {
               width={1}
               height={30}
               displayValue={false}
-              background='transparent'
+              background='var(--Background-bg-brand)'
+              lineColor='white'
             />
           </div>
         </Flex>

@@ -1,0 +1,8 @@
+.card-event {
+  background-color: var(--Background-bg-brand);
+  background-image: url('@/assets/textures/paper.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-blend-mode: multiply;
+}
