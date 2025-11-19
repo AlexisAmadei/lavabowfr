@@ -9,7 +9,7 @@ interface LavaButtonProps {
   style?: React.CSSProperties;
   className?: string;
   padding?: string | number;
-  [key: string]: any; // For any additional props
+  [key: string]: any;
 }
 
 export default function LavaButton({
@@ -21,12 +21,24 @@ export default function LavaButton({
   className = '',
   padding,
   fullWidth = false,
+  color = 'primary',
+  size = 'medium',
+  disabled = false,
+  type = 'button',
   ...props
-}: LavaButtonProps) {
+}: LavaButtonProps & {
+  fullWidth?: boolean;
+  color?: 'primary' | 'secondary';
+  size?: 'small' | 'medium' | 'large';
+  disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+}) {
   return (
     <button
-      className={`lava-button ${variant} ${className}`}
+      className={`lava-button ${variant} ${className} ${color} ${size} ${disabled ? 'disabled' : ''}`}
       onClick={onClick}
+      disabled={disabled}
+      type={type}
       style={{ padding, ...style, width: fullWidth ? '100%' : 'auto' }}
       {...props}
     >
