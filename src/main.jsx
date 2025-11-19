@@ -7,9 +7,10 @@ import { ChakraProvider, defaultSystem } from '@chakra-ui/react'
 import Loading from './components/Design/Loading.jsx'
 
 // Dynamically import admin components
-const Login = lazy(() => import('./views/Admin/Login.jsx'))
-const Dashboard = lazy(() => import('./views/Admin/Dashboard.jsx'))
-const AdminLayout = lazy(() => import('./Layouts/AdminLayout.jsx'))
+const Login = lazy(() => import('./views/Admin/Login.jsx'));
+const Dashboard = lazy(() => import('./views/Admin/Dashboard.jsx'));
+const AdminLayout = lazy(() => import('./Layouts/AdminLayout.jsx'));
+const Unsubscribe = lazy(() => import('./views/Unsubscribe.jsx'));
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -17,6 +18,8 @@ createRoot(document.getElementById('root')).render(
       <ChakraProvider value={defaultSystem}>
         <Routes>
           <Route path="/" element={<Landing />} />
+
+          {/* ADMIN ROUTES */}
           <Route path="/admin" element={
             <Suspense fallback={<Loading />}>
               <AdminLayout />
@@ -33,6 +36,12 @@ createRoot(document.getElementById('root')).render(
               </Suspense>
             } />
           </Route>
+
+          <Route path="/unsubscribe" element={
+            <Suspense fallback={<Loading />}>
+              <Unsubscribe />
+            </Suspense>
+          } />
         </Routes>
       </ChakraProvider>
     </BrowserRouter>
