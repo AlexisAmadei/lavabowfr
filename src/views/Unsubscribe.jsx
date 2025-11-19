@@ -4,9 +4,45 @@ import LavaButton from '@/components/Design/LavaButton'
 import LavaTypo from '@/components/Design/LavaTypo'
 import Logo from '@/components/Design/Logo'
 import { AbsoluteCenter, Box, Flex } from '@chakra-ui/react'
-import React from 'react'
+import React, { useRef, useState } from 'react'
+import { Link } from 'react-router'
 
 export default function Unsubscribe() {
+  const buttonRef = useRef(null);
+  const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e) => {
+    if (!buttonRef.current) return;
+    
+    const button = buttonRef.current.getBoundingClientRect();
+    const buttonCenterX = button.left + button.width / 2;
+    const buttonCenterY = button.top + button.height / 2;
+    
+    const mouseX = e.clientX;
+    const mouseY = e.clientY;
+    
+    const distanceX = mouseX - buttonCenterX;
+    const distanceY = mouseY - buttonCenterY;
+    const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+    
+    // If mouse is within 250px of the button, move it away
+    if (distance < 250) {
+      const angle = Math.atan2(distanceY, distanceX);
+      const moveDistance = 250 - distance;
+      
+      setButtonPosition({
+        x: -Math.cos(angle) * moveDistance,
+        y: -Math.sin(angle) * moveDistance
+      });
+    } else {
+      setButtonPosition({ x: 0, y: 0 });
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setButtonPosition({ x: 0, y: 0 });
+  };
+
   return (
     <AbsoluteCenter
       flexDirection={'column'}
@@ -14,6 +50,8 @@ export default function Unsubscribe() {
       width={'100%'} height={'100%'}
       backgroundColor={'var(--Background-bg-brand)'}
       overflow={'hidden'}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
     >
       <Flex
         position={'absolute'} top={0}
@@ -32,11 +70,22 @@ export default function Unsubscribe() {
           <HeroTypo key={index} fontSize={15} repeated={true} />
         ))}
       </Flex>
-      <Logo h={70} w={70} />
+
+      <Link to={'/'}>
+        <Box transition="transform 1s ease" _hover={{ transform: 'rotate(1080deg)' }} transformOrigin="center" display="inline-block" cursor="pointer">
+          <Logo h={70} w={70} />
+        </Box>
+      </Link>
       <Socials />
       <LavaTypo variant={'h1'} styles={{ marginBottom: 0 }}>Nonnnn ne nous quittes pas stp</LavaTypo>
       <LavaTypo variant={'h4'} styles={{ marginBottom: "40px" }}>Bon ok on te laisse partir mais on se revoit en concert 🫶🏻</LavaTypo>
-      <LavaButton color='secondary' size='large'>Je me désinscris</LavaButton>
+      <Box
+        ref={buttonRef}
+        transform={`translate(${buttonPosition.x}px, ${buttonPosition.y}px)`}
+        transition="transform 0.1s ease-out"
+      >
+        <LavaButton color='secondary' size='large'>Je me désinscris</LavaButton>
+      </Box>
     </AbsoluteCenter>
   )
 }
