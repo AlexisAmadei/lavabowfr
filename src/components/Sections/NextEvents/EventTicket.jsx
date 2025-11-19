@@ -123,7 +123,6 @@ export default function EventTicket({ event }) {
           <Box className='description'>
             <LavaTypo size={TICKET_DESC_SIZE}
               styles={{
-                textAlign: 'center',
                 fontStyle: 'normal',
                 fontWeight: '400',
                 lineHeight: 'normal',
