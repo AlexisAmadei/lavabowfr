@@ -1,7 +1,6 @@
 import React from 'react'
 import { Flex } from '@chakra-ui/react'
 import { socialLinks } from '@/lib/socialLinks'
-import { transform } from 'motion'
 
 export default function Socials() {
   return (

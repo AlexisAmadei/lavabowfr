@@ -1,5 +1,7 @@
 // Marquee.jsx
 import React from "react";
+
+// eslint-disable-next-line
 import { motion, useReducedMotion } from "motion/react";
 
 /**

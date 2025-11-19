@@ -3,9 +3,11 @@ import { Flex } from '@chakra-ui/react'
 import LavaTypo from '../../Design/LavaTypo'
 import LavaButton from '../../Design/LavaButton'
 import useIsMobile from '../../../hooks/useIsMobile'
-import { AnimatePresence, motion } from "motion/react"
 import { supabase } from '@/utils/supabase/supabase'
 import { LuMoveRight } from 'react-icons/lu'
+
+// eslint-disable-next-line
+import { AnimatePresence, motion } from "motion/react"
 
 export default function Spotlight() {
   const isMobile = useIsMobile();

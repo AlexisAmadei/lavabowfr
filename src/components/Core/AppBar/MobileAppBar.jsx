@@ -3,8 +3,10 @@ import Logo from '@/components/Design/Logo'
 import menuItems from '@/lib/menuItems'
 import { Box, Flex, VStack } from '@chakra-ui/react'
 import React from 'react'
-import { motion } from 'motion/react'
 import { scrollToSection } from '@/utils/navigation'
+
+// eslint-disable-next-line
+import { motion } from 'motion/react'
 
 export default function MobileAppBar() {
   const [open, setOpen] = React.useState(false)

@@ -159,7 +159,7 @@ export default function CursorButton() {
         cancelAnimationFrame(animationFrame.current);
       }
     };
-  }, [isPressed]);
+  }, [isPressed, fillProgress]);
 
   const handleMouseDown = () => {
     setIsPressed(true);

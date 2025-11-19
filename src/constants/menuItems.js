@@ -1,6 +1,5 @@
 import AdminContent from "@/views/Admin/AdminContent";
 import CloudStatus from "@/views/Admin/CloudStatus/CloudStatus";
-import { icon } from "@fortawesome/fontawesome-svg-core";
 import { BsCloud, BsDatabaseFill } from "react-icons/bs";
 import { BsPeopleFill } from 'react-icons/bs';
 import { BsCart } from 'react-icons/bs';

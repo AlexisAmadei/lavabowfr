@@ -7,6 +7,8 @@ import useIsMobile from '../../../hooks/useIsMobile'
 import LavaButton from '@/components/Design/LavaButton'
 import noEventBg from '@/assets/img/events/no-events.webp'
 import { fetchEventsContent } from '@/utils/supabase/events'
+
+// eslint-disable-next-line
 import { AnimatePresence, motion, usePresenceData } from 'motion/react'
 
 // Utility function to wrap around array indices
@@ -29,12 +31,6 @@ const ArrowRight = () => (
 )
 
 // Styles
-const box = {
-  width: '100%',
-  height: '400px',
-  borderRadius: '12px',
-}
-
 const button = {
   border: 'none',
   borderRadius: '50%',

@@ -6,8 +6,6 @@ import { Box, Flex } from '@chakra-ui/react'
 import CompactDisk from '../Core/CompactDisk/CompactDisk'
 import useIsMobile from '@/hooks/useIsMobile'
 import { musicLinks } from '@/lib/socialLinks'
-import { transform } from 'motion'
-// import { musicLinks } from '@/lib/socialLinks'
 
 export default function Music() {
   const isMobile = useIsMobile();

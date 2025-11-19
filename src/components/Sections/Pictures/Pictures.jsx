@@ -26,7 +26,6 @@ export default function Pictures() {
 
   // Use fixed container height
   const containerHeight = 600; // px
-  const itemCount = pictures.length;
 
   // Each image gets its own vertical position with spacing
   const imageItemHeight = 337; // Height per image including spacing

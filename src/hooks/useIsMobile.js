@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 /**
- * 
+ * Custom hook to determine if the device is mobile based on window width.
  * @param {number} overrideWidth override value for the isMobile trigger
  * @returns {boolean}
  */
@@ -19,7 +19,7 @@ const useIsMobile = (overrideWidth) => {
         return () => {
             window.removeEventListener('resize', checkIfMobile);
         };
-    }, []);
+    }, [overrideWidth]);
 
     return isMobile;
 };

@@ -1,6 +1,6 @@
 import LavaTypo from '@/components/Design/LavaTypo';
 import { Box, Flex, Text, Link, Spinner, Accordion } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 export default function CloudStatus() {
   const [feedItems, setFeedItems] = useState([]);
@@ -9,7 +9,7 @@ export default function CloudStatus() {
 
   useEffect(() => {
     fetchRSSFeed();
-  }, []);
+  }, [fetchRSSFeed]);
 
   const getStatusFromTitle = (title) => {
     const lowerTitle = title.toLowerCase();
@@ -36,7 +36,7 @@ export default function CloudStatus() {
     }
   };
 
-  const fetchRSSFeed = async () => {
+  const fetchRSSFeed = useCallback(async () => {
     try {
       setLoading(true);
       const response = await fetch('https://status.supabase.com/history.rss');
@@ -69,7 +69,7 @@ export default function CloudStatus() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);

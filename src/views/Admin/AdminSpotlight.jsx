@@ -6,7 +6,7 @@ import { Box, Button, DataList, Flex, IconButton, Menu, Portal } from '@chakra-u
 import React, { useEffect } from 'react';
 import { BsPlusCircleFill, BsThreeDotsVertical } from 'react-icons/bs';
 import AddSpotlightDialog from '../../components/Core/Admin/AddSpotlightDialog';
-import { deleteSpotlightItem, fetchSpotlightContent, updateSpotlightItem } from '@/utils/supabase/spotlight';
+import { deleteSpotlightItem, fetchSpotlightContent, insertSpotlightItem, updateSpotlightItem } from '@/utils/supabase/spotlight';
 
 export default function AdminSpotlight() {
   const [open, setOpen] = React.useState(false);
@@ -131,7 +131,7 @@ export default function AdminSpotlight() {
                 placeholder="Lien d'écoute"
                 onValueCommit={(value) => handleUpdateField(item.id, 'listen_link', value)}
               />
-              <Button height={'fit-content'} py={1} px={2} colorPalette={'blue'} variant='subtle' onClick={(e) => testLink(item.listen_link)}>Tester le lien</Button>
+              <Button height={'fit-content'} py={1} px={2} colorPalette={'blue'} variant='subtle' onClick={() => testLink(item.listen_link)}>Tester le lien</Button>
             </Flex>
 
             <Flex direction={'row'} alignItems={'center'} gap={2}>
@@ -141,7 +141,7 @@ export default function AdminSpotlight() {
                 placeholder="Lien d'achat"
                 onValueCommit={(value) => handleUpdateField(item.id, 'buy_link', value)}
               />
-              <Button height={'fit-content'} py={1} px={2} colorPalette={'blue'} variant='subtle' onClick={(e) => testLink(item.buy_link)}>Tester le lien</Button>
+              <Button height={'fit-content'} py={1} px={2} colorPalette={'blue'} variant='subtle' onClick={() => testLink(item.buy_link)}>Tester le lien</Button>
             </Flex>
 
             <Box className='status-chip'
