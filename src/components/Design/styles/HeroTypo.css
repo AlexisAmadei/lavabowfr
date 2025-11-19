@@ -7,10 +7,10 @@
 
 .hero-typo p {
     margin: 0;
-    font-family: 'Whyte';
+    font-family: 'Stack Sans Text', sans-serif !important;
     font-weight: 800;
     font-size: 16vw;
-    letter-spacing: 0.09em;
+    letter-spacing: 0.10em;
     line-height: var(--hero-line-height);
     color: var(--main-accent);
 }

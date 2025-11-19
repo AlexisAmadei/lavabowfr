@@ -2,7 +2,7 @@ import useIsMobile from '@/hooks/useIsMobile';
 import './styles/HeroTypo.css';
 import Marquee from './Marquee';
 
-export default function HeroTypo({ fontSize = 16, repeated = false }) {
+export default function HeroTypo({ fontSize = 15, repeated = false }) {
   const isMobile = useIsMobile();
 
   return (

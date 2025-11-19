@@ -7,6 +7,7 @@ import LavaButton from '@/components/Design/LavaButton'
 import Heads from '@/assets/img/events/heads.png'
 import Barcode from 'react-barcode'
 import TicketPlacement from './TicketPlacement'
+import Logo from '@/components/Design/Logo'
 
 export default function EventTicket({ event }) {
   return (
@@ -93,8 +94,9 @@ export default function EventTicket({ event }) {
           justifyContent={'space-between'}
           paddingRight={'40px'}
         >
-          <div className='heads'>
+          <div className='heads' style={{ maxHeight: '55px'}}>
             <img src={Heads} alt='Event Heads' />
+            <Logo h={50} w={50} />
           </div>
           <Box className='description'>
             <LavaTypo size={'12px'}
