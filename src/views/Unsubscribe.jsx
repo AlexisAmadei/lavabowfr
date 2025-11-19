@@ -3,33 +3,34 @@ import HeroTypo from '@/components/Design/HeroTypo'
 import LavaButton from '@/components/Design/LavaButton'
 import LavaTypo from '@/components/Design/LavaTypo'
 import Logo from '@/components/Design/Logo'
-import { AbsoluteCenter, Box, Flex } from '@chakra-ui/react'
+import { AbsoluteCenter, Box, Dialog, Flex } from '@chakra-ui/react'
 import React, { useRef, useState } from 'react'
 import { Link } from 'react-router'
 
 export default function Unsubscribe() {
   const buttonRef = useRef(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (e) => {
     if (!buttonRef.current) return;
-    
+
     const button = buttonRef.current.getBoundingClientRect();
     const buttonCenterX = button.left + button.width / 2;
     const buttonCenterY = button.top + button.height / 2;
-    
+
     const mouseX = e.clientX;
     const mouseY = e.clientY;
-    
+
     const distanceX = mouseX - buttonCenterX;
     const distanceY = mouseY - buttonCenterY;
     const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-    
+
     // If mouse is within 250px of the button, move it away
     if (distance < 250) {
       const angle = Math.atan2(distanceY, distanceX);
       const moveDistance = 250 - distance;
-      
+
       setButtonPosition({
         x: -Math.cos(angle) * moveDistance,
         y: -Math.sin(angle) * moveDistance
@@ -84,8 +85,26 @@ export default function Unsubscribe() {
         transform={`translate(${buttonPosition.x}px, ${buttonPosition.y}px)`}
         transition="transform 0.1s ease-out"
       >
-        <LavaButton color='secondary' size='large'>Je me désinscris</LavaButton>
+        <LavaButton color='secondary' size='large' onClick={() => setIsDialogOpen(true)}>Je me désinscris</LavaButton>
       </Box>
+
+      <Dialog.Root open={isDialogOpen} onOpenChange={(e) => !e.open && setIsDialogOpen(false)} placement={'center'}>
+        <Dialog.Backdrop />
+        <Dialog.Positioner>
+          <Dialog.Content>
+            <Dialog.CloseTrigger />
+            <Dialog.Header>
+              <Dialog.Title>
+                <LavaTypo variant={'h3'} styles={{color: 'var(--Background-bg-brand)'}}>Oops !</LavaTypo>
+              </Dialog.Title>
+            </Dialog.Header>
+            <Dialog.Body>
+              <LavaTypo variant={'body'} styles={{ color: 'var(--Background-bg-brand)' }}>Il semble que le dev a oublié de terminer cette fonctionnalité</LavaTypo>
+            </Dialog.Body>
+            <Dialog.Footer />
+          </Dialog.Content>
+        </Dialog.Positioner>
+      </Dialog.Root>
     </AbsoluteCenter>
   )
 }
