@@ -1,23 +1,32 @@
 import { Box, Flex } from '@chakra-ui/react'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './Pictures.css'
 import Section from '@/components/Design/Section'
 import LavaTypo from '@/components/Design/LavaTypo'
-
-const fakePhotos = [
-  { id: 1, src: 'https://placehold.co/600x337', alt: 'Côme se fracasse la cheville' },
-  { id: 2, src: 'https://placehold.co/600x337', alt: 'Légende' },
-  { id: 3, src: 'https://placehold.co/600x337', alt: 'Légende' },
-];
+import { fetchPicturesContent } from '@/utils/supabase/pictures'
 
 export default function Pictures() {
-  const [activeId, setActiveId] = React.useState(fakePhotos[0].id);
+  const [pictures, setPictures] = useState([]);
+  const [activeId, setActiveId] = useState(null);
+
+  useEffect(() => {
+    const loadPictures = async () => {
+      await fetchPicturesContent(setPictures);
+    };
+    loadPictures();
+  }, []);
+
+  useEffect(() => {
+    if (pictures.length > 0 && !activeId) {
+      setActiveId(pictures[0].id);
+    }
+  }, [pictures, activeId]);
 
   const handleActive = (id) => setActiveId(id);
 
   // Use fixed container height
   const containerHeight = 600; // px
-  const itemCount = fakePhotos.length;
+  const itemCount = pictures.length;
 
   // Each image gets its own vertical position with spacing
   const imageItemHeight = 337; // Height per image including spacing
@@ -27,7 +36,11 @@ export default function Pictures() {
   // Text items have different spacing
   const textItemSpacing = 80; // Natural spacing between text items
 
-  const activeIndex = fakePhotos.findIndex(photo => photo.id === activeId);
+  const activeIndex = pictures.findIndex(photo => photo.id === activeId);
+
+  if (pictures.length === 0) {
+    return null;
+  }
 
   return (
     <Section title="Pictures" styles={{ marginTop: '60px' }}>
@@ -45,7 +58,7 @@ export default function Pictures() {
       >
         <Box flex="1" height={`${containerHeight}px`} position={'relative'} display={'flex'} alignItems={'center'} justifyContent={'center'}>
           <Box position={'relative'} width={'100%'} height={'100%'}>
-            {fakePhotos.map((photo, index) => (
+            {pictures.map((photo, index) => (
               <Box
                 key={photo.id}
                 position={'absolute'}
@@ -63,7 +76,7 @@ export default function Pictures() {
                     width: '100%'
                   }}
                 >
-                  {photo.alt}
+                  {photo.title}
                 </LavaTypo>
               </Box>
             ))}
@@ -79,7 +92,7 @@ export default function Pictures() {
           justifyContent={'center'}
         >
           <Box position={'relative'} width={'100%'} height={'100%'}>
-            {fakePhotos.map((photo, index) => (
+            {pictures.map((photo, index) => (
               <Box
                 key={photo.id}
                 position={'absolute'}
@@ -93,8 +106,8 @@ export default function Pictures() {
                 justifyContent={'center'}
               >
                 <img
-                  src={photo.src}
-                  alt={photo.alt}
+                  src={photo.link}
+                  alt={photo.title}
                   style={{
                     width: '100%',
                     height: '100%',
