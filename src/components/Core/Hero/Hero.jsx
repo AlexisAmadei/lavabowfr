@@ -34,7 +34,6 @@ export default function Hero() {
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         minHeight: '100vh',
-        paddingTop: '8px'
       }}
     >
       {isMobile && <MobileAppBar />}

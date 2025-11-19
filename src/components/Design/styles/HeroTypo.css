@@ -7,7 +7,7 @@
 
 .hero-typo p {
     margin: 0;
-    font-family: 'Stack Sans Text', sans-serif !important;
+    font-family: "Archivo Black", sans-serif;
     font-weight: 800;
     font-size: 16vw;
     letter-spacing: 0.10em;
@@ -39,19 +39,20 @@
         display: flex;
         -webkit-box-orient: vertical;
         -webkit-box-direction: normal;
-            -ms-flex-direction: column;
-                flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
         -webkit-box-align: start;
-            -ms-flex-align: start;
-                align-items: flex-start;
+        -ms-flex-align: start;
+        align-items: flex-start;
         gap: 0;
         max-width: 100%;
     }
+
     .hero-typo p#outline {
         font-size: 22vw;
         white-space: nowrap;
         -ms-grid-column-align: start;
-            justify-self: start;
+        justify-self: start;
         line-height: 0.9;
     }
 }
