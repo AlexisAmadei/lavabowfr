@@ -1,12 +1,19 @@
-import { Box, Flex } from '@chakra-ui/react'
+import { Box, Clipboard, Flex, Link } from '@chakra-ui/react'
 import React from 'react'
 import LavaTypo from '../Design/LavaTypo'
 import LavaInput from '../Design/LavaInput'
 import lb_footer from '@/assets/footer/lb_footer.svg'
 import useIsMobile from '@/hooks/useIsMobile'
+import { Toaster, toaster } from "@/components/ui/toaster"
 
 export default function Footer() {
   const isMobile = useIsMobile();
+  const [toast, setToast] = React.useState({
+    open: false,
+    title: '',
+    description: '',
+    status: 'info',
+  });
 
   return (
     <Flex
@@ -25,11 +32,21 @@ export default function Footer() {
           alignItems={'flex-start'}
           gap={!isMobile ? 6 : 0}
           height={'68px'}
+          justifyContent={'center'}
         >
           <LavaTypo variant={'h3'}>Booking</LavaTypo>
-          <a href='mailto:lavabow.band@gmail.com'>
-            <LavaTypo>lavabow.band@gmail.com</LavaTypo>
-          </a>
+
+          <Clipboard.Root value="lavabow.band@gmail.com">
+            <Clipboard.Trigger asChild onClick={() => toaster.create({ description: 'Email copié dans le presse-papier', closable: true, type: 'success',  })}>
+              <Link as="span" color={'white'}>
+                <Clipboard.Indicator />
+                <Clipboard.ValueText>
+                    <LavaTypo>lavabow.band@gmail.com</LavaTypo>
+                </Clipboard.ValueText>
+              </Link>
+            </Clipboard.Trigger>
+          </Clipboard.Root>
+
         </Flex>
 
         <Flex flexBasis={'1/3'}
@@ -72,6 +89,7 @@ export default function Footer() {
       <Flex width={'100%'} flex={1} alignItems={'flex-end'} justifyContent={'center'}>
         <img src={lb_footer} alt='Logo Lavabow Footer' style={{ width: '100%', height: 'auto' }} />
       </Flex>
+      <Toaster />
     </Flex>
   )
 }
