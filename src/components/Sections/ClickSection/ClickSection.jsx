@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react'
-import LavaButton from '@/components/Design/LavaButton'
 import LavaTypo from '@/components/Design/LavaTypo'
 import Section from '@/components/Design/Section'
 import { Flex } from '@chakra-ui/react'
-import IconClick from '@/assets/icons/click.svg'
 import IconBeer from '@/assets/icons/beer.svg'
+import ClickCounter from './ClickCounter'
 
 const CLICK_PALIERS = [
   { id: 1, count: 10000, description: "Alexis en string sur scène" },
@@ -47,7 +46,7 @@ export default function ClickSection() {
   return (
     <Section title="Click Section" styles={{ marginTop: '60px', marginBottom: '60px' }}>
       <Flex gap={3} direction={'column'} alignItems={'center'} marginBottom={'48px'}>
-        <LavaTypo variant={'h2'}>Clique to pay</LavaTypo>
+        <LavaTypo variant={'h2'}>Chauffe ce compteur !</LavaTypo>
       </Flex>
 
       <Flex
@@ -57,10 +56,8 @@ export default function ClickSection() {
         gap={4}
       >
         <Flex direction={'row'} alignItems={'center'} gap={4}>
-          <LavaButton variant='filled' color='primary' size='large' onClick={handleClick}>
-            <LavaTypo variant={'h4'}>CLIQUE</LavaTypo>
-            <img src={IconClick} alt='Click Icon' style={{ marginLeft: '8px' }} />
-          </LavaButton>
+
+          <ClickCounter count={clickCount} setCount={setClickCount} />
           <LavaTypo variant={'text'}>{clickCount} clique{clickCount > 1 ? 's' : ''}</LavaTypo>
         </Flex>
 
