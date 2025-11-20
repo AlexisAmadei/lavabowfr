@@ -4,6 +4,7 @@ import Section from '@/components/Design/Section'
 import { Flex } from '@chakra-ui/react'
 import IconBeer from '@/assets/icons/beer.svg'
 import ClickCounter from './ClickCounter'
+import useIsMobile from '@/hooks/useIsMobile'
 
 const CLICK_PALIERS = [
   { id: 1, count: 10000, description: "Alexis en string sur scène" },
@@ -14,6 +15,7 @@ const CLICK_PALIERS = [
 
 export default function ClickSection() {
   const [clickCount, setClickCount] = React.useState(0);
+  const isMobile = useIsMobile();
 
   const handleClick = () => {
     setClickCount(prevCount => {
@@ -57,18 +59,18 @@ export default function ClickSection() {
       >
         <Flex direction={'row'} alignItems={'center'} gap={4}>
 
-          <ClickCounter count={clickCount} setCount={setClickCount} />
+          <ClickCounter count={clickCount} setCount={setClickCount} isMobile={isMobile} />
           <LavaTypo variant={'text'}>{clickCount} clique{clickCount > 1 ? 's' : ''}</LavaTypo>
         </Flex>
 
         <Flex direction={'column'} alignItems={'center'} marginTop={4}>
           <LavaTypo variant={'h4'}>Clique et débloque des paliers :</LavaTypo>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '24px', marginTop: '16px', width: '100%' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: `${!isMobile ? 'repeat(2, 1fr)' : 'repeat(1, 1fr)'}`, gap: `${isMobile ? '10px' : '16px'}`, marginTop: '16px', width: '100%' }}>
             {CLICK_PALIERS.map((palier, index) => {
               const progress = getProgressPercentage(index);
               return (
-                <div key={palier.id} id={`palier-${palier.id}`} style={{ position: 'relative', overflow: 'hidden', border: '1px solid white', borderRadius: 50, padding: '12px 20px', display: 'flex', alignItems: 'center', gap: '12px', minHeight: '64px' }}>
+                <div key={palier.id} id={`palier-${palier.id}`} style={{ position: 'relative', overflow: 'hidden', border: '1px solid white', borderRadius: 50, padding: `${isMobile ? '0px 8px' : '12px 20px'}`, display: 'flex', alignItems: 'center', gap: '12px', minHeight: `${isMobile ? '48px' : '64px'}` }}>
                   <div
                     style={{
                       position: 'absolute',
@@ -83,9 +85,9 @@ export default function ClickSection() {
                     }}
                   />
                   <Flex style={{ position: 'relative', zIndex: 1, alignItems: 'center', gap: '8px', flex: 1 }} direction={'row'} justifyContent={'center'} alignItems={'center'}>
-                    <LavaTypo variant={'h3'} size={24} styles={{ color: isPalierReached(palier.count) ? 'white' : 'var(--main-accent)' }}>{palier.count} cliques</LavaTypo>
-                    <span style={{ fontWeight: 'bold', fontSize: '20px', color: 'white' }}> - </span>
-                    <LavaTypo variant={'text'} size={16} styles={{ color: 'white' }}>{palier.description}</LavaTypo>
+                    <LavaTypo variant={'h3'} size={!isMobile ? 24 : 16} styles={{ color: isPalierReached(palier.count) ? 'white' : 'var(--main-accent)' }}>{palier.count} cliques</LavaTypo>
+                    <span style={{ fontWeight: 'bold', fontSize: `${isMobile ? '14px' : '20px' }`, color: 'white' }}> - </span>
+                    <LavaTypo variant={'text'} size={isMobile ? 12 : 18} styles={{ color: 'white' }}>{palier.description}</LavaTypo>
                   </Flex>
                 </div>
               );

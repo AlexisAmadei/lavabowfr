@@ -4,7 +4,7 @@ import LavaTypo from '@/components/Design/LavaTypo'
 import IconClick from '@/assets/icons/click.svg'
 import { supabase } from '@/utils/supabase/supabase'
 
-export default function ClickCounter({ setCount }) {
+export default function ClickCounter({ setCount, isMobile }) {
 
   useEffect(() => {
     // Load initial count
@@ -40,7 +40,7 @@ export default function ClickCounter({ setCount }) {
   }
 
   return (
-    <LavaButton variant='filled' color='primary' size='large' onClick={handleClick}>
+    <LavaButton variant='filled' color='primary' size={isMobile ? 'medium' : 'large'} onClick={handleClick}>
       <LavaTypo variant={'h4'}>CLIQUE</LavaTypo>
       <img src={IconClick} alt='Click Icon' style={{ marginLeft: '8px' }} />
     </LavaButton>
