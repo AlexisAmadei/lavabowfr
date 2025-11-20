@@ -9,21 +9,25 @@ import Barcode from 'react-barcode'
 import TicketPlacement from './TicketPlacement'
 import Logo from '@/components/Design/Logo'
 import Stabilo from '@/assets/textures/stabilo.svg'
-
-const TICKET_TEXT_SIZE = '18px';
-const TICKET_TITLE_SIZE = '38px';
-const TICKET_DESC_SIZE = '14px';
+import useIsMobile from '@/hooks/useIsMobile'
 
 export default function EventTicket({ event }) {
+  const isMobile = useIsMobile();
+
+  const TICKET_TITLE_SIZE = isMobile ? '30px' : '38px';
+  const TICKET_TEXT_SIZE = '18px';
+  const TICKET_DESC_SIZE = isMobile ? '12px' : '14px';
+
   return (
     <Flex className='card-event'
-      width={'756px'}
-      height={'204px'}
+      width={isMobile ? '100%' : '756px'}
+      height={isMobile ? 'auto' : '204px'}
       backgroundColor={'var(--Background-bg-brand)'}
+      direction={isMobile ? 'column' : 'row'}
     >
       <Flex
         flexBasis={'1/2'}
-        direction={'row'}
+        direction={isMobile ? 'column' : 'row'}
         height={'100%'}
         alignItems={'center'}
         justifyContent={'space-between'}
@@ -32,26 +36,26 @@ export default function EventTicket({ event }) {
         p={1}
       >
         <Flex
-          direction={'column'}
-          height={'100%'}
+          direction={isMobile ? 'row' : 'column'}
+          height={isMobile ? '40px' : '100%'} width={isMobile ? '100%' : '40px'}
           alignItems={'center'}
-          width={'40px'}
           gap={2}
           mx={3}
-          margin={0}
-          justify={'space-evenly'}
+          margin={0} marginBottom={isMobile ? 2 : 0}
+          justify={'space-between'}
+          paddingX={isMobile ? 2 : 0}
         >
-          <TicketPlacement type="Num" number="1" />
-          <Divider orientation='horizontal' color={'white'} thickness={'1px'} />
+          <TicketPlacement type="Num" number="1" isMobile={isMobile} />
+          <Divider orientation={isMobile ? 'vertical' : 'horizontal'} color={'white'} thickness={'1px'} />
 
-          <TicketPlacement type="Rang" number="15" />
-          <Divider orientation='horizontal' color={'white'} thickness={'1px'} />
+          <TicketPlacement type="Rang" number="15" isMobile={isMobile} />
+          <Divider orientation={isMobile ? 'vertical' : 'horizontal'} color={'white'} thickness={'1px'} />
 
-          <TicketPlacement type="Siège" number="20" />
+          <TicketPlacement type="Siège" number="20" isMobile={isMobile}/>
         </Flex>
-        <Divider orientation='vertical' color={'white'} />
+        <Divider orientation={isMobile ? 'horizontal' : 'vertical'} color={'white'} />
 
-        <Flex direction={'column'} height={'100%'} justifyContent={'space-around'} gap={1} paddingLeft={2} width={'100%'} pr={1}>
+        <Flex direction={'column'} height={'100%'} justifyContent={'space-around'} gap={1} paddingLeft={isMobile ? 0 : 2} width={'100%'} pr={isMobile ? 0 : 1}>
           <Box position={'relative'} width={'fit-content'}>
             <Image
               src={Stabilo}
@@ -98,7 +102,7 @@ export default function EventTicket({ event }) {
 
       <Flex
         flexBasis={'1/2'}
-        direction={'row'}
+        direction={'isMobile' ? 'column' : 'row'}
         height={'100%'}
         width={'100%'}
         alignItems={'center'}
@@ -120,15 +124,15 @@ export default function EventTicket({ event }) {
             <Image src={Heads} alt='Event Heads' width={'auto'} height={'70px'} objectFit={'contain'} />
             <Logo h={70} w={70} />
           </Flex>
-          <Box className='description'>
+          <Box className='description' my={isMobile && 3} px={isMobile && 2}>
             <LavaTypo size={TICKET_DESC_SIZE}
               styles={{
                 fontStyle: 'normal',
                 fontWeight: '400',
                 lineHeight: 'normal',
-                textAlign: 'left',
                 marginLeft: '10px',
               }}
+              textAlign={isMobile ? 'center' : 'left'}
             >
               {event.description || "Sam t'as encore oublié la description.. spammez le sam@lavabow.fr"}
             </LavaTypo>
@@ -136,8 +140,8 @@ export default function EventTicket({ event }) {
           <LavaButton style={{ backgroundColor: 'var(--main-accent)' }} fullWidth={true}>Ma place</LavaButton>
         </Flex>
 
-        <Box h={'100%'} marginRight={'40px'}>
-          <Divider orientation={'vertical'} color={'#ffffffd8'} dashed={true} thickness={'1.5px'} dashArray={'8 8'} rounded={true} />
+        <Box h={'100%'} w={isMobile && '100%'} marginRight={!isMobile && '40px'}>
+          <Divider orientation={isMobile ? 'horizontal' : 'vertical'} color={'#ffffffd8'} dashed={true} thickness={'1.5px'} dashArray={'8 8'} rounded={true} />
         </Box>
 
         <Flex
@@ -145,17 +149,17 @@ export default function EventTicket({ event }) {
           justifyContent={'center'}
           width={'30px'}
           height={'100%'}
-          position={'absolute'}
+          position={!isMobile && 'absolute'}
           right={'0'}
           top={'0'}
-          backgroundColor={'white'}
+          // backgroundColor={isMobile ? 'transparent' : 'var(--Background-bg-brand)'}
           zIndex={0}
         >
-          <div style={{ transform: 'rotate(90deg)', width: 'fit-content' }}>
+          <div style={{ transform: !isMobile && 'rotate(90deg)' , width: 'fit-content' }}>
             <Barcode
               renderer='svg'
               value={event?.ticketCode || 'https://lavabow.fr'}
-              width={1}
+              width={!isMobile ? 1 : "4"}
               height={30}
               displayValue={false}
               background='var(--Background-bg-brand)'

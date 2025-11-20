@@ -10,23 +10,10 @@ export default function HeroTypo({ fontSize = 15, repeated = false }) {
   const isMobile = useIsMobile();
 
   return (
-    // <div className="hero-typo">
-    //   <p style={{ fontSize: `${fontSize}vw` }}>LAVA BOW</p>
-    //   {isMobile && !repeated ? (
-    //     <Marquee text="LAVA BOW" speed={10} gap={8} />
-    //   ) : (
-    //     <p id="outline" style={{ fontSize: `${fontSize}vw` }}>LAVA BOW</p>
-    //   )}
-    //   {!repeated && (
-    //     <p style={{ fontSize: `${fontSize}vw` }}>LAVA BOW</p>
-    //   )}
-    // </div>
     <Box className='hero-typo' width={'100%'}>
       <img src={HeroFilled} width={'100%'} height={'auto'} alt='Lava Bow Hero Typo Filled' />
       {isMobile && !repeated ? (
-        <>
-          <Marquee text="LAVA BOW" speed={10} gap={8} />
-        </>
+        <Marquee text="LAVA BOW" speed={10} gap={8} />
       ) :
         (
           <img src={HeroOutlined} width={'100%'} height={'auto'} alt='Lava Bow Hero Typo Outlined' />

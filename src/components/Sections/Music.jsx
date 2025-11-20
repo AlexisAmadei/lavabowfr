@@ -26,10 +26,11 @@ export default function Music() {
 
         <Flex
           direction={'column'}
-          alignItems={'flex-start'}
+          alignItems={isMobile ? 'center' : 'flex-start'}
           justifyContent={'center'}
           gap={4}
           width={isMobile ? '100%' : '50%'}
+          marginTop={isMobile ? 8 : 0}
         >
           <LavaTypo variant={'h2'}>Dernière sortie</LavaTypo>
 
@@ -43,8 +44,8 @@ export default function Music() {
             src="https://embed.music.apple.com/fr/song/smoking-man-in-a-cave-feat-lea/1845660528"
           ></iframe>
 
-          <Flex direction={'column'} alignItems={'flex-start'} justifyContent={'center'}>
-            <LavaTypo variant={'h3'} styles={{ marginTop: '16px' }}>
+          <Flex direction={'column'} alignItems={isMobile ? 'center' : 'flex-start'} justifyContent={'center'}>
+            <LavaTypo variant={'h3'} size={'30px'} styles={{ marginTop: '16px' }}>
               Tu peux nous trouver partout sinon
             </LavaTypo>
             <Box className="social-pill" style={{ display: 'inline-flex', alignItems: 'center' }}

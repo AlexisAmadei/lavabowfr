@@ -125,7 +125,7 @@ function Track({ text, gap }) {
             letterSpacing: "0.08em",
             // Make it big and responsive; you can style via className instead.
             // fontSize: "clamp(24px, 8vw, 120px)",
-            lineHeight: 1,
+            // lineHeight: normal,
           }}
         >
           {text}

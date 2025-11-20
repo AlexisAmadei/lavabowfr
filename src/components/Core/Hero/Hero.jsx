@@ -5,6 +5,7 @@ import Spotlight from './Spotlight'
 import HeroTypo from '@/components/Design/HeroTypo'
 import useIsMobile from '../../../hooks/useIsMobile'
 import MobileAppBar from '../AppBar/MobileAppBar'
+import Socials from '../AppBar/Socials'
 
 export default function Hero() {
   const isMobile = useIsMobile();
@@ -42,15 +43,17 @@ export default function Hero() {
           className='hero-bottom'
           width={'100%'}
           display={'flex'}
-          flexDirection={'row'}
+          flexDirection={isMobile ? 'column' : 'row'}
           position={'relative'}
           alignItems={'flex-end'}
           justifyContent={'space-between'}
           paddingX={!isMobile ? 16 : 4}
           mb={8}
+          gap={isMobile ? '24px' : 0}
         >
           {!isMobile && <Logo h={76} w={76} />}
           <Spotlight />
+          {isMobile && <Socials />}
         </Box>
       </Flex>
       {/* {!isMobile && <CursorButton />} */}

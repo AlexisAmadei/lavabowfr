@@ -12,7 +12,7 @@ export default function LavaInput({ type, placeholder, error, value, setEmail, o
   )
 
   return (
-    <Flex className={`lava-input ${variant}`} alignItems={'center'} justifyContent={'center'} gap={2} flexDirection={'row'}>
+    <Flex className={`lava-input ${variant || ''}`} alignItems={'center'} justifyContent={'center'} gap={2} flexDirection={'row'}>
       <Field.Root invalid={error}>
         <InputGroup endElement={endIcon}>
           <Input
@@ -22,7 +22,7 @@ export default function LavaInput({ type, placeholder, error, value, setEmail, o
             onChange={(e) => setEmail(e.target.value)}
             size={'xl'}
             borderRadius={'50px'}
-            _placeholder={{ color: "white" }}
+            _placeholder={{ color: "gray.500", fontWeight: '500' }}
             width={fullWidth ? '100%' : 'auto'}
           />
         </InputGroup>

@@ -29,7 +29,9 @@ export default function MobileAppBar() {
       alignItems={'flex-start'}
       justifyContent={'space-between'}
       w={'100%'}
-      paddingX={4}
+      paddingX={6}
+      paddingTop={6}
+      // marginBottom={4}
     >
       <div className="app-bar__logo">
         <Logo h={50} w={50} />
