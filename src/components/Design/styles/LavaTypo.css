@@ -34,6 +34,16 @@ h3.lava-typo {
     line-height: normal;
 }
 
+h4.lava-typo {
+    color: var(--Text-text-primary, #FFF);
+    text-align: center;
+    font-family: "Stack Sans Text", sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
 p.lava-typo {
     font-size: 18px;
     font-style: normal;
@@ -55,6 +65,10 @@ span.lava-typo.bold {
 }
 
 @media screen and (max-width: 768px) {
+    .lava-typo {
+        text-align: center !important;
+    }
+
     h1.lava-typo {
         color: var(--Text-text-primary, #FFF);
         text-align: center;
@@ -85,10 +99,20 @@ span.lava-typo.bold {
         line-height: normal;
     }
 
+    h4.lava-typo {
+        color: var(--Text-text-secondary, #FFF);
+        text-align: center;
+        font-family: "Stack Sans Text", sans-serif;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+    }
+
     p.lava-typo {
         color: var(--Text-text-secondary, #FFF);
         font-family: 'Stack Sans Text', sans-serif !important;
-        font-size: 18px;
+        font-size: 14px;
         font-style: normal;
         font-weight: 300;
         line-height: 20px;

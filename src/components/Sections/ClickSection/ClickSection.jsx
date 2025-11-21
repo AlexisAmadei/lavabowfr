@@ -7,10 +7,10 @@ import ClickCounter from './ClickCounter'
 import useIsMobile from '@/hooks/useIsMobile'
 
 const CLICK_PALIERS = [
-  { id: 1, count: 10000, description: "Alexis en string sur scène" },
-  { id: 2, count: 100000, description: "Sam apprend la basse" },
-  { id: 3, count: 1000000, description: "On fait la LAVA BOOM 2" },
-  { id: 4, count: 10000000, description: "Lava Bow en concert à l'Olympia" },
+  { id: 1, count: 100, description: "Sam en string sur scène" },
+  { id: 2, count: 100000, description: "Sam achète un métronome" },
+  { id: 3, count: 1000000, description: "Sam arrête les crottes de nez" },
+  { id: 4, count: 10000000, description: "Sam quitte le groupe" },
 ];
 
 export default function ClickSection() {
@@ -60,7 +60,7 @@ export default function ClickSection() {
         <Flex direction={'row'} alignItems={'center'} gap={4}>
 
           <ClickCounter count={clickCount} setCount={setClickCount} isMobile={isMobile} />
-          <LavaTypo variant={'text'}>{clickCount} clique{clickCount > 1 ? 's' : ''}</LavaTypo>
+          <LavaTypo variant={'text'} size={isMobile ? '14px' : null}>{clickCount} clique{clickCount > 1 ? 's' : ''}</LavaTypo>
         </Flex>
 
         <Flex direction={'column'} alignItems={'center'} marginTop={4}>
@@ -94,7 +94,7 @@ export default function ClickSection() {
             })}
           </div>
 
-          <Flex direction={'row'} mt={'24px'}>
+          <Flex direction={'row'} mt={'24px'} gap={8}>
             {CLICK_PALIERS.map((palier, index) => {
               const progress = getProgressPercentage(index);
               return (

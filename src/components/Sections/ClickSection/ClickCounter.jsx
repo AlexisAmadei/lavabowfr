@@ -40,9 +40,29 @@ export default function ClickCounter({ setCount, isMobile }) {
   }
 
   return (
-    <LavaButton variant='filled' color='primary' size={isMobile ? 'medium' : 'large'} onClick={handleClick}>
-      <LavaTypo variant={'h4'}>CLIQUE</LavaTypo>
-      <img src={IconClick} alt='Click Icon' style={{ marginLeft: '8px' }} />
+    <LavaButton
+      variant='filled'
+      color='primary'
+      onClick={handleClick}
+      style={{
+        display: 'flex',
+        padding: 'var(--Spacing-spacing-xxxxxl, 24px) var(--Spacing-spacing-xxxxxxl, 48px)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 'var(--Spacing-spacing-xxl, 16px)',
+      }}
+    >
+      <LavaTypo variant={'h4'}
+        styles={{
+          color: 'var(--Text-text-primary, #FFF)',
+          fontFamily: '"Stack Sans Text"',
+          fontSize: '24px',
+          fontStyle: 'normal',
+          fontWeight: '500',
+          lineHeight: 'normal',
+        }}
+      >CLIQUE</LavaTypo>
+      <img src={IconClick} alt='Click Icon' style={{ marginLeft: '8px' }} height={isMobile ? '24px' : '32px'} />
     </LavaButton>
   )
 }

@@ -15,6 +15,9 @@ export default function LavaTypo({ variant, children, styles, size, textAlign = 
     case 'h3':
       return <h3 className='lava-typo' style={{ fontSize: size, textAlign: textAlign, ...styles }} {...props}>{children}</h3>
 
+    case 'h4':
+      return <h4 className='lava-typo' style={{ fontSize: size, textAlign: textAlign, ...styles }} {...props}>{children}</h4>
+
     case 'accent':
       return <span className='lava-typo accent' style={{ fontSize: size, textAlign: textAlign, ...styles }} {...props}>{children}</span>
 
