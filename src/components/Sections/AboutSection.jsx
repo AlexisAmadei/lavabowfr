@@ -10,7 +10,7 @@ export default function AboutSection() {
   const isMobile = useIsMobile();
 
   return (
-    <Section contained={true}>
+    <Section contained={true} title={'All is about THA Pink Poney'}>
       <Flex
         className='about-section'
         direction={'column'}
@@ -18,7 +18,6 @@ export default function AboutSection() {
         textAlign={'center'}
         id='about'
       >
-        <LavaTypo variant='h1'>All is about THA Pink Poney</LavaTypo>
 
         <Flex gap={16} direction={isMobile ? 'column' : 'row'}>
           <LavaTypo variant='text' textAlign={isMobile ? 'center' : 'left'} styles={{ maxWidth: 600 }}>

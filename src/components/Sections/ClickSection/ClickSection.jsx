@@ -46,11 +46,7 @@ export default function ClickSection() {
   }, []);
 
   return (
-    <Section title="Click Section" styles={{ marginTop: '60px', marginBottom: '60px' }}>
-      <Flex gap={3} direction={'column'} alignItems={'center'} marginBottom={'48px'}>
-        <LavaTypo variant={'h2'}>Chauffe ce compteur !</LavaTypo>
-      </Flex>
-
+    <Section title="Chauffe ce compteur !" styles={{ marginTop: '60px', marginBottom: '60px' }}>
       <Flex
         direction={'column'}
         justifyContent={'center'}

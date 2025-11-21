@@ -183,8 +183,7 @@ export default function NextEvents() {
   }
 
   return (
-    <Section id='events'>
-      <LavaTypo variant={'h1'}>Retrouve nous en concert</LavaTypo>
+    <Section id='events' title={'Retrouve nous en concert'}>
       <Flex mb={4} flexWrap={'wrap'} width={'100%'} direction={'column'} justifyContent={'space-around'} alignItems={'center'} gap={30}>
         {filteredEvents.map((event, index) => (
           <EventTicket event={event} key={index} />

@@ -14,8 +14,8 @@ export default function Music() {
     <Section
       bgColor={'var(--secondary-accent)'}
       id='music'
+      title={'Notre Musique'}
     >
-      <LavaTypo variant='h1'>Notre Musique</LavaTypo>
       <Flex
         width={'100%'}
         direction={isMobile ? 'column' : 'row'}

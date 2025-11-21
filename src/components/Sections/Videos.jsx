@@ -46,9 +46,8 @@ export default function Videos() {
   }, []);
 
   return (
-    <Section id='videos'>
+    <Section id='videos' title={'Vidéos'}>
       <Flex direction={'column'} gap={8} width={'100%'} alignItems={'center'}>
-        <LavaTypo variant={'h1'}>Vidéos</LavaTypo>
 
         <Flex justifyContent={'flex-start'} direction={isMobile ? "column" : "row"} gap={3} height={'100%'}>
           <Flex direction={'column'} gap={3} id='featured-video'>
