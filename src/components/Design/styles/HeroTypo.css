@@ -49,7 +49,7 @@
     }
 
     .hero-typo p#outline {
-        font-size: 22vw;
+        font-size: 18vw;
         white-space: nowrap;
         -ms-grid-column-align: start;
         justify-self: start;
