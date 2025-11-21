@@ -1,4 +1,4 @@
-import Socials from '@/components/Core/AppBar/Socials'
+import MediaLinks from '@/components/Core/AppBar/MediaLinks'
 import HeroTypo from '@/components/Design/HeroTypo'
 import LavaButton from '@/components/Design/LavaButton'
 import LavaTypo from '@/components/Design/LavaTypo'
@@ -77,7 +77,7 @@ export default function Unsubscribe() {
           <Logo h={70} w={70} />
         </Box>
       </Link>
-      <Socials />
+      <MediaLinks />
       <LavaTypo variant={'h1'} styles={{ marginBottom: 0 }}>Nonnnn ne nous quittes pas stp</LavaTypo>
       <LavaTypo variant={'h4'} styles={{ marginBottom: "40px" }}>Bon ok on te laisse partir mais on se revoit en concert 🫶🏻</LavaTypo>
       <Box

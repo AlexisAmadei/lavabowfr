@@ -5,7 +5,7 @@ import Spotlight from './Spotlight'
 import HeroTypo from '@/components/Design/HeroTypo'
 import useIsMobile from '../../../hooks/useIsMobile'
 import MobileAppBar from '../AppBar/MobileAppBar'
-import Socials from '../AppBar/Socials'
+import MediaLinks from '../AppBar/MediaLinks'
 
 export default function Hero() {
   const isMobile = useIsMobile();
@@ -53,10 +53,9 @@ export default function Hero() {
         >
           {!isMobile && <Logo h={76} w={76} />}
           <Spotlight />
-          {isMobile && <Socials />}
+          {isMobile && <MediaLinks />}
         </Box>
       </Flex>
-      {/* {!isMobile && <CursorButton />} */}
     </div>
   )
 }

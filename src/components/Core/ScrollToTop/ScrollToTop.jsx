@@ -1,8 +1,9 @@
 import React from 'react'
 import { Flex } from '@chakra-ui/react'
-import { LuArrowUp } from 'react-icons/lu'
-import './ScrollToTop.css'
 import LavaTypo from '@/components/Design/LavaTypo'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowUpLong } from '@fortawesome/free-solid-svg-icons'
+import './ScrollToTop.css'
 
 export default function ScrollToTop({ isVisible }) {
   return (
@@ -11,7 +12,7 @@ export default function ScrollToTop({ isVisible }) {
       style={{ display: isVisible ? 'flex' : 'none' }}
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
     >
-      <LuArrowUp className='scroll-to-top-arrow' size={25} />
+      <FontAwesomeIcon icon={faArrowUpLong} color='white' className='scroll-to-top-arrow'  />
       <LavaTypo className='scroll-to-top-text' size={'16px'}>Top</LavaTypo>
     </Flex>
   )

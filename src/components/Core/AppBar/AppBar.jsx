@@ -3,9 +3,9 @@ import LavaButton from '@/components/Design/LavaButton'
 import LavaTypo from '@/components/Design/LavaTypo'
 import { Flex } from '@chakra-ui/react'
 import './AppBar.css'
-import Socials from './Socials'
 import menuItems from '@/lib/menuItems'
 import { scrollToSection } from '@/utils/navigation'
+import MediaLinks from './MediaLinks'
 
 export default function AppBar() {
   return (
@@ -17,7 +17,7 @@ export default function AppBar() {
       justifyContent={'center'}
     >
       <Flex gap={4}>
-        <Socials />
+        <MediaLinks />
         {menuItems.map(item => (
           <LavaButton key={item.name} variant={item.variant} className="app-bar__button" onClick={() => scrollToSection(item.link)}>
             <LavaTypo variant='text'>{item.name}</LavaTypo>

@@ -1,12 +1,12 @@
 import LavaTypo from '@/components/Design/LavaTypo'
 import Logo from '@/components/Design/Logo'
-import menuItems from '@/lib/menuItems'
 import { Box, Flex, VStack } from '@chakra-ui/react'
 import React from 'react'
 import { scrollToSection } from '@/utils/navigation'
 
 // eslint-disable-next-line
 import { motion } from 'motion/react'
+import menuItems from '@/lib/menuItems'
 
 export default function MobileAppBar() {
   const [open, setOpen] = React.useState(false)

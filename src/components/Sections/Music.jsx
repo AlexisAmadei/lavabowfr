@@ -5,7 +5,7 @@ import './styles/Music.css'
 import { Box, Flex } from '@chakra-ui/react'
 import CompactDisk from '../Core/CompactDisk/CompactDisk'
 import useIsMobile from '@/hooks/useIsMobile'
-import { musicLinks } from '@/lib/socialLinks'
+import MediaLinks from '../Core/AppBar/MediaLinks'
 
 export default function Music() {
   const isMobile = useIsMobile();
@@ -56,20 +56,7 @@ export default function Music() {
               borderRadius={50}
               mt={4}
             >
-              {musicLinks.map((link) => (
-                <a
-                  key={link.name || link.href}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={link.name}
-                  style={{ display: 'inline-flex', alignItems: 'center', transition: 'transform 0.2s ease', cursor: 'pointer' }}
-                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.2)'}
-                  onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                >
-                  <link.icon size={40} />
-                </a>
-              ))}
+              <MediaLinks content='media' size='2x' color='var(--main-accent)' padding='0' />
             </Box>
           </Flex>
         </Flex>
