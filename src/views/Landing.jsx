@@ -10,6 +10,8 @@ import ScrollToTop from '@/components/Core/ScrollToTop/ScrollToTop'
 import useIsInView from '@/hooks/useIsInView'
 import Footer from '@/components/Sections/Footer'
 import ClickSection from '@/components/Sections/ClickSection/ClickSection'
+import Contact from '@/components/Sections/Contact'
+import { Toaster } from '@/components/ui/toaster'
 
 const Videos = React.lazy(() => import('../components/Sections/Videos'));
 const Pictures = React.lazy(() => import('../components/Sections/Pictures/Pictures'));
@@ -49,9 +51,11 @@ export default function Landing() {
           <Videos />
           <Pictures />
           <ClickSection />
+          <Contact />
           <Footer />
         </Flex>
       </div>
+      <Toaster />
     </div>
   )
 }
