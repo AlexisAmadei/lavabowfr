@@ -1,62 +1,47 @@
-import { Box, Clipboard, Flex, Link } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 import React from 'react'
 import LavaTypo from '../Design/LavaTypo'
 import LavaInput from '../Design/LavaInput'
 import lb_footer from '@/assets/footer/lb_footer.svg'
 import useIsMobile from '@/hooks/useIsMobile'
-import { Toaster, toaster } from "@/components/ui/toaster"
+import ClipboardElement from '../Core/ClipboardElement'
 
 export default function Footer() {
   const isMobile = useIsMobile();
-  const [toast, setToast] = React.useState({
-    open: false,
-    title: '',
-    description: '',
-    status: 'info',
-  });
 
   return (
     <Flex
+      paddingTop={isMobile ? 4 : 8}
       style={{
         backgroundColor: 'var(--main-accent)',
         width: '100%',
-        padding: '16px'
       }}
       direction={'column'}
       justifyContent={'space-between'}
-      height={isMobile ? '350px' : '600px'}
+      height={'auto'}
+      gap={isMobile ? 8 : 16}
     >
       <Flex className='footer-infos' direction={isMobile ? 'column' : 'row'} width={'100%'} justifyContent={'space-evenly'} gap={isMobile ? 4 : 0}>
         <Flex flexBasis={'1/3'}
           flexDirection={'column'}
           alignItems={'flex-start'}
           gap={!isMobile ? 6 : 0}
-          height={'68px'}
           justifyContent={'center'}
+          paddingX={4}
         >
           <LavaTypo variant={'h3'}>Booking</LavaTypo>
-
-          <Clipboard.Root value="lavabow.band@gmail.com">
-            <Clipboard.Trigger asChild onClick={() => toaster.create({ description: 'Email copié dans le presse-papier', closable: true, type: 'success',  })}>
-              <Link as="span" color={'white'}>
-                <Clipboard.Indicator />
-                <Clipboard.ValueText>
-                    <LavaTypo>lavabow.band@gmail.com</LavaTypo>
-                </Clipboard.ValueText>
-              </Link>
-            </Clipboard.Trigger>
-          </Clipboard.Root>
-
+          <ClipboardElement text='lavabow.band@gmail.com' />
         </Flex>
 
         <Flex flexBasis={'1/3'}
           flexDirection={'column'}
           gap={!isMobile ? 6 : 0}
           alignItems={'flex-start'}
+          paddingX={4}
           height={'68px'}
         >
           <LavaTypo variant={'h3'}>Réseaux</LavaTypo>
-          <Flex flexDirection={'row'} gap={'8px'}>
+          <Flex flexDirection={'row'} gap={1}>
             <a href='https://www.instagram.com/lavabow/' target='_blank' rel='noopener noreferrer'>
               <LavaTypo styles={{ textDecoration: 'underline'}}>Instagram</LavaTypo>
             </a>
@@ -73,12 +58,9 @@ export default function Footer() {
 
         <Flex flexBasis={'1/3'}
           flexDirection={'column'}
-          // gap={2}
           alignItems={'flex-start'}
-          p={0}
+          paddingX={4}
           m={0}
-          height={'68px'}
-          width={'100%'}
         >
           <LavaTypo variant={'h3'}>Newsletter</LavaTypo>
           <Box width={'100%'} borderBottom={'1px solid white'}>
@@ -86,10 +68,10 @@ export default function Footer() {
           </Box>
         </Flex>
       </Flex>
+
       <Flex width={'100%'} flex={1} alignItems={'flex-end'} justifyContent={'center'}>
         <img src={lb_footer} alt='Logo Lavabow Footer' style={{ width: '100%', height: 'auto' }} />
       </Flex>
-      <Toaster />
     </Flex>
   )
 }
