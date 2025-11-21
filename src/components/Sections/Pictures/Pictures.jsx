@@ -5,7 +5,9 @@ import Section from '@/components/Design/Section'
 import LavaTypo from '@/components/Design/LavaTypo'
 import { fetchPicturesContent } from '@/utils/supabase/pictures'
 import useIsMobile from '@/hooks/useIsMobile'
-import { LuChevronLeft, LuChevronRight } from 'react-icons/lu'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons'
+// import { LuChevronLeft, LuChevronRight } from 'react-icons/lu'
 
 export default function Pictures() {
   const [pictures, setPictures] = useState([]);
@@ -63,7 +65,7 @@ export default function Pictures() {
           <Carousel.Control justifyContent={'center'} gap="4">
             <Carousel.PrevTrigger asChild>
               <IconButton size="xs" variant="ghost">
-                <LuChevronLeft color='white' />
+                <FontAwesomeIcon icon={faAngleLeft} color='white' />
               </IconButton>
             </Carousel.PrevTrigger>
 
@@ -71,7 +73,7 @@ export default function Pictures() {
 
             <Carousel.NextTrigger asChild>
               <IconButton size="xs" variant="ghost">
-                <LuChevronRight color='white' />
+                <FontAwesomeIcon icon={faAngleRight} color='white' />
               </IconButton>
             </Carousel.NextTrigger>
 
