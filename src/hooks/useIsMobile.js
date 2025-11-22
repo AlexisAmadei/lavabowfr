@@ -5,12 +5,12 @@ import { useState, useEffect } from 'react';
  * @param {number} overrideWidth override value for the isMobile trigger
  * @returns {boolean}
  */
-const useIsMobile = (overrideWidth) => {
+const useIsMobile = (overrideWidth = 1024) => {
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
         const checkIfMobile = () => {
-            setIsMobile(window.innerWidth <= (overrideWidth || 1024));
+            setIsMobile(window.innerWidth <= overrideWidth);
         };
 
         checkIfMobile();
