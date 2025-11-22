@@ -41,7 +41,7 @@ export default function Footer() {
           height={'68px'}
         >
           <LavaTypo variant={'h3'}>Réseaux</LavaTypo>
-          <Flex flexDirection={'row'} gap={1}>
+          <Flex flexDirection={'row'} gap={1} alignItems={'center'} zIndex={100}>
             <a href='https://www.instagram.com/lavabow/' target='_blank' rel='noopener noreferrer'>
               <LavaTypo styles={{ textDecoration: 'underline'}}>Instagram</LavaTypo>
             </a>
