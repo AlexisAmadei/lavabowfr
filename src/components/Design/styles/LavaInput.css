@@ -13,18 +13,20 @@
     background: linear-gradient(135deg,
             rgba(255, 255, 255, 0.2),
             rgba(255, 255, 255, 0.05));
-
-    
 }
 
 .lava-input.classic * {
     padding: 0;
-    /* margin: 0; */
-}
-
-.lava-input.classic * {
     border-color: transparent;
     outline: none;
+    border-radius: 0;
+}
+
+.lava-input.classic {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: transparent;
+    box-shadow: none;
 }
 
 .lava-input-icon {
