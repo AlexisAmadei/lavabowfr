@@ -100,9 +100,9 @@ export default function EventTicket({ event }) {
         <Divider orientation='vertical' color={'white'} />
       </Flex>
 
-      <Flex
+      <Flex id='right-part'
         flexBasis={'1/2'}
-        direction={'isMobile' ? 'column' : 'row'}
+        direction={isMobile ? 'column' : 'row'}
         height={'100%'}
         width={'100%'}
         alignItems={'center'}
@@ -111,7 +111,7 @@ export default function EventTicket({ event }) {
         position={'relative'}
         overflow={'hidden'}
       >
-        <Flex
+        <Flex id='main-ticket-content'
           direction={'column'}
           alignItems={'center'}
           width={'100%'}
@@ -140,11 +140,11 @@ export default function EventTicket({ event }) {
           <LavaButton style={{ backgroundColor: 'var(--main-accent)' }} fullWidth={true}>Ma place</LavaButton>
         </Flex>
 
-        <Box h={'100%'} w={isMobile && '100%'} marginRight={!isMobile && '40px'}>
+        <Box h={'100%'} marginRight={!isMobile && '40px'} id='divider'>
           <Divider orientation={isMobile ? 'horizontal' : 'vertical'} color={'#ffffffd8'} dashed={true} thickness={'1.5px'} dashArray={'8 8'} rounded={true} />
         </Box>
 
-        <Flex
+        <Flex id='barcode'
           alignItems={'center'}
           justifyContent={'center'}
           width={'30px'}
@@ -152,6 +152,7 @@ export default function EventTicket({ event }) {
           position={!isMobile && 'absolute'}
           right={'0'}
           top={'0'}
+          m={0}
           // backgroundColor={isMobile ? 'transparent' : 'var(--Background-bg-brand)'}
           zIndex={0}
         >
