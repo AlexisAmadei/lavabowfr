@@ -45,7 +45,7 @@ export default function Hero() {
           display={'flex'}
           flexDirection={isMobile ? 'column' : 'row'}
           position={'relative'}
-          alignItems={'flex-end'}
+          alignItems={isMobile ? 'center' : 'flex-end'}
           justifyContent={'space-between'}
           paddingX={!isMobile ? 16 : 4}
           mb={8}
@@ -53,7 +53,7 @@ export default function Hero() {
         >
           {!isMobile && <Logo h={76} w={76} />}
           <Spotlight />
-          {isMobile && <MediaLinks />}
+          {isMobile && <MediaLinks padding='6px' />}
         </Box>
       </Flex>
     </div>

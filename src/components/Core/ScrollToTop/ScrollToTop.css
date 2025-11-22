@@ -42,3 +42,17 @@
     opacity: 1;
     height: auto;
 }
+
+@media screen and (max-width: 728px) {
+    .scroll-to-top-container {
+        bottom: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+    }
+
+    .scroll-to-top-container:hover, .scroll-to-top-text {
+        display: none;
+        height: 40px;
+    }
+}

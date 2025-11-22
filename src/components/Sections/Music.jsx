@@ -51,7 +51,8 @@ export default function Music() {
             <Box className="social-pill" style={{ display: 'inline-flex', alignItems: 'center' }}
               width={'fit-content'}
               backgroundColor={'white'} color={'var(--main-accent)'}
-              padding={2}
+              pt={isMobile ? 1 : 2}
+              px={2}
               gap={4}
               borderRadius={50}
               mt={4}

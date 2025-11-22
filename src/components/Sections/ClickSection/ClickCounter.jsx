@@ -46,7 +46,7 @@ export default function ClickCounter({ setCount, isMobile }) {
       onClick={handleClick}
       style={{
         display: 'flex',
-        padding: 'var(--Spacing-spacing-xxxxxl, 24px) var(--Spacing-spacing-xxxxxxl, 48px)',
+        padding: isMobile ? '12px 24px' : '24px 48px',
         justifyContent: 'center',
         alignItems: 'center',
         gap: 'var(--Spacing-spacing-xxl, 16px)',
@@ -55,8 +55,8 @@ export default function ClickCounter({ setCount, isMobile }) {
       <LavaTypo variant={'h4'}
         styles={{
           color: 'var(--Text-text-primary, #FFF)',
-          fontFamily: '"Stack Sans Text"',
-          fontSize: '24px',
+          fontFamily: 'Stack Sans Text',
+          fontSize: isMobile ? '20px' : '24px',
           fontStyle: 'normal',
           fontWeight: '500',
           lineHeight: 'normal',
