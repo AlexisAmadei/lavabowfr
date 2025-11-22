@@ -7,35 +7,6 @@ export default function CloudStatus() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    fetchRSSFeed();
-  }, [fetchRSSFeed]);
-
-  const getStatusFromTitle = (title) => {
-    const lowerTitle = title.toLowerCase();
-    if (lowerTitle.includes('resolved') || lowerTitle.includes('completed') || lowerTitle.includes('operational')) {
-      return 'resolved';
-    } else if (lowerTitle.includes('investigating') || lowerTitle.includes('identified') || lowerTitle.includes('monitoring')) {
-      return 'investigating';
-    } else if (lowerTitle.includes('issue') || lowerTitle.includes('outage') || lowerTitle.includes('degraded')) {
-      return 'issue';
-    }
-    return 'neutral';
-  };
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'resolved':
-        return 'green.500';
-      case 'investigating':
-        return 'orange.500';
-      case 'issue':
-        return 'red.500';
-      default:
-        return 'gray.400';
-    }
-  };
-
   const fetchRSSFeed = useCallback(async () => {
     try {
       setLoading(true);
@@ -71,6 +42,31 @@ export default function CloudStatus() {
     }
   }, []);
 
+  const getStatusFromTitle = (title) => {
+    const lowerTitle = title.toLowerCase();
+    if (lowerTitle.includes('resolved') || lowerTitle.includes('completed') || lowerTitle.includes('operational')) {
+      return 'resolved';
+    } else if (lowerTitle.includes('investigating') || lowerTitle.includes('identified') || lowerTitle.includes('monitoring')) {
+      return 'investigating';
+    } else if (lowerTitle.includes('issue') || lowerTitle.includes('outage') || lowerTitle.includes('degraded')) {
+      return 'issue';
+    }
+    return 'neutral';
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'resolved':
+        return 'green.500';
+      case 'investigating':
+        return 'orange.500';
+      case 'issue':
+        return 'red.500';
+      default:
+        return 'gray.400';
+    }
+  };
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('fr-FR', {
@@ -81,6 +77,10 @@ export default function CloudStatus() {
       minute: '2-digit'
     });
   };
+
+  useEffect(() => {
+    fetchRSSFeed();
+  }, [fetchRSSFeed]);
 
   if (loading) {
     return (

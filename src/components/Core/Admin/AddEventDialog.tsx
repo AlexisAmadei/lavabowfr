@@ -1,7 +1,8 @@
 import { EventItem } from '@/types/types'
 import { Button, Dialog, Field, Fieldset, FileUpload, Input, Portal } from '@chakra-ui/react'
+import { faUpload } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
-import { HiUpload } from 'react-icons/hi'
 
 interface AddEventDialogProps {
   open: boolean
@@ -56,7 +57,7 @@ export default function AddEventDialog({ open, onClose, onAdd }: AddEventDialogP
         <FileUpload.Label>Image de l'événement</FileUpload.Label>
         <FileUpload.Trigger asChild>
           <Button variant="subtle" size="sm" backgroundColor={'blue.50'}>
-            <HiUpload /> Télécharger une cover
+            <FontAwesomeIcon icon={faUpload} /> Télécharger une cover
           </Button>
         </FileUpload.Trigger>
         {uploadedFile && (

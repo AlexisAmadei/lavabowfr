@@ -2,7 +2,7 @@ import React from 'react'
 import './styles/LavaTypo.css'
 import useIsMobile from '@/hooks/useIsMobile'
 
-export default function LavaTypo({ variant, children, styles, size, textAlign = 'left', ...props }) {
+export default function LavaTypo({ variant, children, styles, size = 'inherit', textAlign = 'left', ...props }) {
   const isMobile = useIsMobile();
 
   switch (variant) {

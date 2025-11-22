@@ -1,7 +1,8 @@
 import { EventItem } from '@/types/types'
 import { Button, Dialog, Field, Fieldset, FileUpload, Input, Portal, Image, Box } from '@chakra-ui/react'
+import { faUpload } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
-import { HiUpload } from 'react-icons/hi'
 
 interface EditEventDialogProps {
   open: boolean
@@ -77,7 +78,7 @@ export default function EditEventDialog({ open, onClose, onUpdate, event }: Edit
           </FileUpload.Label>
           <FileUpload.Trigger asChild>
             <Button variant="subtle" size="sm" backgroundColor={'blue.50'}>
-              <HiUpload /> {uploadedFile ? 'Changer l\'image' : 'Télécharger une nouvelle cover'}
+              <FontAwesomeIcon icon={faUpload} /> {uploadedFile ? 'Changer l\'image' : 'Télécharger une nouvelle cover'}
             </Button>
           </FileUpload.Trigger>
           {uploadedFile && (

@@ -4,7 +4,6 @@ import LavaTypo from '@/components/Design/LavaTypo'
 import { EventItem } from '@/types/types'
 import { Box, DataList, Flex, IconButton, Image, Menu, Portal } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
-import { BsPlusCircleFill, BsThreeDotsVertical } from 'react-icons/bs'
 // @ts-ignore
 import EditableDataListItem from '@/components/Core/Admin/EditableDataListItem'
 import AddEventDialog from '../../components/Core/Admin/AddEventDialog'
@@ -12,6 +11,8 @@ import EditEventDialog from '../../components/Core/Admin/EditEventDialog'
 // @ts-ignore
 import DeleteDialog from '@/components/Core/Admin/DeleteDialog'
 import { fetchEventsContent, insertEventItem, updateEventItem } from '@/utils/supabase/events'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEllipsisVertical, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 
 export default function AdminEvents() {
   const [events, setEvents] = React.useState<EventItem[]>([])
@@ -68,7 +69,7 @@ export default function AdminEvents() {
       <Flex mb={4} justifyContent={'space-between'} alignItems={'center'}>
         <LavaTypo variant={'h3'} styles={{ color: 'black', marginBottom: '16px', textAlign: 'left' }}>Events</LavaTypo>
         <LavaButton variant={'filled'} onClick={() => setOpen(true)}>
-          <BsPlusCircleFill /> Ajouter un élément
+          <FontAwesomeIcon icon={faPlusCircle} /> Ajouter un élément
         </LavaButton>
       </Flex>
 
@@ -194,7 +195,7 @@ export default function AdminEvents() {
                         size={'xs'}
                         py={1}
                       >
-                        <BsThreeDotsVertical />
+                        <FontAwesomeIcon icon={faEllipsisVertical} />
                       </IconButton>
                     </Menu.Trigger>
                     <Portal>

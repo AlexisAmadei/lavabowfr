@@ -1,11 +1,12 @@
 import { Box, Flex, Grid, GridItem, Text } from '@chakra-ui/react'
 import React from 'react'
-import { ADMIN_MENU_ITEMS } from '@/constants/menuItems'
-import { Link } from 'react-router';
-import { BsHouseFill } from 'react-icons/bs';
+import { Link, useLocation, Outlet } from 'react-router';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHouse } from '@fortawesome/free-solid-svg-icons';
+import AdminMenuItems from '@/constants/AdminMenuItems';
 
 export default function Dashboard() {
-  const [selectedMenuItem, setSelectedMenuItem] = React.useState(ADMIN_MENU_ITEMS[0]);
+  const location = useLocation();
 
   return (
     <Grid
@@ -30,35 +31,11 @@ export default function Dashboard() {
           <Text fontSize="xl" fontWeight="bold" mb={8}>
             Lava Admin
           </Text>
-          <Flex
-            width="100%"
-            direction="column"
-            gap={1}
-          >
-            {ADMIN_MENU_ITEMS.map((item) => (
-              <Box
-                key={item.path}
-                cursor="pointer"
-                onClick={() => setSelectedMenuItem(item)}
-                borderRadius={5}
-                backgroundColor={selectedMenuItem.path === item.path ? 'whiteAlpha.900' : 'transparent'}
-                color={selectedMenuItem.path === item.path ? 'black' : 'inherit'}
-                p={2}
-                display="flex"
-                alignItems="center"
-                transition="all 0.2s"
-                _hover={{
-                  backgroundColor: selectedMenuItem.path === item.path ? 'whiteAlpha.900' : 'whiteAlpha.200'
-                }}
-              >
-                <item.icon size={16} style={{ marginRight: 8 }} />
-                <Text fontSize="md">{item.label}</Text>
-              </Box>
-            ))}
-          </Flex>
+          <AdminMenuItems />
 
           <Link to="/" style={{ marginTop: 'auto', textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <BsHouseFill /> Retour au site
+            <FontAwesomeIcon icon={faHouse} />
+            Retour au site
           </Link>
         </Flex>
       </GridItem>
@@ -82,7 +59,7 @@ export default function Dashboard() {
             flex={1}
             overflowY="auto"
           >
-            {selectedMenuItem.component && <selectedMenuItem.component />}
+            <Outlet />
           </Flex>
         </Flex>
       </GridItem>

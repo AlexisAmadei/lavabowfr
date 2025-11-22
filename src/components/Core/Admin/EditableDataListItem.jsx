@@ -1,6 +1,7 @@
 import React from 'react'
 import { DataList, Editable, IconButton } from '@chakra-ui/react'
-import { LuCheck, LuPencilLine, LuX } from 'react-icons/lu'
+import { faCheck, faPencil, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 /**
  * Reusable editable data list item component
@@ -27,17 +28,17 @@ export default function EditableDataListItem({ label, value, placeholder, onValu
           <Editable.Control>
             <Editable.EditTrigger asChild>
               <IconButton variant="ghost" size="xs" aria-label="Edit">
-                <LuPencilLine />
+                <FontAwesomeIcon icon={faPencil} />
               </IconButton>
             </Editable.EditTrigger>
             <Editable.CancelTrigger asChild>
               <IconButton variant="outline" size="xs" aria-label="Cancel">
-                <LuX />
+                <FontAwesomeIcon icon={faXmark} />
               </IconButton>
             </Editable.CancelTrigger>
             <Editable.SubmitTrigger asChild>
               <IconButton variant="outline" size="xs" aria-label="Submit" colorPalette="green">
-                <LuCheck />
+                <FontAwesomeIcon icon={faCheck} />
               </IconButton>
             </Editable.SubmitTrigger>
           </Editable.Control>

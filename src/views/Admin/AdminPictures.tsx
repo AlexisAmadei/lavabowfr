@@ -1,6 +1,5 @@
 import { Box, Button, DataList, Flex, IconButton, Image, Menu, Portal } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
-import { BsPlusCircleFill, BsThreeDotsVertical } from 'react-icons/bs'
 
 // @ts-ignore
 import LavaTypo from '@/components/Design/LavaTypo'
@@ -13,6 +12,8 @@ import DeleteDialog from '@/components/Core/Admin/DeleteDialog'
 import AddPictureDialog from '@/components/Core/Admin/AddPictureDialog'
 import { fetchPicturesContent, insertPictureItem, updatePictureItem, deletePictureItem } from '@/utils/supabase/pictures'
 import { PictureItem } from '@/types/types'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEllipsisVertical, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 
 export default function AdminPictures() {
   const [open, setOpen] = React.useState(false)
@@ -91,7 +92,7 @@ export default function AdminPictures() {
       <Flex mb={4} justifyContent={'space-between'} alignItems={'center'}>
         <LavaTypo variant={'h3'} styles={{ color: 'black', marginBottom: '8px', textAlign: 'left' }}>Lava Bow en photos</LavaTypo>
         <LavaButton variant={'filled'} onClick={() => setOpen(true)}>
-          <BsPlusCircleFill /> Ajouter un élément
+          <FontAwesomeIcon icon={faPlusCircle} />Ajouter un élément
         </LavaButton>
       </Flex>
 
@@ -211,14 +212,14 @@ export default function AdminPictures() {
                         size={'xs'}
                         py={1}
                       >
-                        <BsThreeDotsVertical />
+                        <FontAwesomeIcon icon={faEllipsisVertical} />
                       </IconButton>
                     </Menu.Trigger>
                     <Portal>
                       <Menu.Positioner>
                         <Menu.Content>
-                          <Menu.Item 
-                            value={item.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE'} 
+                          <Menu.Item
+                            value={item.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE'}
                             onSelect={() => item.id && handleUpdateStatus(item.id, item.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE')}
                           >
                             {item.status === 'ACTIVE' ? 'Désactiver' : 'Activer'}

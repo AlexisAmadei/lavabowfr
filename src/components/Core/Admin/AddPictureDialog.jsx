@@ -1,6 +1,7 @@
 import { Button, Dialog, Field, Fieldset, FileUpload, Input, Portal, Textarea } from '@chakra-ui/react'
+import { faUpload } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
-import { HiUpload } from 'react-icons/hi'
 
 export default function AddPictureDialog({ open, onClose, onAdd }) {
   const [formData, setFormData] = React.useState({
@@ -55,7 +56,7 @@ export default function AddPictureDialog({ open, onClose, onAdd }) {
         <FileUpload.Label>Image</FileUpload.Label>
         <FileUpload.Trigger asChild>
           <Button variant="subtle" size="sm" backgroundColor={'blue.50'}>
-            <HiUpload /> Télécharger une image
+            <FontAwesomeIcon icon={faUpload} /> Télécharger une image
           </Button>
         </FileUpload.Trigger>
         {uploadedFile && (

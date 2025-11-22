@@ -4,9 +4,10 @@ import LavaButton from '@/components/Design/LavaButton';
 import LavaTypo from '@/components/Design/LavaTypo';
 import { Box, Button, DataList, Flex, IconButton, Menu, Portal } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
-import { BsPlusCircleFill, BsThreeDotsVertical } from 'react-icons/bs';
 import AddSpotlightDialog from '../../components/Core/Admin/AddSpotlightDialog';
 import { deleteSpotlightItem, fetchSpotlightContent, insertSpotlightItem, updateSpotlightItem } from '@/utils/supabase/spotlight';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEllipsisVertical, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 
 export default function AdminSpotlight() {
   const [open, setOpen] = React.useState(false);
@@ -83,7 +84,7 @@ export default function AdminSpotlight() {
       <Flex mb={4} justifyContent={'space-between'} alignItems={'center'}>
         <LavaTypo variant={'h3'} styles={{ color: 'black', marginBottom: '8px', textAlign: 'left' }}>Spotlight</LavaTypo>
         <LavaButton variant={'filled'} onClick={() => setOpen(true)}>
-          <BsPlusCircleFill /> Ajouter un élément
+          <FontAwesomeIcon icon={faPlusCircle} /> Ajouter un élément
         </LavaButton>
       </Flex>
 
@@ -163,7 +164,7 @@ export default function AdminSpotlight() {
                     size={'xs'}
                     py={1}
                   >
-                    <BsThreeDotsVertical />
+                    <FontAwesomeIcon icon={faEllipsisVertical} />
                   </IconButton>
                 </Menu.Trigger>
                 <Portal>
