@@ -48,7 +48,7 @@ export default function Pictures() {
 
   if (isMobile) {
     return (
-      <Section styles={{ marginTop: '60px' }} title='Lava Bow en photos'>
+      <Section id='photos' styles={{ marginTop: '60px' }} title='Lava Bow en photos'>
 
         <Carousel.Root slideCount={pictures.length} width={'100%'} maxW="md" mx="auto" allowMouseDrag>
           <Carousel.ItemGroup>
@@ -84,7 +84,7 @@ export default function Pictures() {
   }
 
   return (
-    <Section title="Pictures" styles={{ marginTop: '60px' }}>
+    <Section id="photos" styles={{ marginTop: '60px' }}>
       <Flex gap={3} direction={'column'} alignItems={'center'} marginBottom={'48px'}>
         <LavaTypo variant={'h2'}>Lava Bow en photos</LavaTypo>
       </Flex>
