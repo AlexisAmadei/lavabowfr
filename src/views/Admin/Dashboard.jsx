@@ -3,7 +3,7 @@ import React from 'react'
 import { Link, useLocation, Outlet } from 'react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
-import AdminMenuItems from '@/constants/AdminMenuItems';
+import AdminMenuItems from '@/components/Core/Admin/AdminMenuItems';
 
 export default function Dashboard() {
   const location = useLocation();
