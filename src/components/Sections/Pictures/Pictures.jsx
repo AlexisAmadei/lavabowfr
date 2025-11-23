@@ -147,7 +147,7 @@ export default function Pictures() {
                 justifyContent={'center'}
               >
                 <img
-                  src={'https://placehold.co/600x400'}
+                  src={photo.link || `https://placehold.co/640x400`}
                   style={{
                     width: '100%',
                     height: '100%',

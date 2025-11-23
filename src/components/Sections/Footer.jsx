@@ -8,6 +8,8 @@ import ClipboardElement from '../Core/ClipboardElement'
 
 export default function Footer() {
   const isMobile = useIsMobile();
+  const [email, setEmail] = React.useState('');
+  const [error, setError] = React.useState(false);
 
   return (
     <Flex
@@ -43,15 +45,15 @@ export default function Footer() {
           <LavaTypo variant={'h3'}>Réseaux</LavaTypo>
           <Flex flexDirection={'row'} gap={1} alignItems={'center'} zIndex={100}>
             <a href='https://www.instagram.com/lavabow/' target='_blank' rel='noopener noreferrer'>
-              <LavaTypo styles={{ textDecoration: 'underline'}}>Instagram</LavaTypo>
+              <LavaTypo styles={{ textDecoration: 'underline' }}>Instagram</LavaTypo>
             </a>
             ,
             <a href='https://www.facebook.com/lavabow' target='_blank' rel='noopener noreferrer'>
-              <LavaTypo styles={{ textDecoration: 'underline'}}>Facebook</LavaTypo>
+              <LavaTypo styles={{ textDecoration: 'underline' }}>Facebook</LavaTypo>
             </a>
             ,
             <a href='https://www.youtube.com/@lavabow' target='_blank' rel='noopener noreferrer'>
-              <LavaTypo styles={{ textDecoration: 'underline'}}>YouTube</LavaTypo>
+              <LavaTypo styles={{ textDecoration: 'underline' }}>YouTube</LavaTypo>
             </a>
           </Flex>
         </Flex>
@@ -63,8 +65,15 @@ export default function Footer() {
           m={0}
         >
           <LavaTypo variant={'h3'}>Newsletter</LavaTypo>
-          <Box width={'100%'} borderBottom={'1px solid white'}>
-            <LavaInput placeholder="Email" variant={'classic'} fullWidth={true} />
+          <Box width={'100%'}>
+            <LavaInput
+              placeholder="Email"
+              variant={'classic'}
+              fontColor='black'
+              fullWidth={true}
+              error={error}
+              setError={setError}
+            />
           </Box>
         </Flex>
       </Flex>

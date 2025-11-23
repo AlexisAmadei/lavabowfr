@@ -104,7 +104,7 @@ export default function AdminPictures() {
         justifyContent={'space-between'}
       >
         {picturesContent.length === 0 ? (
-          <LavaTypo variant={'body'} styles={{ color: 'black' }} size={'16px'}>
+          <LavaTypo variant={'p'} styles={{ color: 'black' }} size={'16px'}>
             Aucune photo disponible. Ajoutez-en une en cliquant sur "Ajouter un élément".
           </LavaTypo>
         ) : (

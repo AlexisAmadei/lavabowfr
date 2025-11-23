@@ -7,36 +7,22 @@ import { supabase } from "./supabase";
  * @param fileName - The name to save the file as
  * @returns The public URL of the uploaded file, or null if upload fails
  */
-const uploadPictureFile = async (file: File, fileName: string): Promise<string | null> => {
-    try {
-        // Sanitize filename: remove special characters and spaces
-        const sanitizedFileName = fileName
-            .replace(/[^a-zA-Z0-9._-]/g, '_')
-            .replace(/_{2,}/g, '_');
+const uploadPictureFile = async (file: File, fileName: string): Promise<string> => {
+    const sanitizedFileName = fileName
+        .replace(/[^a-zA-Z0-9._-]/g, '_')
+        .replace(/_{2,}/g, '_');
 
-        // Upload file to the lavabowfr bucket in pictures/ folder
-        const { error } = await supabase.storage
-            .from('lavabowfr')
-            .upload(`pictures/${sanitizedFileName}`, file, {
-                cacheControl: '3600',
-                upsert: true
-            });
+    const { error } = await supabase.storage
+        .from('lavabowfr')
+        .upload(`pictures/${sanitizedFileName}`, file);
 
-        if (error) {
-            console.error('Error uploading picture file to Supabase storage:', error);
-            return null;
-        }
+    if (error) throw new Error(error.message);
 
-        // Get the public URL for the uploaded file
-        const { data: { publicUrl } } = supabase.storage
-            .from('lavabowfr')
-            .getPublicUrl(`pictures/${sanitizedFileName}`);
+    const { data } = supabase.storage
+        .from('lavabowfr')
+        .getPublicUrl(`pictures/${sanitizedFileName}`);
 
-        return publicUrl;
-    } catch (error) {
-        console.error('Exception uploading picture file:', error);
-        return null;
-    }
+    return data.publicUrl;
 };
 
 /**
@@ -70,6 +56,8 @@ export const fetchPicturesContent = async (
  * @returns Array containing the inserted item data, or null if error.
  */
 export const insertPictureItem = async (item: PictureItem): Promise<PictureItem[] | null> => {
+    let uploadedUrl: string | null = null;
+
     if (!item.title) {
         console.error('Title is required to insert a picture item.');
         return null;
@@ -77,9 +65,10 @@ export const insertPictureItem = async (item: PictureItem): Promise<PictureItem[
 
     // Upload image file if provided
     if (item.img && item.img instanceof File) {
+        console.log('Uploading picture file for new item...');
         const timestamp = Date.now();
         const fileName = `${timestamp}_${item.img.name}`;
-        await uploadPictureFile(item.img, fileName);
+        uploadedUrl = await uploadPictureFile(item.img, fileName);
     }
 
     try {
@@ -90,7 +79,7 @@ export const insertPictureItem = async (item: PictureItem): Promise<PictureItem[
                     title: item.title,
                     description: item.description || null,
                     date: item.date || null,
-                    link: item.link || null,
+                    link: uploadedUrl,
                     place: item.place || null,
                     status: 'active',
                 }

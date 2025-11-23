@@ -17,7 +17,7 @@ export default function AdminLayout() {
       if (!user) {
         navigate('/admin/login')
       } else {
-        // navigate()
+        navigate()
       }
     }
     fetchUser()

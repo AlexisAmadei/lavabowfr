@@ -4,34 +4,19 @@ import LavaTypo from '@/components/Design/LavaTypo'
 import LavaInput from '@/components/Design/LavaInput'
 import bgPic from '@/assets/img/newsletter.webp'
 import Section from '@/components/Design/Section'
+import { insertNewsletterItem } from '@/utils/supabase/newsletter'
 
 export default function Newsletter() {
-  const [error, setError] = React.useState(false);
-  const [email, setEmail] = React.useState('');
   const [submitted, setSubmitted] = React.useState(false);
-
-  const handleSubmit = (email) => {
-    if (!email) {
-      setError(true);
-      return;
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setError(true);
-      return;
-    }
-    setError(false);
-    setEmail('');
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 5000);
-  }
+  const [error, setError] = React.useState(false);
 
   useEffect(() => {
     if (error) {
-      const timeout = setTimeout(() => {
+      const timeoutId = setTimeout(() => {
         setError(false);
       }, 5000);
 
-      return () => clearTimeout(timeout);
+      return () => clearTimeout(timeoutId);
     }
   }, [error]);
 
@@ -48,11 +33,9 @@ export default function Newsletter() {
           <LavaInput
             type='email'
             placeholder='Email'
-            error={error}
-            value={email}
-            setEmail={setEmail}
-            onClick={() => handleSubmit(email)}
             fullWidth={true}
+            error={error}
+            setError={setError}
           />
           {submitted &&
             <Box
@@ -67,6 +50,7 @@ export default function Newsletter() {
             </Box>
           }
         </Box>
+
       </Flex>
     </Section>
   )
