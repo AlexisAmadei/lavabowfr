@@ -53,14 +53,10 @@ export default function Dashboard() {
           px={4}
           pr={0}
           direction="column"
+          overflow={'auto'}
+          pb={8}
         >
-          <Flex
-            direction="column"
-            flex={1}
-            overflowY="auto"
-          >
-            <Outlet />
-          </Flex>
+          <Outlet />
         </Flex>
       </GridItem>
     </Grid>
