@@ -5,6 +5,7 @@ import Landing from './views/Landing.jsx'
 import './index.css'
 import { ChakraProvider, defaultSystem } from '@chakra-ui/react'
 import Loading from './components/Design/Loading.jsx'
+import Privacy from './views/Privacy.jsx'
 
 // Dynamically import admin components
 const Login = lazy(() => import('./views/Admin/Login.jsx'));
@@ -61,6 +62,12 @@ createRoot(document.getElementById('root')).render(
               } />
             </Route>
           </Route>
+
+          <Route path='/privacy' element={
+            <Suspense fallback={<Loading />}>
+              <Privacy />
+            </Suspense>
+          } />
 
           <Route path="/unsubscribe" element={
             <Suspense fallback={<Loading />}>

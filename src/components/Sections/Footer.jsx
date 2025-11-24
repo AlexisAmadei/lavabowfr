@@ -5,6 +5,7 @@ import LavaInput from '../Design/LavaInput'
 import lb_footer from '@/assets/footer/lb_footer.svg'
 import useIsMobile from '@/hooks/useIsMobile'
 import ClipboardElement from '../Core/ClipboardElement'
+import { Link } from 'react-router'
 
 export default function Footer() {
   const isMobile = useIsMobile();
@@ -82,7 +83,9 @@ export default function Footer() {
         <img src={lb_footer} alt='Logo Lavabow Footer' style={{ width: '100%', height: 'auto' }} />
       </Flex>
       <Box zIndex={1000} p={0} m={0}>
-        <LavaTypo textAlign='center' variant='p' size={12}>© 2025 LAVA BOW | We use privacy-friendly analytics to count visitors</LavaTypo>
+        <LavaTypo textAlign='center' variant='p' size={12}>© 2025 LAVA BOW |
+          <Link to={'/privacy'}>We use privacy-friendly analytics to count visitors</Link>
+        </LavaTypo>
       </Box>
     </Flex>
   )
