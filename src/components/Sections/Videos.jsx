@@ -46,7 +46,7 @@ export default function Videos() {
     return (
       <Section id={'videos'} title={'Vidéos'}>
 
-        <Flex direction={'column'} gap={6}>
+        <Flex direction={'column'} gap={6} alignItems={'center'}>
           <LavaTypo variant={'h2'} size={25}>Dernier clip</LavaTypo>
           <Box width={'350px'}>
             <iframe id="ytplayer" type="text/html" width={'350px'} height={'200px'}
