@@ -5,6 +5,7 @@ import LavaTypo from '@/components/Design/LavaTypo';
 import './styles/LavaInput.css'
 import { insertNewsletterItem } from '@/utils/supabase/newsletter';
 import { toaster } from '../ui/toaster';
+import GlassSurface from '../react-bits/GlassSurface/GlassSurface';
 
 export default function LavaInput({ type, placeholder, setError, error, variant, fullWidth, fontColor }) {
 
@@ -83,18 +84,27 @@ export default function LavaInput({ type, placeholder, setError, error, variant,
   return (
     <Flex alignItems={'center'} justifyContent={'center'} gap={2} flexDirection={'row'}>
       <Field.Root invalid={error}>
-        <InputGroup endElement={endIcon} className={`lava-input ${variant || ''}`}>
-          <Input
-            placeholder={placeholder}
-            type={type}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            size={'xl'}
-            borderRadius={'50px'}
-            _placeholder={{ color: "gray.500", fontWeight: '500' }}
-            width={fullWidth ? '100%' : 'auto'}
-          />
-        </InputGroup>
+        <GlassSurface
+          width={400}
+          height={60}
+          borderRadius={50}
+          className="my-custom-class"
+        >
+          <InputGroup endElement={endIcon} className={`lava-input ${variant || ''}`}>
+            <Input
+              placeholder={placeholder}
+              type={type}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              size={'xl'}
+              borderRadius={'50px'}
+              borderColor={'transparent'}
+              _placeholder={{ color: "gray.400", fontWeight: '500' }}
+              width={fullWidth ? '100%' : 'auto'}
+              _focusVisible={{ outline: 'none'}}
+            />
+          </InputGroup>
+        </GlassSurface>
       </Field.Root>
     </Flex>
   )
