@@ -19,7 +19,7 @@ export default function Section({ children, bgImage, bgColor, id, contained, tit
       }}
     >
       {title && (
-        <Flex gap={3} direction={'column'} alignItems={'center'} marginBottom={isMobile ? '24px' : '48px'}>
+        <Flex gap={3} direction={'column'} alignItems={'center'} marginBottom={isMobile ? '8px' : '24px'}>
           <LavaTypo variant={'h1'} textAlign='center'>{title}</LavaTypo>
         </Flex>
       )}

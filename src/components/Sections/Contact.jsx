@@ -14,7 +14,7 @@ export default function Contact() {
 
   return (
     <Section id={'contact'} bgColor={'var(--Background-bg-brand)'} title={'Contact'} position='relative'>
-      <LavaTypo textAlign='center' size={'24px'}>
+      <LavaTypo textAlign='center' variant='p'>
         Pour plus d’infos, une envie de nous programmer, ou même juste pour nous raconter ta meilleure blague,
         c’est par ici !
       </LavaTypo>

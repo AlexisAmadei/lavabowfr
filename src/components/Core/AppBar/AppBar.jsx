@@ -19,7 +19,7 @@ export default function AppBar() {
       <Flex gap={4}>
         <MediaLinks />
         {menuItems.map(item => (
-          <LavaButton key={item.name} variant={item.variant} className="app-bar__button" onClick={() => scrollToSection(item.link)}>
+          <LavaButton key={item.name} variant={item.variant} className="app-bar__button" onClick={() => scrollToSection(item.link)} glassSurface>
             <LavaTypo variant='text'>{item.name}</LavaTypo>
             {item.endIcon && (
               <span className="app-bar__icon-on-hover">
