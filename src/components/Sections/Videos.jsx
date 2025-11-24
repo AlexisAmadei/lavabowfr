@@ -15,22 +15,19 @@ const styles = {
 
 const videoList = [
   {
-    link: "https://www.youtube.com/embed/Rbszi6x8mXE?controls=0",
+    link: "https://www.youtube.com/embed/hkQXgsw8v-4?si=0PDnK44ESsq5qUWP?controls=1",
   },
   {
-    link: "https://www.youtube.com/embed/Rbszi6x8mXE?controls=1",
+    link: "https://www.youtube.com/embed/Jp9-3zZgCqc?si=kq3gZj_hba1Ezf7-?controls=1",
   },
   {
-    link: "https://www.youtube.com/embed/Rbszi6x8mXE?controls=1",
+    link: "https://www.youtube.com/embed/cUsEssOOVQc?si=fg4aAVJO-KCFIKii?controls=1",
   },
   {
-    link: "https://www.youtube.com/embed/Rbszi6x8mXE?controls=1",
+    link: "https://www.youtube.com/embed/ucy8gkxW5QM?si=13-V2ynzDGZvGYsl?controls=1",
   },
   {
-    link: "https://www.youtube.com/embed/Rbszi6x8mXE?controls=1",
-  },
-  {
-    link: "https://www.youtube.com/embed/Rbszi6x8mXE?controls=1",
+    link: "https://www.youtube.com/embed/b5SIfRbCcTM?si=bLJ_wBWnQcXVsGip?controls=1",
   },
 ]
 
@@ -45,10 +42,42 @@ export default function Videos() {
     }
   }, []);
 
+  if (isMobile) {
+    return (
+      <Section id={'videos'} title={'Vidéos'}>
+
+        <Flex direction={'column'} gap={6}>
+          <LavaTypo variant={'h2'} size={25}>Dernier clip</LavaTypo>
+          <Box width={'350px'}>
+            <iframe id="ytplayer" type="text/html" width={'350px'} height={'200px'}
+              src="https://www.youtube.com/embed/Rbszi6x8mXE?autoplay=0&controls=1"
+              name='youtube-embed'
+            ></iframe>
+          </Box>
+
+          <Flex direction={'column'} gap={4}>
+            <LavaTypo variant='h2' size={25}>Autres Vidéos</LavaTypo>
+            <ScrollArea.Root>
+              <ScrollArea.Viewport>
+                <ScrollArea.Content>
+                  <Flex flexWrap={'nowrap'} gap={2}>
+                    {videoList.map((index) => (
+                      <img src='https://placehold.co/250x141' key={index} />
+                    ))}
+                  </Flex>
+                </ScrollArea.Content>
+              </ScrollArea.Viewport>
+            </ScrollArea.Root>
+
+          </Flex>
+        </Flex>
+      </Section>
+    )
+  }
+
   return (
     <Section id='videos' title={'Vidéos'}>
       <Flex direction={'column'} gap={8} width={'100%'} alignItems={'center'}>
-
         <Flex justifyContent={'flex-start'} direction={isMobile ? "column" : "row"} gap={3} height={'100%'}>
           <Flex direction={'column'} gap={3} id='featured-video'>
             <LavaTypo variant={'h2'}>Dernier clip</LavaTypo>
@@ -60,54 +89,29 @@ export default function Videos() {
             </Box>
           </Flex>
 
-          {isMobile ? (
-            <Box width={'100%'}>
-              <ScrollArea.Root width="100%" size="xs">
-                <ScrollArea.Viewport>
-                  <ScrollArea.Content py="4">
-                    <Flex gap="4" flexWrap="nowrap">
-                      {videoList.map((video, index) => (
-                        <Box rounded="sm" key={index} flexShrink="0">
-                          {/* <img src={`https://placehold.co/250x141`} alt={`Placeholder ${i + 1}`} style={{ borderRadius: '2px', width: '100%', height: 'auto' }} /> */}
-                          <iframe key={index} id="ytplayer" type="text/html" width={isMobile ? '165px' : '320px'} height={isMobile ? '93px' : '180px'}
-                            src={video.link}
-                            name='youtube-embed' loading='lazy'
-                          ></iframe>
-                        </Box>
-                      ))}
-                    </Flex>
-                  </ScrollArea.Content>
-                </ScrollArea.Viewport>
-                <ScrollArea.Scrollbar orientation="horizontal" />
-                <ScrollArea.Corner />
-              </ScrollArea.Root>
-            </Box>
-          ) : (
-            <Flex
+          <Flex
+            direction={'column'}
+            maxHeight={maxHeight ?? '400px'}
+            gap={3}
+          >
+            <LavaTypo variant={'h3'}>Autres vidéos</LavaTypo>
+            <Box
+              className='video-list'
+              display={'flex'}
               direction={'column'}
-              maxHeight={maxHeight ?? '400px'}
+              flexDirection={'column'}
               gap={3}
+              overflowY={'auto'}
+              justifyContent={'space-between'}
             >
-              <LavaTypo variant={'h3'}>Autres vidéos</LavaTypo>
-              <Box
-                className='video-list'
-                display={'flex'}
-                direction={'column'}
-                flexDirection={'column'}
-                gap={3}
-                overflowY={'auto'}
-                justifyContent={'space-between'}
-              >
-                {videoList.map((video, index) => (
-                  <iframe key={index} id="ytplayer" type="text/html" width={'320px'} height={'180px'}
-                    src={video.link}
-                    name='youtube-embed' loading='lazy'
-                  ></iframe>
-                ))}
-              </Box>
-            </Flex>
-          )}
-
+              {videoList.map((video, index) => (
+                <iframe key={index} id="ytplayer" type="text/html" width={'320px'} height={'180px'}
+                  src={video.link}
+                  name='youtube-embed' loading='lazy'
+                ></iframe>
+              ))}
+            </Box>
+          </Flex>
         </Flex>
       </Flex>
     </Section>
