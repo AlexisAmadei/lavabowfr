@@ -5,7 +5,6 @@ import Landing from './views/Landing.jsx'
 import './index.css'
 import { ChakraProvider, defaultSystem } from '@chakra-ui/react'
 import Loading from './components/Design/Loading.jsx'
-import { Analytics } from "@vercel/analytics/next"
 
 // Dynamically import admin components
 const Login = lazy(() => import('./views/Admin/Login.jsx'));
