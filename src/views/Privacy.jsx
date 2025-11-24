@@ -33,7 +33,7 @@ export default function Privacy() {
           <List.Root mb={4}>
             <List.Item color="fg.muted">Page views and visitor counts</List.Item>
             <List.Item color="fg.muted">Device type and browser information</List.Item>
-            <List.Item color="fg.muted">General location (country/city level only)</List.Item>
+            <List.Item color="fg.muted">General location (country only)</List.Item>
           </List.Root>
 
           <Text fontWeight="semibold" mb={3}>
