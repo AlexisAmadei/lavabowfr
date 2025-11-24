@@ -1,13 +1,13 @@
 import { supabase } from '@/utils/supabase/supabase'
 import React, { useEffect } from 'react'
-import { Outlet, useNavigate } from 'react-router'
+import { Outlet, useLocation, useNavigate, useResolvedPath } from 'react-router'
 
 export default function AdminLayout() {
   const navigate = useNavigate()
+  const path = useResolvedPath()
 
   const getUser = async () => {
     const { data: { user } } = await supabase.auth.getUser()
-    console.log('Current user:', user)
     return user
   }
 
@@ -16,9 +16,8 @@ export default function AdminLayout() {
       const user = await getUser()
       if (!user) {
         navigate('/admin/login')
-      } else {
+      } else if (user && path.pathname === '/admin')
         navigate('/admin/dashboard')
-      }
     }
     fetchUser()
   }, [navigate])
