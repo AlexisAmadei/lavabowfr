@@ -18,16 +18,25 @@ export default function AppBar() {
     >
       <Flex gap={4}>
         <MediaLinks />
-        {menuItems.map(item => (
-          <LavaButton key={item.name} variant={item.variant} className="app-bar__button" onClick={() => scrollToSection(item.link)} glassSurface>
-            <LavaTypo variant='text'>{item.name}</LavaTypo>
-            {item.endIcon && (
-              <span className="app-bar__icon-on-hover">
-                <item.endIcon strokeWidth={1} size={30} />
-              </span>
-            )}
-          </LavaButton>
-        ))}
+        {menuItems.map(item => {
+          const Icon = item.endIcon || item.icon
+          return (
+            <LavaButton
+              key={item.name}
+              variant={item.variant}
+              className="app-bar__button"
+              onClick={() => scrollToSection(item.link)}
+              glassSurface={!(Icon)}
+            >
+              <LavaTypo variant='text'>{item.name}</LavaTypo>
+              {Icon && (
+                <span className="app-bar__icon-on-hover">
+                  <Icon strokeWidth={1} size={30} />
+                </span>
+              )}
+            </LavaButton>
+          )
+        })}
       </Flex>
     </Flex>
   )
