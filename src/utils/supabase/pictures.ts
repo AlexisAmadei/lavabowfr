@@ -7,7 +7,7 @@ import { supabase } from "./supabase";
  * @param fileName - The name to save the file as
  * @returns The public URL of the uploaded file, or null if upload fails
  */
-const uploadPictureFile = async (file: File, fileName: string): Promise<string> => {
+export const uploadPictureFile = async (file: File, fileName: string): Promise<string> => {
     const sanitizedFileName = fileName
         .replace(/[^a-zA-Z0-9._-]/g, '_')
         .replace(/_{2,}/g, '_');
@@ -136,6 +136,42 @@ export const updatePictureItem = async (
         return [data];
     } catch (error) {
         console.error('Exception updating picture item:', error);
+        return null;
+    }
+}
+
+/**
+ * Replaces the image file for an existing picture item.
+ * @param id - The ID of the picture item to update.
+ * @param file - The new image file to upload.
+ * @returns The public URL of the new image, or null if error.
+ */
+export const replacePictureFile = async (id: number, file: File): Promise<string | null> => {
+    try {
+        // Upload the new file
+        const timestamp = Date.now();
+        const fileName = `${timestamp}_${file.name}`;
+        const uploadedUrl = await uploadPictureFile(file, fileName);
+
+        if (!uploadedUrl) {
+            console.error('Failed to upload new picture file');
+            return null;
+        }
+
+        // Update the database record with the new link
+        const { error } = await supabase
+            .from('section_pictures')
+            .update({ link: uploadedUrl })
+            .eq('id', id);
+
+        if (error) {
+            console.error('Error updating picture link:', error);
+            return null;
+        }
+
+        return uploadedUrl;
+    } catch (error) {
+        console.error('Exception replacing picture file:', error);
         return null;
     }
 }

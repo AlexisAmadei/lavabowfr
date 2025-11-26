@@ -12,12 +12,15 @@ import DeleteDialog from '@/components/Core/Admin/DeleteDialog'
 import AddPictureDialog from '@/components/Core/Admin/AddPictureDialog'
 import { fetchPicturesContent, insertPictureItem, updatePictureItem, deletePictureItem } from '@/utils/supabase/pictures'
 import { PictureItem } from '@/types/types'
+// @ts-ignore
+import ReplacePicture from '@/components/Core/Admin/ReplacePicture'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisVertical, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 
 export default function AdminPictures() {
   const [open, setOpen] = React.useState(false)
   const [picturesContent, setPicturesContent] = React.useState<PictureItem[]>([])
+  const [selectedForReplace, setSelectedForReplace] = React.useState<PictureItem | null>(null)
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false)
   const [itemToDelete, setItemToDelete] = React.useState<number | null>(null)
 
@@ -132,23 +135,6 @@ export default function AdminPictures() {
                 position={'relative'}
                 backgroundColor={'gray.50'}
               >
-                {/* Display image if it exists */}
-                {item.img && typeof item.img === 'string' && (
-                  <DataList.Item>
-                    <DataList.ItemLabel>Image</DataList.ItemLabel>
-                    <DataList.ItemValue>
-                      <Image
-                        src={item.img}
-                        alt={item.title}
-                        maxH="150px"
-                        maxW="200px"
-                        objectFit="cover"
-                        borderRadius="md"
-                      />
-                    </DataList.ItemValue>
-                  </DataList.Item>
-                )}
-
                 <EditableDataListItem
                   label="Titre"
                   value={item.title}
@@ -177,19 +163,28 @@ export default function AdminPictures() {
                   onValueCommit={(value: string) => item.id && handleUpdateField(item.id, 'place', value)}
                 />
 
-                <Flex direction={'row'} alignItems={'center'} gap={2}>
-                  <EditableDataListItem
-                    label="Lien"
-                    value={item.link || ''}
-                    placeholder="Lien"
-                    onValueCommit={(value: string) => item.id && handleUpdateField(item.id, 'link', value)}
+                <Box>
+                  <Image
+                    src={item.link}
+                    alt={item.title}
+                    maxH="100px"
+                    objectFit="contain"
+                    cursor="pointer"
+                    onClick={() => testLink(item.link)}
+                    alignSelf={'flex-start'}
                   />
-                  {item.link && (
-                    <Button height={'fit-content'} py={1} px={2} colorPalette={'blue'} variant='subtle' onClick={() => testLink(item.link)}>
-                      Tester le lien
-                    </Button>
-                  )}
-                </Flex>
+                  <Button
+                    mt={1}
+                    height={'fit-content'}
+                    py={1}
+                    px={2}
+                    colorPalette={'blue'}
+                    variant='subtle'
+                    onClick={() => setSelectedForReplace(item)}
+                  >
+                    Remplacer l'image
+                  </Button>
+                </Box>
 
                 <Box className='status-chip'
                   position={'absolute'}
@@ -250,6 +245,16 @@ export default function AdminPictures() {
         open={open}
         onClose={() => setOpen(false)}
         onAdd={handleAddPictureItem}
+      />
+
+      <ReplacePicture
+        isOpen={!!selectedForReplace}
+        onClose={() => setSelectedForReplace(null)}
+        item={selectedForReplace}
+        onReplaced={() => {
+          setSelectedForReplace(null)
+          fetchPicturesContent(setPicturesContent)
+        }}
       />
 
       <DeleteDialog
