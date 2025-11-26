@@ -2,6 +2,7 @@ import { Dialog, Portal, Button, Input, Stack, Image, Text, VStack } from '@chak
 import React, { useState } from 'react'
 import { replacePictureFile } from '@/utils/supabase/pictures'
 import LavaButton from '@/components/Design/LavaButton'
+import { toaster } from '@/components/ui/toaster'
 
 export default function ReplacePicture({ isOpen, onClose, item, onReplaced }) {
   const [selectedFile, setSelectedFile] = useState(null)
@@ -30,8 +31,16 @@ export default function ReplacePicture({ isOpen, onClose, item, onReplaced }) {
       setPreviewUrl(null)
       onReplaced()
       onClose()
+      toaster.success({
+        title: 'Photo remplacée',
+        description: 'La photo a été remplacée avec succès',
+      })
     } catch (error) {
       console.error('Error replacing picture:', error)
+      toaster.error({
+        title: 'Erreur',
+        description: error instanceof Error ? error.message : 'Impossible de remplacer la photo. Veuillez réessayer.',
+      })
     } finally {
       setIsLoading(false)
     }

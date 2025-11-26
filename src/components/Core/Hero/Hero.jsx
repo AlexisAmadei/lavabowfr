@@ -1,11 +1,19 @@
 import React, { useEffect } from 'react'
-import { Box, Flex } from '@chakra-ui/react'
+import { Box, Flex, Menu } from '@chakra-ui/react'
 import Logo from '@/components/Design/Logo'
 import Spotlight from './Spotlight'
 import HeroTypo from '@/components/Design/HeroTypo'
 import useIsMobile from '../../../hooks/useIsMobile'
 import MobileAppBar from '../AppBar/MobileAppBar'
 import MediaLinks from '../AppBar/MediaLinks'
+import LavaTypo from '@/components/Design/LavaTypo'
+import { Link } from 'react-router'
+
+const LinkHoverStyle = {
+  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+  borderRadius: '8px',
+  padding: '4px 8px',
+}
 
 export default function Hero() {
   const isMobile = useIsMobile();
@@ -51,7 +59,21 @@ export default function Hero() {
           mb={8}
           gap={isMobile ? '24px' : 0}
         >
-          {!isMobile && <Logo h={76} w={76} />}
+          {!isMobile && (
+            <Menu.Root>
+              <Menu.ContextTrigger>
+                <Logo h={76} w={76} />
+              </Menu.ContextTrigger>
+              <Menu.Positioner backgroundColor={'transparent'}>
+                <Menu.Content backgroundColor={'#252525'} color={'white'}  borderRadius={'12px'}>
+                  <Flex p={2} direction={'column'} textAlign={'left'} gap={1}>
+                    <Link to={''} className='link-hover' style={LinkHoverStyle}>Acceder au kit de presse</Link>
+                    <Link to={'mailto:contact@lavabow.fr'} className='link-hover' style={LinkHoverStyle}>Mailto contact@lavabow.fr</Link>
+                  </Flex>
+                </Menu.Content>
+              </Menu.Positioner>
+            </Menu.Root>
+          )}
           <Spotlight />
           {isMobile && <MediaLinks padding='6px' />}
         </Box>

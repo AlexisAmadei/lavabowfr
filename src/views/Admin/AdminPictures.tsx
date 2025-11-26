@@ -1,5 +1,6 @@
 import { Box, Button, DataList, Flex, IconButton, Image, Menu, Portal } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
+import { toaster } from '@/components/ui/toaster'
 
 // @ts-ignore
 import LavaTypo from '@/components/Design/LavaTypo'
@@ -25,9 +26,21 @@ export default function AdminPictures() {
   const [itemToDelete, setItemToDelete] = React.useState<number | null>(null)
 
   const handleAddPictureItem = async (newPictureItem: PictureItem) => {
-    setOpen(false)
-    await insertPictureItem(newPictureItem)
-    await fetchPicturesContent(setPicturesContent)
+    try {
+      setOpen(false)
+      await insertPictureItem(newPictureItem)
+      await fetchPicturesContent(setPicturesContent)
+      toaster.success({
+        title: 'Photo ajoutée',
+        description: 'La photo a été ajoutée avec succès',
+      })
+    } catch (error) {
+      console.error('Error adding picture:', error)
+      toaster.error({
+        title: 'Erreur',
+        description: error instanceof Error ? error.message : 'Impossible d\'ajouter la photo. Veuillez réessayer.',
+      })
+    }
   }
 
   const handleUpdateField = async (itemId: number, field: keyof PictureItem, value: string | number) => {
@@ -164,6 +177,8 @@ export default function AdminPictures() {
                 />
 
                 <Box>
+                  <Flex direction={'row'} alignItems={'flex-start'} gap={2}>
+                  <p></p>
                   <Image
                     src={item.link}
                     alt={item.title}
@@ -173,6 +188,7 @@ export default function AdminPictures() {
                     onClick={() => testLink(item.link)}
                     alignSelf={'flex-start'}
                   />
+                    </Flex>
                   <Button
                     mt={1}
                     height={'fit-content'}

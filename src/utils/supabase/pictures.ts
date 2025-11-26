@@ -1,20 +1,30 @@
 import { PictureItem } from "@/types/types";
 import { supabase } from "./supabase";
+import { compressAndConvertToWebP } from "@/utils/imageCompression";
 
 /**
  * Uploads a picture file to the Supabase storage bucket 'lavabowfr/pictures/'
+ * Compresses and converts the image to WebP before uploading
  * @param file - The file to upload
  * @param fileName - The name to save the file as
  * @returns The public URL of the uploaded file, or null if upload fails
  */
 export const uploadPictureFile = async (file: File, fileName: string): Promise<string> => {
-    const sanitizedFileName = fileName
+    // Compress and convert to WebP
+    const compressedFile = await compressAndConvertToWebP(file);
+    
+    // Update filename to have .webp extension if it was converted
+    const finalFileName = compressedFile.type === 'image/webp' 
+        ? fileName.replace(/\.[^/.]+$/, '.webp')
+        : fileName;
+    
+    const sanitizedFileName = finalFileName
         .replace(/[^a-zA-Z0-9._-]/g, '_')
         .replace(/_{2,}/g, '_');
 
     const { error } = await supabase.storage
         .from('lavabowfr')
-        .upload(`pictures/${sanitizedFileName}`, file);
+        .upload(`pictures/${sanitizedFileName}`, compressedFile);
 
     if (error) throw new Error(error.message);
 
