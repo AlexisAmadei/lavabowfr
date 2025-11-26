@@ -24,7 +24,8 @@ export const uploadPictureFile = async (file: File, fileName: string): Promise<s
 
     const { error } = await supabase.storage
         .from('lavabowfr')
-        .upload(`pictures/${sanitizedFileName}`, compressedFile)
+        // Use upsert so replacing a file with the same name overwrites it.
+        .upload(`pictures/${sanitizedFileName}`, compressedFile, { cacheControl: '3600', upsert: true })
 
     if (error) throw new Error(error.message)
 
@@ -46,7 +47,7 @@ export const fetchPicturesContent = async (
         const { data: section_pictures, error } = await supabase
             .from('section_pictures')
             .select('*')
-            .neq('status', 'deleted')
+            .neq('status', 'DELETED')
             .order('id', { ascending: true });
 
         if (error) {
@@ -90,7 +91,7 @@ export const insertPictureItem = async (item: PictureItem): Promise<PictureItem[
                 date: item.date || null,
                 link: uploadedUrl,
                 place: item.place || null,
-                status: 'active',
+                status: 'ACTIVE',
             }])
             .select()
 
@@ -156,6 +157,20 @@ export const updatePictureItem = async (
  */
 export const replacePictureFile = async (id: number, file: File): Promise<string | null> => {
     try {
+        // Fetch the current DB record so we can delete the previous storage object later
+        const { data: currentRecord, error: selectError } = await supabase
+            .from('section_pictures')
+            .select('link')
+            .eq('id', id)
+            .single()
+
+        if (selectError) {
+            // Not fatal, but log it — we won't be able to remove the old file if we can't read it
+            console.warn('Could not fetch current picture link before replace:', selectError)
+        }
+
+        const previousLink: string | null = currentRecord?.link || null
+
         // Upload the new file
         const timestamp = Date.now()
         const fileName = `${timestamp}_${file.name}`
@@ -177,6 +192,31 @@ export const replacePictureFile = async (id: number, file: File): Promise<string
             return null
         }
 
+        // If there was a previous stored file that looks like a Supabase public URL, remove it
+        if (previousLink && previousLink.includes('/storage/v1/object/public/')) {
+            try {
+                // Extract the path part after '/storage/v1/object/public/'
+                let objectPath = previousLink.split('/storage/v1/object/public/')[1] || ''
+
+                // If the public URL includes the bucket name prefix (e.g. 'lavabowfr/pictures/...'),
+                // remove the bucket prefix because `.remove()` expects the path inside the bucket.
+                objectPath = objectPath.replace(/^lavabowfr\//, '')
+
+                if (objectPath) {
+                    const { error: removeError } = await supabase.storage
+                        .from('lavabowfr')
+                        .remove([objectPath])
+
+                    if (removeError) {
+                        // Non-fatal: log the error but keep the new URL in DB
+                        console.warn('Failed to remove previous picture from storage:', removeError)
+                    }
+                }
+            } catch (remErr) {
+                console.warn('Exception when removing previous picture from storage:', remErr)
+            }
+        }
+
         return uploadedUrl
     } catch (error) {
         console.error('Exception replacing picture file:', error)
@@ -192,7 +232,7 @@ export const replacePictureFile = async (id: number, file: File): Promise<string
 export const deletePictureItem = async (id: number): Promise<boolean | null> => {
     const { error } = await supabase
         .from('section_pictures')
-        .update({ status: 'deleted' })
+        .update({ status: 'DELETED' })
         .eq('id', id)
 
     if (error) {

@@ -19,18 +19,10 @@ export default function AddPictureDialog({ open, onClose, onAdd }) {
   const [uploadedFile, setUploadedFile] = React.useState(null)
 
   const handleSubmit = async () => {
-    let s3Link = formData.link
-
-    // If a file is uploaded, generate the S3 URL
-    if (uploadedFile) {
-      const timestamp = Date.now()
-      const sanitizedFileName = uploadedFile.name
-        .replace(/[^a-zA-Z0-9._-]/g, '_')
-        .replace(/_{2,}/g, '_')
-      s3Link = `https://igssfxppazjwwrnouxfj.supabase.co/storage/v1/object/public/lavabowfr/pictures/${timestamp}_${sanitizedFileName}`
-    }
-
-    onAdd({ ...formData, link: s3Link, img: uploadedFile })
+    // Pass the selected file as `img` and any manual link left in the form.
+    // The server-side helper `insertPictureItem` will handle uploading and
+    // storing the final public URL. Avoid constructing a manual URL here.
+    onAdd({ ...formData, img: uploadedFile })
     setFormData(INITIAL_FORM_STATE)
     setUploadedFile(null)
   }

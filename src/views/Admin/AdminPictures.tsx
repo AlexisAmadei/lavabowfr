@@ -65,7 +65,7 @@ export default function AdminPictures() {
     await fetchPicturesContent(setPicturesContent)
   }
 
-  const handleUpdateStatus = async (itemId: number, newStatus: 'active' | 'inactive') => {
+  const handleUpdateStatus = async (itemId: number, newStatus: 'ACTIVE' | 'INACTIVE') => {
     const currentItem = picturesContent.find(item => item.id === itemId)
     if (!currentItem || currentItem.status === newStatus) return
 
@@ -171,12 +171,12 @@ export default function AdminPictures() {
                   position="absolute"
                   top="-10px"
                   right={12}
-                  backgroundColor={item.status === 'active' ? 'green.100' : 'red.100'}
+                  backgroundColor={item.status === 'ACTIVE' ? 'green.100' : 'red.100'}
                   paddingX={2}
                   borderRadius="full"
                 >
                   <LavaTypo size="14px">
-                    {item.status === 'active' ? 'Photo active' : 'Photo inactive'}
+                    {item.status === 'ACTIVE' ? 'Photo active' : 'Photo inactive'}
                   </LavaTypo>
                 </Box>
 
@@ -191,10 +191,10 @@ export default function AdminPictures() {
                       <Menu.Positioner>
                         <Menu.Content>
                           <Menu.Item
-                            value={item.status === 'active' ? 'inactive' : 'active'}
-                            onSelect={() => item.id && handleUpdateStatus(item.id, item.status === 'active' ? 'inactive' : 'active')}
+                            value={item.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE'}
+                            onSelect={() => item.id && handleUpdateStatus(item.id, item.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE')}
                           >
-                            {item.status === 'active' ? 'Désactiver' : 'Activer'}
+                            {item.status === 'ACTIVE' ? 'Désactiver' : 'Activer'}
                           </Menu.Item>
                           <Menu.Item
                             value="delete"
