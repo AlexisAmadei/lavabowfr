@@ -7,7 +7,7 @@
   ],
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "functions": {
-    "api/hello.js":{
+    "api/tinypng.js":{
         "maxDuration": 10
     }
   }
