@@ -4,5 +4,11 @@
       "source": "/(.*)",
       "destination": "/index.html"
     }
-  ]
+  ],
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "src/api/hello.js":{
+        "maxDuration": 10
+    }
+  }
 }
