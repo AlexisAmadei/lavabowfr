@@ -1,6 +1,8 @@
 import { Box, Button, DataList, Flex, IconButton, Image, Menu, Portal } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import { toaster } from '@/components/ui/toaster'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEllipsisVertical, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 
 // @ts-ignore
 import LavaTypo from '@/components/Design/LavaTypo'
@@ -11,12 +13,10 @@ import EditableDataListItem from '@/components/Core/Admin/EditableDataListItem'
 import DeleteDialog from '@/components/Core/Admin/DeleteDialog'
 // @ts-ignore
 import AddPictureDialog from '@/components/Core/Admin/AddPictureDialog'
-import { fetchPicturesContent, insertPictureItem, updatePictureItem, deletePictureItem } from '@/utils/supabase/pictures'
-import { PictureItem } from '@/types/types'
 // @ts-ignore
 import ReplacePicture from '@/components/Core/Admin/ReplacePicture'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsisVertical, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
+import { fetchPicturesContent, insertPictureItem, updatePictureItem, deletePictureItem } from '@/utils/supabase/pictures'
+import { PictureItem } from '@/types/types'
 
 export default function AdminPictures() {
   const [open, setOpen] = React.useState(false)
@@ -25,44 +25,34 @@ export default function AdminPictures() {
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false)
   const [itemToDelete, setItemToDelete] = React.useState<number | null>(null)
 
+  useEffect(() => {
+    fetchPicturesContent(setPicturesContent)
+  }, [])
+
   const handleAddPictureItem = async (newPictureItem: PictureItem) => {
-    try {
-      setOpen(false)
-      await insertPictureItem(newPictureItem)
-      await fetchPicturesContent(setPicturesContent)
-      toaster.success({
-        title: 'Photo ajoutée',
-        description: 'La photo a été ajoutée avec succès',
-      })
-    } catch (error) {
-      console.error('Error adding picture:', error)
-      toaster.error({
+    setOpen(false)
+
+    const addPromise = insertPictureItem(newPictureItem)
+      .then(() => fetchPicturesContent(setPicturesContent))
+
+    toaster.promise(addPromise, {
+      loading: { title: 'Uploading...', description: 'Uploading image and saving item' },
+      success: { title: 'Photo ajoutée', description: 'La photo a été ajoutée avec succès' },
+      error: (err) => ({
         title: 'Erreur',
-        description: error instanceof Error ? error.message : 'Impossible d\'ajouter la photo. Veuillez réessayer.',
-      })
-    }
+        description: err instanceof Error ? err.message : "Impossible d'ajouter la photo. Veuillez réessayer.",
+      }),
+    })
   }
 
   const handleUpdateField = async (itemId: number, field: keyof PictureItem, value: string | number) => {
     const currentItem = picturesContent.find(item => item.id === itemId)
-    if (!currentItem) return
+    if (!currentItem || currentItem[field] === value) return
 
-    // Check if value actually changed
-    if (currentItem[field] === value) {
-      return
-    }
-
-    // Create updated item with the new field value
-    const updatedItem = {
-      ...currentItem,
-      [field]: value
-    }
-
-    // Update in Supabase
+    const updatedItem = { ...currentItem, [field]: value }
     const result = await updatePictureItem(itemId, updatedItem)
 
     if (result) {
-      // Refetch from database to confirm the update
       await fetchPicturesContent(setPicturesContent)
     }
   }
@@ -75,20 +65,13 @@ export default function AdminPictures() {
     await fetchPicturesContent(setPicturesContent)
   }
 
-  const handleUpdateStatus = async (itemId: number, newStatus: 'ACTIVE' | 'INACTIVE') => {
+  const handleUpdateStatus = async (itemId: number, newStatus: 'active' | 'inactive') => {
     const currentItem = picturesContent.find(item => item.id === itemId)
-    if (!currentItem) return
+    if (!currentItem || currentItem.status === newStatus) return
 
-    // Check if status actually changed
-    if (currentItem.status === newStatus) {
-      return
-    }
-
-    // Update in Supabase
     const result = await updatePictureItem(itemId, { ...currentItem, status: newStatus })
 
     if (result) {
-      // Refetch from database to confirm the update
       await fetchPicturesContent(setPicturesContent)
     }
   }
@@ -99,39 +82,24 @@ export default function AdminPictures() {
     }
   }
 
-  useEffect(() => {
-    fetchPicturesContent(setPicturesContent)
-  }, [])
-
   return (
     <Box>
-      <Flex mb={4} justifyContent={'space-between'} alignItems={'center'}>
-        <LavaTypo variant={'h3'} styles={{ color: 'black', marginBottom: '8px', textAlign: 'left' }}>Lava Bow en photos</LavaTypo>
-        <LavaButton variant={'filled'} onClick={() => setOpen(true)}>
+      <Flex mb={4} justifyContent="space-between" alignItems="center">
+        <LavaTypo variant="h3" styles={{ color: 'black', marginBottom: '8px', textAlign: 'left' }}>
+          Lava Bow en photos
+        </LavaTypo>
+        <LavaButton variant="filled" onClick={() => setOpen(true)}>
           <FontAwesomeIcon icon={faPlusCircle} />Ajouter un élément
         </LavaButton>
       </Flex>
 
-      <Flex
-        direction={'row'}
-        gap={4}
-        flexWrap={'wrap'}
-        textAlign={'left'}
-        justifyContent={'space-between'}
-      >
+      <Flex direction="row" gap={4} flexWrap="wrap" textAlign="left" justifyContent="space-between">
         {picturesContent.length === 0 ? (
-          <LavaTypo variant={'p'} styles={{ color: 'black' }} size={'16px'}>
+          <LavaTypo variant="p" styles={{ color: 'black' }} size="16px">
             Aucune photo disponible. Ajoutez-en une en cliquant sur "Ajouter un élément".
           </LavaTypo>
         ) : (
-          <Flex
-            width={'full'}
-            direction={'row'}
-            gap={4}
-            flexWrap={'wrap'}
-            textAlign={'left'}
-            justifyContent={'space-between'}
-          >
+          <Flex width="full" direction="row" gap={4} flexWrap="wrap" textAlign="left" justifyContent="space-between">
             {picturesContent.map((item) => (
               <DataList.Root
                 size={'lg'}
@@ -177,8 +145,6 @@ export default function AdminPictures() {
                 />
 
                 <Box>
-                  <Flex direction={'row'} alignItems={'flex-start'} gap={2}>
-                  <p></p>
                   <Image
                     src={item.link}
                     alt={item.title}
@@ -186,43 +152,38 @@ export default function AdminPictures() {
                     objectFit="contain"
                     cursor="pointer"
                     onClick={() => testLink(item.link)}
-                    alignSelf={'flex-start'}
                   />
-                    </Flex>
                   <Button
                     mt={1}
-                    height={'fit-content'}
+                    height="fit-content"
                     py={1}
                     px={2}
-                    colorPalette={'blue'}
-                    variant='subtle'
+                    colorPalette="blue"
+                    variant="subtle"
                     onClick={() => setSelectedForReplace(item)}
                   >
                     Remplacer l'image
                   </Button>
                 </Box>
 
-                <Box className='status-chip'
-                  position={'absolute'}
-                  top={'-10px'}
+                <Box
+                  className="status-chip"
+                  position="absolute"
+                  top="-10px"
                   right={12}
-                  backgroundColor={item.status === 'ACTIVE' ? 'green.100' : item.status === 'INACTIVE' ? 'red.100' : ''}
+                  backgroundColor={item.status === 'active' ? 'green.100' : 'red.100'}
                   paddingX={2}
-                  borderRadius={'full'}
+                  borderRadius="full"
                 >
-                  <LavaTypo size={'14px'}>
-                    {item.status === 'ACTIVE' ? 'Photo active' : item.status === 'INACTIVE' ? 'Photo inactive' : ''}
+                  <LavaTypo size="14px">
+                    {item.status === 'active' ? 'Photo active' : 'Photo inactive'}
                   </LavaTypo>
                 </Box>
 
-                <Box position={'absolute'} top={2} right={2}>
+                <Box position="absolute" top={2} right={2}>
                   <Menu.Root>
                     <Menu.Trigger asChild>
-                      <IconButton
-                        variant={'ghost'}
-                        size={'xs'}
-                        py={1}
-                      >
+                      <IconButton variant="ghost" size="xs" py={1}>
                         <FontAwesomeIcon icon={faEllipsisVertical} />
                       </IconButton>
                     </Menu.Trigger>
@@ -230,10 +191,10 @@ export default function AdminPictures() {
                       <Menu.Positioner>
                         <Menu.Content>
                           <Menu.Item
-                            value={item.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE'}
-                            onSelect={() => item.id && handleUpdateStatus(item.id, item.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE')}
+                            value={item.status === 'active' ? 'inactive' : 'active'}
+                            onSelect={() => item.id && handleUpdateStatus(item.id, item.status === 'active' ? 'inactive' : 'active')}
                           >
-                            {item.status === 'ACTIVE' ? 'Désactiver' : 'Activer'}
+                            {item.status === 'active' ? 'Désactiver' : 'Activer'}
                           </Menu.Item>
                           <Menu.Item
                             value="delete"

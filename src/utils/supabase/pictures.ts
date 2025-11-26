@@ -11,29 +11,29 @@ import { compressAndConvertToWebP } from "@/utils/imageCompression";
  */
 export const uploadPictureFile = async (file: File, fileName: string): Promise<string> => {
     // Compress and convert to WebP
-    const compressedFile = await compressAndConvertToWebP(file);
+    const compressedFile = await compressAndConvertToWebP(file)
     
     // Update filename to have .webp extension if it was converted
     const finalFileName = compressedFile.type === 'image/webp' 
         ? fileName.replace(/\.[^/.]+$/, '.webp')
-        : fileName;
+        : fileName
     
     const sanitizedFileName = finalFileName
         .replace(/[^a-zA-Z0-9._-]/g, '_')
-        .replace(/_{2,}/g, '_');
+        .replace(/_{2,}/g, '_')
 
     const { error } = await supabase.storage
         .from('lavabowfr')
-        .upload(`pictures/${sanitizedFileName}`, compressedFile);
+        .upload(`pictures/${sanitizedFileName}`, compressedFile)
 
-    if (error) throw new Error(error.message);
+    if (error) throw new Error(error.message)
 
     const { data } = supabase.storage
         .from('lavabowfr')
-        .getPublicUrl(`pictures/${sanitizedFileName}`);
+        .getPublicUrl(`pictures/${sanitizedFileName}`)
 
-    return data.publicUrl;
-};
+    return data.publicUrl
+}
 
 /**
  * Fetches all pictures content from the database.
@@ -66,45 +66,43 @@ export const fetchPicturesContent = async (
  * @returns Array containing the inserted item data, or null if error.
  */
 export const insertPictureItem = async (item: PictureItem): Promise<PictureItem[] | null> => {
-    let uploadedUrl: string | null = null;
+    let uploadedUrl: string | null = null
 
     if (!item.title) {
-        console.error('Title is required to insert a picture item.');
-        return null;
+        console.error('Title is required to insert a picture item.')
+        return null
     }
 
     // Upload image file if provided
     if (item.img && item.img instanceof File) {
-        console.log('Uploading picture file for new item...');
-        const timestamp = Date.now();
-        const fileName = `${timestamp}_${item.img.name}`;
-        uploadedUrl = await uploadPictureFile(item.img, fileName);
+        console.log('Uploading picture file for a new item...')
+        const timestamp = Date.now()
+        const fileName = `${timestamp}_${item.img.name}`
+        uploadedUrl = await uploadPictureFile(item.img, fileName)
     }
 
     try {
         const { data, error } = await supabase
             .from('section_pictures')
-            .insert([
-                {
-                    title: item.title,
-                    description: item.description || null,
-                    date: item.date || null,
-                    link: uploadedUrl,
-                    place: item.place || null,
-                    status: 'active',
-                }
-            ])
-            .select();
+            .insert([{
+                title: item.title,
+                description: item.description || null,
+                date: item.date || null,
+                link: uploadedUrl,
+                place: item.place || null,
+                status: 'active',
+            }])
+            .select()
 
         if (error) {
-            console.error('Error inserting picture item:', error);
-            return null;
+            console.error('Error inserting picture item:', error)
+            return null
         }
 
-        return data;
+        return data
     } catch (error) {
-        console.error('Exception inserting picture item:', error);
-        return null;
+        console.error('Exception inserting picture item:', error)
+        return null
     }
 }
 
@@ -118,17 +116,17 @@ export const updatePictureItem = async (
     id: number,
     updatedItem: PictureItem
 ): Promise<PictureItem[] | null> => {
-    const { title, description, date, link, place, status } = updatedItem;
+    const { title, description, date, link, place, status } = updatedItem
 
     try {
         const { error: updateError } = await supabase
             .from('section_pictures')
             .update({ title, description, date, link, place, status })
-            .eq('id', id);
+            .eq('id', id)
 
         if (updateError) {
-            console.error('Error updating picture item:', updateError);
-            return null;
+            console.error('Error updating picture item:', updateError)
+            return null
         }
 
         // Fetch the updated row
@@ -136,17 +134,17 @@ export const updatePictureItem = async (
             .from('section_pictures')
             .select('*')
             .eq('id', id)
-            .single();
+            .single()
 
         if (selectError) {
-            console.error('Error fetching updated picture:', selectError);
-            return [updatedItem];
+            console.error('Error fetching updated picture:', selectError)
+            return [updatedItem]
         }
 
-        return [data];
+        return [data]
     } catch (error) {
-        console.error('Exception updating picture item:', error);
-        return null;
+        console.error('Exception updating picture item:', error)
+        return null
     }
 }
 
@@ -159,30 +157,30 @@ export const updatePictureItem = async (
 export const replacePictureFile = async (id: number, file: File): Promise<string | null> => {
     try {
         // Upload the new file
-        const timestamp = Date.now();
-        const fileName = `${timestamp}_${file.name}`;
-        const uploadedUrl = await uploadPictureFile(file, fileName);
+        const timestamp = Date.now()
+        const fileName = `${timestamp}_${file.name}`
+        const uploadedUrl = await uploadPictureFile(file, fileName)
 
         if (!uploadedUrl) {
-            console.error('Failed to upload new picture file');
-            return null;
+            console.error('Failed to upload new picture file')
+            return null
         }
 
         // Update the database record with the new link
         const { error } = await supabase
             .from('section_pictures')
             .update({ link: uploadedUrl })
-            .eq('id', id);
+            .eq('id', id)
 
         if (error) {
-            console.error('Error updating picture link:', error);
-            return null;
+            console.error('Error updating picture link:', error)
+            return null
         }
 
-        return uploadedUrl;
+        return uploadedUrl
     } catch (error) {
-        console.error('Exception replacing picture file:', error);
-        return null;
+        console.error('Exception replacing picture file:', error)
+        return null
     }
 }
 
@@ -195,12 +193,12 @@ export const deletePictureItem = async (id: number): Promise<boolean | null> => 
     const { error } = await supabase
         .from('section_pictures')
         .update({ status: 'deleted' })
-        .eq('id', id);
+        .eq('id', id)
 
     if (error) {
-        console.error('Error deleting picture item:', error);
-        return null;
+        console.error('Error deleting picture item:', error)
+        return null
     }
 
-    return true;
+    return true
 }
