@@ -45,16 +45,16 @@ export default function Footer() {
         >
           <LavaTypo variant={'h3'}>Réseaux</LavaTypo>
           <Flex flexDirection={'row'} gap={1} alignItems={'center'} zIndex={100}>
-            <a href='https://www.instagram.com/lavabow/' target='_blank' rel='noopener noreferrer'>
-              <LavaTypo styles={{ textDecoration: 'underline' }}>Instagram</LavaTypo>
+            <a className="footer-link" href='https://www.instagram.com/lavabow/' target='_blank' rel='noopener noreferrer'>
+              <LavaTypo>Instagram</LavaTypo>
             </a>
             ,
-            <a href='https://www.facebook.com/lavabow' target='_blank' rel='noopener noreferrer'>
-              <LavaTypo styles={{ textDecoration: 'underline' }}>Facebook</LavaTypo>
+            <a className="footer-link" href='https://www.facebook.com/lavabow' target='_blank' rel='noopener noreferrer'>
+              <LavaTypo>Facebook</LavaTypo>
             </a>
             ,
-            <a href='https://www.youtube.com/@lavabow' target='_blank' rel='noopener noreferrer'>
-              <LavaTypo styles={{ textDecoration: 'underline' }}>YouTube</LavaTypo>
+            <a className="footer-link" href='https://www.youtube.com/@lavabow' target='_blank' rel='noopener noreferrer'>
+              <LavaTypo>YouTube</LavaTypo>
             </a>
           </Flex>
         </Flex>

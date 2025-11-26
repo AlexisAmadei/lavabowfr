@@ -119,3 +119,31 @@ span.lava-typo.bold {
         line-height: 20px;
     }
 }
+
+/* Footer link underline animation */
+.footer-link {
+    position: relative;
+    display: inline-block;
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+.footer-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    height: 2px;
+    width: 0;
+    background: currentColor;
+    transition: width 220ms cubic-bezier(.2,.8,.2,1);
+}
+.footer-link:hover::after,
+.footer-link:focus::after,
+.footer-link:focus-visible::after {
+    width: 100%;
+}
+
+.footer-link:focus {
+    outline: none;
+}
