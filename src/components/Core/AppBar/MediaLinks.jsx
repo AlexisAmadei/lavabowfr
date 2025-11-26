@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faApple, faBandcamp, faDeezer, faFacebook, faInstagram, faSpotify, faYoutube } from "@fortawesome/free-brands-svg-icons";
 import { Flex } from "@chakra-ui/react";
+import { Tooltip } from "@/components/ui/tooltip";
 
 export default function MediaLinks({ content = 'all', size = '1x', color = 'var(--Background-bg-brand)', padding = '12px' }) {
   const links = [
@@ -17,27 +18,29 @@ export default function MediaLinks({ content = 'all', size = '1x', color = 'var(
   return (
     <Flex direction={'row'} gap={3} alignItems={'center'}>
       {filteredLinks.map((item) => (
-        <div key={item.name}
-          style={{
-            backgroundColor: 'white',
-            padding: padding,
-            borderRadius: '50px',
-            cursor: 'pointer',
-            color: 'var(--Background-bg-brand)',
-            aspectRatio: '1 / 1',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            transition: 'transform 0.2s ease',
-            height: 'fit-content',
-            width: 'fit-content',
-          }}
-          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-          onClick={() => window.open(item.url, '_blank')}
-        >
-          <item.icon />
-        </div>
+        <Tooltip content={item.name.charAt(0).toUpperCase() + item.name.slice(1)} key={item.name} lazyMount>
+          <div key={item.name}
+            style={{
+              backgroundColor: 'white',
+              padding: padding,
+              borderRadius: '50px',
+              cursor: 'pointer',
+              color: 'var(--Background-bg-brand)',
+              aspectRatio: '1 / 1',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'transform 0.2s ease',
+              height: 'fit-content',
+              width: 'fit-content',
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+            onClick={() => window.open(item.url, '_blank')}
+          >
+            <item.icon />
+          </div>
+        </Tooltip>
       ))}
     </Flex>
   )
