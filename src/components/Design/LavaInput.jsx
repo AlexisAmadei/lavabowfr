@@ -82,13 +82,12 @@ export default function LavaInput({ type, placeholder, setError, error, variant,
   )
 
   return (
-    <Flex alignItems={'center'} justifyContent={'center'} gap={2} flexDirection={'row'}>
-      <Field.Root invalid={error}>
+    <Flex alignItems={'center'} justifyContent={'center'} gap={2} flexDirection={'row'} width={'100%'} maxWidth={'400px'}>
+      <Field.Root invalid={error} width={'100%'}>
         <GlassSurface
-          width={400}
+          width={'100%'}
           height={60}
           borderRadius={50}
-          className="my-custom-class"
         >
           <InputGroup endElement={endIcon} className={`lava-input ${variant || ''}`}>
             <Input
@@ -100,7 +99,7 @@ export default function LavaInput({ type, placeholder, setError, error, variant,
               borderRadius={'50px'}
               borderColor={'transparent'}
               _placeholder={{ color: "gray.400", fontWeight: '500' }}
-              width={fullWidth ? '100%' : 'auto'}
+              width={'100%'}
               _focusVisible={{ outline: 'none'}}
             />
           </InputGroup>
