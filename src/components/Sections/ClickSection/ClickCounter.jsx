@@ -3,8 +3,9 @@ import LavaButton from '@/components/Design/LavaButton'
 import LavaTypo from '@/components/Design/LavaTypo'
 import IconClick from '@/assets/icons/click.svg'
 import { supabase } from '@/utils/supabase/supabase'
+import Counter from '@/components/react-bits/Counter/Counter'
 
-export default function ClickCounter({ setCount, isMobile }) {
+export default function ClickCounter({ count, setCount, isMobile }) {
 
   useEffect(() => {
     // Load initial count
@@ -52,18 +53,18 @@ export default function ClickCounter({ setCount, isMobile }) {
         gap: 'var(--Spacing-spacing-xxl, 16px)',
       }}
     >
-      <LavaTypo variant={'h4'}
-        styles={{
-          color: 'var(--Text-text-primary, #FFF)',
-          fontFamily: 'Stack Sans Text',
-          fontSize: isMobile ? '20px' : '24px',
-          fontStyle: 'normal',
-          fontWeight: '500',
-          lineHeight: 'normal',
+      <Counter
+        value={count}
+        fontSize={30}
+        textColor='white'
+        fontWeight={'bold'}
+        padding={8}
+        containerStyle={{
+          backgroundColor: 'transparent'
         }}
-      >
-        CLIQUE
-      </LavaTypo>
+        gradientFrom='transparent'
+        gap={4}
+      />
       <img src={IconClick} alt='Click Icon' style={{ marginLeft: '8px' }} height={isMobile ? '24px' : '32px'} />
     </LavaButton>
   )
