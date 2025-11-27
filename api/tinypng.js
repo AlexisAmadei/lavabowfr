@@ -4,10 +4,12 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const TINIFY_API_KEY = process.env.VITE_TINIFY_API_KEY;
+  // Prefer server-side env var `TINIFY_API_KEY`. Keep `VITE_TINIFY_API_KEY` as a fallback
+  const TINIFY_API_KEY = process.env.TINIFY_API_KEY || process.env.VITE_TINIFY_API_KEY;
 
   if (!TINIFY_API_KEY) {
-    return res.status(500).json({ error: 'TinyPNG API key not configured' });
+    console.error('TinyPNG API key missing. Set TINIFY_API_KEY in Vercel (Project Settings → Environment Variables).');
+    return res.status(500).json({ error: 'TinyPNG API key not configured. Set TINIFY_API_KEY on the server.' });
   }
 
   try {
