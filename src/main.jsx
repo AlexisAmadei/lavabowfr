@@ -82,7 +82,10 @@ createRoot(document.getElementById('root')).render(
               <Unsubscribe />
             </Suspense>
           } />
+          <Route path='*' element={<Landing />} />
         </Routes>
+
+
         {/* Load analytics after initial render */}
         <Suspense fallback={null}>
           <Analytics />
