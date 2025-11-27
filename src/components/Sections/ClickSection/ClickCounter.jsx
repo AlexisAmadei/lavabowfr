@@ -61,7 +61,9 @@ export default function ClickCounter({ setCount, isMobile }) {
           fontWeight: '500',
           lineHeight: 'normal',
         }}
-      >CLIQUE</LavaTypo>
+      >
+        CLIQUE
+      </LavaTypo>
       <img src={IconClick} alt='Click Icon' style={{ marginLeft: '8px' }} height={isMobile ? '24px' : '32px'} />
     </LavaButton>
   )

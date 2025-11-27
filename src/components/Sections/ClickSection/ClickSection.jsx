@@ -2,20 +2,25 @@ import React, { useEffect } from 'react'
 import LavaTypo from '@/components/Design/LavaTypo'
 import Section from '@/components/Design/Section'
 import { Flex } from '@chakra-ui/react'
-import IconBeer from '@/assets/icons/beer.svg'
 import ClickCounter from './ClickCounter'
 import useIsMobile from '@/hooks/useIsMobile'
-
-const CLICK_PALIERS = [
-  { id: 1, count: 100, description: "Sam en string sur scène" },
-  { id: 2, count: 100000, description: "Sam achète un métronome" },
-  { id: 3, count: 1000000, description: "Sam arrête les crottes de nez" },
-  { id: 4, count: 10000000, description: "Sam quitte le groupe" },
-];
+import { CLICK_PALIERS } from '@/lib/clickPaliers'
+import BeerGauge from './BeerGauge'
 
 export default function ClickSection() {
   const [clickCount, setClickCount] = React.useState(0);
   const isMobile = useIsMobile();
+
+  function getProgressPercentage(index) {
+    const palier = CLICK_PALIERS[index]
+    const previousPalier = index > 0 ? CLICK_PALIERS[index - 1] : { count: 0 }
+
+    if (clickCount >= palier.count) return 100
+    if (clickCount < previousPalier.count) return 0
+
+    const progress = ((clickCount - previousPalier.count) / (palier.count - previousPalier.count)) * 100
+    return Math.min(100, Math.max(0, progress))
+  }
 
   const handleClick = () => {
     setClickCount(prevCount => {
@@ -26,17 +31,6 @@ export default function ClickSection() {
   };
 
   const isPalierReached = (palierCount) => clickCount >= palierCount;
-
-  const getProgressPercentage = (index) => {
-    const palier = CLICK_PALIERS[index];
-    const previousPalier = index > 0 ? CLICK_PALIERS[index - 1] : { count: 0 };
-
-    if (clickCount >= palier.count) return 100;
-    if (clickCount < previousPalier.count) return 0;
-
-    const progress = ((clickCount - previousPalier.count) / (palier.count - previousPalier.count)) * 100;
-    return Math.min(100, Math.max(0, progress));
-  };
 
   useEffect(() => {
     const storedClickCount = localStorage.getItem('clickCount');
@@ -91,40 +85,14 @@ export default function ClickSection() {
           </div>
 
           <Flex direction={'row'} mt={'24px'} gap={8}>
-            {CLICK_PALIERS.map((palier, index) => {
-              const progress = getProgressPercentage(index);
-              return (
-                <div key={palier.id} style={{ position: 'relative', margin: '0 4px' }}>
-                  <img
-                    src={IconBeer}
-                    alt='Beer Icon'
-                    style={{
-                      opacity: 0.3,
-                      filter: 'grayscale(100%)',
-                    }}
-                  />
-                  <div style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    overflow: 'hidden',
-                    clipPath: `inset(${100 - progress}% 0 0 0)`,
-                  }}>
-                    <img
-                      src={IconBeer}
-                      alt='Beer Icon Filled'
-                      style={{
-                        opacity: 1,
-                        filter: 'none',
-                        transition: 'all 0.3s ease',
-                      }}
-                    />
-                  </div>
-                </div>
-              );
-            })}
+            {CLICK_PALIERS.map((palier, index) => (
+              <BeerGauge
+                key={index}
+                palier={palier}
+                index={index}
+                progress={getProgressPercentage(index)}
+              />
+            ))}
           </Flex>
         </Flex>
       </Flex>

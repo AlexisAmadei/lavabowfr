@@ -29,3 +29,11 @@ export interface PictureItem {
     img?: File | string;
     status?: string;
 }
+export type BeerGaugeProps = {
+    palier: {
+        id: number;
+    };
+    index: number;
+    getProgressPercentage: (index: number) => number;
+    IconBeer: string;
+};
