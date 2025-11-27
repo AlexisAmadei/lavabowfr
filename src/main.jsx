@@ -24,7 +24,11 @@ createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <ChakraProvider value={defaultSystem}>
         <Routes>
-          <Route path="/" element={<Landing />} />
+          <Route path="/" element={
+            <Suspense fallback={<Loading />}>
+              <Landing />
+            </Suspense>
+          } />
 
           {/* ADMIN ROUTES */}
           <Route path="/admin" element={
