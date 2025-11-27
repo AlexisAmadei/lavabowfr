@@ -26,7 +26,6 @@ export default defineConfig({
         },
         chunkSizeWarningLimit: 600,
         cssCodeSplit: true,
-        minify: 'terser',
         terserOptions: {
             compress: {
                 drop_console: true,
