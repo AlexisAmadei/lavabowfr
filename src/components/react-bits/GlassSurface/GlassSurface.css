@@ -5,6 +5,7 @@
     justify-content: center;
     overflow: hidden;
     transition: opacity 0.26s ease-out;
+    transition: transform 0.26s ease-out;
 }
 
 .glass-surface__filter {
@@ -103,4 +104,12 @@
 .glass-surface:focus-visible {
     outline: 2px solid light-dark(#007aff, #0a84ff);
     outline-offset: 2px;
+}
+
+.glass-surface:hover {
+    transform: scale(1.02);
+}
+
+.glass-surface:active {
+    transform: scale(0.98);
 }
