@@ -1,47 +1,41 @@
 /**
  * Image compression utility using TinyPNG API via serverless function
- * Compresses and converts images to WebP format
+ * Compresses and optionally converts images to WebP format
  */
+
+/** Helper: convert File to base64 data URL */
+const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+};
 
 /**
- * Compresses an image file and converts it to WebP format using TinyPNG API
- * @param file - The image file to compress
- * @returns A new File object with the compressed WebP image
- * @throws Error if compression fails
+ * Compresses an image file and converts it to WebP format using the serverless `/api/tinypng`
+ * endpoint. The server is expected to hold the TinyPNG key in its environment.
  */
 export const compressAndConvertToWebP = async (file: File): Promise<File> => {
-    // @ts-ignore
-    if (!process.env.TINIFY_API_KEY) {
-        console.warn('TinyPNG API key not found. Skipping compression.');
-        return file;
-    } else if (file.size > 5 * 1024 * 1024) { // 5MB maximum for TinyPNG
+    if (file.size > 5 * 1024 * 1024) { // 5MB maximum for TinyPNG
         console.warn('File size above 5MB. Skipping compression.');
         return file;
-    } else if (file.type === 'image/webp') {
+    }
+    if (file.type === 'image/webp') {
         console.warn('File is already in WebP format. Skipping compression.');
         return file;
-    } else {
-        console.log(`Starting compression for: ${file.name} (${(file.size / 1024).toFixed(2)}KB)`);
     }
 
+    console.log(`Starting compression for: ${file.name} (${(file.size / 1024).toFixed(2)}KB)`);
+
     try {
-        // Convert file to base64
-        const reader = new FileReader();
-        const base64Promise = new Promise<string>((resolve, reject) => {
-            reader.onloadend = () => resolve(reader.result as string);
-            reader.onerror = reject;
-            reader.readAsDataURL(file);
-        });
+        const base64Data = await fileToBase64(file);
 
-        const base64Data = await base64Promise;
-
-        // Call serverless function
         const response = await fetch('/api/tinypng', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ imageData: base64Data }),
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ imageData: base64Data, convertToWebP: true }),
         });
 
         if (!response.ok) {
@@ -52,69 +46,67 @@ export const compressAndConvertToWebP = async (file: File): Promise<File> => {
         const result = await response.json();
         const { imageData, isWebP, originalSize, compressedSize } = result;
 
-        // Convert base64 back to File
         const binaryString = atob(imageData);
         const bytes = new Uint8Array(binaryString.length);
-        for (let i = 0; i < binaryString.length; i++) {
-            bytes[i] = binaryString.charCodeAt(i);
-        }
+        for (let i = 0; i < binaryString.length; i++) bytes[i] = binaryString.charCodeAt(i);
         const blob = new Blob([bytes], { type: isWebP ? 'image/webp' : file.type });
 
         const originalName = file.name.replace(/\.[^/.]+$/, '');
         const fileName = isWebP ? `${originalName}.webp` : file.name;
         const compressedFile = new File([blob], fileName, { type: blob.type });
 
-        const reduction = ((1 - compressedSize / originalSize) * 100).toFixed(1);
-        console.log(`✓ Compression complete: ${(originalSize / 1024).toFixed(2)}KB → ${(compressedSize / 1024).toFixed(2)}KB (${reduction}% reduction)`);
+        if (originalSize && compressedSize) {
+            const reduction = ((1 - compressedSize / originalSize) * 100).toFixed(1);
+            console.log(`✓ Compression complete: ${(originalSize / 1024).toFixed(2)}KB → ${(compressedSize / 1024).toFixed(2)}KB (${reduction}% reduction)`);
+        }
 
         return compressedFile;
     } catch (error) {
         console.error('Error compressing image:', error);
-        throw error; // Propagate error instead of returning original file
+        throw error;
     }
 };
 
 /**
- * Alternative method: Compress without converting to WebP
- * @param file - The image file to compress
- * @returns A new File object with the compressed image
+ * Compress without converting to WebP. Uses the same `/api/tinypng` endpoint and requests
+ * the server perform compression only.
  */
 export const compressImage = async (file: File): Promise<File> => {
-    // @ts-ignore
-    if (!process.env.TINIFY_API_KEY) {
-        console.warn('TinyPNG API key not found. Skipping compression.');
+    if (file.size > 5 * 1024 * 1024) {
+        console.warn('File size above 5MB. Skipping compression.');
         return file;
     }
 
     try {
-        const arrayBuffer = await file.arrayBuffer();
+        const base64Data = await fileToBase64(file);
 
-        const response = await fetch('https://api.tinify.com/shrink', {
+        const response = await fetch('/api/tinypng', {
             method: 'POST',
-            headers: {
-                // @ts-ignore
-                'Authorization': `Basic ${btoa(`api:${process.env.TINIFY_API_KEY}`)}`,
-            },
-            body: arrayBuffer,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ imageData: base64Data, convertToWebP: false }),
         });
 
         if (!response.ok) {
             const error = await response.json();
-            throw new Error(`TinyPNG compression failed: ${error.message || response.statusText}`);
+            throw new Error(error.error || 'Compression failed');
         }
 
-        const data = await response.json();
-        const compressedUrl = data.output.url;
+        const result = await response.json();
+        const { imageData, isWebP, originalSize, compressedSize } = result;
 
-        // Download the compressed image
-        const downloadResponse = await fetch(compressedUrl);
-        const compressedBlob = await downloadResponse.blob();
+        const binaryString = atob(imageData);
+        const bytes = new Uint8Array(binaryString.length);
+        for (let i = 0; i < binaryString.length; i++) bytes[i] = binaryString.charCodeAt(i);
+        const blob = new Blob([bytes], { type: isWebP ? 'image/webp' : file.type });
 
-        const compressedFile = new File([compressedBlob], file.name, {
-            type: file.type,
-        });
+        const originalName = file.name.replace(/\.[^/.]+$/, '');
+        const fileName = isWebP ? `${originalName}.webp` : file.name;
+        const compressedFile = new File([blob], fileName, { type: blob.type });
 
-        console.log(`Compressed: ${(file.size / 1024).toFixed(2)}KB → ${(compressedFile.size / 1024).toFixed(2)}KB`);
+        if (originalSize && compressedSize) {
+            const reduction = ((1 - compressedSize / originalSize) * 100).toFixed(1);
+            console.log(`✓ Compression complete: ${(originalSize / 1024).toFixed(2)}KB → ${(compressedSize / 1024).toFixed(2)}KB (${reduction}% reduction)`);
+        }
 
         return compressedFile;
     } catch (error) {
