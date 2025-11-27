@@ -53,23 +53,7 @@ export default function Videos() {
               src="https://www.youtube.com/embed/Rbszi6x8mXE?autoplay=0&controls=1"
               name='youtube-embed'
             ></iframe>
-          </Box>
-
-          <Flex direction={'column'} gap={4}>
-            <LavaTypo variant='h2' size={25}>Autres Vidéos</LavaTypo>
-            <ScrollArea.Root>
-              <ScrollArea.Viewport>
-                <ScrollArea.Content>
-                  <Flex flexWrap={'nowrap'} gap={2}>
-                    {videoList.map((index) => (
-                      <img src='https://placehold.co/250x141' key={index} />
-                    ))}
-                  </Flex>
-                </ScrollArea.Content>
-              </ScrollArea.Viewport>
-            </ScrollArea.Root>
-
-          </Flex>
+        </Box>
         </Flex>
       </Section>
     )
