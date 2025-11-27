@@ -9,11 +9,45 @@ export default function AdminUsers() {
   const [emailList, setEmailList] = React.useState([]);
 
   async function fetchEmails() {
-    const result = await getNewsletterItems();
-    setEmailList(result);
-  }
+    try {
+      const contactsResponse = await fetch('/api/mailchimp/getcontact');
 
-  useEffect(() => {
+      console.log('Response status:', contactsResponse.status, contactsResponse.ok);
+
+      if (contactsResponse.ok) {
+        const data = await contactsResponse.json();
+        console.log('Fetched contacts data:', data);
+
+        // Map Mailchimp data to your format
+        if (data.contacts && Array.isArray(data.contacts)) {
+          const formattedEmails = data.contacts.map(contact => ({
+            email: contact.email_channel?.email || 'N/A',
+            created_at: contact.created_at,
+            firstName: contact.merge_fields?.FNAME || '',
+            lastName: contact.merge_fields?.LNAME || '',
+            status: contact.status
+          }));
+          setEmailList(formattedEmails);
+        }
+      } else {
+        const errorText = await contactsResponse.text();
+        console.error('Error response:', errorText);
+        console.error('Error fetching contacts:', contactsResponse.statusText);
+        toaster.create({
+          title: 'Erreur lors de la récupération des contacts',
+          type: 'error',
+          placement: 'bottom-end',
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching contacts:', error);
+      toaster.create({
+        title: 'Erreur de connexion',
+        type: 'error',
+        placement: 'bottom-end',
+      });
+    }
+  } useEffect(() => {
     fetchEmails();
   }, []);
 
