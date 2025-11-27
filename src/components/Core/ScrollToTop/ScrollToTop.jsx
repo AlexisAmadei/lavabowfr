@@ -12,7 +12,7 @@ export default function ScrollToTop({ isVisible }) {
       style={{ display: isVisible ? 'flex' : 'none' }}
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
     >
-      <FontAwesomeIcon icon={faArrowUpLong} color='white' className='scroll-to-top-arrow'  />
+      <FontAwesomeIcon icon={faArrowUpLong} color='white' className='scroll-to-top-arrow' />
       <LavaTypo className='scroll-to-top-text' size={'16px'}>Top</LavaTypo>
     </Flex>
   )
