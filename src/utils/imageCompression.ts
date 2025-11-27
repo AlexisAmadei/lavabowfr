@@ -11,7 +11,7 @@
  */
 export const compressAndConvertToWebP = async (file: File): Promise<File> => {
     // @ts-ignore
-    if (!TINIFY_API_KEY) {
+    if (!process.env.TINIFY_API_KEY) {
         console.warn('TinyPNG API key not found. Skipping compression.');
         return file;
     } else if (file.size > 5 * 1024 * 1024) { // 5MB maximum for TinyPNG
@@ -81,7 +81,7 @@ export const compressAndConvertToWebP = async (file: File): Promise<File> => {
  */
 export const compressImage = async (file: File): Promise<File> => {
     // @ts-ignore
-    if (!TINIFY_API_KEY) {
+    if (!process.env.TINIFY_API_KEY) {
         console.warn('TinyPNG API key not found. Skipping compression.');
         return file;
     }
@@ -93,7 +93,7 @@ export const compressImage = async (file: File): Promise<File> => {
             method: 'POST',
             headers: {
                 // @ts-ignore
-                'Authorization': `Basic ${btoa(`api:${TINIFY_API_KEY}`)}`,
+                'Authorization': `Basic ${btoa(`api:${process.env.TINIFY_API_KEY}`)}`,
             },
             body: arrayBuffer,
         });
