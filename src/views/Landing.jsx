@@ -47,7 +47,6 @@ export default function Landing() {
         </Flex>
       </div>
       <Toaster />
-      <Analytics />
     </div>
   )
 }

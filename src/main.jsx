@@ -6,6 +6,8 @@ import './index.css'
 import { ChakraProvider, defaultSystem } from '@chakra-ui/react'
 import Loading from './components/Design/Loading.jsx'
 import Privacy from './views/Privacy.jsx'
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from "@vercel/speed-insights/react"
 
 // Dynamically import admin components
 const Login = lazy(() => import('./views/Admin/Login.jsx'));
@@ -77,5 +79,7 @@ createRoot(document.getElementById('root')).render(
         </Routes>
       </ChakraProvider>
     </BrowserRouter>
+    <Analytics />
+    <SpeedInsights />
   </StrictMode>,
 )
