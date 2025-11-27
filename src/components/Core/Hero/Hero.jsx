@@ -65,7 +65,7 @@ export default function Hero() {
                 <Logo h={76} w={76} />
               </Menu.ContextTrigger>
               <Menu.Positioner backgroundColor={'transparent'}>
-                <Menu.Content backgroundColor={'#252525'} color={'white'}  borderRadius={'12px'}>
+                <Menu.Content backgroundColor={'#252525'} color={'white'} borderRadius={'12px'}>
                   <Flex p={2} direction={'column'} textAlign={'left'} gap={1}>
                     <Link to={''} className='link-hover' style={LinkHoverStyle}>Acceder au kit de presse</Link>
                     <Link to={'mailto:contact@lavabow.fr'} className='link-hover' style={LinkHoverStyle}>Mailto contact@lavabow.fr</Link>
