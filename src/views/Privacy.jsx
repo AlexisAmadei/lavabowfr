@@ -1,16 +1,19 @@
-import { Box, Container, Heading, Link, List, Text, Stack } from '@chakra-ui/react'
+import { Box, Container, Heading, Link, List, Text, Stack, AbsoluteCenter } from '@chakra-ui/react'
 import React from 'react'
+import TextFuzzy from '@/components/react-bits/TextFuzzy'
+import LavaTypo from '@/components/Design/LavaTypo'
 
 export default function Privacy() {
   return (
     <Container maxW="800px" py={12} px={6} textAlign={'left'}>
+      <Box mx={'auto'} mt={1} mb={10} width={'fit-content'} textAlign={'center'}>
+        <TextFuzzy children="LAVA BOW" />
+      </Box>
+
       <Stack gap={8}>
         <Box>
-          <Heading as="h1" size="2xl" mb={2}>
-            Privacy & Legal Notice
-          </Heading>
           <Text fontSize="sm" color="fg.muted">
-            Last updated: November 25, 2024
+            Last updated: November 27, 2024
           </Text>
         </Box>
 
@@ -19,40 +22,40 @@ export default function Privacy() {
             Who We Are
           </Heading>
           <Text color="fg.muted">
-            We are [Your Band Name], a music band. This is our official website.
+            We are LAVA BOW, a music band. This is our official website.
           </Text>
         </Box>
 
         <Box>
           <Heading as="h2" size="lg" mb={4}>
-            What We Collect
+            What We Collect (nothing about you!)
           </Heading>
           <Text color="fg.muted" mb={3}>
-            We use Vercel Analytics to understand how many people visit our site. This service collects:
+            We use Vercel Analytics to understand how our site runs. This service collects:
           </Text>
           <List.Root mb={4}>
-            <List.Item color="fg.muted">Page views and visitor counts</List.Item>
-            <List.Item color="fg.muted">Device type and browser information</List.Item>
-            <List.Item color="fg.muted">General location (country only)</List.Item>
+            <List.Item color="fg.muted">Page views</List.Item>
+            <List.Item color="fg.muted">Performance insights</List.Item>
+            <List.Item color="fg.muted">Country</List.Item>
           </List.Root>
 
           <Text fontWeight="semibold" mb={3}>
-            We do NOT collect:
+            We do NOT collect (because we don't care):
           </Text>
           <List.Root>
-            <List.Item color="fg.muted">Personal information (names, emails, etc.)</List.Item>
+            <List.Item color="fg.muted">Personal information (except as provided voluntarily on the newsletter form)</List.Item>
             <List.Item color="fg.muted">Cookies</List.Item>
             <List.Item color="fg.muted">IP addresses</List.Item>
-            <List.Item color="fg.muted">Any data that identifies you personally</List.Item>
+            <List.Item color="fg.muted">And any data that identifies you personally</List.Item>
           </List.Root>
         </Box>
 
         <Box>
           <Heading as="h2" size="lg" mb={4}>
-            Why We Collect This
+            Why We Collect This ?
           </Heading>
           <Text color="fg.muted">
-            We use this information solely to understand our audience and improve our website.
+            Just want to know if we have to fire the dev because the site is slow or broken !
           </Text>
         </Box>
 
@@ -70,10 +73,13 @@ export default function Privacy() {
 
         <Box>
           <Heading as="h2" size="lg" mb={4}>
-            Your Rights
+            Data Access
           </Heading>
           <Text color="fg.muted">
             Since we don't collect personal data, there's nothing to delete or access. If you have concerns, you can contact us at contact@lavabow.fr
+          </Text>
+          <Text color="fg.muted">
+            If you wish to unsubscribe from our newsletter, please use the unsubscribe link provided in the emails or contact us directly.
           </Text>
         </Box>
 
