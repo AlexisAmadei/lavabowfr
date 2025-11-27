@@ -6,8 +6,10 @@ import './index.css'
 import { ChakraProvider, defaultSystem } from '@chakra-ui/react'
 import Loading from './components/Design/Loading.jsx'
 import Privacy from './views/Privacy.jsx'
-import { Analytics } from '@vercel/analytics/react'
-import { SpeedInsights } from "@vercel/speed-insights/react"
+
+// Lazy load analytics to prevent blocking FCP
+const Analytics = lazy(() => import('@vercel/analytics/react').then(m => ({ default: m.Analytics })));
+const SpeedInsights = lazy(() => import('@vercel/speed-insights/react').then(m => ({ default: m.SpeedInsights })));
 
 // Dynamically import admin components
 const Login = lazy(() => import('./views/Admin/Login.jsx'));
@@ -81,6 +83,11 @@ createRoot(document.getElementById('root')).render(
             </Suspense>
           } />
         </Routes>
+        {/* Load analytics after initial render */}
+        <Suspense fallback={null}>
+          <Analytics />
+          <SpeedInsights />
+        </Suspense>
       </ChakraProvider>
     </BrowserRouter>
   </StrictMode>,

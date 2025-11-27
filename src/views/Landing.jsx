@@ -13,8 +13,6 @@ import ClickSection from '@/components/Sections/ClickSection/ClickSection'
 import Contact from '@/components/Sections/Contact'
 import { Toaster } from '@/components/ui/toaster'
 import AppBar from '@/components/Core/AppBar/AppBar'
-import { Analytics } from '@vercel/analytics/react'
-import { SpeedInsights } from '@vercel/speed-insights/react'
 
 const Videos = React.lazy(() => import('../components/Sections/Videos'));
 const Pictures = React.lazy(() => import('../components/Sections/Pictures/Pictures'));
@@ -49,10 +47,7 @@ export default function Landing() {
           </Flex>
         </div>
         <Toaster />
-
       </div>
-      <Analytics />
-      <SpeedInsights />
     </>
   )
 }

@@ -13,4 +13,25 @@ export default defineConfig({
         },
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.json']
     },
+    build: {
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    // Separate vendor chunks for better caching
+                    'react-vendor': ['react', 'react-dom', 'react-router'],
+                    'chakra-vendor': ['@chakra-ui/react'],
+                    'animation-vendor': ['gsap', 'motion'],
+                }
+            }
+        },
+        chunkSizeWarningLimit: 600,
+        cssCodeSplit: true,
+        minify: 'terser',
+        terserOptions: {
+            compress: {
+                drop_console: true,
+                drop_debugger: true
+            }
+        }
+    }
 })
