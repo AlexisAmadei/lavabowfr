@@ -10,7 +10,19 @@
  * @throws Error if compression fails
  */
 export const compressAndConvertToWebP = async (file: File): Promise<File> => {
-    console.log(`Starting compression for: ${file.name} (${(file.size / 1024).toFixed(2)}KB)`);
+    // @ts-ignore
+    if (!TINIFY_API_KEY) {
+        console.warn('TinyPNG API key not found. Skipping compression.');
+        return file;
+    } else if (file.size > 5 * 1024 * 1024) { // 5MB maximum for TinyPNG
+        console.warn('File size above 5MB. Skipping compression.');
+        return file;
+    } else if (file.type === 'image/webp') {
+        console.warn('File is already in WebP format. Skipping compression.');
+        return file;
+    } else {
+        console.log(`Starting compression for: ${file.name} (${(file.size / 1024).toFixed(2)}KB)`);
+    }
 
     try {
         // Convert file to base64
@@ -68,6 +80,7 @@ export const compressAndConvertToWebP = async (file: File): Promise<File> => {
  * @returns A new File object with the compressed image
  */
 export const compressImage = async (file: File): Promise<File> => {
+    // @ts-ignore
     if (!TINIFY_API_KEY) {
         console.warn('TinyPNG API key not found. Skipping compression.');
         return file;
@@ -79,6 +92,7 @@ export const compressImage = async (file: File): Promise<File> => {
         const response = await fetch('https://api.tinify.com/shrink', {
             method: 'POST',
             headers: {
+                // @ts-ignore
                 'Authorization': `Basic ${btoa(`api:${TINIFY_API_KEY}`)}`,
             },
             body: arrayBuffer,

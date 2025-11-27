@@ -12,12 +12,12 @@ import { compressAndConvertToWebP } from "@/utils/imageCompression";
 export const uploadPictureFile = async (file: File, fileName: string): Promise<string> => {
     // Compress and convert to WebP
     const compressedFile = await compressAndConvertToWebP(file)
-    
+
     // Update filename to have .webp extension if it was converted
-    const finalFileName = compressedFile.type === 'image/webp' 
+    const finalFileName = compressedFile.type === 'image/webp'
         ? fileName.replace(/\.[^/.]+$/, '.webp')
         : fileName
-    
+
     const sanitizedFileName = finalFileName
         .replace(/[^a-zA-Z0-9._-]/g, '_')
         .replace(/_{2,}/g, '_')
