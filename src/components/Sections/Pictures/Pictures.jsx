@@ -45,34 +45,57 @@ export default function Pictures() {
   if (pictures.length === 0) {
     return null;
   }
+  console.log('Rendering Pictures with', pictures.length, 'items. Active ID:', activeId);
 
   if (isMobile) {
     return (
       <Section id='photos' styles={{ marginTop: '60px' }} title='Lava Bow en photos'>
 
-        <Carousel.Root slideCount={pictures.length} width={'100%'} maxW="md" mx="auto" allowMouseDrag>
+        <Carousel.Root
+          slideCount={pictures.length}
+          width={'100%'}
+          maxW="md"
+          mx="auto"
+          allowMouseDrag
+          snapType="mandatory"
+          loop={true}
+        >
           <Carousel.ItemGroup>
-            {pictures.map((photo) => (
-              <Carousel.Item key={photo.id}>
+            {pictures.map((photo, index) => (
+              <Carousel.Item key={photo.id} index={index} snapAlign="center">
                 <Flex direction={'column'} alignItems={'center'} gap={4}>
-                  <img src={`https://placehold.co/600x400`} alt={photo.title} style={{ borderRadius: '2px', width: '100%', height: 'auto' }} />
+                  <Box width="100%" aspectRatio="16/9" overflow="hidden" borderRadius="2px">
+                    <img
+                      src={photo.link}
+                      alt={photo.title}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover'
+                      }}
+                    />
+                  </Box>
                   <LavaTypo variant={'h3'}>{photo.title}</LavaTypo>
                 </Flex>
               </Carousel.Item>
             ))}
           </Carousel.ItemGroup>
 
-          <Carousel.Control justifyContent={'center'} gap="4">
+          <Carousel.Control justifyContent={'center'} gap="4" mt="4">
             <Carousel.PrevTrigger asChild>
-              <IconButton size="xs" variant="ghost">
+              <IconButton size="sm" aria-label="Previous">
                 <FontAwesomeIcon icon={faAngleLeft} color='white' />
               </IconButton>
             </Carousel.PrevTrigger>
 
-            <Carousel.ProgressText />
+            <Carousel.IndicatorGroup>
+              {pictures.map((_, index) => (
+                <Carousel.Indicator key={index} index={index} />
+              ))}
+            </Carousel.IndicatorGroup>
 
             <Carousel.NextTrigger asChild>
-              <IconButton size="xs" variant="ghost">
+              <IconButton size="sm" aria-label="Next">
                 <FontAwesomeIcon icon={faAngleRight} color='white' />
               </IconButton>
             </Carousel.NextTrigger>
