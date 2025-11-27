@@ -19,11 +19,17 @@ export default function MobileAppBar() {
       setTimeout(() => {
         setOpen(false)
         setIsClosing(false)
-      }, 400) // Match animation duration
+      }, 400)
     } else {
       setOpen(true)
     }
   }
+
+  const handleMenuItemClick = (link) => {
+    scrollToSection(link)
+    handleMenuToggle()
+  }
+
   return (
     <Flex
       direction={'row'}
@@ -55,11 +61,8 @@ export default function MobileAppBar() {
               }}
             />
             <Box
-              onClick={() => handleMenuToggle()}
-              className={`app-bar__menu-burger ${isClosing ? 'mobile-menu-closing' : 'mobile-menu-animation'}`}
+              className={`app-bar__menu-burger`}
               display={'flex'}
-              paddingY={'24px'}
-              paddingX={'16px'}
               flexDirection={'column'}
               alignItems={'flex-end'}
               justifyContent={'flex-start'}
@@ -68,21 +71,23 @@ export default function MobileAppBar() {
               top={0}
               right={0}
               zIndex={10}
+              width={'100%'}
             >
               <GlassSurface
                 width={'100%'}
                 height={'fit-content'}
-                className="my-custom-class"
+                className="mobile-menu__glass-surface"
+                borderRadius={0}
               >
-                <Flex direction={'column'} alignItems={'flex-end'} justifyContent={'flex-end'} width={'100%'}>
-                  <LavaTypo variant='h3'>Close</LavaTypo>
-                  <VStack spacing={2} alignItems={'flex-end'}>
+                <Flex direction={'column'} alignItems={'flex-end'} justifyContent={'flex-end'} width={'100%'} padding={2}>
+                  <LavaTypo variant='h3' onClick={() => handleMenuToggle()} style={{ cursor: 'pointer' }}>Close</LavaTypo>
+                  <Flex spacing={2} width="100%" direction={'column'} justifyContent={'100%'} alignItems={'flex-end'} gap={'12px'} marginTop={'16px'}>
                     {menuItems.map(item => (
-                      <LavaTypo variant={'text'} key={item.name} onClick={() => scrollToSection(item.link)}>
+                      <LavaTypo key={item.name} size={14} onClick={() => handleMenuItemClick(item.link)} style={{ cursor: 'pointer' }}>
                         {item.name}
                       </LavaTypo>
                     ))}
-                  </VStack>
+                  </Flex>
                 </Flex>
               </GlassSurface>
             </Box>
