@@ -33,7 +33,7 @@ export default function Pictures() {
   const containerHeight = 600; // px
 
   // Each image gets its own vertical position with spacing
-  const imageItemHeight = 337; // Height per image including spacing
+  const imageItemHeight = 400; // Height per image including spacing
   const imageGap = 40; // Gap between images
   const totalImageHeight = imageItemHeight + imageGap;
 
@@ -145,6 +145,8 @@ export default function Pictures() {
                 display={'flex'}
                 alignItems={'center'}
                 justifyContent={'center'}
+                onClick={() => handleActive(photo.id)}
+                cursor={'pointer'}
               >
                 <img
                   src={photo.link || `https://placehold.co/640x400`}
