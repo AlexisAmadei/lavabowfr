@@ -39,7 +39,8 @@ export default function LavaButton({
   return (
     <>
       {glassSurface ? (
-        <GlassSurface height={'100%'} width={'100%'}>
+        // @ts-ignore
+        <GlassSurface height={""} width={fullWidth ? '100%' : 'fit-content'}>
           <button
             className={`lava-button ${className} ${color} ${size} ${disabled ? 'disabled' : ''}`}
             onClick={onClick}
