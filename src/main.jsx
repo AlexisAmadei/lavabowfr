@@ -79,7 +79,5 @@ createRoot(document.getElementById('root')).render(
         </Routes>
       </ChakraProvider>
     </BrowserRouter>
-    <Analytics />
-    <SpeedInsights />
   </StrictMode>,
 )

@@ -14,6 +14,7 @@ import Contact from '@/components/Sections/Contact'
 import { Toaster } from '@/components/ui/toaster'
 import AppBar from '@/components/Core/AppBar/AppBar'
 import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/react'
 
 const Videos = React.lazy(() => import('../components/Sections/Videos'));
 const Pictures = React.lazy(() => import('../components/Sections/Pictures/Pictures'));
@@ -25,28 +26,33 @@ export default function Landing() {
   const isInView = useIsInView(ref, 0.03);
 
   return (
-    <div className='app-wrapper'>
-      {!isMobile && (
-        <Box position={'fixed'} top={0} left={0} right={0} zIndex={1000}>
-          <AppBar />
-        </Box>
-      )}
-      <div className='landing-page'>
-        <Hero />
-        <Flex ref={ref} direction={'column'} className='landing-body' width={'100%'} overflow={'hidden'}>
-          <ScrollToTop isVisible={isInView} />
-          <AboutSection />
-          <Music />
-          <Newsletter />
-          <NextEvents />
-          <Videos />
-          <Pictures />
-          <ClickSection />
-          <Contact />
-          <Footer />
-        </Flex>
+    <>
+      <div className='app-wrapper'>
+        {!isMobile && (
+          <Box position={'fixed'} top={0} left={0} right={0} zIndex={1000}>
+            <AppBar />
+          </Box>
+        )}
+        <div className='landing-page'>
+          <Hero />
+          <Flex ref={ref} direction={'column'} className='landing-body' width={'100%'} overflow={'hidden'}>
+            <ScrollToTop isVisible={isInView} />
+            <AboutSection />
+            <Music />
+            <Newsletter />
+            <NextEvents />
+            <Videos />
+            <Pictures />
+            <ClickSection />
+            <Contact />
+            <Footer />
+          </Flex>
+        </div>
+        <Toaster />
+
       </div>
-      <Toaster />
-    </div>
+      <Analytics />
+      <SpeedInsights />
+    </>
   )
 }
