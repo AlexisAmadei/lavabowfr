@@ -1,22 +1,21 @@
 import LavaTypo from '@/components/Design/LavaTypo'
+import Loading from '@/components/Design/Loading';
 import { Toaster, toaster } from '@/components/ui/toaster';
 import { getNewsletterItems } from '@/utils/supabase/newsletter';
 import { Box, Flex, Table } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 
 export default function AdminUsers() {
-
+  const [loadingContacts, setLoadingContacts] = React.useState(false);
   const [emailList, setEmailList] = React.useState([]);
 
   async function fetchEmails() {
+    setLoadingContacts(true);
     try {
       const contactsResponse = await fetch('/api/mailchimp/getcontact');
 
-      console.log('Response status:', contactsResponse.status, contactsResponse.ok);
-
       if (contactsResponse.ok) {
         const data = await contactsResponse.json();
-        console.log('Fetched contacts data:', data);
 
         // Map Mailchimp data to your format
         if (data.contacts && Array.isArray(data.contacts)) {
@@ -28,6 +27,7 @@ export default function AdminUsers() {
             status: contact.status
           }));
           setEmailList(formattedEmails);
+          setLoadingContacts(false);
         }
       } else {
         const errorText = await contactsResponse.text();
@@ -38,6 +38,7 @@ export default function AdminUsers() {
           type: 'error',
           placement: 'bottom-end',
         });
+        setLoadingContacts(false);
       }
     } catch (error) {
       console.error('Error fetching contacts:', error);
@@ -46,8 +47,11 @@ export default function AdminUsers() {
         type: 'error',
         placement: 'bottom-end',
       });
+      setLoadingContacts(false);
     }
-  } useEffect(() => {
+  }
+
+  useEffect(() => {
     fetchEmails();
   }, []);
 
@@ -77,16 +81,24 @@ export default function AdminUsers() {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {emailList.map((item, index) => (
-            <Table.Row key={index}>
-              <Table.Cell onClick={() => handleEmailClick(item.email)} style={{ cursor: 'pointer' }}>
-                <LavaTypo variant='p' color='black' size={14}>{item.email}</LavaTypo>
-              </Table.Cell>
-              <Table.Cell>
-                <LavaTypo variant='p' color='gray' size={14}>Inscrit le {new Date(item.created_at).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</LavaTypo>
+          {loadingContacts ? (
+            <Table.Row>
+              <Table.Cell colSpan={2}>
+                <Loading />
               </Table.Cell>
             </Table.Row>
-          ))}
+          ) : (
+            emailList.map((item, index) => (
+              <Table.Row key={index}>
+                <Table.Cell onClick={() => handleEmailClick(item.email)} style={{ cursor: 'pointer' }}>
+                  <LavaTypo variant='p' color='black' size={14}>{item.email}</LavaTypo>
+                </Table.Cell>
+                <Table.Cell>
+                  <LavaTypo variant='p' color='gray' size={14}>Inscrit le {new Date(item.created_at).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</LavaTypo>
+                </Table.Cell>
+              </Table.Row>
+            ))
+          )}
         </Table.Body>
       </Table.Root>
       <Toaster />
