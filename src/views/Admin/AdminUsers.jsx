@@ -156,21 +156,21 @@ export default function AdminUsers() {
 
   const handleDelete = useCallback(async () => {
     if (selection.size === 0) return;
-    
+
     // TODO: Implement actual delete API call to Mailchimp
     toaster.create({
       title: `${selection.size} contact(s) supprimé(s)`,
       type: 'success',
       placement: 'bottom-end',
     });
-    
+
     setEmailList(prev => prev.filter(item => !selection.has(item.id)));
     setSelection(new Set());
   }, [selection]);
 
   const handleExport = useCallback(() => {
     if (selection.size === 0) return;
-    
+
     const selectedContacts = emailList.filter(item => selection.has(item.id));
     const csvContent = [
       ['Email', 'Prénom', 'Nom', 'Status', 'Date inscription'].join(','),
@@ -182,13 +182,13 @@ export default function AdminUsers() {
         new Date(contact.created_at).toLocaleDateString('fr-FR')
       ].join(','))
     ].join('\n');
-    
+
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
     link.download = `contacts_export_${new Date().toISOString().split('T')[0]}.csv`;
     link.click();
-    
+
     toaster.create({
       title: `${selection.size} contact(s) exporté(s)`,
       type: 'success',
