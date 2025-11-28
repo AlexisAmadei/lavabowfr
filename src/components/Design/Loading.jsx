@@ -1,8 +1,8 @@
 import { AbsoluteCenter, ProgressCircle } from "@chakra-ui/react";
 
-export default function Loading() {
+export default function Loading({ acaxis }) {
   return (
-    <AbsoluteCenter>
+    <AbsoluteCenter axis={acaxis ? acaxis : 'both'}>
       <ProgressCircle.Root value={null} size="sm">
         <ProgressCircle.Circle>
           <ProgressCircle.Range stroke={'var(--Background-bg-brand)'} />
