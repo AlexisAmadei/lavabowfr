@@ -16,7 +16,7 @@ const Login = lazy(() => import('./views/Admin/Login.jsx'));
 const Dashboard = lazy(() => import('./views/Admin/Dashboard.jsx'));
 const AdminLayout = lazy(() => import('./Layouts/AdminLayout.jsx'));
 const AdminContent = lazy(() => import('./views/Admin/AdminContent.jsx'));
-const AdminUsers = lazy(() => import('./views/Admin/AdminUsers.jsx'));
+const AdminUsers = lazy(() => import('./views/Admin/AdminUsers/AdminUsers.jsx'));
 const AdminMerchandise = lazy(() => import('./views/Admin/AdminMerchandise.jsx'));
 const CloudStatus = lazy(() => import('./views/Admin/CloudStatus/CloudStatus.jsx'));
 const Unsubscribe = lazy(() => import('./views/Unsubscribe.jsx'));
