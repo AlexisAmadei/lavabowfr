@@ -14,7 +14,7 @@ export default function HeroTypo({ fontSize = 15, repeated = false }) {
     <Box className='hero-typo' width={'100%'}>
       <img src={HeroFilled} width={'100%'} height={'auto'} alt='Lava Bow Hero Typo Filled' />
       {isMobile && !repeated ? (
-        <Marquee text="LAVA BOW" speed={10} gap={8} />
+        <Marquee speed={10} gap={40} />
       ) :
         (
           <img src={HeroOutlined} width={'100%'} height={'auto'} alt='Lava Bow Hero Typo Outlined' />
