@@ -20,7 +20,7 @@ export default function EventTicket({ event }) {
 
   return (
     <Flex className='card-event'
-      width={isMobile ? '100%' : '756px'}
+      width={isMobile ? '300px' : '756px'}
       height={isMobile ? 'auto' : '204px'}
       backgroundColor={'var(--Background-bg-brand)'}
       direction={isMobile ? 'column' : 'row'}

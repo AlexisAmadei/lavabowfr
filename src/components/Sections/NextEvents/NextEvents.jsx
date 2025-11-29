@@ -113,7 +113,7 @@ export default function NextEvents() {
           },
         }}
         exit={{ opacity: 0, x: direction * -100 }}
-        style={{ width: '100%' }}
+        style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
       >
         <EventTicket event={event} />
       </motion.div>

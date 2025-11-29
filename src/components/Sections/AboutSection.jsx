@@ -10,7 +10,7 @@ export default function AboutSection() {
   const isMobile = useIsMobile();
 
   return (
-    <Section id='about' contained={true} title={'All is about THA Pink Poney'}>
+    <Section id='about' contained={true} title={'“All is about THA Pink Poney”'}>
       <Flex
         className='about-section'
         direction={'column'}
