@@ -29,9 +29,7 @@
 }
 @media screen and (max-width: 768px) {
     .app-bar__menu-burger>.lava-typo {
-        color: var(--Text-text-primary, #FFF);
         font-family: "Cossette Titre" !important;
-        font-size: 24px !important;
         font-style: normal !important;
         font-weight: 700 !important;
         line-height: normal !important;

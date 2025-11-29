@@ -3,11 +3,12 @@ import Logo from '@/components/Design/Logo'
 import { Box, Flex, VStack } from '@chakra-ui/react'
 import React from 'react'
 import { scrollToSection } from '@/utils/navigation'
+import menuItems from '@/lib/menuItems'
+import MediaLinks from './MediaLinks'
+import LavaButton from '@/components/Design/LavaButton'
 
 // eslint-disable-next-line
 import { motion } from 'motion/react'
-import menuItems from '@/lib/menuItems'
-import GlassSurface from '@/components/react-bits/GlassSurface/GlassSurface'
 
 export default function MobileAppBar() {
   const [open, setOpen] = React.useState(false)
@@ -15,11 +16,7 @@ export default function MobileAppBar() {
 
   const handleMenuToggle = () => {
     if (open) {
-      setIsClosing(true)
-      setTimeout(() => {
-        setOpen(false)
-        setIsClosing(false)
-      }, 400)
+      setOpen(false)
     } else {
       setOpen(true)
     }
@@ -44,7 +41,7 @@ export default function MobileAppBar() {
       </div>
       <div style={{ position: 'relative' }}>
         <div onClick={() => handleMenuToggle()} className='app-bar__menu-burger'>
-          <LavaTypo variant='h3'>Menu</LavaTypo>
+          <LavaTypo variant='h2' size={24} color='white'>Menu</LavaTypo>
         </div>
         {open && (
           <>
@@ -60,37 +57,39 @@ export default function MobileAppBar() {
                 zIndex: 9
               }}
             />
-            <Box
+            <Flex
               className={`app-bar__menu-burger`}
-              display={'flex'}
-              flexDirection={'column'}
+              direction={'column'}
               alignItems={'flex-end'}
               justifyContent={'flex-start'}
-              gap={'16px'}
+              gap={5}
+              padding={6}
               position={'fixed'}
               top={0}
               right={0}
               zIndex={10}
               width={'100%'}
+              backgroundColor={'var(--Background-bg-brand)'}
             >
-              <GlassSurface
-                width={'100%'}
-                height={'fit-content'}
-                className="mobile-menu__glass-surface"
-                borderRadius={0}
-              >
-                <Flex direction={'column'} alignItems={'flex-end'} justifyContent={'flex-end'} width={'100%'} padding={2}>
-                  <LavaTypo variant='h3' onClick={() => handleMenuToggle()} style={{ cursor: 'pointer' }}>Close</LavaTypo>
-                  <Flex spacing={2} width="100%" direction={'column'} justifyContent={'100%'} alignItems={'flex-end'} gap={'12px'} marginTop={'16px'}>
-                    {menuItems.map(item => (
-                      <LavaTypo key={item.name} size={14} onClick={() => handleMenuItemClick(item.link)} style={{ cursor: 'pointer' }}>
-                        {item.name}
-                      </LavaTypo>
-                    ))}
-                  </Flex>
-                </Flex>
-              </GlassSurface>
-            </Box>
+              <LavaTypo variant='h2' color='white' onClick={() => handleMenuToggle()} size={24}>Close</LavaTypo>
+              <Flex spacing={2} width="100%" direction={'column'} justifyContent={'100%'} alignItems={'flex-end'} gap={4} marginTop={'16px'}>
+                {menuItems.map(item => {
+                  if (item.variant === 'filled') {
+                    return (
+                      <LavaButton variant='filled' color='secondary' key={item.name} onClick={() => handleMenuItemClick(item.link)}>
+                        <LavaTypo size={18}>{item.name}</LavaTypo>
+                      </LavaButton>
+                    )
+                  }
+                  return (
+                    <LavaTypo key={item.name} size={18} onClick={() => handleMenuItemClick(item.link)}>
+                      {item.name}
+                    </LavaTypo>
+                  )
+                })}
+              </Flex>
+              <MediaLinks />
+            </Flex>
           </>
         )}
       </div>
