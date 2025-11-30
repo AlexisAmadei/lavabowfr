@@ -35,9 +35,9 @@ export default function Landing() {
         <Flex ref={ref} direction='column' className='landing-body' width='100%' overflow='hidden'>
           <ScrollToTop isVisible={isInView} />
           <AboutSection />
+          <NextEvents />
           <Music />
           <Newsletter />
-          <NextEvents />
           <Videos />
           <Pictures />
           <ClickSection />
