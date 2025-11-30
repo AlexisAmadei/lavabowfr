@@ -1,16 +1,20 @@
 import React, { useEffect } from 'react'
-import { Field, Flex, IconButton, Input, InputGroup } from '@chakra-ui/react'
+import { Field, Flex, IconButton, Input, InputGroup, Icon } from '@chakra-ui/react'
 import { ArrowIcon } from './Icons';
-import LavaTypo from '@/components/Design/LavaTypo';
 import './styles/LavaInput.css'
 import { insertNewsletterItem } from '@/utils/supabase/newsletter';
 import { toaster } from '../ui/toaster';
 import GlassSurface from '../react-bits/GlassSurface/GlassSurface';
 
-export default function LavaInput({ type, placeholder, setError, error, variant }) {
+export default function LavaInput({ placeholder, setError, error, variant }: {
+  placeholder?: string;
+  setError: React.Dispatch<React.SetStateAction<boolean>>;
+  error: boolean;
+  variant?: string;
+}) {
   const [email, setEmail] = React.useState('');
 
-  const insertEmail = async (email) => {
+  const insertEmail = async (email: string) => {
     try {
       const { error } = await insertNewsletterItem(email);
       if (error) {
@@ -21,7 +25,7 @@ export default function LavaInput({ type, placeholder, setError, error, variant 
             type: 'error',
           });
           return;
-        } else if (error.message.includes('duplicate key value')) {
+        } else if (typeof error !== 'string' && error.message.includes('duplicate key value')) {
           toaster.create({
             title: 'Tu es déjà inscrit(e) à la newsletter !',
             type: 'info',
@@ -34,8 +38,8 @@ export default function LavaInput({ type, placeholder, setError, error, variant 
           type: 'success',
         });
       }
-    } catch (error) {
-      if (error.message.includes('duplicate key value')) {
+    } catch (error: any) {
+      if (error?.message?.includes('duplicate key value')) {
         toaster.create({
           title: 'Tu es déjà inscrit(e) à la newsletter !',
           type: 'info',
@@ -72,7 +76,7 @@ export default function LavaInput({ type, placeholder, setError, error, variant 
 
   const endIcon = (
     <IconButton onClick={handleSubmit} variant={'ghost'} rounded={'full'} aria-label='Send' className='lava-input-button'>
-      <ArrowIcon boxSize={6} color={'white'} />
+      <Icon as={ArrowIcon} boxSize={6} color={'white'} />
     </IconButton>
   )
 
@@ -80,6 +84,7 @@ export default function LavaInput({ type, placeholder, setError, error, variant 
     <Flex alignItems={'center'} justifyContent={'center'} gap={2} flexDirection={'row'} width={'100%'} maxWidth={'400px'}>
       <Field.Root invalid={error} width={'100%'}>
         <GlassSurface
+          // @ts-ignore
           width={'100%'}
           height={60}
           borderRadius={50}
@@ -87,7 +92,6 @@ export default function LavaInput({ type, placeholder, setError, error, variant 
           <InputGroup endElement={endIcon} className={`lava-input ${variant || ''}`}>
             <Input
               placeholder={placeholder}
-              type={type}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               size={'xl'}

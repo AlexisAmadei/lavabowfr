@@ -14,7 +14,13 @@ const INITIAL_FORM_STATE = {
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5 MB
 
-export default function AddPictureDialog({ open, onClose, onAdd }) {
+interface AddPictureDialogProps {
+  open: boolean
+  onClose: () => void
+  onAdd: (data: any) => void
+}
+
+export default function AddPictureDialog({ open, onClose, onAdd }: AddPictureDialogProps) {
   const [formData, setFormData] = React.useState(INITIAL_FORM_STATE)
   const [uploadedFile, setUploadedFile] = React.useState(null)
 
@@ -27,11 +33,11 @@ export default function AddPictureDialog({ open, onClose, onAdd }) {
     setUploadedFile(null)
   }
 
-  const updateField = (field, value) => {
+  const updateField = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }))
   }
 
-  const handleFileChange = (details) => {
+  const handleFileChange = (details: { acceptedFiles: any[] }) => {
     const file = details.acceptedFiles[0]
     if (file) {
       setUploadedFile(file)

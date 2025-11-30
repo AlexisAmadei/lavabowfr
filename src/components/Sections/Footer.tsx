@@ -69,8 +69,6 @@ export default function Footer() {
             <LavaInput
               placeholder="Email"
               variant={'classic'}
-              fontColor='black'
-              fullWidth={true}
               error={error}
               setError={setError}
             />

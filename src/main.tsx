@@ -21,7 +21,7 @@ const AdminMerchandise = lazy(() => import('./views/Admin/AdminMerchandise.jsx')
 const CloudStatus = lazy(() => import('./views/Admin/CloudStatus/CloudStatus.jsx'));
 const Unsubscribe = lazy(() => import('./views/Unsubscribe.jsx'));
 
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <ChakraProvider value={defaultSystem}>

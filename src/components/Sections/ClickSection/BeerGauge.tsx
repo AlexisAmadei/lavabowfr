@@ -1,7 +1,6 @@
-import React from 'react'
 import IconBeer from '@/assets/icons/beer.svg'
 
-export default function BeerGauge({ palier, progress }) {
+export default function BeerGauge({ palier, progress }: { palier: any; progress: number }) {
   return (
     <div key={palier.id} style={{ position: 'relative', margin: '0 4px' }}>
       <img

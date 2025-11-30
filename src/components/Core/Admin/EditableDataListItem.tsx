@@ -1,18 +1,18 @@
-import React from 'react'
 import { DataList, Editable, IconButton } from '@chakra-ui/react'
 import { faCheck, faPencil, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+interface EditableDataListItemProps {
+  label: string
+  value: string
+  placeholder?: string
+  onValueCommit: (value: string) => void
+}
+
 /**
  * Reusable editable data list item component
- * @param {Object} props
- * @param {string} props.label - The label to display
- * @param {string} props.value - The current value
- * @param {string} props.placeholder - Placeholder text
- * @param {Function} props.onValueCommit - Callback function when value is committed
- * @returns {JSX.Element}
  */
-export default function EditableDataListItem({ label, value, placeholder, onValueCommit }) {
+export default function EditableDataListItem({ label, value, placeholder, onValueCommit }: EditableDataListItemProps) {
   return (
     <DataList.Item width={'100%'}>
       <DataList.ItemLabel>{label}</DataList.ItemLabel>

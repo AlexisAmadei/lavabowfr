@@ -15,7 +15,7 @@ export default function Spotlight() {
   const mP = isMobile ? '12px 24px' : '12px 32px';
 
   const [timer, setTimer] = React.useState(0);
-  const [spotlightData, setSpotlightData] = React.useState([]);
+  const [spotlightData, setSpotlightData] = React.useState<any[]>([]);
   const [activeContent, setActiveContent] = React.useState(spotlightData[0]);
 
   async function fetchSpotlightData() {
@@ -30,7 +30,7 @@ export default function Spotlight() {
         console.error('Error fetching spotlight content:', error);
         return;
       }
-      setSpotlightData(section_spotlight);
+      setSpotlightData(section_spotlight ?? []);
     } catch (error) {
       console.error('Error fetching spotlight content:', error);
     }
@@ -72,21 +72,21 @@ export default function Spotlight() {
           style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: isMobile ? 'center' : 'flex-end' }}
         >
           <LavaTypo variant={'h2'} textAlign={isMobile ? 'center' : 'left'} styles={{ marginBottom: isMobile ? '8px' : '' }}>“{activeContent?.title}”</LavaTypo>
-          <LavaTypo variant={'text'} styles={{ marginBottom: !isMobile ? '24px' : '' }}>{activeContent?.subtitle}</LavaTypo>
+          <LavaTypo variant={'text' as any} styles={{ marginBottom: !isMobile ? '24px' : '' }}>{activeContent?.subtitle}</LavaTypo>
         </motion.div>
       </AnimatePresence>
 
       {/* Static buttons */}
       <Flex direction={'row'} gap={4} marginTop={4}>
         <LavaButton variant='filled' padding={mP} onClick={() => window.open(activeContent?.link, '_blank')} className="app-bar__button">
-          <LavaTypo variant='text' size={isMobile ? '16px' : '24px'}>Écouter</LavaTypo>
+          <LavaTypo variant={'text' as any} size={isMobile ? '16px' : '24px'}>Écouter</LavaTypo>
           <span className="app-bar__icon-on-hover">
             <FontAwesomeIcon icon={faArrowRightLong} />
           </span>
         </LavaButton>
 
         <LavaButton variant='outlined' padding={mP}>
-          <LavaTypo variant='text' size={isMobile ? '16px' : '24px'}>Acheter</LavaTypo>
+          <LavaTypo variant={'text' as any} size={isMobile ? '16px' : '24px'}>Acheter</LavaTypo>
         </LavaButton>
       </Flex>
 

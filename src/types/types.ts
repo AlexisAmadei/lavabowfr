@@ -37,3 +37,11 @@ export type BeerGaugeProps = {
     getProgressPercentage: (index: number) => number;
     IconBeer: string;
 };
+export interface EmailContact {
+  id: string | number;
+  email: string;
+  created_at: string;
+  firstName: string;
+  lastName: string;
+  status: string;
+}

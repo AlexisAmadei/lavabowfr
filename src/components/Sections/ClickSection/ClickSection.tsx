@@ -6,14 +6,13 @@ import ClickCounter from './ClickCounter'
 import useIsMobile from '@/hooks/useIsMobile'
 import { CLICK_PALIERS } from '@/lib/clickPaliers'
 import BeerGauge from './BeerGauge'
-import Counter from '@/components/react-bits/Counter/Counter'
 import ClickSpark from '@/components/react-bits/ClickSpark'
 
 export default function ClickSection() {
   const [clickCount, setClickCount] = React.useState(0);
   const isMobile = useIsMobile();
 
-  function getProgressPercentage(index) {
+  function getProgressPercentage(index: number): number {
     const palier = CLICK_PALIERS[index]
     const previousPalier = index > 0 ? CLICK_PALIERS[index - 1] : { count: 0 }
 
@@ -24,7 +23,7 @@ export default function ClickSection() {
     return Math.min(100, Math.max(0, progress))
   }
 
-  const isPalierReached = (palierCount) => clickCount >= palierCount;
+  const isPalierReached = (palierCount: number): boolean => clickCount >= palierCount;
 
   useEffect(() => {
     const storedClickCount = localStorage.getItem('clickCount');
@@ -34,7 +33,7 @@ export default function ClickSection() {
   }, []);
 
   return (
-    <Section title="Chauffe ce compteur !" styles={{ marginTop: '60px', marginBottom: '60px' }}>
+    <Section title="Chauffe ce compteur !">
       <ClickSpark>
 
         <Flex
@@ -69,7 +68,7 @@ export default function ClickSection() {
                     <Flex style={{ position: 'relative', zIndex: 1, alignItems: 'center', gap: '8px', flex: 1 }} direction={'row'} justifyContent={'center'} alignItems={'center'}>
                       <LavaTypo variant={'h3'} size={!isMobile ? 24 : 16} styles={{ color: isPalierReached(palier.count) ? 'white' : 'var(--main-accent)' }}>{palier.count} cliques</LavaTypo>
                       <span style={{ fontWeight: 'bold', fontSize: `${isMobile ? '14px' : '20px'}`, color: 'white' }}> - </span>
-                      <LavaTypo variant={'text'} size={isMobile ? 12 : 18} styles={{ color: 'white' }}>{palier.description}</LavaTypo>
+                      <LavaTypo variant={'p'} size={isMobile ? 12 : 18} styles={{ color: 'white' }}>{palier.description}</LavaTypo>
                     </Flex>
                   </div>
                 );

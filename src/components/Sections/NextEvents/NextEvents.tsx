@@ -3,16 +3,17 @@ import Section from '@/components/Design/Section'
 import LavaTypo from '@/components/Design/LavaTypo'
 import { Box, Flex } from '@chakra-ui/react'
 import EventTicket from './EventTicket'
-import useIsMobile from '../../../hooks/useIsMobile'
+import useIsMobile from '@/hooks/useIsMobile'
 import LavaButton from '@/components/Design/LavaButton'
 import noEventBg from '@/assets/img/events/no-events.webp'
 import { fetchEventsContent } from '@/utils/supabase/events'
+import type { EventItem } from '@/types/types'
 
 // eslint-disable-next-line
 import { AnimatePresence, motion, usePresenceData } from 'motion/react'
 
 // Utility function to wrap around array indices
-const wrap = (min, max, v) => {
+const wrap = (min: number, max: number, v: number) => {
   const rangeSize = max - min
   return ((((v - min) % rangeSize) + rangeSize) % rangeSize) + min
 }
@@ -45,8 +46,8 @@ const button = {
 
 export default function NextEvents() {
   const isMobile = useIsMobile();
-  const [events, setEvents] = React.useState([]);
-  const [filteredEvents, setFilteredEvents] = React.useState([]);
+  const [events, setEvents] = React.useState<EventItem[]>([]);
+  const [filteredEvents, setFilteredEvents] = React.useState<EventItem[]>([]);
 
   const [selectedItemIndex, setSelectedItemIndex] = useState(0)
   const [direction, setDirection] = useState(1)
@@ -64,7 +65,7 @@ export default function NextEvents() {
 
   useEffect(() => {
     const filtered = events.filter(event => event.status !== 'INACTIVE');
-    const sorted = filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
+    const sorted = filtered.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
     setFilteredEvents(sorted);
   }, [events]);
 
@@ -80,7 +81,7 @@ export default function NextEvents() {
         backgroundPosition={'center'}
         background={'radial-gradient(56.7% 49.96% at 50% 50%, rgba(0, 0, 0, 0.00) 0%, #000 100%), url(' + noEventBg + ') lightgray 50% / cover no-repeat;'}
       >
-        <LavaTypo variant={'h2'} size={isMobile && '22px'}>
+        <LavaTypo variant={'h2'} size={isMobile ? '22px' : undefined}>
           Comme toi, Côme attend patiemment le prochain évènement...
         </LavaTypo>
         <LavaButton variant='outlined' onClick={() => window.open('https://www.instagram.com/lava_bow/', '_blank')}>
@@ -90,18 +91,20 @@ export default function NextEvents() {
     )
   }
 
-  function setSlide(newDirection) {
+  function setSlide(newDirection: number) {
     const nextIndex = wrap(0, filteredEvents.length, selectedItemIndex + newDirection)
     setSelectedItemIndex(nextIndex)
     setDirection(newDirection)
   }
 
-  const EventSlide = forwardRef(function EventSlide({ event }, ref) {
-    const direction = usePresenceData()
+  type EventSlideProps = { event: EventItem }
+
+  const EventSlide = forwardRef<HTMLDivElement, EventSlideProps>(function EventSlide({ event }, ref) {
+    const presenceDirection = usePresenceData() as unknown as number
     return (
       <motion.div
         ref={ref}
-        initial={{ opacity: 0, x: direction * 100 }}
+        initial={{ opacity: 0, x: presenceDirection * 100 }}
         animate={{
           opacity: 1,
           x: 0,
@@ -112,7 +115,7 @@ export default function NextEvents() {
             bounce: 0.3,
           },
         }}
-        exit={{ opacity: 0, x: direction * -100 }}
+        exit={{ opacity: 0, x: presenceDirection * -100 }}
         style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
       >
         <EventTicket event={event} />
@@ -159,7 +162,7 @@ export default function NextEvents() {
           </motion.button>
 
           <Box textAlign="center">
-            <LavaTypo variant={'text'} size={'14px'}>
+            <LavaTypo variant={'p'} size={'14px'}>
               {selectedItemIndex + 1} / {filteredEvents.length}
             </LavaTypo>
           </Box>

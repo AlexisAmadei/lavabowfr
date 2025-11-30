@@ -1,17 +1,8 @@
 import React, { useEffect } from 'react'
 import Section from '@/components/Design/Section'
-import { Box, Flex, ScrollArea } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 import LavaTypo from '../Design/LavaTypo'
 import useIsMobile from '../../hooks/useIsMobile'
-
-const styles = {
-  videoContainer: {
-    position: 'relative',
-    paddingBottom: '56.25%' /* 16:9 aspect ratio */,
-    paddingTop: 25,
-    height: 0,
-  },
-}
 
 const videoList = [
   {
@@ -32,7 +23,7 @@ const videoList = [
 ]
 
 export default function Videos() {
-  const [maxHeight, setMaxHeight] = React.useState();
+  const [maxHeight, setMaxHeight] = React.useState<number | undefined>(undefined);
   const isMobile = useIsMobile(1300);
 
   useEffect(() => {
@@ -49,7 +40,7 @@ export default function Videos() {
         <Flex direction={'column'} gap={6} alignItems={'center'}>
           <LavaTypo variant={'h2'} size={25}>Dernier clip</LavaTypo>
           <Box width={'350px'}>
-            <iframe id="ytplayer" type="text/html" width={'350px'} height={'200px'}
+            <iframe id="ytplayer" width={'350px'} height={'200px'}
               src="https://www.youtube.com/embed/Rbszi6x8mXE?autoplay=0&controls=1"
               name='youtube-embed'
             ></iframe>
@@ -65,8 +56,8 @@ export default function Videos() {
         <Flex justifyContent={'flex-start'} direction={isMobile ? "column" : "row"} gap={3} height={'100%'}>
           <Flex direction={'column'} gap={3} id='featured-video'>
             <LavaTypo variant={'h2'}>Dernier clip</LavaTypo>
-            <Box sx={styles.videoContainer}>
-              <iframe id="ytplayer" type="text/html" width={isMobile ? "100%" : "996"} height={isMobile ? "300" : "600"}
+            <Box>
+              <iframe id="ytplayer" width={isMobile ? "100%" : "996"} height={isMobile ? "300" : "600"}
                 src="https://www.youtube.com/embed/Rbszi6x8mXE?autoplay=0&controls=1"
                 name='youtube-embed' loading='lazy'
               ></iframe>
@@ -89,7 +80,7 @@ export default function Videos() {
               justifyContent={'space-between'}
             >
               {videoList.map((video, index) => (
-                <iframe key={index} id="ytplayer" type="text/html" width={'320px'} height={'180px'}
+                <iframe key={index} id="ytplayer" width={'320px'} height={'180px'}
                   src={video.link}
                   name='youtube-embed' loading='lazy'
                 ></iframe>

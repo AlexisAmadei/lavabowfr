@@ -1,6 +1,6 @@
 import { AbsoluteCenter, ProgressCircle } from "@chakra-ui/react";
 
-export default function Loading({ acaxis }) {
+export default function Loading({ acaxis = 'both' } : { acaxis?: 'both' | 'horizontal' | 'vertical' }) {
   return (
     <AbsoluteCenter axis={acaxis ? acaxis : 'both'}>
       <ProgressCircle.Root value={null} size="sm">

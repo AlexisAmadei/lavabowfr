@@ -1,7 +1,6 @@
-import React from 'react'
 import LavaButton from '@/components/Design/LavaButton'
-import LavaTypo from '@/components/Design/LavaTypo'
-import { Box, Flex } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
+import { ElementType } from 'react'
 import './AppBar.css'
 import menuItems from '@/lib/menuItems'
 import { scrollToSection } from '@/utils/navigation'
@@ -13,7 +12,7 @@ export default function AppBar() {
   return (
     <Flex className='app-bar'
       as={'nav'}
-      axis={'horizontal'}
+      direction={'row'}
       mt={6}
       position={'fixed'}
       top={0}
@@ -27,11 +26,11 @@ export default function AppBar() {
         <MediaLinks />
       )}
       {menuItems.map(item => {
-        const Icon = item.endIcon || item.icon
+        const Icon = (('endIcon' in item && item.endIcon) ? item.endIcon : item.icon) as ElementType | undefined
         return (
           <LavaButton
             key={item.name}
-            variant={item.variant}
+            variant={item.variant as 'filled' | 'outlined' | 'text'}
             className="app-bar__button"
             onClick={() => scrollToSection(item.link)}
             glassSurface={!(Icon)}

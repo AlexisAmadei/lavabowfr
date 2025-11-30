@@ -1,4 +1,3 @@
-import React from 'react'
 import './EventTicket.css'
 import { Box, Flex, Image } from '@chakra-ui/react'
 import Divider from '@/components/Design/Divider'
@@ -10,8 +9,9 @@ import TicketPlacement from './TicketPlacement'
 import Logo from '@/components/Design/Logo'
 import Stabilo from '@/assets/textures/stabilo.svg'
 import useIsMobile from '@/hooks/useIsMobile'
+import type { EventItem } from '@/types/types'
 
-export default function EventTicket({ event }) {
+export default function EventTicket({ event }: { event: EventItem | null }) {
   const isMobile = useIsMobile();
 
   const TICKET_TITLE_SIZE = isMobile ? '30px' : '38px';
@@ -122,9 +122,9 @@ export default function EventTicket({ event }) {
         >
           <Flex className='heads' width={'100%'} justifyContent={'space-evenly'} alignItems={'center'}>
             <Image src={Heads} alt='Event Heads' width={'auto'} height={'70px'} objectFit={'contain'} />
-            <Logo h={70} w={70} />
+            <Logo h={'70'} w={'70'} />
           </Flex>
-          <Box className='description' my={isMobile && 3} px={isMobile && 2}>
+          <Box className='description' my={isMobile ? 3 : 0} px={isMobile ? 2 : 0}>
             <LavaTypo size={TICKET_DESC_SIZE}
               styles={{
                 fontStyle: 'normal',
@@ -134,13 +134,13 @@ export default function EventTicket({ event }) {
               }}
               textAlign={isMobile ? 'center' : 'left'}
             >
-              {event.description || "Sam t'as encore oublié la description.. spammez le sam@lavabow.fr"}
+              {event?.description || "Sam t'as encore oublié la description.. spammez le sam@lavabow.fr"}
             </LavaTypo>
           </Box>
           <LavaButton style={{ backgroundColor: 'var(--main-accent)' }} fullWidth={true}>Ma place</LavaButton>
         </Flex>
 
-        <Box h={'100%'} marginRight={!isMobile && '40px'} id='divider'>
+        <Box h={'100%'} marginRight={!isMobile ? '40px' : undefined} id='divider'>
           <Divider orientation={isMobile ? 'horizontal' : 'vertical'} color={'#ffffffd8'} dashed={true} thickness={'1.5px'} dashArray={'8 8'} rounded={true} />
         </Box>
 
@@ -149,18 +149,18 @@ export default function EventTicket({ event }) {
           justifyContent={'center'}
           width={'30px'}
           height={'100%'}
-          position={!isMobile && 'absolute'}
+          position={isMobile ? undefined : 'absolute'}
           right={'0'}
           top={'0'}
           m={0}
           // backgroundColor={isMobile ? 'transparent' : 'var(--Background-bg-brand)'}
           zIndex={0}
         >
-          <div style={{ transform: !isMobile && 'rotate(90deg)' , width: 'fit-content' }}>
+          <div style={{ transform: isMobile ? undefined : 'rotate(90deg)' , width: 'fit-content' }}>
             <Barcode
               renderer='svg'
-              value={event?.ticketCode || 'https://lavabow.fr'}
-              width={!isMobile ? 1 : "4"}
+              value={'https://lavabow.fr'}
+              width={!isMobile ? 1 : 4}
               height={30}
               displayValue={false}
               background='var(--Background-bg-brand)'

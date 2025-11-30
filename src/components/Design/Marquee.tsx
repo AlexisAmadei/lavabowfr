@@ -1,5 +1,4 @@
 // Marquee.jsx
-import React from "react";
 import HeroOutlined from '@/assets/img/HeroTypo/hero-outlined.svg';
 import { motion, useReducedMotion } from "motion/react";
 
@@ -14,7 +13,7 @@ import { motion, useReducedMotion } from "motion/react";
 export default function Marquee({
   height=60,
   gap = 60,
-  speed,
+  speed = 100,
   reverse = false,
   className = "",
   style = {},
@@ -89,14 +88,14 @@ export default function Marquee({
         }}
       >
         {/* Duplicate content for seamless loop */}
-        <MarqueeContent gap={gap} height={height} />
-        <MarqueeContent gap={gap} height={height} />
+        <MarqueeContent height={height} />
+        <MarqueeContent height={height} />
       </motion.div>
     </div>
   );
 }
 
-function MarqueeContent({ gap, height }) {
+function MarqueeContent({ height }: { height: number }) {
   // Number of copies to ensure full coverage
   const copies = 10;
 

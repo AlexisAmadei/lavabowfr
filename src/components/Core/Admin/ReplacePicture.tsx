@@ -1,21 +1,35 @@
 import { Dialog, Portal, Button, Input, Stack, Image, Text, VStack } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import { useState, type ChangeEvent } from 'react'
 import { replacePictureFile } from '@/utils/supabase/pictures'
-import LavaButton from '@/components/Design/LavaButton'
 import { toaster } from '@/components/ui/toaster'
 
-export default function ReplacePicture({ isOpen, onClose, item, onReplaced }) {
-  const [selectedFile, setSelectedFile] = useState(null)
-  const [previewUrl, setPreviewUrl] = useState(null)
+type ReplacePictureProps = {
+  isOpen: boolean
+  onClose: () => void
+  item?: {
+    id?: string
+    title?: string | null
+    link?: string | null
+  } | null
+  onReplaced?: () => void
+}
+
+export default function ReplacePicture({ isOpen, onClose, item, onReplaced }: ReplacePictureProps) {
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleFileChange = (e) => {
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
       setSelectedFile(file)
       const reader = new FileReader()
       reader.onloadend = () => {
-        setPreviewUrl(reader.result)
+        if (typeof reader.result === 'string') {
+          setPreviewUrl(reader.result)
+        } else {
+          setPreviewUrl(null)
+        }
       }
       reader.readAsDataURL(file)
     }
@@ -26,10 +40,14 @@ export default function ReplacePicture({ isOpen, onClose, item, onReplaced }) {
 
     setIsLoading(true)
     try {
-      await replacePictureFile(item.id, selectedFile)
+      const idNumber = Number(item.id)
+      if (Number.isNaN(idNumber)) {
+        throw new Error('Invalid picture id')
+      }
+      await replacePictureFile(idNumber, selectedFile)
       setSelectedFile(null)
       setPreviewUrl(null)
-      onReplaced()
+      onReplaced?.()
       onClose()
       toaster.success({
         title: 'Photo remplacée',
@@ -110,7 +128,7 @@ export default function ReplacePicture({ isOpen, onClose, item, onReplaced }) {
               <Button
                 variant="solid"
                 onClick={handleReplace}
-                isDisabled={!selectedFile || isLoading}
+                disabled={!selectedFile || isLoading}
               >
                 Remplacer
               </Button>

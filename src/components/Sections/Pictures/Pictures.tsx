@@ -1,5 +1,5 @@
 import { Box, Carousel, Flex, IconButton } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import './Pictures.css'
 import Section from '@/components/Design/Section'
 import LavaTypo from '@/components/Design/LavaTypo'
@@ -7,10 +7,11 @@ import { fetchPicturesContent } from '@/utils/supabase/pictures'
 import useIsMobile from '@/hooks/useIsMobile'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons'
+import type { PictureItem } from '@/types/types'
 
 export default function Pictures() {
-  const [pictures, setPictures] = useState([]);
-  const [activeId, setActiveId] = useState(null);
+  const [pictures, setPictures] = useState<PictureItem[]>([]);
+  const [activeId, setActiveId] = useState<number | null>(null);
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -22,11 +23,11 @@ export default function Pictures() {
 
   useEffect(() => {
     if (pictures.length > 0 && !activeId) {
-      setActiveId(pictures[0].id);
+      setActiveId(pictures[0].id || null);
     }
   }, [pictures, activeId]);
 
-  const handleActive = (id) => setActiveId(id);
+  const handleActive = (id: number | undefined) => setActiveId(id || null);
 
   // Use fixed container height
   const containerHeight = 600; // px
@@ -47,7 +48,7 @@ export default function Pictures() {
 
   if (isMobile) {
     return (
-      <Section id='photos' styles={{ marginTop: '60px' }} title='Lava Bow en photos'>
+      <Section id='photos' title='Lava Bow en photos'>
 
         <Carousel.Root
           slideCount={pictures.length}
@@ -105,7 +106,7 @@ export default function Pictures() {
   }
 
   return (
-    <Section id="photos" title="Lava Bow en photos" styles={{ marginTop: '60px' }}>
+    <Section id="photos" title="Lava Bow en photos">
       <Flex
         direction={'row'}
         justifyContent={'space-between'}

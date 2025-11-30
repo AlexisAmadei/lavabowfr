@@ -1,13 +1,13 @@
 import LavaTypo from '@/components/Design/LavaTypo'
 import Logo from '@/components/Design/Logo'
-import { Box, Flex, VStack } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
 import React from 'react'
 import { scrollToSection } from '@/utils/navigation'
 import menuItems from '@/lib/menuItems'
 import MediaLinks from './MediaLinks'
 import LavaButton from '@/components/Design/LavaButton'
 
-// eslint-disable-next-line
+// @ts-ignore
 import { motion } from 'motion/react'
 
 export default function MobileAppBar() {
@@ -21,7 +21,7 @@ export default function MobileAppBar() {
     }
   }
 
-  const handleMenuItemClick = (link) => {
+  const handleMenuItemClick = (link: string) => {
     scrollToSection(link)
     handleMenuToggle()
   }
@@ -71,7 +71,7 @@ export default function MobileAppBar() {
               backgroundColor={'var(--Background-bg-brand)'}
             >
               <LavaTypo variant='h2' color='white' onClick={() => handleMenuToggle()} size={24}>Close</LavaTypo>
-              <Flex spacing={2} width="100%" direction={'column'} justifyContent={'100%'} alignItems={'flex-end'} gap={4} marginTop={'16px'}>
+              <Flex width="100%" direction={'column'} justifyContent={'100%'} alignItems={'flex-end'} gap={4} marginTop={'16px'}>
                 {menuItems.map(item => {
                   if (item.variant === 'filled') {
                     return (

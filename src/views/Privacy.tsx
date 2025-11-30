@@ -1,7 +1,5 @@
-import { Box, Container, Heading, Link, List, Text, Stack, AbsoluteCenter } from '@chakra-ui/react'
-import React from 'react'
+import { Box, Container, Heading, Link, List, Text, Stack } from '@chakra-ui/react'
 import TextFuzzy from '@/components/react-bits/TextFuzzy'
-import LavaTypo from '@/components/Design/LavaTypo'
 
 export default function Privacy() {
   return (

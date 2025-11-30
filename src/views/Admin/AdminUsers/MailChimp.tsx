@@ -1,46 +1,14 @@
 import LavaTypo from '@/components/Design/LavaTypo';
 import Loading from '@/components/Design/Loading';
 import { toaster } from '@/components/ui/toaster';
+import { EmailContact } from '@/types/types';
 import { ActionBar, Box, Button, Checkbox, Portal, Table } from '@chakra-ui/react';
 import { faDownload, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useMemo, useCallback, memo } from 'react';
 
-const LOCAL_DATA = [
-  { id: 1, email: 'example@example.com' },
-  { id: 2, email: 'test@test.com' },
-  { id: 3, email: 'test@test.com' },
-  { id: 4, email: 'test@test.com' },
-  { id: 5, email: 'test@test.com' },
-  { id: 6, email: 'test@test.com' },
-  { id: 7, email: 'test@test.com' },
-  { id: 8, email: 'test@test.com' },
-  { id: 9, email: 'test@test.com' },
-  { id: 10, email: 'test@test.com' },
-  { id: 11, email: 'test@test.com' },
-  { id: 12, email: 'test@test.com' },
-  { id: 13, email: 'test@test.com' },
-  { id: 14, email: 'test@test.com' },
-  { id: 15, email: 'test@test.com' },
-  { id: 16, email: 'test@test.com' },
-  { id: 17, email: 'test@test.com' },
-  { id: 18, email: 'test@test.com' },
-  { id: 19, email: 'test@test.com' },
-  { id: 20, email: 'test@test.com' },
-  { id: 21, email: 'test@test.com' },
-  { id: 22, email: 'test@test.com' },
-  { id: 23, email: 'test@test.com' },
-  { id: 24, email: 'test@test.com' },
-  { id: 25, email: 'test@test.com' },
-  { id: 26, email: 'test@test.com' },
-  { id: 27, email: 'test@test.com' },
-  { id: 28, email: 'test@test.com' },
-  { id: 29, email: 'test@test.com' },
-  { id: 30, email: 'user@domain.com' }
-];
-
 // Memoized row component to prevent re-renders
-const TableRow = memo(({ item, isSelected, onToggle, onEmailClick }) => (
+const TableRow = memo(({ item, isSelected, onToggle, onEmailClick }: { item: any; isSelected: boolean; onToggle: (changes: { checked: string | boolean }) => void; onEmailClick: () => void }) => (
   <Table.Row>
     <Table.Cell>
       <Checkbox.Root
@@ -73,7 +41,7 @@ const TableRow = memo(({ item, isSelected, onToggle, onEmailClick }) => (
 
 export default function MailChimp() {
   const [loadingContacts, setLoadingContacts] = React.useState(false);
-  const [emailList, setEmailList] = React.useState([]);
+  const [emailList, setEmailList] = React.useState<EmailContact[]>([]);
   const [selection, setSelection] = React.useState(() => new Set());
 
   const selectionSize = selection.size;
@@ -92,7 +60,7 @@ export default function MailChimp() {
 
         // Map Mailchimp data to your format
         if (data.contacts && Array.isArray(data.contacts)) {
-          const formattedEmails = data.contacts.map(contact => ({
+          const formattedEmails = data.contacts.map((contact: { id: any; unique_email_id: any; email_address: any; email_channel: { email: any; }; created_at: any; merge_fields: { FNAME: any; LNAME: any; }; status: any; }) => ({
             id: contact.id || contact.unique_email_id || contact.email_address,
             email: contact.email_channel?.email || 'N/A',
             created_at: contact.created_at,
@@ -111,20 +79,18 @@ export default function MailChimp() {
         toaster.create({
           title: 'Erreur lors de la récupération des contacts',
           type: 'error',
-          placement: 'bottom-end',
         });
         setLoadingContacts(false);
-        setEmailList(LOCAL_DATA); // Fallback to local data
+        // setEmailList(LOCAL_DATA); // Fallback to local data
       }
     } catch (error) {
       console.error('Error fetching contacts:', error);
       toaster.create({
         title: 'Erreur de connexion',
         type: 'error',
-        placement: 'bottom-end',
       });
       setLoadingContacts(false);
-      setEmailList(LOCAL_DATA); // Fallback to local data
+      // setEmailList(LOCAL_DATA); // Fallback to local data
     }
   }
 
@@ -132,16 +98,15 @@ export default function MailChimp() {
     fetchEmails();
   }, []);
 
-  const handleEmailClick = useCallback((email) => {
+  const handleEmailClick = useCallback((email: string) => {
     navigator.clipboard.writeText(email);
     toaster.create({
       title: 'Email copié dans le presse-papier !',
       type: 'success',
-      placement: 'bottom-end',
     });
   }, []);
 
-  const handleToggleRow = useCallback((itemId) => (changes) => {
+  const handleToggleRow = useCallback((itemId: unknown) => (changes: { checked: any; }) => {
     setSelection((prev) => {
       const next = new Set(prev);
       if (changes.checked) {
@@ -160,7 +125,6 @@ export default function MailChimp() {
     toaster.create({
       title: `${selection.size} contact(s) supprimé(s)`,
       type: 'success',
-      placement: 'bottom-end',
     });
 
     setEmailList(prev => prev.filter(item => !selection.has(item.id)));
@@ -188,13 +152,12 @@ export default function MailChimp() {
     toaster.create({
       title: `${selection.size} contact(s) exporté(s)`,
       type: 'success',
-      placement: 'bottom-end',
     });
   }, [selection, emailList]);
 
   return (
     <Box>
-      <LavaTypo variant='h4' color='black' mb={4}>Contacts Mailchimp</LavaTypo>
+      <LavaTypo variant='h4' color='black'>Contacts Mailchimp</LavaTypo>
 
       <Table.Root interactive stickyHeader>
         <Table.Caption />

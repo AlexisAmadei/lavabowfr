@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import LavaButton from '@/components/Design/LavaButton'
-import LavaTypo from '@/components/Design/LavaTypo'
 import IconClick from '@/assets/icons/click.svg'
 import { supabase } from '@/utils/supabase/supabase'
 import Counter from '@/components/react-bits/Counter/Counter'
 
-export default function ClickCounter({ count, setCount, isMobile }) {
+export default function ClickCounter({ count, setCount, isMobile }: { count: number; setCount: (count: number) => void; isMobile: boolean }) {
 
   useEffect(() => {
     // Load initial count
@@ -15,7 +14,7 @@ export default function ClickCounter({ count, setCount, isMobile }) {
         .select('count')
         .eq('id', 1)
         .single()
-      setCount(data.count)
+      setCount(data?.count || 0)
     }
     loadCount()
 

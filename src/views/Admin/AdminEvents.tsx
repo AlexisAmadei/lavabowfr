@@ -81,7 +81,7 @@ export default function AdminEvents() {
         justifyContent={'space-between'}
       >
         {events.length === 0 ? (
-          <LavaTypo variant={'body'} styles={{ color: 'black' }} size={'16px'}>
+          <LavaTypo variant={'p'} styles={{ color: 'black' }} size={'16px'}>
             Aucun event disponible. Ajoutez-en un en cliquant sur "Ajouter un élément".
           </LavaTypo>
         ) : (
@@ -144,7 +144,6 @@ export default function AdminEvents() {
                   label="Prix"
                   value={event.price.toString()}
                   placeholder="Prix"
-                  type="number"
                   onValueCommit={(value: string) => event.id && handleUpdateField(event.id, 'price', parseFloat(value) || 0)}
                 />
 

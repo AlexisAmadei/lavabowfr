@@ -1,4 +1,3 @@
-import React from 'react'
 import { Box, Flex } from '@chakra-ui/react'
 import LavaTypo from '@/components/Design/LavaTypo'
 import aboutSection from '@/assets/img/about-section.webp'
@@ -21,7 +20,7 @@ export default function AboutSection() {
 
         <Flex gap={16} direction={isMobile ? 'column' : 'row'} width={'100%'}>
           <Box flexBasis={'2/3'}>
-            <LavaTypo variant='text' textAlign={isMobile ? 'center' : 'left'}>
+            <LavaTypo variant='p' textAlign={isMobile ? 'center' : 'left'}>
               Lava Bow, c’est un <LavaTypo variant={'accent'}>trio alternatif</LavaTypo> né à Asnières-sur-Seine, aux frontières du chaos sonore et de l’intime viscéral. Composé de Côme (guitare/chant), Sam (violoncelle/chant) et Alexis (batterie), le groupe <LavaTypo variant={'accent'}>casse les codes du rock traditionnel</LavaTypo> avec une formule audacieuse : <LavaTypo variant={'accent'}>pas de basse, mais un violoncelle amplifié et malmené</LavaTypo>, qui tient autant le groove que les envolées lyriques.
               <br /><br />
 

@@ -1,9 +1,17 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import type { SizeProp } from '@fortawesome/fontawesome-svg-core';
 import { faApple, faBandcamp, faDeezer, faFacebook, faInstagram, faSpotify, faYoutube } from "@fortawesome/free-brands-svg-icons";
 import { Flex } from "@chakra-ui/react";
 import { Tooltip } from "@/components/ui/tooltip";
 
-export default function MediaLinks({ content = 'all', size = '1x', color = 'var(--Background-bg-brand)', padding = '12px' }) {
+type MediaLinksProps = {
+  content?: string;
+  size?: SizeProp;
+  color?: string;
+  padding?: string;
+}
+
+export default function MediaLinks({ content = 'all', size = '1x', color = 'var(--Background-bg-brand)', padding = '12px' }: MediaLinksProps) {
   const links = [
     { name: 'instagram', url: 'https://www.instagram.com/lava_bow/', icon: () => <FontAwesomeIcon icon={faInstagram} size={size} color={color} />, content: 'social' },
     { name: 'facebook', url: 'https://www.facebook.com/lavabow', icon: () => <FontAwesomeIcon icon={faFacebook} size={size} color={color} />, content: 'social' },

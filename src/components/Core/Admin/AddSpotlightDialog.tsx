@@ -1,7 +1,20 @@
 import { Button, Dialog, Field, Fieldset, Input, Portal } from '@chakra-ui/react'
 import React from 'react'
 
-export default function AddSpotlightDialog({ open, onClose, onAdd }) {
+type SpotlightData = {
+  title: string
+  subtitle: string
+  listen_link: string
+  buy_link: string
+}
+
+interface AddSpotlightDialogProps {
+  open: boolean
+  onClose: () => void
+  onAdd: (data: SpotlightData) => void
+}
+
+export default function AddSpotlightDialog({ open, onClose, onAdd }: AddSpotlightDialogProps) {
   const [formData, setFormData] = React.useState({
     title: '',
     subtitle: '',
@@ -19,7 +32,7 @@ export default function AddSpotlightDialog({ open, onClose, onAdd }) {
     })
   }
 
-  const updateField = (field, value) => {
+  const updateField = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }))
   }
 

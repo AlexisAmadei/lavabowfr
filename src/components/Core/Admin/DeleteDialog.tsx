@@ -1,5 +1,12 @@
 import { Button, Dialog, Portal } from '@chakra-ui/react'
-import React from 'react'
+
+interface DeleteDialogProps {
+  openDeleteDialog: boolean;
+  setOpenDeleteDialog: (open: boolean) => void;
+  handleDelete: (item: any) => void;
+  itemToDelete?: any;
+  dialogTitle?: string;
+}
 
 export default function DeleteDialog({
   openDeleteDialog,
@@ -7,7 +14,7 @@ export default function DeleteDialog({
   handleDelete,
   itemToDelete,
   dialogTitle
-}) {
+}: DeleteDialogProps) {
   return (
     <Dialog.Root lazyMount open={openDeleteDialog} onOpenChange={(e) => setOpenDeleteDialog(e.open)} placement={'center'}>
       <Portal>

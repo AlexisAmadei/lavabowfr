@@ -4,7 +4,7 @@ import LavaButton from '@/components/Design/LavaButton'
 import LavaTypo from '@/components/Design/LavaTypo'
 import Logo from '@/components/Design/Logo'
 import { AbsoluteCenter, Box, Dialog, Flex } from '@chakra-ui/react'
-import React, { useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { Link } from 'react-router'
 
 export default function Unsubscribe() {
@@ -12,9 +12,10 @@ export default function Unsubscribe() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: React.MouseEvent) => {
     if (!buttonRef.current) return;
 
+    // @ts-ignore
     const button = buttonRef.current.getBoundingClientRect();
     const buttonCenterX = button.left + button.width / 2;
     const buttonCenterY = button.top + button.height / 2;
@@ -68,13 +69,13 @@ export default function Unsubscribe() {
         alignItems={'center'}
       >
         {Array.from({ length: 20 }).map((_, index) => (
-          <HeroTypo key={index} fontSize={15} repeated={true} />
+          <HeroTypo key={index} repeated={true} />
         ))}
       </Flex>
 
       <Link to={'/'}>
         <Box transition="transform 1s ease" _hover={{ transform: 'rotate(1080deg)' }} transformOrigin="center" display="inline-block" cursor="pointer">
-          <Logo h={70} w={70} />
+          <Logo h={'70'} w={'70'} />
         </Box>
       </Link>
       <MediaLinks />
@@ -99,7 +100,7 @@ export default function Unsubscribe() {
               </Dialog.Title>
             </Dialog.Header>
             <Dialog.Body>
-              <LavaTypo variant={'body'} styles={{ color: 'var(--Background-bg-brand)' }}>Il semble que le dev a oublié de terminer cette fonctionnalité</LavaTypo>
+              <LavaTypo variant={'p'} styles={{ color: 'var(--Background-bg-brand)' }}>Il semble que le dev a oublié de terminer cette fonctionnalité</LavaTypo>
             </Dialog.Body>
             <Dialog.Footer />
           </Dialog.Content>

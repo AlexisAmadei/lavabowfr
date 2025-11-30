@@ -1,11 +1,19 @@
 import LavaTypo from '@/components/Design/LavaTypo';
 import { Box, Flex, Text, Link, Spinner, Accordion } from '@chakra-ui/react';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export default function CloudStatus() {
-  const [feedItems, setFeedItems] = useState([]);
+  interface FeedItem {
+    title: string;
+    link: string;
+    pubDate: string;
+    description: string;
+    status: string;
+  }
+
+  const [feedItems, setFeedItems] = useState<FeedItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchRSSFeed = useCallback(async () => {
     try {
@@ -42,7 +50,7 @@ export default function CloudStatus() {
     }
   }, []);
 
-  const getStatusFromTitle = (title) => {
+  const getStatusFromTitle = (title: string) => {
     const lowerTitle = title.toLowerCase();
     if (lowerTitle.includes('resolved') || lowerTitle.includes('completed') || lowerTitle.includes('operational')) {
       return 'resolved';
@@ -54,7 +62,7 @@ export default function CloudStatus() {
     return 'neutral';
   };
 
-  const getStatusColor = (status) => {
+  const getStatusColor = (status: string) => {
     switch (status) {
       case 'resolved':
         return 'green.500';
@@ -67,7 +75,7 @@ export default function CloudStatus() {
     }
   };
 
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: string | number | Date) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('fr-FR', {
       year: 'numeric',
@@ -162,11 +170,11 @@ export default function CloudStatus() {
               <Accordion.ItemContent>
                 <Accordion.ItemBody p={4}>
                   {item.description && (
-                    <Text
+                    <Box
                       fontSize={'sm'}
                       color={'gray.700'}
                       dangerouslySetInnerHTML={{ __html: item.description }}
-                      sx={{
+                      css={{
                         '& p': { margin: 0 },
                         '& a': { color: 'blue.500', textDecoration: 'underline' }
                       }}

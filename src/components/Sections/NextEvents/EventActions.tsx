@@ -6,7 +6,7 @@ import useIsMobile from '@/hooks/useIsMobile'
 
 export default function EventActions() {
   const isMobile = useIsMobile()
-  
+
   return (
     <Flex
       className="event-action"

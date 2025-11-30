@@ -8,7 +8,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useMemo, useCallback, memo } from 'react';
 
 // Memoized row component to prevent re-renders
-const TableRow = memo(({ item, isSelected, onToggle, onEmailClick }) => (
+interface TableRowProps {
+  item: { id: string; email: string; created_at: string };
+  isSelected: boolean;
+  onToggle: (changes: { checked: boolean | string }) => void;
+  onEmailClick: () => void;
+}
+
+const TableRow = memo(({ item, isSelected, onToggle, onEmailClick }: TableRowProps) => (
   <Table.Row>
     <Table.Cell>
       <Checkbox.Root
@@ -41,8 +48,8 @@ const TableRow = memo(({ item, isSelected, onToggle, onEmailClick }) => (
 
 export default function SupTable() {
   const [loading, setLoading] = React.useState(false);
-  const [newsletterItems, setNewsletterItems] = React.useState([]);
-  const [selection, setSelection] = React.useState(() => new Set());
+  const [newsletterItems, setNewsletterItems] = React.useState<{ id: string; email: string; created_at: string }[]>([]);
+  const [selection, setSelection] = React.useState<Set<string>>(() => new Set());
 
   const selectionSize = selection.size;
   const indeterminate = useMemo(
@@ -61,7 +68,6 @@ export default function SupTable() {
       toaster.create({
         title: 'Erreur lors de la récupération des éléments',
         type: 'error',
-        placement: 'bottom-end',
       });
     } finally {
       setLoading(false);
@@ -72,16 +78,15 @@ export default function SupTable() {
     fetchNewsletterItems();
   }, []);
 
-  const handleEmailClick = useCallback((email) => {
+  const handleEmailClick = useCallback((email: string) => {
     navigator.clipboard.writeText(email);
     toaster.create({
       title: 'Email copié dans le presse-papier !',
       type: 'success',
-      placement: 'bottom-end',
     });
   }, []);
 
-  const handleToggleRow = useCallback((itemId) => (changes) => {
+  const handleToggleRow = useCallback((itemId: string) => (changes: { checked: any; }) => {
     setSelection((prev) => {
       const next = new Set(prev);
       if (changes.checked) {
@@ -98,13 +103,12 @@ export default function SupTable() {
 
     try {
       // Delete selected items from Supabase
-      const deletePromises = Array.from(selection).map(id => deleteNewsletterItem(id));
+      const deletePromises = Array.from(selection).map(id => deleteNewsletterItem(Number(id)));
       await Promise.all(deletePromises);
 
       toaster.create({
         title: `${selection.size} élément(s) supprimé(s)`,
         type: 'success',
-        placement: 'bottom-end',
       });
 
       setNewsletterItems(prev => prev.filter(item => !selection.has(item.id)));
@@ -114,7 +118,6 @@ export default function SupTable() {
       toaster.create({
         title: 'Erreur lors de la suppression',
         type: 'error',
-        placement: 'bottom-end',
       });
     }
   }, [selection]);
@@ -140,14 +143,13 @@ export default function SupTable() {
     toaster.create({
       title: `${selection.size} élément(s) exporté(s)`,
       type: 'success',
-      placement: 'bottom-end',
     });
   }, [selection, newsletterItems]);
 
   if (newsletterItems.length === 0 && !loading) {
     return (
       <Box>
-        <LavaTypo variant='h4' color='black' mb={4}>Newsletter Supabase</LavaTypo>
+        <LavaTypo variant='h4' color='black'>Newsletter Supabase</LavaTypo>
         <LavaTypo variant='p' color='gray'>Aucun élément de newsletter trouvé.</LavaTypo>
       </Box>
     );
@@ -155,8 +157,7 @@ export default function SupTable() {
 
   return (
     <Box>
-      <LavaTypo variant='h4' color='black' mb={4}>Newsletter Supabase</LavaTypo>
-      
+      <LavaTypo variant='h4' color='black'>Newsletter Supabase</LavaTypo>
       <Table.Root interactive stickyHeader>
         <Table.Caption />
         <Table.Header>

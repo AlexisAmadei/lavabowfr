@@ -1,12 +1,10 @@
-import { Box, Flex, Grid, GridItem, Text } from '@chakra-ui/react'
-import React from 'react'
-import { Link, useLocation, Outlet } from 'react-router';
+import { Flex, Grid, GridItem, Text } from '@chakra-ui/react'
+import { Link, Outlet } from 'react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
 import AdminMenuItems from '@/components/Core/Admin/AdminMenuItems';
 
 export default function Dashboard() {
-  const location = useLocation();
 
   return (
     <Grid

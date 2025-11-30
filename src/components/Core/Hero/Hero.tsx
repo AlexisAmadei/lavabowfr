@@ -6,7 +6,6 @@ import HeroTypo from '@/components/Design/HeroTypo'
 import useIsMobile from '../../../hooks/useIsMobile'
 import MobileAppBar from '../AppBar/MobileAppBar'
 import MediaLinks from '../AppBar/MediaLinks'
-import LavaTypo from '@/components/Design/LavaTypo'
 import { Link } from 'react-router'
 
 const LinkHoverStyle = {
@@ -18,7 +17,7 @@ const LinkHoverStyle = {
 export default function Hero() {
   const isMobile = useIsMobile();
 
-  const [coverImage, setCoverImage] = React.useState(null);
+  const [coverImage, setCoverImage] = React.useState<string | null>(null);
 
   useEffect(() => {
     const loadImage = async () => {

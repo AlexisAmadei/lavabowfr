@@ -1,6 +1,6 @@
 import { Box, Flex } from '@chakra-ui/react'
 
-export default function EventInfos({ event }) {
+export default function EventInfos({ event }: { event: { description: string; price: number; date: string; place: string } }) {
   return (
     <Flex className="event-infos" direction="column" justifyContent="space-between">
       <p className="event-description">{event.description}</p>

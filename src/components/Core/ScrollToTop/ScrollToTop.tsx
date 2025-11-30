@@ -1,11 +1,10 @@
-import React from 'react'
 import { Flex } from '@chakra-ui/react'
 import LavaTypo from '@/components/Design/LavaTypo'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowUpLong } from '@fortawesome/free-solid-svg-icons'
 import './ScrollToTop.css'
 
-export default function ScrollToTop({ isVisible }) {
+export default function ScrollToTop({ isVisible }: { isVisible: boolean }) {
   return (
     <Flex
       className='scroll-to-top-container'

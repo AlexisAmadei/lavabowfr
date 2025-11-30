@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-
+import React from 'react'
 import Hero from '@/components/Core/Hero/Hero'
 import AboutSection from '@/components/Sections/AboutSection'
 import Newsletter from '@/components/Sections/Newsletter'
@@ -10,9 +9,11 @@ import ClickSection from '@/components/Sections/ClickSection/ClickSection'
 import Contact from '@/components/Sections/Contact'
 import { Toaster } from '@/components/ui/toaster'
 import AppBar from '@/components/Core/AppBar/AppBar'
-import { Box, Flex } from '@chakra-ui/react'
+
+import { Flex } from '@chakra-ui/react'
 import useIsMobile from '@/hooks/useIsMobile'
 import useIsInView from '@/hooks/useIsInView'
+
 import './styles/Landing.css'
 
 const Videos = React.lazy(() => import('../components/Sections/Videos'));
@@ -23,7 +24,6 @@ export default function Landing() {
   const isMobile = useIsMobile();
   const ref = React.useRef(null);
   const isInView = useIsInView(ref, 0.03);
-  const eff = 0;
 
   return (
     <div className='app-wrapper'>
