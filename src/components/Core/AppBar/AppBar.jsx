@@ -1,7 +1,7 @@
 import React from 'react'
 import LavaButton from '@/components/Design/LavaButton'
 import LavaTypo from '@/components/Design/LavaTypo'
-import { Flex } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 import './AppBar.css'
 import menuItems from '@/lib/menuItems'
 import { scrollToSection } from '@/utils/navigation'
@@ -12,10 +12,14 @@ export default function AppBar() {
   const isMobile = useIsMobile(1250);
   return (
     <Flex className='app-bar'
+      as={'nav'}
       axis={'horizontal'}
       mt={6}
-      position={'absolute'}
+      position={'fixed'}
       top={0}
+      left={0}
+      right={0}
+      zIndex={1000}
       justifyContent={'center'}
       gap={4}
     >
@@ -32,7 +36,7 @@ export default function AppBar() {
             onClick={() => scrollToSection(item.link)}
             glassSurface={!(Icon)}
           >
-            <LavaTypo variant='text'>{item.name}</LavaTypo>
+            <a href={item.link}>{item.name}</a>
             {Icon && (
               <span className="app-bar__icon-on-hover">
                 <Icon strokeWidth={1} size={30} />
