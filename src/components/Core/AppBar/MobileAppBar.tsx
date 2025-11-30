@@ -84,7 +84,7 @@ export default function MobileAppBar() {
                   )
                 })}
               </Flex>
-              <MediaLinks />
+              <MediaLinks padding='8px' />
             </Flex>
           </>
         )}
