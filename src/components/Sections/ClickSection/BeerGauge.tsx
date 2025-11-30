@@ -1,6 +1,10 @@
 import IconBeer from '@/assets/icons/beer.svg'
 
-export default function BeerGauge({ palier, progress }: { palier: any; progress: number }) {
+interface Palier {
+  id: string | number;
+}
+
+export default function BeerGauge({ palier, progress }: { palier: Palier; progress: number }) {
   return (
     <div key={palier.id} style={{ position: 'relative', margin: '0 4px' }}>
       <img

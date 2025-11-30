@@ -34,7 +34,7 @@ export default function AdminUsers() {
 
         // Map Mailchimp data to your format
         if (data.contacts && Array.isArray(data.contacts)) {
-          const formattedEmails = data.contacts.map((contact: any) => ({
+          const formattedEmails = data.contacts.map((contact: { id: string; unique_email_id: string; email_address: string; email_channel: { email: string }; created_at: string; merge_fields: { FNAME: string; LNAME: string }; status: string }) => ({
             id: contact.id || contact.unique_email_id || contact.email_address,
             email: contact.email_channel?.email || 'N/A',
             created_at: contact.created_at,

@@ -86,7 +86,7 @@ export default function SupTable() {
     });
   }, []);
 
-  const handleToggleRow = useCallback((itemId: string) => (changes: { checked: any; }) => {
+  const handleToggleRow = useCallback((itemId: string) => (changes: { checked: boolean | string }) => {
     setSelection((prev) => {
       const next = new Set(prev);
       if (changes.checked) {

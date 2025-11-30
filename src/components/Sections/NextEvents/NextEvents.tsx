@@ -9,7 +9,6 @@ import noEventBg from '@/assets/img/events/no-events.webp'
 import { fetchEventsContent } from '@/utils/supabase/events'
 import type { EventItem } from '@/types/types'
 
-// eslint-disable-next-line
 import { AnimatePresence, motion, usePresenceData } from 'motion/react'
 
 // Utility function to wrap around array indices

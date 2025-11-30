@@ -14,7 +14,7 @@ export default function AdminSpotlight() {
   const [open, setOpen] = React.useState(false);
   const [spotlightContent, setSpotlightContent] = React.useState<SpotlightItem[]>([]);
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
-  const [itemToDelete, setItemToDelete] = React.useState<number | null>(null);
+  const [itemToDelete, setItemToDelete] = React.useState<number | undefined>(undefined);
 
   const handleAddSpotlightItem = async (newSpotlightItem: SpotlightItem) => {
     setOpen(false);
@@ -22,7 +22,7 @@ export default function AdminSpotlight() {
     await fetchSpotlightContent(setSpotlightContent);
   };
 
-  const handleUpdateField = async (itemId: number, field: keyof SpotlightItem, value: any) => {
+  const handleUpdateField = async (itemId: number, field: keyof SpotlightItem, value: string) => {
     // Find the current item
     const currentItem = spotlightContent.find(item => item.id === itemId);
     if (!currentItem) return;
@@ -49,7 +49,7 @@ export default function AdminSpotlight() {
 
   const handleDeleteSpotlightItem = async (itemId: number) => {
     setOpenDeleteDialog(false);
-    setItemToDelete(null);
+    setItemToDelete(undefined);
     await deleteSpotlightItem(itemId);
     await fetchSpotlightContent(setSpotlightContent);
   };
@@ -122,14 +122,14 @@ export default function AdminSpotlight() {
               label="Titre"
               value={item.title}
               placeholder="Titre"
-              onValueCommit={(value: any) => item.id && handleUpdateField(item.id, 'title', value)}
+              onValueCommit={(value: string) => item.id && handleUpdateField(item.id, 'title', value)}
             />
 
             <EditableDataListItem
               label="Sous-Titre"
               value={item.subtitle}
               placeholder="Sous-titre"
-              onValueCommit={(value: any) => item.id && handleUpdateField(item.id, 'subtitle', value)}
+              onValueCommit={(value: string) => item.id && handleUpdateField(item.id, 'subtitle', value)}
             />
 
             <Flex direction={'row'} alignItems={'center'} gap={2}>
@@ -137,7 +137,7 @@ export default function AdminSpotlight() {
                 label="Lien d'écoute"
                 value={item.listen_link}
                 placeholder="Lien d'écoute"
-                onValueCommit={(value: any) => item.id && handleUpdateField(item.id, 'listen_link', value)}
+                onValueCommit={(value: string) => item.id && handleUpdateField(item.id, 'listen_link', value)}
               />
               <Button height={'fit-content'} py={1} px={2} colorPalette={'blue'} variant='subtle' onClick={() => testLink(item.listen_link)}>Tester le lien</Button>
             </Flex>
@@ -147,7 +147,7 @@ export default function AdminSpotlight() {
                 label="Lien d'achat"
                 value={item.buy_link}
                 placeholder="Lien d'achat"
-                onValueCommit={(value: any) => item.id && handleUpdateField(item.id, 'buy_link', value)}
+                onValueCommit={(value: string) => item.id && handleUpdateField(item.id, 'buy_link', value)}
               />
               <Button height={'fit-content'} py={1} px={2} colorPalette={'blue'} variant='subtle' onClick={() => testLink(item.buy_link)}>Tester le lien</Button>
             </Flex>
@@ -180,12 +180,12 @@ export default function AdminSpotlight() {
                       <Menu.Item value={item.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE'} onSelect={() => item.id && handleUpdateStatus(item.id, item.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE')}>
                         {item.status === 'ACTIVE' ? 'Désactiver' : 'Activer'}
                       </Menu.Item>
-                      <Menu.Item
+                        <Menu.Item
                         value="delete"
                         color="fg.error"
                         _hover={{ bg: "bg.error", color: "fg.error" }}
                         onSelect={() => {
-                          setItemToDelete(item.id ?? null);
+                          setItemToDelete(item.id ?? undefined);
                           setOpenDeleteDialog(true);
                         }}
                       >

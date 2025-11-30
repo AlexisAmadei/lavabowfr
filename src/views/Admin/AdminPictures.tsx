@@ -4,16 +4,11 @@ import { toaster } from '@/components/ui/toaster'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisVertical, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 
-// @ts-ignore
 import LavaTypo from '@/components/Design/LavaTypo'
 import LavaButton from '@/components/Design/LavaButton'
-// @ts-ignore
 import EditableDataListItem from '@/components/Core/Admin/EditableDataListItem'
-// @ts-ignore
 import DeleteDialog from '@/components/Core/Admin/DeleteDialog'
-// @ts-ignore
 import AddPictureDialog from '@/components/Core/Admin/AddPictureDialog'
-// @ts-ignore
 import ReplacePicture from '@/components/Core/Admin/ReplacePicture'
 import { fetchPicturesContent, insertPictureItem, updatePictureItem, deletePictureItem } from '@/utils/supabase/pictures'
 import { PictureItem } from '@/types/types'
@@ -29,8 +24,19 @@ export default function AdminPictures() {
     fetchPicturesContent(setPicturesContent)
   }, [])
 
-  const handleAddPictureItem = async (newPictureItem: PictureItem) => {
+  const handleAddPictureItem = (data: Partial<PictureItem> & { img?: File | null }) => {
     setOpen(false)
+
+    // Build a full PictureItem from the partial data with sensible defaults so insertPictureItem receives the expected type.
+    const newPictureItem: PictureItem = {
+      id: (data as any).id ?? 0,
+      title: data.title ?? '',
+      description: data.description ?? '',
+      date: data.date ?? '',
+      place: data.place ?? '',
+      link: data.link ?? '',
+      status: (data as any).status ?? 'INACTIVE',
+    }
 
     const addPromise = insertPictureItem(newPictureItem)
       .then(() => fetchPicturesContent(setPicturesContent))

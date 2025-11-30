@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useMemo, useCallback, memo } from 'react';
 
 // Memoized row component to prevent re-renders
-const TableRow = memo(({ item, isSelected, onToggle, onEmailClick }: { item: any; isSelected: boolean; onToggle: (changes: { checked: string | boolean }) => void; onEmailClick: () => void }) => (
+const TableRow = memo(({ item, isSelected, onToggle, onEmailClick }: { item: EmailContact; isSelected: boolean; onToggle: (changes: { checked: string | boolean }) => void; onEmailClick: () => void }) => (
   <Table.Row>
     <Table.Cell>
       <Checkbox.Root
@@ -60,7 +60,7 @@ export default function MailChimp() {
 
         // Map Mailchimp data to your format
         if (data.contacts && Array.isArray(data.contacts)) {
-          const formattedEmails = data.contacts.map((contact: { id: any; unique_email_id: any; email_address: any; email_channel: { email: any; }; created_at: any; merge_fields: { FNAME: any; LNAME: any; }; status: any; }) => ({
+          const formattedEmails = data.contacts.map((contact: { id: string; unique_email_id: string; email_address: string; email_channel: { email: string }; created_at: string; merge_fields: { FNAME: string; LNAME: string }; status: string }) => ({
             id: contact.id || contact.unique_email_id || contact.email_address,
             email: contact.email_channel?.email || 'N/A',
             created_at: contact.created_at,
@@ -106,7 +106,7 @@ export default function MailChimp() {
     });
   }, []);
 
-  const handleToggleRow = useCallback((itemId: unknown) => (changes: { checked: any; }) => {
+  const handleToggleRow = useCallback((itemId: unknown) => (changes: { checked: boolean | string }) => {
     setSelection((prev) => {
       const next = new Set(prev);
       if (changes.checked) {

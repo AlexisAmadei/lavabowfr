@@ -1,14 +1,11 @@
 import LavaButton from '@/components/Design/LavaButton'
-// @ts-ignore
 import LavaTypo from '@/components/Design/LavaTypo'
 import { EventItem } from '@/types/types'
 import { Box, DataList, Flex, IconButton, Image, Menu, Portal } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
-// @ts-ignore
 import EditableDataListItem from '@/components/Core/Admin/EditableDataListItem'
 import AddEventDialog from '../../components/Core/Admin/AddEventDialog'
 import EditEventDialog from '../../components/Core/Admin/EditEventDialog'
-// @ts-ignore
 import DeleteDialog from '@/components/Core/Admin/DeleteDialog'
 import { fetchEventsContent, insertEventItem, updateEventItem } from '@/utils/supabase/events'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -170,7 +167,7 @@ export default function AdminEvents() {
                 />
                 <EditableDataListItem
                   label="Lien"
-                  value={event.link}
+                  value={event.link ?? ''}
                   placeholder="Lien"
                   onValueCommit={(value: string) => event.id && handleUpdateField(event.id, 'link', value)}
                 />

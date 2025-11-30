@@ -8,14 +8,13 @@ import { useRef, useState } from 'react'
 import { Link } from 'react-router'
 
 export default function Unsubscribe() {
-  const buttonRef = useRef(null);
+  const buttonRef = useRef<HTMLDivElement>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!buttonRef.current) return;
 
-    // @ts-ignore
     const button = buttonRef.current.getBoundingClientRect();
     const buttonCenterX = button.left + button.width / 2;
     const buttonCenterY = button.top + button.height / 2;

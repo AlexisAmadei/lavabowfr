@@ -33,7 +33,7 @@ export default function ClickCounter({ count, setCount, isMobile }: { count: num
     return () => {
       supabase.removeChannel(channel)
     }
-  }, [])
+  }, [setCount])
 
   const handleClick = async () => {
     await supabase.rpc('increment_click_count', { row_id: 1, step: 1 })
