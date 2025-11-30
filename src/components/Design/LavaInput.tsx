@@ -6,6 +6,11 @@ import { insertNewsletterItem } from '@/utils/supabase/newsletter';
 import { toaster } from '../ui/toaster';
 import GlassSurface from '../react-bits/GlassSurface/GlassSurface';
 
+function checkEmailFormat(email: string) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
 export default function LavaInput({ placeholder, setError, error, variant }: {
   placeholder?: string;
   setError: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,6 +21,15 @@ export default function LavaInput({ placeholder, setError, error, variant }: {
 
   const insertEmail = async (email: string) => {
     try {
+      if (!checkEmailFormat(email)) {
+        setError(true);
+        toaster.create({
+          title: 'Mets un vrai mail par contre !',
+          type: 'error',
+        });
+        return;
+      }
+
       const { error } = await insertNewsletterItem(email.toLowerCase().trim());
       if (error) {
         setError(true);

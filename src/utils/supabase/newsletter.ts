@@ -1,22 +1,33 @@
 import { supabase } from "./supabase";
 
-const verifyEmail = async (email: string) => {
-    const response = await fetch('/api/verifyEmail', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email })
-    });
-
-    return response.json().then(data => data.status);
+const verifyEmailInBackground = async (email: string, id: number) => {
+    try {
+        await fetch('/api/verifyEmail', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, id })
+        });
+    } catch (error) {
+        console.error('Background email verification failed:', error);
+    }
 }
 
 export const insertNewsletterItem = async (item: string) => {
-    const validStatus = await verifyEmail(item);
-    if (validStatus !== 'valid') {
-        return { data: null, error: 'invalid'};
+    // First, check if email already exists in Supabase
+    const { data: existing } = await supabase
+        .from('newsletter')
+        .select('id')
+        .eq('email', item)
+        .maybeSingle();
+
+    if (existing) {
+        // Return a specific error for duplicate
+        return { data: null, error: { message: 'duplicate key value' } as any };
     }
+
+    // Insert with pending status
     const { data, error } = await supabase
         .from('newsletter')
         .insert([
@@ -26,6 +37,12 @@ export const insertNewsletterItem = async (item: string) => {
             },
         ])
         .select()
+
+    // Trigger background verification without awaiting
+    if (data && data[0]) {
+        verifyEmailInBackground(item, data[0].id);
+    }
+
     return { data, error };
 }
 
