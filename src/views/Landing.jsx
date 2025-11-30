@@ -27,9 +27,7 @@ export default function Landing() {
     <>
       <div className='app-wrapper'>
         {!isMobile && (
-          <Box position={'fixed'} top={0} left={0} right={0} zIndex={1000}>
-            <AppBar />
-          </Box>
+          <AppBar />
         )}
         <div className='landing-page'>
           <Hero />
