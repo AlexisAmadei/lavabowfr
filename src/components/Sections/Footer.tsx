@@ -67,8 +67,9 @@ export default function Footer() {
           <LavaTypo variant={'h3'}>Newsletter</LavaTypo>
           <Box width={'100%'}>
             <LavaInput
+              liquidGlass={false}
               placeholder="Email"
-              variant={'classic'}
+              variant={'subtle'}
               error={error}
               setError={setError}
             />

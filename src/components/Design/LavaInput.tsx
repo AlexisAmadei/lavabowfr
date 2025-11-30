@@ -11,11 +11,12 @@ function checkEmailFormat(email: string) {
   return emailRegex.test(email);
 }
 
-export default function LavaInput({ placeholder, setError, error, variant }: {
+export default function LavaInput({ placeholder, setError, error, variant, liquidGlass }: {
   placeholder?: string;
   setError: React.Dispatch<React.SetStateAction<boolean>>;
   error: boolean;
   variant?: string;
+  liquidGlass?: boolean;
 }) {
   const [email, setEmail] = React.useState('');
 
@@ -98,26 +99,44 @@ export default function LavaInput({ placeholder, setError, error, variant }: {
   return (
     <Flex alignItems={'center'} justifyContent={'center'} gap={2} flexDirection={'row'} width={'100%'} maxWidth={'400px'}>
       <Field.Root invalid={error} width={'100%'}>
-        <GlassSurface
+        {liquidGlass ? (
+
+          <GlassSurface
             // @ts-expect-error Allow string width to be passed to GlassSurface
             width={'100%'}
-          height={60}
-          borderRadius={50}
-        >
+            height={60}
+            borderRadius={50}
+          >
+            <InputGroup endElement={endIcon} className={`lava-input ${variant || ''}`}>
+              <Input
+                placeholder={placeholder}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                size={'xl'}
+                borderRadius={'50px'}
+                borderColor={'transparent'}
+                _placeholder={{ color: "gray.400", fontWeight: '500' }}
+                width={'100%'}
+                _focusVisible={{ outline: 'none' }}
+              />
+            </InputGroup>
+          </GlassSurface>
+        ) : (
           <InputGroup endElement={endIcon} className={`lava-input ${variant || ''}`}>
             <Input
               placeholder={placeholder}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               size={'xl'}
-              borderRadius={'50px'}
               borderColor={'transparent'}
+              borderBottomColor={'white'}
               _placeholder={{ color: "gray.400", fontWeight: '500' }}
               width={'100%'}
-              _focusVisible={{ outline: 'none'}}
+              _focusVisible={{ outline: 'none' }}
             />
           </InputGroup>
-        </GlassSurface>
+        )
+        }
       </Field.Root>
     </Flex>
   )

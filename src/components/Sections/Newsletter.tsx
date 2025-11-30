@@ -29,6 +29,7 @@ export default function Newsletter() {
 
         <Box width={'100%'} maxWidth={'400px'} position={'relative'}>
           <LavaInput
+            liquidGlass={true}
             placeholder='Email'
             error={error}
             setError={setError}
