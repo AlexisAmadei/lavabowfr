@@ -4,7 +4,6 @@ import Section from '@/components/Design/Section'
 import { Flex } from '@chakra-ui/react'
 import ClickCounter from './ClickCounter'
 import useIsMobile from '@/hooks/useIsMobile'
-import { CLICK_PALIERS } from '@/lib/clickPaliers'
 import BeerGauge from './BeerGauge'
 import ClickSpark from '@/components/react-bits/ClickSpark'
 import { fetchClicksContent } from '@/utils/supabase/click_palier'
@@ -17,12 +16,12 @@ export default function ClickSection() {
 
   function getProgressPercentage(index: number): number {
     const palier = clicksItems[index]
-    const previousPalier = index > 0 ? clicksItems[index - 1] : { count: 0 }
+    const previousPalier = index > 0 ? clicksItems[index - 1] : { target: 0 }
 
-    if (clickCount >= palier.count) return 100
-    if (clickCount < previousPalier.count) return 0
+    if (clickCount >= palier.target) return 100
+    if (clickCount < previousPalier.target) return 0
 
-    const progress = ((clickCount - previousPalier.count) / (palier.count - previousPalier.count)) * 100
+    const progress = ((clickCount - previousPalier.target) / (palier.target - previousPalier.target)) * 100
     return Math.min(100, Math.max(0, progress))
   }
 

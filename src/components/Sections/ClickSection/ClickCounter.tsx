@@ -39,6 +39,16 @@ export default function ClickCounter({ count, setCount, isMobile }: { count: num
     await supabase.rpc('increment_click_count', { row_id: 1, step: 1 })
   }
 
+  const getPlacesForValue = (v: number) => {
+    const digits = v > 0 ? Math.floor(Math.log10(v)) + 1 : 1;
+    const placesCount = Math.max(3, digits);
+    const places: number[] = [];
+    for (let i = placesCount - 1; i >= 0; i--) {
+      places.push(10 ** i);
+    }
+    return places;
+  };
+
   return (
     <LavaButton
       variant='filled'
@@ -54,6 +64,7 @@ export default function ClickCounter({ count, setCount, isMobile }: { count: num
     >
       <Counter
         value={count}
+        places={getPlacesForValue(count)}
         fontSize={30}
         textColor='white'
         fontWeight={'bold'}
