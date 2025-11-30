@@ -49,5 +49,5 @@ export interface EmailContact {
 export interface ClicksItem {
     id: number;
     name: string;
-    target: string;
+    target: number;
 }
