@@ -1,13 +1,15 @@
-import { emailChecker } from "../emailChecker";
 import { supabase } from "./supabase";
 
 const verifyEmail = async (email: string) => {
-    const { reason } = await emailChecker(email);
+    const response = await fetch('/api/verifyEmail', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email })
+    });
 
-    if (reason === "The mailbox doesn't exist.") {
-        return "invalid"
-    }
-    return "valid";
+    return response.json().then(data => data.status);
 }
 
 export const insertNewsletterItem = async (item: string) => {

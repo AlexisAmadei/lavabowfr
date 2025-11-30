@@ -1,7 +1,6 @@
 import LavaTypo from '@/components/Design/LavaTypo';
 import { Toaster } from '@/components/ui/toaster';
 import { Box } from '@chakra-ui/react';
-import React from 'react';
 import MailChimp from './AdminUsers/MailChimp';
 import SupTable from './AdminUsers/SupTable';
 
@@ -11,9 +10,7 @@ export default function AdminUsers() {
       <LavaTypo variant='h3' color='black'>CRM - Newsletter</LavaTypo>
 
       <MailChimp />
-      
       <SupTable />
-
       <Toaster />
     </Box>
   );

@@ -2,18 +2,20 @@ import LavaTypo from '@/components/Design/LavaTypo';
 import Loading from '@/components/Design/Loading';
 import { toaster } from '@/components/ui/toaster';
 import { deleteNewsletterItem, getNewsletterItems } from '@/utils/supabase/newsletter';
-import { ActionBar, Box, Button, Checkbox, Portal, Table } from '@chakra-ui/react';
+import { ActionBar, Badge, Box, Button, Checkbox, Portal, Table } from '@chakra-ui/react';
 import { faDownload, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useMemo, useCallback, memo } from 'react';
 
 // Memoized row component to prevent re-renders
 interface TableRowProps {
-  item: { id: string; email: string; created_at: string };
+  item: NewsletterItem;
   isSelected: boolean;
   onToggle: (changes: { checked: boolean | string }) => void;
   onEmailClick: () => void;
 }
+
+type NewsletterItem = { id: string; email: string; created_at: string, verify_status: string };
 
 const TableRow = memo(({ item, isSelected, onToggle, onEmailClick }: TableRowProps) => (
   <Table.Row>
@@ -33,6 +35,20 @@ const TableRow = memo(({ item, isSelected, onToggle, onEmailClick }: TableRowPro
       <LavaTypo variant='p' color='black' size={14}>{item.email}</LavaTypo>
     </Table.Cell>
     <Table.Cell>
+      <Badge
+        variant="subtle"
+        size="sm"
+        colorPalette={
+          item.verify_status === 'unknown' ? 'gray' :
+          item.verify_status === 'valid' ? 'green' :
+          item.verify_status === 'invalid' ? 'red' :
+          'yellow'
+        }
+      >
+        {item.verify_status}
+      </Badge>
+    </Table.Cell>
+    <Table.Cell>
       <LavaTypo variant='p' color='gray' size={14}>
         Inscrit le {new Date(item.created_at).toLocaleDateString('fr-FR', {
           day: '2-digit',
@@ -48,7 +64,7 @@ const TableRow = memo(({ item, isSelected, onToggle, onEmailClick }: TableRowPro
 
 export default function SupTable() {
   const [loading, setLoading] = React.useState(false);
-  const [newsletterItems, setNewsletterItems] = React.useState<{ id: string; email: string; created_at: string }[]>([]);
+  const [newsletterItems, setNewsletterItems] = React.useState<NewsletterItem[]>([]);
   const [selection, setSelection] = React.useState<Set<string>>(() => new Set());
 
   const selectionSize = selection.size;
@@ -184,6 +200,9 @@ export default function SupTable() {
               <LavaTypo variant='p' color='black'>Email</LavaTypo>
             </Table.ColumnHeader>
             <Table.ColumnHeader>
+              <LavaTypo variant='p' color='black'>Email statut</LavaTypo>
+            </Table.ColumnHeader>
+            <Table.ColumnHeader>
               <LavaTypo variant='p' color='black'>Date d'inscription</LavaTypo>
             </Table.ColumnHeader>
           </Table.Row>
@@ -191,7 +210,7 @@ export default function SupTable() {
         <Table.Body>
           {loading ? (
             <Table.Row>
-              <Table.Cell colSpan={3}>
+              <Table.Cell colSpan={4}>
                 <Loading />
               </Table.Cell>
             </Table.Row>

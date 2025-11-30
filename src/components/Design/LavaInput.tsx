@@ -16,7 +16,7 @@ export default function LavaInput({ placeholder, setError, error, variant }: {
 
   const insertEmail = async (email: string) => {
     try {
-      const { error } = await insertNewsletterItem(email);
+      const { error } = await insertNewsletterItem(email.toLowerCase().trim());
       if (error) {
         setError(true);
         if (error === 'invalid') {
