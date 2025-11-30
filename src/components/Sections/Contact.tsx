@@ -67,12 +67,16 @@ export default function Contact() {
         </Flex>
       </Flex>
 
-      <Flex width={'100%'} justifyContent={'space-between'} alignItems={'flex-end'}
+      <Flex
+        width={'100%'}
+        justifyContent={'space-between'}
+        alignItems={'flex-end'}
         position={'absolute'}
         bottom={0}
+        height={isMobile ? '38px' : "100%"}
       >
-        <img src={Car} alt='Contact Car' />
-        <img src={Frogs} alt='Contact Frogs' />
+        <img src={Car} alt='Contact Car' style={{ maxHeight: '100%'}} />
+        <img src={Frogs} alt='Contact Frogs' style={{ maxHeight: '100%'}} />
       </Flex>
     </Section>
   )
