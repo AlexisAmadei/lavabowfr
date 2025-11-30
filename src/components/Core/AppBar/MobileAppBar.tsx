@@ -7,9 +7,6 @@ import menuItems from '@/lib/menuItems'
 import MediaLinks from './MediaLinks'
 import LavaButton from '@/components/Design/LavaButton'
 
-// @ts-ignore
-import { motion } from 'motion/react'
-
 export default function MobileAppBar() {
   const [open, setOpen] = React.useState(false)
 
@@ -36,7 +33,7 @@ export default function MobileAppBar() {
       paddingTop={6}
     >
       <div className="app-bar__logo">
-        <Logo h={50} w={50} />
+        <Logo h={'50'} w={'50'} />
       </div>
       <div style={{ position: 'relative' }}>
         <div onClick={() => handleMenuToggle()} className='app-bar__menu-burger'>
