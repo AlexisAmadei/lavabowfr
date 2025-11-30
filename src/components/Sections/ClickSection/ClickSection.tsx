@@ -56,7 +56,7 @@ export default function ClickSection() {
             <LavaTypo variant={'h4'}>Clique et débloque des paliers :</LavaTypo>
 
             <div style={{ display: 'grid', gridTemplateColumns: `${!isMobile ? 'repeat(2, 1fr)' : 'repeat(1, 1fr)'}`, gap: `${isMobile ? '10px' : '16px'}`, marginTop: '16px', width: '100%' }}>
-              {CLICK_PALIERS.map((palier, index) => {
+              {clicksItems.map((palier, index) => {
                 const progress = getProgressPercentage(index);
                 return (
                   <div key={palier.id} id={`palier-${palier.id}`} style={{ position: 'relative', overflow: 'hidden', border: '1px solid white', borderRadius: 50, padding: `${isMobile ? '0px 8px' : '12px 20px'}`, display: 'flex', alignItems: 'center', gap: '12px', minHeight: `${isMobile ? '48px' : '64px'}` }}>
