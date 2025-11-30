@@ -38,8 +38,9 @@ export default function LavaInput({ placeholder, setError, error, variant }: {
           type: 'success',
         });
       }
-    } catch (error: any) {
-      if (error?.message?.includes('duplicate key value')) {
+    } catch (err: unknown) {
+      const error = err as { message?: string } | undefined
+      if (error?.message?.includes?.('duplicate key value')) {
         toaster.create({
           title: 'Tu es déjà inscrit(e) à la newsletter !',
           type: 'info',
@@ -72,7 +73,7 @@ export default function LavaInput({ placeholder, setError, error, variant }: {
     if (error) {
       setError(true);
     }
-  }, [error]);
+  }, [error, setError]);
 
   const endIcon = (
     <IconButton onClick={handleSubmit} variant={'ghost'} rounded={'full'} aria-label='Send' className='lava-input-button'>
@@ -84,8 +85,8 @@ export default function LavaInput({ placeholder, setError, error, variant }: {
     <Flex alignItems={'center'} justifyContent={'center'} gap={2} flexDirection={'row'} width={'100%'} maxWidth={'400px'}>
       <Field.Root invalid={error} width={'100%'}>
         <GlassSurface
-          // @ts-ignore
-          width={'100%'}
+            // @ts-expect-error Allow string width to be passed to GlassSurface
+            width={'100%'}
           height={60}
           borderRadius={50}
         >
