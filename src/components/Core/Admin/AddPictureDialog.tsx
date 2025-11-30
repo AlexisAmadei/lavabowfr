@@ -3,6 +3,7 @@ import { Button, Dialog, Field, Fieldset, FileUpload, Input, Portal, Textarea } 
 import { faUpload } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
+import type { PictureItem } from '@/types/types'
 
 const INITIAL_FORM_STATE = {
   title: '',
@@ -17,18 +18,19 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5 MB
 interface AddPictureDialogProps {
   open: boolean
   onClose: () => void
-  onAdd: (data: any) => void
+  onAdd: (data: Partial<PictureItem> & { img?: File | null }) => void
 }
 
 export default function AddPictureDialog({ open, onClose, onAdd }: AddPictureDialogProps) {
   const [formData, setFormData] = React.useState(INITIAL_FORM_STATE)
-  const [uploadedFile, setUploadedFile] = React.useState(null)
+  const [uploadedFile, setUploadedFile] = React.useState<File | null>(null)
 
   const handleSubmit = async () => {
-    // Pass the selected file as `img` and any manual link left in the form.
-    // The server-side helper `insertPictureItem` will handle uploading and
-    // storing the final public URL. Avoid constructing a manual URL here.
-    onAdd({ ...formData, img: uploadedFile })
+    if (uploadedFile) {
+      onAdd({ ...formData, img: uploadedFile })
+    } else {
+      onAdd({ ...formData })
+    }
     setFormData(INITIAL_FORM_STATE)
     setUploadedFile(null)
   }
@@ -37,7 +39,7 @@ export default function AddPictureDialog({ open, onClose, onAdd }: AddPictureDia
     setFormData(prev => ({ ...prev, [field]: value }))
   }
 
-  const handleFileChange = (details: { acceptedFiles: any[] }) => {
+  const handleFileChange = (details: { acceptedFiles: File[] }) => {
     const file = details.acceptedFiles[0]
     if (file) {
       setUploadedFile(file)
