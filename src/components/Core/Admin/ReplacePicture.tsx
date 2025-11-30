@@ -7,7 +7,7 @@ type ReplacePictureProps = {
   isOpen: boolean
   onClose: () => void
   item?: {
-    id?: string
+    id?: string | number
     title?: string | null
     link?: string | null
   } | null
