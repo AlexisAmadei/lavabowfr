@@ -16,8 +16,8 @@ export default function ClickSection() {
   const isMobile = useIsMobile();
 
   function getProgressPercentage(index: number): number {
-    const palier = CLICK_PALIERS[index]
-    const previousPalier = index > 0 ? CLICK_PALIERS[index - 1] : { count: 0 }
+    const palier = clicksItems[index]
+    const previousPalier = index > 0 ? clicksItems[index - 1] : { count: 0 }
 
     if (clickCount >= palier.count) return 100
     if (clickCount < previousPalier.count) return 0
