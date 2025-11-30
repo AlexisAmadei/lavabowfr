@@ -43,19 +43,30 @@ export default async function handler(req, res) {
 
         let status = 'unknown';
         if (result.reason === "The mailbox doesn't exist.") {
+            console.log('Email does not exist');
             status = 'invalid';
         } else if (result.status === 'valid') {
+            console.log('Email is valid');
             status = 'valid';
         } else {
+            console.log('Email status is unknown');
             status = 'unknown';
         }
 
         // Update database if ID is provided and we have Supabase credentials
+        console.log('Checking Supabase update conditions:', {
+            id: id,
+            hasSupabaseUrl: !!process.env.SUPABASE_URL,
+            hasServiceRole: !!process.env.SUPABASE_SERVICE_ROLE_KEY
+        });
+
         if (id && process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
             const supabase = createClient(
                 process.env.SUPABASE_URL,
                 process.env.SUPABASE_SERVICE_ROLE_KEY
             );
+
+            console.log('Updating verify_status for ID:', id, 'to', status);
 
             const { error: updateError } = await supabase
                 .from('newsletter')
@@ -64,9 +75,11 @@ export default async function handler(req, res) {
 
             if (updateError) {
                 console.error('Failed to update verify_status:', updateError);
+            } else {
+                console.log('Successfully updated verify_status for ID:', id, 'to', status);
             }
         } else {
-            console.warn('Skipping database update: Missing ID or Supabase credentials');
+            console.log('❌ Skipping database update - missing requirements');
         }
 
         return res.status(200).json({ status });

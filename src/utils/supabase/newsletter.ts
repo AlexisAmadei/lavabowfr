@@ -1,16 +1,20 @@
 import { supabase } from "./supabase";
 
 const verifyEmailInBackground = async (email: string, id: number) => {
+    console.log('🚀 Starting background verification for email:', email, 'ID:', id);
     try {
-        await fetch('/api/verifyEmail', {
+        // Pass the ID to the API so it can update the database directly
+        const response = await fetch('/api/verifyEmail', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ email, id })
         });
+        const result = await response.json();
+        console.log('✅ Background verification complete:', result);
     } catch (error) {
-        console.error('Background email verification failed:', error);
+        console.error('❌ Background email verification failed:', error);
     }
 }
 
@@ -40,7 +44,10 @@ export const insertNewsletterItem = async (item: string) => {
 
     // Trigger background verification without awaiting
     if (data && data[0]) {
+        console.log('📧 Triggering background verification for ID:', data[0].id);
         verifyEmailInBackground(item, data[0].id);
+    } else {
+        console.log('⚠️ No data returned from insert, skipping verification');
     }
 
     return { data, error };
