@@ -7,7 +7,6 @@ import { fetchPicturesContent } from '@/utils/supabase/pictures'
 import useIsMobile from '@/hooks/useIsMobile'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons'
-// import { LuChevronLeft, LuChevronRight } from 'react-icons/lu'
 
 export default function Pictures() {
   const [pictures, setPictures] = useState([]);
@@ -45,7 +44,6 @@ export default function Pictures() {
   if (pictures.length === 0) {
     return null;
   }
-  console.log('Rendering Pictures with', pictures.length, 'items. Active ID:', activeId);
 
   if (isMobile) {
     return (
@@ -107,11 +105,7 @@ export default function Pictures() {
   }
 
   return (
-    <Section id="photos" styles={{ marginTop: '60px' }}>
-      <Flex gap={3} direction={'column'} alignItems={'center'} marginBottom={'48px'}>
-        <LavaTypo variant={'h2'}>Lava Bow en photos</LavaTypo>
-      </Flex>
-
+    <Section id="photos" title="Lava Bow en photos" styles={{ marginTop: '60px' }}>
       <Flex
         direction={'row'}
         justifyContent={'space-between'}
@@ -121,30 +115,28 @@ export default function Pictures() {
         width={'100%'}
       >
         <Box flex="1" height={`${containerHeight}px`} position={'relative'} display={'flex'} alignItems={'center'} justifyContent={'center'}>
-          <Box position={'relative'} width={'100%'} height={'100%'}>
-            {pictures.map((photo, index) => (
-              <Box
-                key={photo.id}
-                position={'absolute'}
-                top={`calc(50% + ${(index - activeIndex) * textItemSpacing}px)`}
-                transform={'translateY(-50%)'}
-                width={'100%'}
-                transition={'top 0.6s ease-in-out, opacity 0.3s ease'}
+          {pictures.map((photo, index) => (
+            <Box
+              key={photo.id}
+              position={'absolute'}
+              top={`calc(50% + ${(index - activeIndex) * textItemSpacing}px)`}
+              transform={'translateY(-50%)'}
+              width={'100%'}
+              transition={'top 0.6s ease-in-out, opacity 0.3s ease'}
+            >
+              <LavaTypo
+                variant={'h2'}
+                onClick={() => handleActive(photo.id)}
+                styles={{
+                  opacity: activeId === photo.id ? 1 : 0.5,
+                  cursor: 'pointer',
+                  width: '100%'
+                }}
               >
-                <LavaTypo
-                  variant={'h2'}
-                  onClick={() => handleActive(photo.id)}
-                  styles={{
-                    opacity: activeId === photo.id ? 1 : 0.5,
-                    cursor: 'pointer',
-                    width: '100%'
-                  }}
-                >
-                  {photo.title}
-                </LavaTypo>
-              </Box>
-            ))}
-          </Box>
+                {photo.title}
+              </LavaTypo>
+            </Box>
+          ))}
         </Box>
 
         <Box
