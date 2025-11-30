@@ -117,8 +117,9 @@ export default function EventTicket({ event }: { event: EventItem | null }) {
           width={'100%'}
           height={'100%'}
           py={3}
-          justifyContent={'space-between'}
+          justifyContent={event?.link ? 'space-between' : 'center'}
           paddingX={1}
+          gap={event?.link ? 0 : 8}
         >
           <Flex className='heads' width={'100%'} justifyContent={'space-evenly'} alignItems={'center'}>
             <Image src={Heads} alt='Event Heads' width={'auto'} height={'70px'} objectFit={'contain'} />
@@ -137,7 +138,9 @@ export default function EventTicket({ event }: { event: EventItem | null }) {
               {event?.description || "Sam t'as encore oublié la description.. spammez le sam@lavabow.fr"}
             </LavaTypo>
           </Box>
-          <LavaButton style={{ backgroundColor: 'var(--main-accent)' }} fullWidth={true}>Ma place</LavaButton>
+          {event?.link && (
+            <LavaButton style={{ backgroundColor: 'var(--main-accent)' }} fullWidth={true} onClick={() => window.open(event?.link)}>Ma place</LavaButton>
+          )}
         </Flex>
 
         <Box h={'100%'} marginRight={!isMobile ? '40px' : undefined} id='divider'>
