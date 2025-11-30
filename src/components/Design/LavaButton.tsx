@@ -2,16 +2,12 @@ import React from 'react'
 import './styles/LavaButton.css'
 import GlassSurface from '../react-bits/GlassSurface/GlassSurface';
 
-interface LavaButtonProps {
-  variant?: 'filled' | 'outlined' | 'text';
-  children: React.ReactNode;
-  onClick?: () => void;
-  startIcon?: React.ReactNode;
-  style?: React.CSSProperties;
-  className?: string;
-  padding?: string | number;
+interface LavaButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'filled' | 'outlined' | 'text'
+  children: React.ReactNode
+  startIcon?: React.ReactNode
+  padding?: string | number
   glassSurface?: boolean
-  [key: string]: any;
 }
 
 export default function LavaButton({
@@ -39,7 +35,7 @@ export default function LavaButton({
   return (
     <>
       {glassSurface ? (
-        // @ts-ignore
+        // @ts-expect-error Allow passing string dimensions to GlassSurface
         <GlassSurface height={""} width={fullWidth ? '100%' : 'fit-content'}>
           <button
             className={`lava-button ${className} ${color} ${size} ${disabled ? 'disabled' : ''}`}
