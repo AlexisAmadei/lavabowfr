@@ -61,7 +61,7 @@ export default function Hero() {
           {!isMobile && (
             <Menu.Root>
               <Menu.ContextTrigger>
-                <Logo h={76} w={76} />
+                <Logo h={'76'} w={'76'} />
               </Menu.ContextTrigger>
               <Menu.Positioner backgroundColor={'transparent'}>
                 <Menu.Content backgroundColor={'#252525'} color={'white'} borderRadius={'12px'}>

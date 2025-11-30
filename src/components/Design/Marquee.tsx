@@ -36,7 +36,7 @@ export default function Marquee({
         <img
           src={HeroOutlined}
           alt="Lava Bow"
-          style={{ 
+          style={{
             height: '100%',
             width: 'auto',
             display: 'block'

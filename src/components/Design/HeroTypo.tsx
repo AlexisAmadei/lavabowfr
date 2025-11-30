@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import useIsMobile from '@/hooks/useIsMobile';
 import './styles/HeroTypo.css';
 import Marquee from './Marquee';
@@ -8,18 +9,50 @@ import HeroOutlined from '@/assets/img/HeroTypo/hero-outlined.svg';
 
 export default function HeroTypo({ repeated = false }) {
   const isMobile = useIsMobile();
-  const smallHeight = window.innerHeight < 800;
+  const smallHeight = typeof window !== 'undefined' ? window.innerHeight < 800 : false;
+
+  const firstImgRef = useRef<HTMLImageElement | null>(null);
+  const [marqueeHeight, setMarqueeHeight] = useState<number | undefined>(undefined);
+
+  useEffect(() => {
+    const img = firstImgRef.current;
+    if (!img) return;
+
+    const update = () => {
+      const h = img.clientHeight;
+      setMarqueeHeight(h > 0 ? h : undefined);
+    };
+
+    update();
+
+    let ro: ResizeObserver | null = null;
+    try {
+      ro = new ResizeObserver(update);
+      ro.observe(img);
+    } catch (e) {
+      // ResizeObserver may not be available in some environments; fallback to window resize
+      window.addEventListener('resize', update);
+    }
+
+    img.addEventListener('load', update);
+
+    return () => {
+      if (ro) ro.disconnect();
+      window.removeEventListener('resize', update);
+      img.removeEventListener('load', update);
+    };
+  }, []);
 
   return (
     <Box className='hero-typo' width={'100%'}>
-      <img src={HeroFilled} width={'100%'} height={'auto'} alt='Lava Bow Hero Typo Filled' />
+      <img ref={firstImgRef} src={HeroFilled} width={'100%'} height={'auto'} alt='Lava Bow Hero Typo Filled' />
       {isMobile && !repeated ? (
-        <Marquee speed={10} gap={40} />
+        <Marquee speed={10} gap={40} height={marqueeHeight} />
       ) :
         (
           <img src={HeroOutlined} width={'100%'} height={'auto'} alt='Lava Bow Hero Typo Outlined' />
         )}
-      {!repeated && !smallHeight && (
+      {!smallHeight && (
         <img src={HeroFilled} width={'100%'} height={'auto'} alt='Lava Bow Hero Typo Filled' />
       )}
     </Box>
