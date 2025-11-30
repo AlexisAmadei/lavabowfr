@@ -99,7 +99,7 @@ export default function Spotlight() {
           </span>
         </LavaButton>
 
-        <LavaButton variant='outlined' padding={mP}>
+        <LavaButton variant='outlined' padding={mP} onClick={() => window.open('https://www.bandsintown.com/es/a/15589958-lava-bow?came_from=209', '_blank')} className="app-bar__button">
           <LavaTypo variant={'p'} size={isMobile ? '16px' : '24px'}>Acheter</LavaTypo>
         </LavaButton>
       </Flex>
