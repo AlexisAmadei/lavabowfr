@@ -10,13 +10,21 @@ import Logo from '@/components/Design/Logo'
 import Stabilo from '@/assets/textures/stabilo.svg'
 import useIsMobile from '@/hooks/useIsMobile'
 import type { EventItem } from '@/types/types'
+import { useEffect, useState } from 'react'
 
 export default function EventTicket({ event }: { event: EventItem | null }) {
   const isMobile = useIsMobile();
+  const [eventPayable, setEventPayable] = useState<boolean>(false);
 
   const TICKET_TITLE_SIZE = isMobile ? '30px' : '38px';
   const TICKET_TEXT_SIZE = '18px';
   const TICKET_DESC_SIZE = isMobile ? '12px' : '14px';
+
+  useEffect(() => {
+    if (event) {
+      setEventPayable(event.price > 0 && !!event.link);
+    }
+  }, [event]);
 
   return (
     <Flex className='card-event'
@@ -117,9 +125,9 @@ export default function EventTicket({ event }: { event: EventItem | null }) {
           width={'100%'}
           height={'100%'}
           py={3}
-          justifyContent={event?.link ? 'space-between' : 'center'}
+          justifyContent={eventPayable ? 'space-between' : 'center'}
           paddingX={1}
-          gap={event?.link ? 0 : 8}
+          gap={eventPayable ? 0 : 8}
         >
           <Flex className='heads' width={'100%'} justifyContent={'space-evenly'} alignItems={'center'}>
             <Image src={Heads} alt='Event Heads' width={'auto'} height={'70px'} objectFit={'contain'} />
@@ -138,7 +146,7 @@ export default function EventTicket({ event }: { event: EventItem | null }) {
               {event?.description || "Sam t'as encore oublié la description.. spammez le sam@lavabow.fr"}
             </LavaTypo>
           </Box>
-          {event?.link && (
+          {eventPayable && (
             <LavaButton style={{ backgroundColor: 'var(--main-accent)' }} fullWidth={true} onClick={() => window.open(event?.link)}>Ma place</LavaButton>
           )}
         </Flex>
