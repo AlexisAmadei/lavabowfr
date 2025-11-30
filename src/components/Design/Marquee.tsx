@@ -1,7 +1,7 @@
 // Marquee.jsx
 import React from "react";
-import { motion, useReducedMotion } from "motion/react";
 import HeroOutlined from '@/assets/img/HeroTypo/hero-outlined.svg';
+import { motion, useReducedMotion } from "motion/react";
 
 /**
  * SVG Marquee Component

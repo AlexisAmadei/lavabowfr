@@ -1,7 +1,7 @@
 import { Toaster } from '@/components/ui/toaster'
 import { supabase } from '@/utils/supabase/supabase'
 import React, { useEffect } from 'react'
-import { Outlet, useLocation, useNavigate, useResolvedPath } from 'react-router'
+import { Outlet, useNavigate, useResolvedPath } from 'react-router'
 
 export default function AdminLayout() {
   const navigate = useNavigate()
@@ -21,8 +21,7 @@ export default function AdminLayout() {
         navigate('/admin/dashboard')
     }
     fetchUser()
-  }, [navigate])
-
+  }, [navigate, path.pathname])
   return (
     <>
       <Outlet />

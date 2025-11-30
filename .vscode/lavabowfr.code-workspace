@@ -11,6 +11,7 @@
             "titleBar.activeForeground": "#ffffff",
             "titleBar.inactiveBackground": "#00008892",
             "titleBar.inactiveForeground": "#ffffffb3"
-        }
+        },
+        "editor.semanticHighlighting.enabled": true
     }
 }

@@ -5,45 +5,44 @@ import { getNewsletterItems } from '@/utils/supabase/newsletter';
 import { ActionBar, Box, Button, Checkbox, Flex, Portal, Table } from '@chakra-ui/react'
 import { faDownload, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useEffect, useMemo, useCallback, memo } from 'react'
+import React, { useEffect, useMemo, useCallback } from 'react'
 import SupTable from './SupTable';
 import MailChimp from './MailChimp';
 
-const LOCAL_DATA = [
-  { id: 1, email: 'example@example.com' },
-  { id: 2, email: 'test@test.com' },
-  { id: 3, email: 'test@test.com' },
-  { id: 4, email: 'test@test.com' },
-  { id: 5, email: 'test@test.com' },
-  { id: 6, email: 'test@test.com' },
-  { id: 7, email: 'test@test.com' },
-  { id: 8, email: 'test@test.com' },
-  { id: 9, email: 'test@test.com' },
-  { id: 10, email: 'test@test.com' },
-  { id: 11, email: 'test@test.com' },
-  { id: 12, email: 'test@test.com' },
-  { id: 13, email: 'test@test.com' },
-  { id: 14, email: 'test@test.com' },
-  { id: 15, email: 'test@test.com' },
-  { id: 16, email: 'test@test.com' },
-  { id: 17, email: 'test@test.com' },
-  { id: 18, email: 'test@test.com' },
-  { id: 19, email: 'test@test.com' },
-  { id: 20, email: 'test@test.com' },
-  { id: 21, email: 'test@test.com' },
-  { id: 22, email: 'test@test.com' },
-  { id: 23, email: 'test@test.com' },
-  { id: 24, email: 'test@test.com' },
-  { id: 25, email: 'test@test.com' },
-  { id: 26, email: 'test@test.com' },
-  { id: 27, email: 'test@test.com' },
-  { id: 28, email: 'test@test.com' },
-  { id: 29, email: 'test@test.com' },
-  { id: 30, email: 'user@domain.com' }
-]
+// const LOCAL_DATA = [
+//   { id: 1, email: 'example@example.com' },
+//   { id: 2, email: 'test@test.com' },
+//   { id: 3, email: 'test@test.com' },
+//   { id: 4, email: 'test@test.com' },
+//   { id: 5, email: 'test@test.com' },
+//   { id: 6, email: 'test@test.com' },
+//   { id: 7, email: 'test@test.com' },
+//   { id: 8, email: 'test@test.com' },
+//   { id: 9, email: 'test@test.com' },
+//   { id: 10, email: 'test@test.com' },
+//   { id: 11, email: 'test@test.com' },
+//   { id: 12, email: 'test@test.com' },
+//   { id: 13, email: 'test@test.com' },
+//   { id: 14, email: 'test@test.com' },
+//   { id: 15, email: 'test@test.com' },
+//   { id: 16, email: 'test@test.com' },
+//   { id: 17, email: 'test@test.com' },
+//   { id: 18, email: 'test@test.com' },
+//   { id: 19, email: 'test@test.com' },
+//   { id: 20, email: 'test@test.com' },
+//   { id: 21, email: 'test@test.com' },
+//   { id: 22, email: 'test@test.com' },
+//   { id: 23, email: 'test@test.com' },
+//   { id: 24, email: 'test@test.com' },
+//   { id: 25, email: 'test@test.com' },
+//   { id: 26, email: 'test@test.com' },
+//   { id: 27, email: 'test@test.com' },
+//   { id: 28, email: 'test@test.com' },
+//   { id: 29, email: 'test@test.com' },
+//   { id: 30, email: 'user@domain.com' }
+// ]
 
 export default function AdminUsers() {
-  const [loadingContacts, setLoadingContacts] = React.useState(false);
   const [emailList, setEmailList] = React.useState([]);
   const [selection, setSelection] = React.useState(() => new Set());
   const [newsletterItems, setNewsletterItems] = React.useState([]);

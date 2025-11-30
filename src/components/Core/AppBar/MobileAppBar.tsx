@@ -12,7 +12,6 @@ import { motion } from 'motion/react'
 
 export default function MobileAppBar() {
   const [open, setOpen] = React.useState(false)
-  const [isClosing, setIsClosing] = React.useState(false)
 
   const handleMenuToggle = () => {
     if (open) {

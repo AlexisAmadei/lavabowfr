@@ -9,7 +9,6 @@ import { Link } from 'react-router'
 
 export default function Footer() {
   const isMobile = useIsMobile();
-  const [email, setEmail] = React.useState('');
   const [error, setError] = React.useState(false);
 
   return (

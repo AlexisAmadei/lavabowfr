@@ -24,14 +24,6 @@ export default function ClickSection() {
     return Math.min(100, Math.max(0, progress))
   }
 
-  const handleClick = () => {
-    setClickCount(prevCount => {
-      const newCount = prevCount + 1;
-      localStorage.setItem('clickCount', newCount);
-      return newCount;
-    });
-  };
-
   const isPalierReached = (palierCount) => clickCount >= palierCount;
 
   useEffect(() => {
@@ -89,7 +81,6 @@ export default function ClickSection() {
                 <BeerGauge
                   key={index}
                   palier={palier}
-                  index={index}
                   progress={getProgressPercentage(index)}
                 />
               ))}

@@ -6,7 +6,7 @@ import { Box } from '@chakra-ui/react';
 import HeroFilled from '@/assets/img/HeroTypo/hero-filled.svg';
 import HeroOutlined from '@/assets/img/HeroTypo/hero-outlined.svg';
 
-export default function HeroTypo({ fontSize = 15, repeated = false }) {
+export default function HeroTypo({ repeated = false }) {
   const isMobile = useIsMobile();
   const smallHeight = window.innerHeight < 800;
 

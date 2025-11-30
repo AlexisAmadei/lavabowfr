@@ -11,6 +11,7 @@ import useIsMobile from '@/hooks/useIsMobile'
 
 export default function Contact() {
   const isMobile = useIsMobile();
+  const nav = 0;
 
   return (
     <Section id={'contact'} bgColor={'var(--Background-bg-brand)'} title={'Contact'} position='relative'>

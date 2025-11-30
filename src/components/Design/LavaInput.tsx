@@ -7,15 +7,12 @@ import { insertNewsletterItem } from '@/utils/supabase/newsletter';
 import { toaster } from '../ui/toaster';
 import GlassSurface from '../react-bits/GlassSurface/GlassSurface';
 
-export default function LavaInput({ type, placeholder, setError, error, variant, fullWidth, fontColor }) {
-
-  const [submitted, setSubmitted] = React.useState(false);
-  const [timeout, setTimeout] = React.useState(null);
+export default function LavaInput({ type, placeholder, setError, error, variant }) {
   const [email, setEmail] = React.useState('');
 
   const insertEmail = async (email) => {
     try {
-      const { data, error } = await insertNewsletterItem(email);
+      const { error } = await insertNewsletterItem(email);
       if (error) {
         setError(true);
         if (error === 'invalid') {
@@ -32,8 +29,6 @@ export default function LavaInput({ type, placeholder, setError, error, variant,
         }
       } else {
         setEmail('');
-        setSubmitted(true);
-        setTimeout(() => setSubmitted(false), 5000);
         toaster.create({
           title: 'Inscription réussie ! (On va quand même vérifier ce que t\'as donné comme mail 🥸)',
           type: 'success',

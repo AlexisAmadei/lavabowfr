@@ -4,7 +4,6 @@ import LavaTypo from '@/components/Design/LavaTypo'
 import LavaInput from '@/components/Design/LavaInput'
 import bgPic from '@/assets/img/newsletter.webp'
 import Section from '@/components/Design/Section'
-import { insertNewsletterItem } from '@/utils/supabase/newsletter'
 
 export default function Newsletter() {
   const [submitted, setSubmitted] = React.useState(false);

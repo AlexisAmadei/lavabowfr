@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "allowJs": true,
+    "allowJs": false,
     "target": "ES2020",
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
@@ -34,6 +34,13 @@
       "@/assets/*": ["./src/assets/*"]
     }
   },
-  "include": ["src", "src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts, src/**/*.js", "src/**/*.jsx"],
+  "include": [
+    "src",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.js",
+    "src/**/*.jsx",
+    "src/**/*.d.ts"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

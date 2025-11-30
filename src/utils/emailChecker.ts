@@ -14,6 +14,7 @@ export const emailChecker = async (email) => {
         const result = await response.json();
         return result;
     } catch (error) {
+        console.error('Error validating email:', error);
         return { status: 'invalid' }
     }
 };
