@@ -45,3 +45,9 @@ export interface EmailContact {
   lastName: string;
   status: string;
 }
+
+export interface ClicksItem {
+    id: number;
+    name: string;
+    target: string;
+}

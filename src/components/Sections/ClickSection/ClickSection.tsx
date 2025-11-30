@@ -7,9 +7,12 @@ import useIsMobile from '@/hooks/useIsMobile'
 import { CLICK_PALIERS } from '@/lib/clickPaliers'
 import BeerGauge from './BeerGauge'
 import ClickSpark from '@/components/react-bits/ClickSpark'
+import { fetchClicksContent } from '@/utils/supabase/click_palier'
+import { ClicksItem } from '@/types/types'
 
 export default function ClickSection() {
   const [clickCount, setClickCount] = React.useState(0);
+  const [clicksItems, setClicksItems] = React.useState<ClicksItem[]>([]);
   const isMobile = useIsMobile();
 
   function getProgressPercentage(index: number): number {
@@ -25,11 +28,16 @@ export default function ClickSection() {
 
   const isPalierReached = (palierCount: number): boolean => clickCount >= palierCount;
 
+  async function fetchClicksPaliers() {
+    await fetchClicksContent(setClicksItems);
+  }
+
   useEffect(() => {
     const storedClickCount = localStorage.getItem('clickCount');
     if (storedClickCount) {
       setClickCount(Number(storedClickCount));
     }
+    fetchClicksPaliers();
   }, []);
 
   return (
@@ -76,7 +84,7 @@ export default function ClickSection() {
             </div>
 
             <Flex direction={'row'} mt={'24px'} gap={8}>
-              {CLICK_PALIERS.map((palier, index) => (
+              {clicksItems.map((palier, index) => (
                 <BeerGauge
                   key={index}
                   palier={palier}
