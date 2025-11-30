@@ -65,6 +65,8 @@ export default async function handler(req, res) {
             if (updateError) {
                 console.error('Failed to update verify_status:', updateError);
             }
+        } else {
+            console.warn('Skipping database update: Missing ID or Supabase credentials');
         }
 
         return res.status(200).json({ status });
