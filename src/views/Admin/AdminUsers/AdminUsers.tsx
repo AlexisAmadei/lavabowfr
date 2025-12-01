@@ -3,14 +3,9 @@ import { Toaster, toaster } from '@/components/ui/toaster';
 import { ActionBar, Box, Button, Flex, Portal } from '@chakra-ui/react'
 import { faArrowDown, faArrowsRotate, faDownload, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useEffect, useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import SupTable from './SupTable';
 import MailChimp from './MailChimp';
-
-const LOCAL_DATA = [
-  { id: 1, email: 'example@example.com' },
-  { id: 1, email: 'example@example.com' },
-]
 
 export default function AdminUsers() {
   const [emailList, setEmailList] = React.useState<Array<{
@@ -25,46 +20,6 @@ export default function AdminUsers() {
   const [supabaseItemsExist, setSupabaseItemsExist] = useState<boolean>(false);
 
   const selectionSize = selection.size;
-
-  async function fetchEmails() {
-    try {
-      const contactsResponse = await fetch('/api/mailchimp/getcontact');
-
-      if (contactsResponse.ok) {
-        const data = await contactsResponse.json();
-
-        // Map Mailchimp data to your format
-        if (data.contacts && Array.isArray(data.contacts)) {
-          const formattedEmails = data.contacts.map((contact: { id: string; unique_email_id: string; email_address: string; email_channel: { email: string }; created_at: string; merge_fields: { FNAME: string; LNAME: string }; status: string }) => ({
-            id: contact.id || contact.unique_email_id || contact.email_address,
-            email: contact.email_channel?.email || 'N/A',
-            created_at: contact.created_at,
-            firstName: contact.merge_fields?.FNAME || '',
-            lastName: contact.merge_fields?.LNAME || '',
-            status: contact.status
-          }));
-          setEmailList(formattedEmails);
-          setSelection(new Set());
-        }
-      } else {
-        const errorText = await contactsResponse.text();
-        console.error('Error response:', errorText);
-        console.error('Error fetching contacts:', contactsResponse.statusText);
-        toaster.create({
-          title: 'Erreur lors de la récupération des contacts',
-          type: 'error',
-        });
-        // setEmailList(LOCAL_DATA); // Fallback to local data
-      }
-    } catch (error) {
-      console.error('Error fetching contacts:', error);
-      toaster.create({
-        title: 'Erreur de connexion',
-        type: 'error',
-      });
-      setEmailList(LOCAL_DATA); // Fallback to local data
-    }
-  }
 
   const handleDelete = useCallback(async () => {
     if (selection.size === 0) return;
@@ -117,7 +72,6 @@ export default function AdminUsers() {
           title: `Synchronisation terminée : ${data.added} ajoutés, ${data.failed} échoués.`,
           type: data.failed > 0 ? 'warning' : 'success',
         });
-        fetchEmails(); // Refresh email list after sync
       } else {
         const errorText = await res.text();
         console.error('Error response:', errorText);
@@ -133,10 +87,6 @@ export default function AdminUsers() {
         type: 'error',
       });
     }
-  }, []);
-
-  useEffect(() => {
-    fetchEmails();
   }, []);
 
   return (

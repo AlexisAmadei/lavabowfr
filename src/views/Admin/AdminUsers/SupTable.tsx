@@ -132,17 +132,13 @@ export default function SupTable({ setSupabaseItemsExist }: { setSupabaseItemsEx
     if (selection.size === 0) return;
 
     try {
-      // Delete selected items from Supabase
-      const deletePromises = Array.from(selection).map(id => deleteNewsletterItem(Number(id)));
+      const deletePromises = Array.from(selection).map((id) => deleteNewsletterItem(Number(id)));
       await Promise.all(deletePromises);
-
       toaster.create({
         title: `${selection.size} élément(s) supprimé(s)`,
         type: 'success',
       });
-
-      setNewsletterItems(prev => prev.filter(item => !selection.has(item.id)));
-      setSelection(new Set());
+      fetchNewsletterItems();
     } catch (error) {
       console.error('Error deleting items:', error);
       toaster.create({
