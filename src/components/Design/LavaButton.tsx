@@ -36,7 +36,7 @@ export default function LavaButton({
     <>
       {glassSurface ? (
         // @ts-expect-error Allow passing string dimensions to GlassSurface
-        <GlassSurface height={""} width={fullWidth ? '100%' : 'fit-content'}>
+        <GlassSurface height={""} width={fullWidth ? '100%' : 'fit-content'} blur={2} saturation={0.8}>
           <button
             className={`lava-button ${className} ${color} ${size} ${disabled ? 'disabled' : ''}`}
             onClick={onClick}
