@@ -1,7 +1,7 @@
 import LavaTypo from '@/components/Design/LavaTypo'
 import { Toaster, toaster } from '@/components/ui/toaster';
-import { ActionBar, Box, Button, Portal } from '@chakra-ui/react'
-import { faDownload, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { ActionBar, Box, Button, Flex, Portal } from '@chakra-ui/react'
+import { faArrowDown, faArrowsRotate, faDownload, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useEffect, useCallback } from 'react'
 import SupTable from './SupTable';
@@ -65,10 +65,6 @@ export default function AdminUsers() {
     }
   }
 
-  useEffect(() => {
-    fetchEmails();
-  }, []);
-
   const handleDelete = useCallback(async () => {
     if (selection.size === 0) return;
 
@@ -109,11 +105,34 @@ export default function AdminUsers() {
     });
   }, [selection, emailList]);
 
+  useEffect(() => {
+    fetchEmails();
+  }, []);
+
   return (
     <Box flexDirection={'column'} display={'flex'} gap={8} pr={2} mt={4}>
       <LavaTypo variant='h3' color='black'>CRM - Newsletter</LavaTypo>
 
       <SupTable />
+
+      <Flex
+        direction={'column'}
+        p={4}
+        alignItems='center'
+        justifyContent='center'
+        gap={4}
+      >
+        <FontAwesomeIcon icon={faArrowDown} color='black' />
+        <Button
+          variant={'subtle'}
+          colorPalette={'green'}
+        >
+          Sync to mailchimp
+          <FontAwesomeIcon icon={faArrowsRotate} style={{ marginLeft: 1 }} />
+        </Button>
+        <FontAwesomeIcon icon={faArrowDown} color='black' />
+      </Flex>
+
       <MailChimp />
 
       <ActionBar.Root open={selectionSize > 0}>

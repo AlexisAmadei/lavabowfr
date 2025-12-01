@@ -40,12 +40,12 @@ const TableRow = memo(({ item, isSelected, onToggle, onEmailClick }: TableRowPro
         size="sm"
         colorPalette={
           item.verify_status === 'unknown' ? 'gray' :
-          item.verify_status === 'valid' ? 'green' :
-          item.verify_status === 'invalid' ? 'red' :
-          'yellow'
+            item.verify_status === 'valid' ? 'green' :
+              item.verify_status === 'invalid' ? 'red' :
+                'yellow'
         }
       >
-        {item.verify_status}
+        {item.verify_status || 'unknown'}
       </Badge>
     </Table.Cell>
     <Table.Cell>
