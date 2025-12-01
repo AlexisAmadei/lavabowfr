@@ -62,7 +62,7 @@ const TableRow = memo(({ item, isSelected, onToggle, onEmailClick }: TableRowPro
   </Table.Row>
 ));
 
-export default function SupTable() {
+export default function SupTable({ setSupabaseItemsExist }: { setSupabaseItemsExist: React.Dispatch<React.SetStateAction<boolean>> }) {
   const [loading, setLoading] = React.useState(false);
   const [newsletterItems, setNewsletterItems] = React.useState<NewsletterItem[]>([]);
   const [selection, setSelection] = React.useState<Set<string>>(() => new Set());
@@ -79,12 +79,15 @@ export default function SupTable() {
       const items = await getNewsletterItems();
       setNewsletterItems(items || []);
       setSelection(new Set());
+      if (items && items.length > 0) setSupabaseItemsExist(true);
+
     } catch (error) {
       console.error('Error fetching newsletter items:', error);
       toaster.create({
         title: 'Erreur lors de la récupération des éléments',
         type: 'error',
       });
+      setSupabaseItemsExist(false);
     } finally {
       setLoading(false);
     }

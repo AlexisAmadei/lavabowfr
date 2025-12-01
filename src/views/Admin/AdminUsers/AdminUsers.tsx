@@ -3,7 +3,7 @@ import { Toaster, toaster } from '@/components/ui/toaster';
 import { ActionBar, Box, Button, Flex, Portal } from '@chakra-ui/react'
 import { faArrowDown, faArrowsRotate, faDownload, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useEffect, useCallback } from 'react'
+import React, { useEffect, useCallback, useState } from 'react'
 import SupTable from './SupTable';
 import MailChimp from './MailChimp';
 
@@ -22,6 +22,7 @@ export default function AdminUsers() {
     status?: string;
   }>>([]);
   const [selection, setSelection] = React.useState(() => new Set());
+  const [supabaseItemsExist, setSupabaseItemsExist] = useState<boolean>(false);
 
   const selectionSize = selection.size;
 
@@ -142,7 +143,7 @@ export default function AdminUsers() {
     <Box flexDirection={'column'} display={'flex'} gap={8} pr={2} mt={4}>
       <LavaTypo variant='h3' color='black'>CRM - Newsletter</LavaTypo>
 
-      <SupTable />
+      <SupTable setSupabaseItemsExist={setSupabaseItemsExist} />
 
       <Flex
         direction={'column'}
@@ -156,6 +157,7 @@ export default function AdminUsers() {
           variant={'subtle'}
           colorPalette={'green'}
           onClick={handleSyncToMailchimp}
+          disabled={!supabaseItemsExist}
         >
           Sync to mailchimp
           <FontAwesomeIcon icon={faArrowsRotate} style={{ marginLeft: 1 }} />
