@@ -15,7 +15,7 @@ interface TableRowProps {
   onEmailClick: () => void;
 }
 
-type NewsletterItem = { id: string; email: string; created_at: string, verify_status: string };
+type NewsletterItem = { id: string; email: string; created_at: string, verify_status: string, mailchimp_synced: boolean };
 
 const TableRow = memo(({ item, isSelected, onToggle, onEmailClick }: TableRowProps) => (
   <Table.Row>
@@ -46,6 +46,17 @@ const TableRow = memo(({ item, isSelected, onToggle, onEmailClick }: TableRowPro
         }
       >
         {item.verify_status || 'unknown'}
+      </Badge>
+    </Table.Cell>
+    <Table.Cell>
+      <Badge
+        variant="subtle"
+        size="sm"
+        colorPalette={
+          item.mailchimp_synced ? 'green' : 'red'
+        }
+      >
+        {item.mailchimp_synced ? 'Synced' : 'Not synced'}
       </Badge>
     </Table.Cell>
     <Table.Cell>
@@ -204,6 +215,9 @@ export default function SupTable({ setSupabaseItemsExist }: { setSupabaseItemsEx
             </Table.ColumnHeader>
             <Table.ColumnHeader>
               <LavaTypo variant='p' color='black'>Email statut</LavaTypo>
+            </Table.ColumnHeader>
+            <Table.ColumnHeader>
+              <LavaTypo variant='p' color='black'>Mailchimp synced</LavaTypo>
             </Table.ColumnHeader>
             <Table.ColumnHeader>
               <LavaTypo variant='p' color='black'>Date d'inscription</LavaTypo>

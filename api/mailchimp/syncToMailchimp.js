@@ -1,56 +1,95 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from "@supabase/supabase-js";
 
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY);
+async function addContact(email) {
+    const { MAILCHIMP_API_KEY, MAILCHIMP_USERNAME, MAILCHIMP_MAIN_AUDIENCE } = process.env;
 
-async function addContact(email, apiKey) {
-    const auth = 'Basic ' + Buffer.from(`anystring:${apiKey}`).toString('base64');
-    const res = await fetch(`https://us8.api.mailchimp.com/3.0/${process.env.MAILCHIMP_MAIN_AUDIENCE}/contacts`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: auth
-        },
-        body: JSON.stringify({
-            language: 'fr',
-            email_channel: { email, marketing_consent: { status: 'confirmed' } }
-        })
+    if (!MAILCHIMP_API_KEY || !MAILCHIMP_USERNAME || !MAILCHIMP_MAIN_AUDIENCE) {
+        console.error('Missing Mailchimp configuration');
+        return;
+    }
+
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "Basic " + Buffer.from(`${MAILCHIMP_USERNAME}:${MAILCHIMP_API_KEY}`).toString('base64'));
+
+    const raw = JSON.stringify({
+        "language": "fr",
+        "email_channel": {
+            "email": email,
+            "marketing_consent": {
+                "status": "confirmed"
+            }
+        }
     });
 
-    const body = await (res.headers.get('content-type')?.includes('application/json') ? res.json() : res.text());
+    const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow"
+    };
 
-    if (!res.ok) {
-        return { ok: false, status: res.status, body };
+    try {
+        const response = await fetch(`https://us8.api.mailchimp.com/3.0/audiences/${MAILCHIMP_MAIN_AUDIENCE}/contacts`, requestOptions);
+        const result = await response.json();
+
+        if (!response.ok) {
+            console.error("Mailchimp API error:", result);
+            throw new Error(`Mailchimp API error: ${response.status}`);
+        }
+        console.log("Successfully added contact to Mailchimp:", email);
+        return result;
+    } catch (error) {
+        console.error("Error adding contact to Mailchimp:", error);
+        return null;
+    };
+}
+
+async function updateSupabaseMailStatus(supabase, email) {
+    try {
+        await supabase
+            .from('newsletter')
+            .update({ mailchimp_synced: true })
+            .eq('email', email)
+            .then(({ error }) => {
+                if (error) {
+                    console.error('Error updating mailchimp_synced status:', error);
+                } else {
+                    console.log('Successfully updated mailchimp_synced status for:', email);
+                }
+            });
+    } catch (error) {
+        console.error('Unexpected error updating mailchimp_synced status:', error);
     }
-    return { ok: true, status: res.status, body };
 }
 
 export default async function handler(req, res) {
-    if (req.method !== 'POST') return res.status(405).json({ error: 'Method Not Allowed' });
-
-    // Optional: check a secret header for admin-only access
-    if (req.headers['x-admin-secret'] !== process.env.MY_ADMIN_SECRET) {
-        return res.status(401).json({ error: 'Unauthorized' });
+    if (req.method !== 'POST') {
+        return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    const apiKey = process.env.MAILCHIMP_API_KEY;
-    if (!apiKey) return res.status(500).json({ error: 'Mailchimp API key not configured' });
+    try {
+        // rows from newsletter table
+        const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY)
+        const { data: users, error } = await supabase
+            .from('newsletter')
+            .select('email')
 
-    // Fetch rows in a paginated way or with a small limit for safety
-    const { data: users, error } = await supabase.from('newsletter').select('email').eq('mailchimp_synced', false).limit(100);
-    if (error) return res.status(500).json({ error: error.message });
-
-    const results = { added: 0, failed: 0, failures: [] };
-
-    for (const u of users) {
-        const r = await addContact(u.email, apiKey);
-        if (r.ok) {
-            results.added++;
-            await supabase.from('newsletter').update({ mailchimp_synced: true }).eq('email', u.email);
-        } else {
-            results.failed++;
-            results.failures.push({ email: u.email, status: r.status, body: r.body });
+        if (error) {
+            throw error;
         }
-    }
 
-    return res.status(200).json(results);
+        // loop and add to mailchimp
+        for (const user of users) {
+            const resAddContact = await addContact(user.email);
+            if (resAddContact) {
+                await updateSupabaseMailStatus(supabase, user.email);
+            }
+        }
+
+        res.status(200).json({ message: 'Sync completed successfully' });
+    } catch (error) {
+        console.error('Error during sync process:', error);
+        res.status(500).json({ message: 'An error occurred during sync', error: error.message });
+    }
 }
