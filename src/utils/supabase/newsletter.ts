@@ -1,7 +1,7 @@
 import { supabase } from "./supabase";
 
 const verifyEmailInBackground = async (email: string, id: number) => {
-    console.log('🚀 Starting background verification for email:', email, 'ID:', id);
+    console.log('Starting background verification for email:', email, 'ID:', id);
     try {
         // Pass the ID to the API so it can update the database directly
         const response = await fetch('/api/verifyEmail', {
@@ -12,9 +12,9 @@ const verifyEmailInBackground = async (email: string, id: number) => {
             body: JSON.stringify({ email, id })
         });
         const result = await response.json();
-        console.log('✅ Background verification complete:', result);
+        console.log('Background verification complete:', result);
     } catch (error) {
-        console.error('❌ Background email verification failed:', error);
+        console.error('Background email verification failed:', error);
     }
 }
 
@@ -37,17 +37,16 @@ export const insertNewsletterItem = async (item: string) => {
         .insert([
             {
                 email: item,
-                active: true,
             },
         ])
         .select()
 
     // Trigger background verification without awaiting
     if (data && data[0]) {
-        console.log('📧 Triggering background verification for ID:', data[0].id);
+        console.log('Triggering background verification for ID:', data[0].id);
         verifyEmailInBackground(item, data[0].id);
     } else {
-        console.log('⚠️ No data returned from insert, skipping verification');
+        console.log('No data returned from insert, skipping verification');
     }
 
     return { data, error };
@@ -70,7 +69,6 @@ export const getNewsletterItems = async () => {
     const { data, error } = await supabase
         .from('newsletter')
         .select('*')
-        .eq('active', true)
     if (error) {
         console.error('Error fetching newsletter items:', error);
         return null;
