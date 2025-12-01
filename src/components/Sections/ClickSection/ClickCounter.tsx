@@ -1,10 +1,25 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import LavaButton from '@/components/Design/LavaButton'
 import IconClick from '@/assets/icons/click.svg'
 import { supabase } from '@/utils/supabase/supabase'
 import Counter from '@/components/react-bits/Counter/Counter'
 
 export default function ClickCounter({ count, setCount, isMobile }: { count: number; setCount: (count: number) => void; isMobile: boolean }) {
+  const [clickUsed, setClickUsed] = useState(false);
+
+  async function triggerClickUsage() {
+    await supabase.rpc('increment_click_count', { row_id: 1, step: 1 })
+    setClickUsed(true);
+  }
+
+  useEffect(() => {
+    if (clickUsed) {
+      const timer = setTimeout(() => {
+        setClickUsed(false);
+      }, 200);
+      return () => clearTimeout(timer);
+    }
+  }, [clickUsed]);
 
   useEffect(() => {
     // Load initial count
@@ -36,7 +51,8 @@ export default function ClickCounter({ count, setCount, isMobile }: { count: num
   }, [setCount])
 
   const handleClick = async () => {
-    await supabase.rpc('increment_click_count', { row_id: 1, step: 1 })
+    if (clickUsed) return;
+    await triggerClickUsage();
   }
 
   const getPlacesForValue = (v: number) => {
