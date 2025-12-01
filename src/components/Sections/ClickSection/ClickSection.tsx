@@ -73,7 +73,7 @@ export default function ClickSection() {
                       }}
                     />
                     <Flex style={{ position: 'relative', zIndex: 1, alignItems: 'center', gap: '8px', flex: 1 }} direction={'row'} justifyContent={'center'} alignItems={'center'}>
-                      <LavaTypo variant={'h3'} size={!isMobile ? 24 : 16} styles={{ color: isPalierReached(palier.target) ? 'white' : 'var(--main-accent)' }}>{palier.target} cliques</LavaTypo>
+                      <LavaTypo variant={'h3'} size={!isMobile ? 24 : 16} styles={{ color: isPalierReached(palier.target) ? 'white' : 'var(--main-accent)' }}>{palier.target} clics</LavaTypo>
                       <span style={{ fontWeight: 'bold', fontSize: `${isMobile ? '14px' : '20px'}`, color: 'white' }}> - </span>
                       <LavaTypo variant={'p'} size={isMobile ? 12 : 18} styles={{ color: 'white' }}>{palier.name}</LavaTypo>
                     </Flex>
