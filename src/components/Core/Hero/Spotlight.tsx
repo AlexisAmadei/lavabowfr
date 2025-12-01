@@ -92,14 +92,14 @@ export default function Spotlight() {
 
       {/* Static buttons */}
       <Flex direction={'row'} gap={4} marginTop={4}>
-        <LavaButton variant='filled' padding={mP} onClick={() => window.open(activeContent?.link, '_blank')} className="app-bar__button">
+        <LavaButton variant='filled' padding={mP} onClick={() => window.open(activeContent?.link, '_blank')} className="app-bar__button" style={{ gap: 0 }}>
           <LavaTypo variant={'p'} size={isMobile ? '16px' : '24px'}>Écouter</LavaTypo>
           <span className="app-bar__icon-on-hover">
             <FontAwesomeIcon icon={faArrowRightLong} />
           </span>
         </LavaButton>
 
-        <LavaButton variant='outlined' padding={mP} onClick={() => window.open('https://www.bandsintown.com/es/a/15589958-lava-bow?came_from=209', '_blank')} className="app-bar__button">
+        <LavaButton variant='outlined' padding={mP} onClick={() => window.open('https://lavabow.bandcamp.com/', '_blank')} className="app-bar__button">
           <LavaTypo variant={'p'} size={isMobile ? '16px' : '24px'}>Acheter</LavaTypo>
         </LavaButton>
       </Flex>
