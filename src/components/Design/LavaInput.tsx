@@ -106,6 +106,7 @@ export default function LavaInput({ placeholder, setError, error, variant, liqui
             width={'100%'}
             height={60}
             borderRadius={50}
+            blur={4}
           >
             <InputGroup endElement={endIcon} className={`lava-input ${variant || ''}`}>
               <Input
@@ -115,7 +116,7 @@ export default function LavaInput({ placeholder, setError, error, variant, liqui
                 size={'xl'}
                 borderRadius={'50px'}
                 borderColor={'transparent'}
-                _placeholder={{ color: "gray.400", fontWeight: '500' }}
+                _placeholder={{ color: "gray.100", fontWeight: '500' }}
                 width={'100%'}
                 _focusVisible={{ outline: 'none' }}
               />
