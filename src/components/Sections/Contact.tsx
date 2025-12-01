@@ -73,7 +73,8 @@ export default function Contact() {
         alignItems={'flex-end'}
         position={'absolute'}
         bottom={0}
-        height={isMobile ? '38px' : "100%"}
+        height={isMobile ? '38px' : 'unset'}
+        zIndex={0}
       >
         <img src={Car} alt='Contact Car' style={{ maxHeight: '100%'}} />
         <img src={Frogs} alt='Contact Frogs' style={{ maxHeight: '100%'}} />
