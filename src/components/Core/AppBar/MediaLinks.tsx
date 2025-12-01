@@ -27,7 +27,7 @@ export default function MediaLinks({ content = 'all', size = '1x', color = 'var(
     <Flex direction={'row'} gap={3} alignItems={'center'}>
       {filteredLinks.map((item) => (
         <Tooltip content={item.name.charAt(0).toUpperCase() + item.name.slice(1)} key={item.name} lazyMount>
-          <div key={item.name}
+          <a key={item.name}
             style={{
               backgroundColor: 'white',
               padding: padding,
@@ -47,7 +47,7 @@ export default function MediaLinks({ content = 'all', size = '1x', color = 'var(
             onClick={() => window.open(item.url, '_blank')}
           >
             <item.icon />
-          </div>
+          </a>
         </Tooltip>
       ))}
     </Flex>
