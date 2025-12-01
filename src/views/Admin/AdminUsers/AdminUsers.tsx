@@ -105,6 +105,35 @@ export default function AdminUsers() {
     });
   }, [selection, emailList]);
 
+  const handleSyncToMailchimp = useCallback(async () => {
+    try {
+      const res = await fetch('/api/mailchimp/syncToMailchimp', {
+        method: 'POST',
+      });
+      if (res.ok) {
+        const data = await res.json();
+        toaster.create({
+          title: `Synchronisation terminée : ${data.added} ajoutés, ${data.failed} échoués.`,
+          type: data.failed > 0 ? 'warning' : 'success',
+        });
+        fetchEmails(); // Refresh email list after sync
+      } else {
+        const errorText = await res.text();
+        console.error('Error response:', errorText);
+        toaster.create({
+          title: 'Erreur lors de la synchronisation',
+          type: 'error',
+        });
+      }
+    } catch (error) {
+      console.error('Error during synchronization:', error);
+      toaster.create({
+        title: 'Erreur lors de la synchronisation',
+        type: 'error',
+      });
+    }
+  }, []);
+
   useEffect(() => {
     fetchEmails();
   }, []);
@@ -126,6 +155,7 @@ export default function AdminUsers() {
         <Button
           variant={'subtle'}
           colorPalette={'green'}
+          onClick={handleSyncToMailchimp}
         >
           Sync to mailchimp
           <FontAwesomeIcon icon={faArrowsRotate} style={{ marginLeft: 1 }} />
