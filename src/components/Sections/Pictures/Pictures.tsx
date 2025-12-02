@@ -1,4 +1,4 @@
-import { Box, Flex } from '@chakra-ui/react'
+import { Box, Flex, Image } from '@chakra-ui/react'
 import { lazy, Suspense, useEffect, useState } from 'react'
 import './Pictures.css'
 import Section from '@/components/Design/Section'
@@ -6,14 +6,12 @@ import LavaTypo from '@/components/Design/LavaTypo'
 import { fetchPicturesContent } from '@/utils/supabase/pictures'
 import useIsMobile from '@/hooks/useIsMobile'
 import type { PictureItem } from '@/types/types'
-import useWindowDimension from '@/hooks/useWindowDimension'
 
 export default function Pictures() {
   const [pictures, setPictures] = useState<PictureItem[]>([]);
   const [activeId, setActiveId] = useState<number | null>(null);
 
   const isMobile = useIsMobile();
-  const { height } = useWindowDimension();
 
   useEffect(() => {
     const loadPictures = async () => {
@@ -34,8 +32,8 @@ export default function Pictures() {
   const containerHeight = 600;
 
   // Each image gets its own vertical position with spacing
-  const imageItemHeight = height - (height * 0.5);
-  const imageGap = 40; // Gap between images
+  const imageItemHeight = 350; // Height of each image item
+  const imageGap = 32; // Gap between images
   const totalImageHeight = imageItemHeight + imageGap;
 
   // Text items have different spacing
@@ -86,6 +84,7 @@ export default function Pictures() {
               direction={'row'}
               justifyContent={'space-between'}
               alignItems={'flex-end'}
+              gap={4}
             >
               <LavaTypo
                 variant={'h2'}
@@ -134,14 +133,14 @@ export default function Pictures() {
                 onClick={() => handleActive(photo.id)}
                 cursor={'pointer'}
               >
-                <img
+                <Image
                   src={photo.link || `https://placehold.co/640x400`}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    opacity: activeId === photo.id ? 1 : 0.5,
-                    objectFit: 'cover'
-                  }}
+                  alt={photo.title || 'Picture'}
+                  borderRadius="2px"
+                  aspectRatio={'16/9'}
+                  // objectFit="cover"
+                  // width="100%"
+                  // height="100%"
                 />
               </Box>
             ))}
