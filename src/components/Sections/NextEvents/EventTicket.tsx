@@ -43,7 +43,7 @@ export default function EventTicket({ event }: { event: EventItem | null }) {
         py={1}
         p={1}
       >
-        {/* <Flex
+        <Flex
           direction={isMobile ? 'row' : 'column'}
           height={isMobile ? '40px' : '100%'} width={isMobile ? '100%' : '40px'}
           alignItems={'center'}
@@ -61,7 +61,7 @@ export default function EventTicket({ event }: { event: EventItem | null }) {
 
           <TicketPlacement type="Siège" number="20" isMobile={isMobile}/>
         </Flex>
-        <Divider orientation={isMobile ? 'horizontal' : 'vertical'} color={'white'} /> */}
+        <Divider orientation={isMobile ? 'horizontal' : 'vertical'} color={'white'} />
 
         <Flex direction={'column'} height={'100%'} justifyContent={'space-around'} gap={1} paddingLeft={isMobile ? 0 : 2} width={'100%'} pr={isMobile ? 0 : 1}>
           <Box position={'relative'} width={'fit-content'}>
