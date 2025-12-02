@@ -13,7 +13,8 @@ type SpotlightItem = {
   id?: number
   title?: string
   subtitle?: string
-  link?: string
+  buy_link?: string
+  listen_link?: string
   status?: string
 }
 
@@ -92,14 +93,14 @@ export default function Spotlight() {
 
       {/* Static buttons */}
       <Flex direction={'row'} gap={4} marginTop={4}>
-        <LavaButton variant='filled' padding={mP} onClick={() => window.open(activeContent?.link, '_blank')} className="app-bar__button" style={{ gap: 0 }}>
+        <LavaButton variant='filled' padding={mP} onClick={() => window.open(activeContent?.listen_link, '_blank')} className="app-bar__button" style={{ gap: 0 }}>
           <LavaTypo variant={'p'} size={isMobile ? '16px' : '24px'}>Écouter</LavaTypo>
           <span className="app-bar__icon-on-hover">
             <FontAwesomeIcon icon={faArrowRightLong} />
           </span>
         </LavaButton>
 
-        <LavaButton variant='outlined' padding={mP} onClick={() => window.open('https://lavabow.bandcamp.com/', '_blank')} className="app-bar__button">
+        <LavaButton variant='outlined' padding={mP} onClick={() => window.open(activeContent?.buy_link, '_blank')} className="app-bar__button">
           <LavaTypo variant={'p'} size={isMobile ? '16px' : '24px'}>Acheter</LavaTypo>
         </LavaButton>
       </Flex>
