@@ -6,11 +6,14 @@ import LavaTypo from '@/components/Design/LavaTypo'
 import { fetchPicturesContent } from '@/utils/supabase/pictures'
 import useIsMobile from '@/hooks/useIsMobile'
 import type { PictureItem } from '@/types/types'
+import useWindowDimension from '@/hooks/useWindowDimension'
 
 export default function Pictures() {
   const [pictures, setPictures] = useState<PictureItem[]>([]);
   const [activeId, setActiveId] = useState<number | null>(null);
+
   const isMobile = useIsMobile();
+  const { height } = useWindowDimension();
 
   useEffect(() => {
     const loadPictures = async () => {
@@ -28,10 +31,10 @@ export default function Pictures() {
   const handleActive = (id: number | undefined) => setActiveId(id || null);
 
   // Use fixed container height
-  const containerHeight = 600; // px
+  const containerHeight = 600;
 
   // Each image gets its own vertical position with spacing
-  const imageItemHeight = 400; // Height per image including spacing
+  const imageItemHeight = height - (height * 0.5);
   const imageGap = 40; // Gap between images
   const totalImageHeight = imageItemHeight + imageGap;
 
@@ -62,8 +65,15 @@ export default function Pictures() {
         maxHeight={`${containerHeight}px`}
         overflow={'hidden'}
         width={'100%'}
+        gap={4}
       >
-        <Box flex="1" height={`${containerHeight}px`} position={'relative'} display={'flex'} alignItems={'center'} justifyContent={'center'}>
+        <Flex
+          flex="1"
+          height={`${containerHeight}px`}
+          position={'relative'}
+          alignItems={'center'}
+          justifyContent={'center'}
+        >
           {pictures.map((photo, index) => (
             <Box
               key={photo.id}
@@ -72,6 +82,10 @@ export default function Pictures() {
               transform={'translateY(-50%)'}
               width={'100%'}
               transition={'top 0.6s ease-in-out, opacity 0.3s ease'}
+              display={'flex'}
+              direction={'row'}
+              justifyContent={'space-between'}
+              alignItems={'flex-end'}
             >
               <LavaTypo
                 variant={'h2'}
@@ -84,9 +98,17 @@ export default function Pictures() {
               >
                 {photo.title}
               </LavaTypo>
+              <LavaTypo
+                variant={'p'}
+                style={{
+                  textWrap: 'nowrap'
+                }}
+              >
+                {new Date(photo.date || '').toLocaleDateString('fr-FR').replace(/\//g, '.')}
+              </LavaTypo>
             </Box>
           ))}
-        </Box>
+        </Flex>
 
         <Box
           flex="1"
