@@ -6,13 +6,15 @@ import HeroTypo from '@/components/Design/HeroTypo'
 import useIsMobile from '../../../hooks/useIsMobile'
 import MobileAppBar from '../AppBar/MobileAppBar'
 import MediaLinks from '../AppBar/MediaLinks'
-import { Link } from 'react-router'
+import LavaTypo from '@/components/Design/LavaTypo'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDownload } from '@fortawesome/free-solid-svg-icons'
 
-const LinkHoverStyle = {
-  backgroundColor: 'rgba(255, 255, 255, 0.1)',
-  borderRadius: '8px',
-  padding: '4px 8px',
-}
+const contextMenuItems = [
+  { name: 'Télécharger notre logo en .svg' },
+  { name: 'Télécharger notre logo en .png' },
+  { name: 'Télécharger notre press kit' },
+]
 
 export default function Hero() {
   const isMobile = useIsMobile();
@@ -63,20 +65,41 @@ export default function Hero() {
               <Menu.ContextTrigger>
                 <Logo h={'76'} w={'76'} />
               </Menu.ContextTrigger>
+
               <Menu.Positioner backgroundColor={'transparent'}>
-                <Menu.Content backgroundColor={'#252525'} color={'white'} borderRadius={'12px'}>
-                  <Flex p={2} direction={'column'} textAlign={'left'} gap={1}>
-                    <Link to={''} className='link-hover' style={LinkHoverStyle}>Acceder au kit de presse</Link>
-                    <Link to={'mailto:contact@lavabow.fr'} className='link-hover' style={LinkHoverStyle}>Mailto contact@lavabow.fr</Link>
+                <Menu.Content
+                  backgroundColor={'#171717ff'}
+                  color={'white'}
+                  borderRadius={'16px'}
+                  padding={3}
+                >
+                  <Flex
+                    direction='column'
+                    gap={1}
+                  >
+                    <LavaTypo variant='accent' size={12} style={{ marginLeft: '8px '}}>LAVA BOW Design System</LavaTypo>
+                    {contextMenuItems.map((item, index) => (
+                      <Flex key={index}
+                        borderRadius={'10px'}
+                        padding={2}
+                        gap={4}
+                        justifyContent={'space-between'}
+                        _hover={{ backgroundColor: '#ffffff27', cursor: 'pointer' }}
+                      >
+                        <LavaTypo variant='p' size={14}>{item.name}</LavaTypo>
+                        <FontAwesomeIcon icon={faDownload} />
+                      </Flex>
+                    ))}
                   </Flex>
                 </Menu.Content>
               </Menu.Positioner>
             </Menu.Root>
           )}
+
           <Spotlight />
           {isMobile && <MediaLinks padding='6px' />}
         </Box>
       </Flex>
-    </div>
+    </div >
   )
 }
