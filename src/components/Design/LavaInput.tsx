@@ -131,7 +131,7 @@ export default function LavaInput({ placeholder, setError, error, variant, liqui
               size={'xl'}
               borderColor={'transparent'}
               borderBottomColor={'white'}
-              _placeholder={{ color: "gray.400", fontWeight: '500' }}
+              _placeholder={{ color: "gray.100", fontWeight: '500' }}
               width={'100%'}
               _focusVisible={{ outline: 'none' }}
             />
