@@ -1,4 +1,4 @@
-import { Box, Flex } from '@chakra-ui/react'
+import { Box, Flex, Image } from '@chakra-ui/react'
 import { lazy, Suspense, useEffect, useState } from 'react'
 import './Pictures.css'
 import Section from '@/components/Design/Section'
@@ -10,6 +10,7 @@ import type { PictureItem } from '@/types/types'
 export default function Pictures() {
   const [pictures, setPictures] = useState<PictureItem[]>([]);
   const [activeId, setActiveId] = useState<number | null>(null);
+
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -28,11 +29,11 @@ export default function Pictures() {
   const handleActive = (id: number | undefined) => setActiveId(id || null);
 
   // Use fixed container height
-  const containerHeight = 600; // px
+  const containerHeight = 600;
 
   // Each image gets its own vertical position with spacing
-  const imageItemHeight = 400; // Height per image including spacing
-  const imageGap = 40; // Gap between images
+  const imageItemHeight = 350; // Height of each image item
+  const imageGap = 32; // Gap between images
   const totalImageHeight = imageItemHeight + imageGap;
 
   // Text items have different spacing
@@ -62,8 +63,15 @@ export default function Pictures() {
         maxHeight={`${containerHeight}px`}
         overflow={'hidden'}
         width={'100%'}
+        gap={4}
       >
-        <Box flex="1" height={`${containerHeight}px`} position={'relative'} display={'flex'} alignItems={'center'} justifyContent={'center'}>
+        <Flex
+          flex="1"
+          height={`${containerHeight}px`}
+          position={'relative'}
+          alignItems={'center'}
+          justifyContent={'center'}
+        >
           {pictures.map((photo, index) => (
             <Box
               key={photo.id}
@@ -72,6 +80,11 @@ export default function Pictures() {
               transform={'translateY(-50%)'}
               width={'100%'}
               transition={'top 0.6s ease-in-out, opacity 0.3s ease'}
+              display={'flex'}
+              direction={'row'}
+              justifyContent={'space-between'}
+              alignItems={'flex-end'}
+              gap={4}
             >
               <LavaTypo
                 variant={'h2'}
@@ -84,9 +97,17 @@ export default function Pictures() {
               >
                 {photo.title}
               </LavaTypo>
+              <LavaTypo
+                variant={'p'}
+                style={{
+                  textWrap: 'nowrap'
+                }}
+              >
+                {new Date(photo.date || '').toLocaleDateString('fr-FR').replace(/\//g, '.')}
+              </LavaTypo>
             </Box>
           ))}
-        </Box>
+        </Flex>
 
         <Box
           flex="1"
@@ -112,14 +133,14 @@ export default function Pictures() {
                 onClick={() => handleActive(photo.id)}
                 cursor={'pointer'}
               >
-                <img
+                <Image
                   src={photo.link || `https://placehold.co/640x400`}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    opacity: activeId === photo.id ? 1 : 0.5,
-                    objectFit: 'cover'
-                  }}
+                  alt={photo.title || 'Picture'}
+                  borderRadius="2px"
+                  aspectRatio={'16/9'}
+                  // objectFit="cover"
+                  // width="100%"
+                  // height="100%"
                 />
               </Box>
             ))}
