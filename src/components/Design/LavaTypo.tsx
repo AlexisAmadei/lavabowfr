@@ -32,6 +32,7 @@ export default function LavaTypo({
   size,
   textAlign = defaultProps.textAlign as TextAlign,
   color,
+  style: userStyle,
   ...props
 }: LavaTypoProps) {
   const isMobile = useIsMobile()
@@ -41,6 +42,7 @@ export default function LavaTypo({
     textAlign: variant === 'h1' && isMobile ? 'center' : textAlign,
     color: color,
     ...styles,
+    ...userStyle,
   }
 
   switch (variant) {
