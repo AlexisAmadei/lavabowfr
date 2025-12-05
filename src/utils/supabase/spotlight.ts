@@ -12,6 +12,7 @@ export const fetchSpotlightContent = async (
         const { data: section_spotlight, error } = await supabase
             .from('section_spotlight')
             .select('*')
+            .neq('status', 'DELETED')
 
         if (error) {
             console.error('Error fetching spotlight content:', error);
@@ -21,6 +22,7 @@ export const fetchSpotlightContent = async (
             return;
         }
 
+        console.log('Spotlight data fetched:', section_spotlight);
         setSpotlightContent(section_spotlight || []);
     } catch (error) {
         console.error('Exception fetching spotlight content:', error);
