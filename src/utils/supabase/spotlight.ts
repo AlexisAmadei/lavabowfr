@@ -16,6 +16,8 @@ export const fetchSpotlightContent = async (
 
     if (error) {
         console.error('Error fetching spotlight content:', error);
+        console.error('Error code:', error.code);
+        console.error('Error message:', error.message);
     } else {
         setSpotlightContent(section_spotlight || []);
     }
