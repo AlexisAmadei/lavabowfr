@@ -3,11 +3,11 @@ import { Flex } from '@chakra-ui/react'
 import LavaTypo from '../../Design/LavaTypo'
 import LavaButton from '../../Design/LavaButton'
 import useIsMobile from '../../../hooks/useIsMobile'
-import { supabase } from '@/utils/supabase/supabase'
 
 import { AnimatePresence, motion } from "motion/react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRightLong } from '@fortawesome/free-solid-svg-icons'
+import { fetchSpotlightContent } from '@/utils/supabase/spotlight'
 
 type SpotlightItem = {
   id?: number
@@ -26,26 +26,12 @@ export default function Spotlight() {
   const [spotlightData, setSpotlightData] = React.useState<SpotlightItem[]>([])
   const [activeContent, setActiveContent] = React.useState<SpotlightItem | undefined>(undefined)
 
-  async function fetchSpotlightData() {
-    try {
-      const { data: section_spotlight, error } = await supabase
-        .from('section_spotlight')
-        .select('*')
-        .eq('status', 'ACTIVE')
-        .order('id', { ascending: true });
-
-      if (error) {
-        console.error('Error fetching spotlight content:', error);
-        return;
-      }
-      setSpotlightData((section_spotlight ?? []) as SpotlightItem[]);
-    } catch (error) {
-      console.error('Error fetching spotlight content:', error);
-    }
+  async function fetchSpotlight() {
+    await fetchSpotlightContent(setSpotlightData);
   }
 
   useEffect(() => {
-    fetchSpotlightData();
+    fetchSpotlight();
   }, []);
 
   React.useEffect(() => {
