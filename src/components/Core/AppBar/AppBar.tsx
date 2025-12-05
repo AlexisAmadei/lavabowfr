@@ -32,10 +32,17 @@ export default function AppBar() {
             key={item.name}
             variant={item.variant as 'filled' | 'outlined' | 'text'}
             className="app-bar__button"
-            onClick={() => scrollToSection(item.link)}
             glassSurface={!(Icon)}
           >
-            <a href={item.link}>{item.name}</a>
+            <a
+              href={item.link}
+              onClick={(e) => {
+                e.preventDefault()
+                scrollToSection(item.link)
+              }}
+            >
+              {item.name}
+            </a>
             {Icon && (
               <span className="app-bar__icon-on-hover">
                 <Icon strokeWidth={1} size={30} />
