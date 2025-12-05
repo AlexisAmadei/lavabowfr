@@ -8,23 +8,23 @@ import { supabase } from "./supabase";
 export const fetchSpotlightContent = async (
     setSpotlightContent: (content: SpotlightItem[]) => void
 ): Promise<void> => {
-    const { data: section_spotlight, error } = await supabase
-        .from('section_spotlight')
-        .select('*')
-        .neq('status', 'DELETED')
-        .order('id', { ascending: true })
+    try {
+        const { data: section_spotlight, error } = await supabase
+            .from('section_spotlight')
+            .select('*')
 
-    console.log('Fetched spotlight content:', section_spotlight);
-    console.log('env variables:', {
-        supabaseUrl: import.meta.env.VITE_SUPABASE_URL,
-        supabaseKey: import.meta.env.VITE_SUPABASE_ANON_KEY
-    });
-    if (error) {
-        console.error('Error fetching spotlight content:', error);
-        console.error('Error code:', error.code);
-        console.error('Error message:', error.message);
-    } else {
+        if (error) {
+            console.error('Error fetching spotlight content:', error);
+            console.error('Error code:', error.code);
+            console.error('Error message:', error.message);
+            setSpotlightContent([]);
+            return;
+        }
+
         setSpotlightContent(section_spotlight || []);
+    } catch (error) {
+        console.error('Exception fetching spotlight content:', error);
+        setSpotlightContent([]);
     }
 }
 
