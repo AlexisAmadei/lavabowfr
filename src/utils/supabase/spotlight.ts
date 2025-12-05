@@ -8,25 +8,16 @@ import { supabase } from "./supabase";
 export const fetchSpotlightContent = async (
     setSpotlightContent: (content: SpotlightItem[]) => void
 ): Promise<void> => {
-    try {
-        const { data: section_spotlight, error } = await supabase
-            .from('section_spotlight')
-            .select('*')
-            .neq('status', 'DELETED')
+    const { data: section_spotlight, error } = await supabase
+        .from('section_spotlight')
+        .select('*')
+        .neq('status', 'DELETED')
+        .order('id', { ascending: true })
 
-        if (error) {
-            console.error('Error fetching spotlight content:', error);
-            console.error('Error code:', error.code);
-            console.error('Error message:', error.message);
-            setSpotlightContent([]);
-            return;
-        }
-
-        console.log('Spotlight data fetched:', section_spotlight);
+    if (error) {
+        console.error('Error fetching spotlight content:', error);
+    } else {
         setSpotlightContent(section_spotlight || []);
-    } catch (error) {
-        console.error('Exception fetching spotlight content:', error);
-        setSpotlightContent([]);
     }
 }
 
