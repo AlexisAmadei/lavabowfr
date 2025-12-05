@@ -106,7 +106,7 @@ function MarqueeContent({ height }: { height: number }) {
         <img
           key={i}
           src={HeroOutlined}
-          alt=""
+          alt="Lava Bow"
           style={{
             height: `${height}px`,
             width: 'auto',
