@@ -14,6 +14,11 @@ export const fetchSpotlightContent = async (
         .neq('status', 'DELETED')
         .order('id', { ascending: true })
 
+    console.log('Fetched spotlight content:', section_spotlight);
+    console.log('env variables:', {
+        supabaseUrl: import.meta.env.VITE_SUPABASE_URL,
+        supabaseKey: import.meta.env.VITE_SUPABASE_ANON_KEY
+    });
     if (error) {
         console.error('Error fetching spotlight content:', error);
         console.error('Error code:', error.code);
