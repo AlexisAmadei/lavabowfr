@@ -41,7 +41,7 @@ export default function AboutSection() {
           </Box>
 
           <Box className='about-section-image' border={'none'} overflow={'hidden'} flexBasis={'1/3'}>
-            <img src={aboutSection} alt="About Lava Bow" />
+            <img src={aboutSection} alt="About Lava Bow" title="About Lava Bow" />
           </Box>
         </Flex>
       </Flex>

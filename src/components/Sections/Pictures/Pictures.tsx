@@ -144,6 +144,7 @@ export default function Pictures() {
                   // objectFit="cover"
                   // width="100%"
                   // height="100%"
+                  title='Gallerie Photo'
                 />
               </Box>
             ))}

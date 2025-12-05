@@ -41,6 +41,7 @@ export default function Marquee({
             width: 'auto',
             display: 'block'
           }}
+          title="Lava Bow"
         />
       </div>
     );
@@ -112,6 +113,8 @@ function MarqueeContent({ height }: { height: number }) {
             display: 'block',
             flexShrink: 0,
           }}
+          aria-hidden="true"
+          title="Lava Bow"
         />
       ))}
     </>

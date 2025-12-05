@@ -14,6 +14,7 @@ export default function BeerGauge({ palier, progress }: { palier: Palier; progre
           opacity: 0.3,
           filter: 'grayscale(100%)',
         }}
+        title='Beer Icon'
       />
       <div style={{
         position: 'absolute',
@@ -32,6 +33,7 @@ export default function BeerGauge({ palier, progress }: { palier: Palier; progre
             filter: 'none',
             transition: 'all 0.3s ease',
           }}
+          title='Beer Icon Filled'
         />
       </div>
     </div>

@@ -75,8 +75,8 @@ export default function Contact() {
         bottom={0}
         height={isMobile ? '38px' : 'unset'}
       >
-        <img src={Car} alt='Contact Car' style={{ maxHeight: '100%'}} />
-        <img src={Frogs} alt='Contact Frogs' style={{ maxHeight: '100%'}} />
+        <img src={Car} alt='Contact Car' style={{ maxHeight: '100%'}} title='Contact Car' />
+        <img src={Frogs} alt='Contact Frogs' style={{ maxHeight: '100%'}} title='Contact Frogs' />
       </Flex>
     </Section>
   )

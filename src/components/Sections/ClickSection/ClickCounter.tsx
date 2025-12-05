@@ -91,7 +91,7 @@ export default function ClickCounter({ count, setCount, isMobile }: { count: num
         gradientFrom='transparent'
         gap={4}
       />
-      <img src={IconClick} alt='Click Icon' style={{ marginLeft: '8px' }} height={isMobile ? '24px' : '32px'} />
+      <img src={IconClick} alt='Click Icon' style={{ marginLeft: '8px' }} height={isMobile ? '24px' : '32px'} title='Click Icon' />
     </LavaButton>
   )
 }
