@@ -90,7 +90,7 @@ export default function Pictures() {
                 variant={'h2'}
                 onClick={() => handleActive(photo.id)}
                 styles={{
-                  opacity: activeId === photo.id ? 1 : 0.5,
+                  opacity: activeId === photo.id ? 1 : 0.2,
                   cursor: 'pointer',
                   width: '100%'
                 }}
@@ -101,7 +101,7 @@ export default function Pictures() {
                 variant={'p'}
                 style={{
                   textWrap: 'nowrap',
-                  opacity: activeId === photo.id ? 1 : 0.5,
+                  opacity: activeId === photo.id ? 1 : 0.2,
                   cursor: 'pointer',
                 }}
                 textAlign='right'
