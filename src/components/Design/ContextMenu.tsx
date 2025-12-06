@@ -4,8 +4,8 @@ import Logo from './Logo'
 import Divider from './Divider'
 
 const lavaIdentity = [
-  { name: 'Télécharger notre logo en .svg', asset_link: 'https://ygwmuznptpmxwjwwiite.supabase.co/storage/v1/object/public/lavabowfr/brand_assets/logo.svg' },
-  { name: 'Télécharger notre logo en .png', asset_link: 'https://ygwmuznptpmxwjwwiite.supabase.co/storage/v1/object/public/lavabowfr/brand_assets/logo.png' },
+  { name: 'Télécharger notre logo en .svg', asset_link: 'https://ygwmuznptpmxwjwwiite.supabase.co/storage/v1/object/public/lavabowfr/brand_assets/lavabow_logo.svg' },
+  { name: 'Télécharger notre logo en .png', asset_link: 'https://ygwmuznptpmxwjwwiite.supabase.co/storage/v1/object/public/lavabowfr/brand_assets/lavabow_logo.png' },
 ]
 
 export default function ContextMenu({ children }: { children?: React.ReactNode }) {
@@ -82,6 +82,7 @@ export default function ContextMenu({ children }: { children?: React.ReactNode }
               justifyContent={'flex-start'}
               borderRadius={6}
               _hover={{ backgroundColor: '#ffffff27', cursor: 'pointer' }}
+              onClick={async() => { await handleDownload({ name: 'Télécharger notre Press Kit', asset_link: "https://ygwmuznptpmxwjwwiite.supabase.co/storage/v1/object/public/lavabowfr/brand_assets/lavabow_presskit.pdf"})}}
             >
               <Logo h='15' w='15' />
               <LavaTypo variant='p' size={14}>Télécharger notre Press Kit</LavaTypo>
