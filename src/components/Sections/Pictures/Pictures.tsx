@@ -103,8 +103,8 @@ export default function Pictures() {
                   textWrap: 'nowrap',
                   opacity: activeId === photo.id ? 1 : 0.5,
                   cursor: 'pointer',
-                  width: '100%'
                 }}
+                textAlign='right'
               >
                 {new Date(photo.date || '').toLocaleDateString('fr-FR').replace(/\//g, '.')}
               </LavaTypo>
