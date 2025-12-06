@@ -37,10 +37,15 @@ export const compressAndConvertToWebP = async (file: File): Promise<File> => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ imageData: base64Data, convertToWebP: true }),
         });
+        if (response.status === 404) {
+            console.error('Compression endpoint not found (404).');
+            return file;
+        }
 
         if (!response.ok) {
             const error = await response.json();
-            throw new Error(error.error || 'Compression failed');
+            console.error('Compression failed:', error.error || 'Unknown error');
+            return file;
         }
 
         const result = await response.json();
@@ -63,7 +68,7 @@ export const compressAndConvertToWebP = async (file: File): Promise<File> => {
         return compressedFile;
     } catch (error) {
         console.error('Error compressing image:', error);
-        throw error;
+        return file;
     }
 };
 
@@ -88,7 +93,8 @@ export const compressImage = async (file: File): Promise<File> => {
 
         if (!response.ok) {
             const error = await response.json();
-            throw new Error(error.error || 'Compression failed');
+            console.error('Compression failed:', error.error || 'Unknown error');
+            return file;
         }
 
         const result = await response.json();
