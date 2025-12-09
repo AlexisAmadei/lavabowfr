@@ -3,8 +3,10 @@ import HeroTypo from "@/components/Design/HeroTypo";
 import LavaButton from "@/components/Design/LavaButton";
 import LavaTypo from "@/components/Design/LavaTypo";
 import Logo from "@/components/Design/Logo";
-import { AbsoluteCenter, Box, Flex } from "@chakra-ui/react";
+import { AbsoluteCenter, Box, Flex, Image } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router";
+
+import LookingAround from '@/assets/gif/john-tr.gif';
 
 export default function NotFound() {
   const navigate = useNavigate();
@@ -36,6 +38,15 @@ export default function NotFound() {
         ))}
       </Flex>
 
+
+      <Box
+        position={'absolute'}
+        top={'50%'}
+        transform={'translateY(-50%)'}
+        zIndex={-1}
+      >
+        <Image alt="travolta-looking-around" src={LookingAround} aspectRatio={'1/1'} height={450} />
+      </Box>
       <Link to={'/'}>
         <Box transition="transform 1s ease" _hover={{ transform: 'rotate(1080deg)' }} transformOrigin="center" display="inline-block" cursor="pointer">
           <Logo h={'70'} w={'70'} />
