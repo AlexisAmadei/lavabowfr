@@ -11,6 +11,7 @@ import Stabilo from '@/assets/textures/stabilo.svg'
 import useIsMobile from '@/hooks/useIsMobile'
 import type { EventItem } from '@/types/types'
 import { useEffect, useState } from 'react'
+import { insertAuditLog } from '@/utils/supabase/audit_log'
 
 export default function EventTicket({ event }: { event: EventItem | null }) {
   const isMobile = useIsMobile();
@@ -25,6 +26,16 @@ export default function EventTicket({ event }: { event: EventItem | null }) {
       setEventPayable(event.price > 0 && !!event.link);
     }
   }, [event]);
+
+  const handleEventClick = () => {
+    if (event?.link) {
+      insertAuditLog({
+        event_type: 'event_ticket_click',
+        data: { event_id: event.id, event_title: event.title },
+      });
+      window.open(event.link, '_blank');
+    }
+  }
 
   return (
     <Flex className='card-event'
@@ -59,7 +70,7 @@ export default function EventTicket({ event }: { event: EventItem | null }) {
           <TicketPlacement type="Rang" number="15" isMobile={isMobile} />
           <Divider orientation={isMobile ? 'vertical' : 'horizontal'} color={'white'} thickness={'1px'} />
 
-          <TicketPlacement type="Siège" number="20" isMobile={isMobile}/>
+          <TicketPlacement type="Siège" number="20" isMobile={isMobile} />
         </Flex>
         <Divider orientation={isMobile ? 'horizontal' : 'vertical'} color={'white'} />
 
@@ -147,7 +158,7 @@ export default function EventTicket({ event }: { event: EventItem | null }) {
             </LavaTypo>
           </Box>
           {eventPayable && (
-            <LavaButton style={{ backgroundColor: 'var(--main-accent)' }} fullWidth={true} onClick={() => window.open(event?.link)}>Ma place</LavaButton>
+            <LavaButton style={{ backgroundColor: 'var(--main-accent)' }} fullWidth={true} onClick={handleEventClick}>Ma place</LavaButton>
           )}
         </Flex>
 
@@ -167,7 +178,7 @@ export default function EventTicket({ event }: { event: EventItem | null }) {
           // backgroundColor={isMobile ? 'transparent' : 'var(--Background-bg-brand)'}
           zIndex={0}
         >
-          <div style={{ transform: isMobile ? undefined : 'rotate(90deg)' , width: 'fit-content' }}>
+          <div style={{ transform: isMobile ? undefined : 'rotate(90deg)', width: 'fit-content' }}>
             <Barcode
               renderer='svg'
               value={'https://lavabow.fr'}
