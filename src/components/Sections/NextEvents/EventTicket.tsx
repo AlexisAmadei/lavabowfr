@@ -33,7 +33,16 @@ export default function EventTicket({ event }: { event: EventItem | null }) {
         event_type: 'event_ticket_click',
         data: { event_id: event.id, event_title: event.title },
       });
-      window.open(event.link, '_blank');
+
+      // Small delay to ensure beacon is sent, or open immediately if faster
+      const openWindow = () => window.open(event.link, '_blank');
+
+      // Use requestIdleCallback for non-blocking timing
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(openWindow, { timeout: 100 });
+      } else {
+        setTimeout(openWindow, 10);
+      }
     }
   }
 

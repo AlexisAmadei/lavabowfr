@@ -12,14 +12,23 @@ export default async function handler(req, res) {
 
     try {
         const { event_type, data } = req.body;
+
+        // Validate required fields
+        if (!event_type || !data) {
+            return res.status(400).json({ error: 'Missing required fields: event_type, data' });
+        }
+
         const { error } = await supabase
             .from('audit_log')
             .insert([{ event_type, data }]);
+
         if (error) {
-            console.error('Error inserting log:', error);
+            console.error('Supabase insert error:', error);
             return res.status(500).json({ error: 'Failed to insert log' });
         }
-        return res.status(200).json({ message: 'Log inserted successfully' });
+
+        // Return 204 No Content for successful inserts
+        return res.status(204).end();
     } catch (error) {
         console.error('Unexpected error:', error);
         return res.status(500).json({ error: 'Unexpected error occurred' });
