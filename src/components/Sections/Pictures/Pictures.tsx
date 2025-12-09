@@ -100,7 +100,10 @@ export default function Pictures() {
               <LavaTypo
                 variant={'p'}
                 style={{
-                  textWrap: 'nowrap'
+                  textWrap: 'nowrap',
+                  opacity: activeId === photo.id ? 1 : 0.5,
+                  cursor: 'pointer',
+                  width: '100%'
                 }}
               >
                 {new Date(photo.date || '').toLocaleDateString('fr-FR').replace(/\//g, '.')}

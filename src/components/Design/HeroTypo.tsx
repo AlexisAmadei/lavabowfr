@@ -52,7 +52,7 @@ export default function HeroTypo({ repeated = false }) {
         (
           <img src={HeroOutlined} width={'100%'} height={'auto'} alt='Lava Bow Hero Typo Outlined' />
         )}
-      {!smallHeight && (
+      {!smallHeight && !repeated && (
         <img src={HeroFilled} width={'100%'} height={'auto'} alt='Lava Bow Hero Typo Filled' />
       )}
     </Box>

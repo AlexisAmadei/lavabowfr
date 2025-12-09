@@ -3,17 +3,18 @@ import { Flex } from '@chakra-ui/react'
 import LavaTypo from '../../Design/LavaTypo'
 import LavaButton from '../../Design/LavaButton'
 import useIsMobile from '../../../hooks/useIsMobile'
-import { supabase } from '@/utils/supabase/supabase'
 
 import { AnimatePresence, motion } from "motion/react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRightLong } from '@fortawesome/free-solid-svg-icons'
+import { fetchSpotlightContent } from '@/utils/supabase/spotlight'
 
 type SpotlightItem = {
   id?: number
   title?: string
   subtitle?: string
-  link?: string
+  buy_link?: string
+  listen_link?: string
   status?: string
 }
 
@@ -25,26 +26,12 @@ export default function Spotlight() {
   const [spotlightData, setSpotlightData] = React.useState<SpotlightItem[]>([])
   const [activeContent, setActiveContent] = React.useState<SpotlightItem | undefined>(undefined)
 
-  async function fetchSpotlightData() {
-    try {
-      const { data: section_spotlight, error } = await supabase
-        .from('section_spotlight')
-        .select('*')
-        .eq('status', 'ACTIVE')
-        .order('id', { ascending: true });
-
-      if (error) {
-        console.error('Error fetching spotlight content:', error);
-        return;
-      }
-      setSpotlightData((section_spotlight ?? []) as SpotlightItem[]);
-    } catch (error) {
-      console.error('Error fetching spotlight content:', error);
-    }
+  async function fetchSpotlight() {
+    await fetchSpotlightContent(setSpotlightData);
   }
 
   useEffect(() => {
-    fetchSpotlightData();
+    fetchSpotlight();
   }, []);
 
   React.useEffect(() => {
@@ -92,14 +79,14 @@ export default function Spotlight() {
 
       {/* Static buttons */}
       <Flex direction={'row'} gap={4} marginTop={4}>
-        <LavaButton variant='filled' padding={mP} onClick={() => window.open(activeContent?.link, '_blank')} className="app-bar__button" style={{ gap: 0 }}>
+        <LavaButton variant='filled' padding={mP} onClick={() => window.open(activeContent?.listen_link, '_blank')} className="app-bar__button" style={{ gap: 0 }}>
           <LavaTypo variant={'p'} size={isMobile ? '16px' : '24px'}>Écouter</LavaTypo>
           <span className="app-bar__icon-on-hover">
             <FontAwesomeIcon icon={faArrowRightLong} />
           </span>
         </LavaButton>
 
-        <LavaButton variant='outlined' padding={mP} onClick={() => window.open('https://lavabow.bandcamp.com/', '_blank')} className="app-bar__button">
+        <LavaButton variant='outlined' padding={mP} onClick={() => window.open(activeContent?.buy_link, '_blank')} className="app-bar__button">
           <LavaTypo variant={'p'} size={isMobile ? '16px' : '24px'}>Acheter</LavaTypo>
         </LavaButton>
       </Flex>

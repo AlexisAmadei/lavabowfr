@@ -11,6 +11,7 @@ import Stabilo from '@/assets/textures/stabilo.svg'
 import useIsMobile from '@/hooks/useIsMobile'
 import type { EventItem } from '@/types/types'
 import { useEffect, useState } from 'react'
+import { insertAuditLog } from '@/utils/supabase/audit_log'
 
 export default function EventTicket({ event }: { event: EventItem | null }) {
   const isMobile = useIsMobile();
@@ -25,6 +26,25 @@ export default function EventTicket({ event }: { event: EventItem | null }) {
       setEventPayable(event.price > 0 && !!event.link);
     }
   }, [event]);
+
+  const handleEventClick = () => {
+    if (event?.link) {
+      insertAuditLog({
+        event_type: 'event_ticket_click',
+        data: { event_id: event.id, event_title: event.title },
+      });
+
+      // Small delay to ensure beacon is sent, or open immediately if faster
+      const openWindow = () => window.open(event.link, '_blank');
+
+      // Use requestIdleCallback for non-blocking timing
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(openWindow, { timeout: 100 });
+      } else {
+        setTimeout(openWindow, 10);
+      }
+    }
+  }
 
   return (
     <Flex className='card-event'
@@ -59,7 +79,7 @@ export default function EventTicket({ event }: { event: EventItem | null }) {
           <TicketPlacement type="Rang" number="15" isMobile={isMobile} />
           <Divider orientation={isMobile ? 'vertical' : 'horizontal'} color={'white'} thickness={'1px'} />
 
-          <TicketPlacement type="Siège" number="20" isMobile={isMobile}/>
+          <TicketPlacement type="Siège" number="20" isMobile={isMobile} />
         </Flex>
         <Divider orientation={isMobile ? 'horizontal' : 'vertical'} color={'white'} />
 
@@ -76,32 +96,32 @@ export default function EventTicket({ event }: { event: EventItem | null }) {
               transform={'translateY(-50%)'}
               zIndex={50}
               pointerEvents={'none'}
-              opacity={0.9}
+              opacity={0.8}
             />
             <LavaTypo variant={'h2'} size={TICKET_TITLE_SIZE} styles={{ marginBottom: '8px', position: 'relative', zIndex: 1 }}>{event?.title.toUpperCase() || 'Event Title'}</LavaTypo>
           </Box>
           <Divider orientation='horizontal' color={'white'} />
 
           <Flex direction={'row'} width={'100%'} justifyContent={'space-between'} mt={'8px'} alignItems={'center'} gap={1} textWrap={'nowrap'}>
-            <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '400' }}>PRIX</LavaTypo>
+            <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '800' }}>PRIX</LavaTypo>
             <Divider orientation={'horizontal'} color={'#ffffffd8'} dashed={true} thickness={'0.5px'} dashArray={'2 1'} />
-            <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '400' }}>{event?.price === 0 ? 'PRIX LIBRE' : `${event?.price}€`}</LavaTypo>
+            <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '800' }}>{event?.price === 0 ? 'PRIX LIBRE' : `${event?.price}€`}</LavaTypo>
           </Flex>
 
           <Divider orientation='horizontal' color={'white'} />
 
           <Flex direction={'row'} width={'100%'} justifyContent={'space-between'} alignItems={'center'} gap={1} textWrap={'nowrap'}>
-            <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '400' }}>DATE</LavaTypo>
+            <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '800' }}>DATE</LavaTypo>
             <Divider orientation={'horizontal'} color={'#ffffffd8'} dashed={true} thickness={'0.5px'} dashArray={'2 1'} />
-            <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '400' }}>{event?.date ? new Date(event.date).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : "Sam t'as oublié la date"}</LavaTypo>
+            <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '800' }}>{event?.date ? new Date(event.date).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : "Sam t'as oublié la date"}</LavaTypo>
           </Flex>
 
           <Divider orientation='horizontal' color={'white'} />
 
           <Flex direction={'row'} width={'100%'} justifyContent={'space-between'} alignItems={'center'} gap={1} textWrap={'nowrap'}>
-            <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '400' }}>LIEU</LavaTypo>
+            <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '800' }}>LIEU</LavaTypo>
             <Divider orientation={'horizontal'} color={'#ffffffd8'} dashed={true} thickness={'0.5px'} dashArray={'2 1'} />
-            <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '400' }}>{event?.place || "Sam t'as oublié le lieu"}</LavaTypo>
+            <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '800' }}>{event?.place || "Sam t'as oublié le lieu"}</LavaTypo>
           </Flex>
         </Flex>
 
@@ -147,7 +167,7 @@ export default function EventTicket({ event }: { event: EventItem | null }) {
             </LavaTypo>
           </Box>
           {eventPayable && (
-            <LavaButton style={{ backgroundColor: 'var(--main-accent)' }} fullWidth={true} onClick={() => window.open(event?.link)}>Ma place</LavaButton>
+            <LavaButton style={{ backgroundColor: 'var(--main-accent)' }} fullWidth={true} onClick={handleEventClick}>Ma place</LavaButton>
           )}
         </Flex>
 
@@ -167,7 +187,7 @@ export default function EventTicket({ event }: { event: EventItem | null }) {
           // backgroundColor={isMobile ? 'transparent' : 'var(--Background-bg-brand)'}
           zIndex={0}
         >
-          <div style={{ transform: isMobile ? undefined : 'rotate(90deg)' , width: 'fit-content' }}>
+          <div style={{ transform: isMobile ? undefined : 'rotate(90deg)', width: 'fit-content' }}>
             <Barcode
               renderer='svg'
               value={'https://lavabow.fr'}

@@ -80,7 +80,7 @@ export default function Footer() {
       <Flex width={'100%'} flex={1} alignItems={'flex-end'} justifyContent={'center'}>
         <img src={lb_footer} alt='Logo Lavabow Footer' style={{ width: '100%', height: 'auto' }} />
       </Flex>
-      <Box zIndex={1000} p={0} m={0}>
+      <Box zIndex={1000} p={0} mt={4} py={2}>
         <LavaTypo textAlign='center' variant='p' size={12}>© 2025 LAVA BOW |
           <Link to={'/privacy'}>We use privacy-friendly analytics to count visitors</Link>
         </LavaTypo>
