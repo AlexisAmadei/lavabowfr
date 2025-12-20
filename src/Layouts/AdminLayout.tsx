@@ -5,7 +5,8 @@ import { Outlet, useNavigate, useResolvedPath } from 'react-router'
 
 export default function AdminLayout() {
   const navigate = useNavigate()
-  const path = useResolvedPath('')
+  // @ts-ignore
+  const path = useResolvedPath()
 
   const getUser = async () => {
     const { data: { user } } = await supabase.auth.getUser()
