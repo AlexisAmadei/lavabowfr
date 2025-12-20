@@ -32,7 +32,6 @@ export default function AppBar() {
             key={item.name}
             variant={item.variant as 'filled' | 'outlined' | 'text'}
             className="app-bar__button"
-            glassSurface={!(Icon)}
           >
             <a
               href={item.link}
