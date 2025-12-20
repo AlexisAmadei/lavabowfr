@@ -54,10 +54,12 @@ export default function Hero() {
           gap={isMobile ? '24px' : 0}
         >
           {!isMobile && (
-            <ContextMenu>
-              <Logo h={'76'} w={'76'} />
+            <Flex alignItems={'center'} gap={3}>
+              <ContextMenu>
+                <Logo h={'76'} w={'76'} />
+              </ContextMenu>
               <OnlineCounter />
-            </ContextMenu>
+            </Flex>
           )}
 
           <Spotlight />
