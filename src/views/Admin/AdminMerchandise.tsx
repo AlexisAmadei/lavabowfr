@@ -1,7 +1,8 @@
 import LavaTypo from "@/components/Design/LavaTypo";
+import ShopDialog from "@/components/Sections/Shop/ShopDialog";
 import ShopItemCard from "@/components/Sections/Shop/ShopItemCard";
-import { fetchMerchItems, MerchItem } from "@/utils/supabase/shop";
-import { Box, Button, Dialog, Editable, Field, Flex, IconButton, Input, Stack } from "@chakra-ui/react";
+import { fetchMerchItems, MerchItem, updateMerchItem } from "@/utils/supabase/shop";
+import { Box, Button, IconButton } from "@chakra-ui/react";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
@@ -10,9 +11,62 @@ export default function AdminMerchandise() {
   const [merchItems, setMerchItems] = useState<MerchItem[]>([]);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
 
-  const handleOpenDialog = () => {
+  // Form Data
+  const [formData, setFormData] = useState<MerchItem>({
+    name: '',
+    description: '',
+    price: 0,
+    tags: [],
+    stock: 0
+  });
+
+  const handleOpenDialog = (item?: MerchItem | null) => {
     setEditDialogOpen(!editDialogOpen);
+    if (item) {
+      setFormData({
+        name: item.name,
+        description: item.description,
+        price: item.price,
+        tags: item.tags || [],
+        stock: item.stock || 0
+      });
+    }
   }
+
+  function formValidation(): boolean {
+    if (formData.name.trim() === '') return false;
+    if (formData.description.trim() === '') return false;
+    if (Number(formData.price) < 0) return false;
+    return true;
+  }
+
+  const handleFormUpdate = async (itemId: number) => {
+    const updatedItem: MerchItem = {
+      id: itemId,
+      name: formData.name,
+      description: formData.description,
+      price: formData.price,
+      tags: formData.tags,
+      stock: formData.stock
+    };
+    const success = await updateMerchItem(updatedItem);
+    if (success) {
+      const merchItems = await fetchMerchItems();
+      setMerchItems(merchItems);
+      setEditDialogOpen(false);
+    }
+  }
+
+  const handleAddNewItem = () => {
+    setEditDialogOpen(true);
+    setFormData({
+      name: '',
+      description: '',
+      price: 0,
+      tags: [],
+      stock: 0
+    });
+  };
 
   useEffect(() => {
     async function fetchData() {
@@ -26,52 +80,26 @@ export default function AdminMerchandise() {
     <Box flexDirection={'column'} display={'flex'} gap={8} pr={2} mt={4} color={'black'}>
       <LavaTypo variant="h2">Lava Shop</LavaTypo>
 
+      <Button variant="subtle" onClick={handleAddNewItem}>Ajouter un article</Button>
       <Box position={'relative'}>
         {merchItems.map((item) => (
           <Box key={item.id} position={'relative'} display={'inline-block'} mr={4} mb={4}>
-            <IconButton aria-label="Edit item" position={'absolute'} top={0} left={0} zIndex={1} borderRadius={'full'} onClick={handleOpenDialog}>
+            <IconButton aria-label="Edit item" position={'absolute'} top={0} left={0} zIndex={1} borderRadius={'full'} onClick={() => handleOpenDialog(item)}>
               <FontAwesomeIcon icon={faPen} />
             </IconButton>
-            <ShopItemCard key={item.id} item={item} isAdminView={true} />
+            <ShopItemCard item={item} isAdminView={true} />
+            <ShopDialog
+              editDialogOpen={editDialogOpen}
+              handleOpenDialog={handleOpenDialog}
+              formData={formData}
+              setFormData={setFormData}
+              handleFormUpdate={handleFormUpdate}
+              formValidation={formValidation}
+              item={item}
+            />
           </Box>
         ))}
       </Box>
-
-      <Dialog.Root open={editDialogOpen} onOpenChange={() => handleOpenDialog()}>
-        <Dialog.Backdrop />
-        <Dialog.Positioner>
-
-          <Dialog.Content>
-            <Flex direction={'column'} backgroundColor={'white'} padding={6} borderRadius={8} minWidth={'400px'}>
-              <LavaTypo variant='h3'>Modifier l'article</LavaTypo>
-
-              <form>
-                <Stack gap="4" align="flex-start" maxW="sm">
-                  <Field.Root>
-                    <Field.Label>First name</Field.Label>
-                    <Input placeholder="Titre de l'article" />
-                    {/* <Field.ErrorText>{errors.firstName?.message}</Field.ErrorText> */}
-                  </Field.Root>
-
-                  <Field.Root>
-                    <Field.Label>Description</Field.Label>
-                    <Input placeholder="Description de l'article" />
-                    {/* <Field.ErrorText>{errors.lastName?.message}</Field.ErrorText> */}
-                  </Field.Root>
-
-                  <Field.Root>
-                    <Field.Label>Prix</Field.Label>
-                    <Input placeholder="Prix de l'article €" />
-                    {/* <Field.ErrorText>{errors.lastName?.message}</Field.ErrorText> */}
-                  </Field.Root>
-
-                  <Button type="submit">Submit</Button>
-                </Stack>
-              </form>
-            </Flex>
-          </Dialog.Content>
-        </Dialog.Positioner>
-      </Dialog.Root>
     </Box>
   )
 }

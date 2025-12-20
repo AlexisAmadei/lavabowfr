@@ -1,16 +1,9 @@
 import LavaButton from '@/components/Design/LavaButton';
 import LavaTypo from '@/components/Design/LavaTypo'
+import { MerchItem } from '@/utils/supabase/shop';
 import { Flex } from '@chakra-ui/react'
 
-interface ShopItemCardProps {
-  item: {
-    name: string;
-    price: number;
-    description: string;
-  };
-}
-
-export default function ShopItemCard({ item, isAdminView }: { item: ShopItemCardProps['item'], isAdminView: boolean }) {
+export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, isAdminView: boolean }) {
   return (
     <Flex
       direction={'column'}
