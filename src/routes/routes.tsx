@@ -1,7 +1,6 @@
 import { lazy } from 'react';
 import { RouteObject } from 'react-router';
 import Landing from '../views/Landing';
-import Privacy from '../views/Privacy';
 import NotFound from '../views/NotFound';
 import LazyRoute from './LazyRoute';
 
@@ -13,12 +12,18 @@ const AdminContent = lazy(() => import('../views/Admin/AdminContent'));
 const AdminUsers = lazy(() => import('../views/Admin/AdminUsers/AdminUsers'));
 const AdminMerchandise = lazy(() => import('../views/Admin/AdminMerchandise'));
 const CloudStatus = lazy(() => import('../views/Admin/CloudStatus/CloudStatus'));
+const Shop = lazy(() => import('@/views/Shop'));
 const Unsubscribe = lazy(() => import('../views/Unsubscribe'));
+const Privacy = lazy(() => import('../views/Privacy'));
 
 export const routes: RouteObject[] = [
   {
     path: '/',
     element: <Landing />,
+  },
+  {
+    path: 'shop',
+    element: <LazyRoute component={Shop} />,
   },
   {
     path: '/admin',
@@ -55,7 +60,7 @@ export const routes: RouteObject[] = [
   },
   {
     path: '/privacy',
-    element: <Privacy />,
+    element: <LazyRoute component={Privacy} />,
   },
   {
     path: '/unsubscribe',
