@@ -1,6 +1,6 @@
 import CompactAppBar from '@/components/Core/AppBar/CompactAppBar'
 import LavaTypo from '@/components/Design/LavaTypo'
-import ItemCard from '@/components/Sections/Shop/ItemCard'
+import ShopItemCard from '@/components/Sections/Shop/ShopItemCard'
 import { fetchMerchItems, MerchItem } from '@/utils/supabase/shop'
 import { Container, Flex, Grid } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
@@ -35,7 +35,7 @@ export default function Shop() {
         <Grid templateColumns={{ base: '1fr', md: '1fr 1fr 1fr 1fr' }} gap={4} mt={10}>
           {/* Example merchandise items */}
           {items.map((item, index) => (
-            <ItemCard key={index} item={item} />
+            <ShopItemCard key={index} item={item} />
           ))}
         </Grid>
       </Flex>

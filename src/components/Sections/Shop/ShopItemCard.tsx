@@ -1,9 +1,8 @@
 import LavaButton from '@/components/Design/LavaButton';
 import LavaTypo from '@/components/Design/LavaTypo'
 import { Flex } from '@chakra-ui/react'
-import React from 'react'
 
-interface ItemCardProps {
+interface ShopItemCardProps {
   item: {
     name: string;
     price: number;
@@ -11,14 +10,14 @@ interface ItemCardProps {
   };
 }
 
-export default function ItemCard({ item }: ItemCardProps) {
+export default function ShopItemCard({ item, isAdminView }: { item: ShopItemCardProps['item'], isAdminView: boolean }) {
   return (
     <Flex
       direction={'column'}
       padding={3}
       height={'550px'}
       width={'300px'}
-      backgroundColor={'white'}
+      backgroundColor={!isAdminView ? 'white' : 'gray.50'}
       justifyContent={'space-between'}
     >
       <Flex id='item-details' color={'black'}
@@ -35,6 +34,7 @@ export default function ItemCard({ item }: ItemCardProps) {
       </Flex>
       <LavaButton
         variant='filled'
+        disabled={isAdminView}
       >
         Ajouter au panier
       </LavaButton>
