@@ -27,3 +27,8 @@ fakeData/
 .vscode/mcp.json
 .vercel
 .env*.local
+
+
+supabase/.branches/_current_branch
+supabase/migrations/*.sql
+supabase/.temp
