@@ -1,11 +1,11 @@
 import { Toaster } from '@/components/ui/toaster'
 import { supabase } from '@/utils/supabase/supabase'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { Outlet, useNavigate, useResolvedPath } from 'react-router'
 
 export default function AdminLayout() {
   const navigate = useNavigate()
-  const path = useResolvedPath()
+  const path = useResolvedPath('')
 
   const getUser = async () => {
     const { data: { user } } = await supabase.auth.getUser()
