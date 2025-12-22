@@ -97,6 +97,8 @@ export default function EventTicket({ event }: { event: EventItem | null }) {
               zIndex={50}
               pointerEvents={'none'}
               opacity={0.8}
+              title='highlight'
+              aria-hidden={true}
             />
             <LavaTypo variant={'h2'} size={TICKET_TITLE_SIZE} styles={{ marginBottom: '8px', position: 'relative', zIndex: 1 }}>{event?.title.toUpperCase() || 'Event Title'}</LavaTypo>
           </Box>
@@ -150,7 +152,7 @@ export default function EventTicket({ event }: { event: EventItem | null }) {
           gap={eventPayable ? 0 : 8}
         >
           <Flex className='heads' width={'100%'} justifyContent={'space-evenly'} alignItems={'center'}>
-            <Image src={Heads} alt='Event Heads' width={'auto'} height={'70px'} objectFit={'contain'} />
+            <Image src={Heads} alt='Event Heads' width={'auto'} height={'70px'} objectFit={'contain'} title='Event Heads' />
             <Logo h={'70'} w={'70'} />
           </Flex>
           <Box className='description' my={isMobile ? 3 : 0} px={isMobile ? 2 : 0}>

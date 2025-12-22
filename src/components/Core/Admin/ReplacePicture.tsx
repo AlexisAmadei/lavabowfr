@@ -92,6 +92,7 @@ export default function ReplacePicture({ isOpen, onClose, item, onReplaced }: Re
                     maxH="150px"
                     objectFit="contain"
                     borderRadius="md"
+                    title='Image actuelle'
                   />
                 )}
 
@@ -114,6 +115,7 @@ export default function ReplacePicture({ isOpen, onClose, item, onReplaced }: Re
                       maxH="150px"
                       objectFit="contain"
                       borderRadius="md"
+                      title='Aperçu de la nouvelle image'
                     />
                   </VStack>
                 )}

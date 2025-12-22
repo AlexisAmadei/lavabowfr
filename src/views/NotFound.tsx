@@ -7,9 +7,14 @@ import { AbsoluteCenter, Box, Flex, Image } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router";
 
 import LookingAround from '@/assets/gif/john-tr.gif';
+import { useEffect } from "react";
 
 export default function NotFound() {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate('/404', { replace: true });
+  }, []);
 
   return (
     <AbsoluteCenter

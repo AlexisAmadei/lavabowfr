@@ -5,8 +5,8 @@ import { useState, useEffect } from 'react';
  * @param {number} overrideWidth override value for the isMobile trigger
  * @returns {boolean}
  */
-const useIsMobile = (overrideWidth = 1024) => {
-    const [isMobile, setIsMobile] = useState(false);
+const useIsMobile = (overrideWidth: number = 1024): boolean | null => {
+    const [isMobile, setIsMobile] = useState<boolean | null>(null);
 
     useEffect(() => {
         const checkIfMobile = () => {
@@ -16,9 +16,7 @@ const useIsMobile = (overrideWidth = 1024) => {
         checkIfMobile();
         window.addEventListener('resize', checkIfMobile);
 
-        return () => {
-            window.removeEventListener('resize', checkIfMobile);
-        };
+        return () => window.removeEventListener('resize', checkIfMobile);
     }, [overrideWidth]);
 
     return isMobile;

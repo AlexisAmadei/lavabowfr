@@ -41,6 +41,7 @@ export default function Marquee({
             width: 'auto',
             display: 'block'
           }}
+          title="Lava Bow"
         />
       </div>
     );
@@ -105,13 +106,15 @@ function MarqueeContent({ height }: { height: number }) {
         <img
           key={i}
           src={HeroOutlined}
-          alt=""
+          alt="Lava Bow"
           style={{
             height: `${height}px`,
             width: 'auto',
             display: 'block',
             flexShrink: 0,
           }}
+          aria-hidden="true"
+          title="Lava Bow"
         />
       ))}
     </>

@@ -67,6 +67,10 @@ export const routes: RouteObject[] = [
     element: <LazyRoute component={Unsubscribe} />,
   },
   {
+    path: '404',
+    element: <NotFound />,
+  },
+  {
     path: '*',
     element: <NotFound />,
   },

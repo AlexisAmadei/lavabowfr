@@ -118,6 +118,7 @@ export default function AdminEvents() {
                         maxW="150px"
                         objectFit="cover"
                         borderRadius="md"
+                        title={event.title}
                       />
                     </DataList.ItemValue>
                   </DataList.Item>

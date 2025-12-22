@@ -158,6 +158,7 @@ export default function AdminPictures() {
                     objectFit="contain"
                     cursor="pointer"
                     onClick={() => testLink(item.link)}
+                    title={item.title}
                   />
                   <Button
                     mt={1}

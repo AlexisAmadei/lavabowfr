@@ -31,6 +31,7 @@ export default function MobilePictures({ pictures }: { pictures: PictureItem[] }
                       height: '100%',
                       objectFit: 'cover'
                     }}
+                    title={photo.title}
                   />
                 </Box>
                 <LavaTypo variant={'h3'}>{photo.title}</LavaTypo>

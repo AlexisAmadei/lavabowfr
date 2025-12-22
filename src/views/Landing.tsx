@@ -27,9 +27,7 @@ export default function Landing() {
 
   return (
     <div className='app-wrapper'>
-      {!isMobile && (
-        <AppBar />
-      )}
+      {isMobile === false && <AppBar />}
       <div className='landing-page'>
         <Hero />
         <Flex ref={ref} direction='column' className='landing-body' width='100%' overflow='hidden'>

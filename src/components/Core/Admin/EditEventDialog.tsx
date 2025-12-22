@@ -55,6 +55,7 @@ export default function EditEventDialog({ open, onClose, onUpdate, event }: Edit
                 maxH="200px"
                 objectFit="cover"
                 borderRadius="md"
+                title='Image actuelle'
               />
             </Field.Root>
           </Box>
