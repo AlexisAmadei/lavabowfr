@@ -1,5 +1,7 @@
 import CompactAppBar from '@/components/Core/AppBar/CompactAppBar'
 import LavaTypo from '@/components/Design/LavaTypo'
+import Contact from '@/components/Sections/Contact'
+import Footer from '@/components/Sections/Footer'
 import ShopItemCard from '@/components/Sections/Shop/ShopItemCard'
 import { fetchMerchItems, MerchItem } from '@/utils/supabase/shop'
 import { Container, Flex, Grid } from '@chakra-ui/react'
@@ -23,8 +25,8 @@ export default function Shop() {
       maxW={'100vw'}
       alignItems={'center'}
       justifyContent={'center'}
-      paddingTop={'100px'}
-      paddingBottom={8}
+      p={0}
+      paddingTop={100}
     >
       <CompactAppBar />
       <Flex
@@ -40,6 +42,8 @@ export default function Shop() {
           ))}
         </Grid>
       </Flex>
+      <Contact />
+      <Footer />
     </Container>
   )
 }
