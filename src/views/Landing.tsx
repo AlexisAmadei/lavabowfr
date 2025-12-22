@@ -32,8 +32,8 @@ export default function Landing() {
         <Hero />
         <Flex ref={ref} direction='column' className='landing-body' width='100%' overflow='hidden'>
           <ScrollToTop isVisible={isInView} />
-          <AboutSection />
           <NextEvents />
+          <AboutSection />
           <Music />
           <Newsletter />
           <Videos />

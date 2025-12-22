@@ -41,7 +41,7 @@ export default function Videos() {
           <LavaTypo variant={'h2'} size={25}>Dernier clip</LavaTypo>
           <Box width={'350px'}>
             <iframe id="ytplayer" width={'350px'} height={'200px'}
-              src="https://www.youtube.com/embed/Rbszi6x8mXE?autoplay=0&controls=1"
+              src="https://www.youtube.com/embed/P-qXVIpVtSk?autoplay=0&controls=1"
               name='youtube-embed'
             ></iframe>
         </Box>
@@ -58,7 +58,7 @@ export default function Videos() {
             <LavaTypo variant={'h2'}>Dernier clip</LavaTypo>
             <Box>
               <iframe id="ytplayer" width={isMobile ? "100%" : "996"} height={isMobile ? "300" : "600"}
-                src="https://www.youtube.com/embed/Rbszi6x8mXE?autoplay=0&controls=1"
+                src="https://www.youtube.com/embed/P-qXVIpVtSk?autoplay=0&controls=1"
                 name='youtube-embed' loading='lazy'
               ></iframe>
             </Box>
