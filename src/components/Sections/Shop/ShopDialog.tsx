@@ -4,28 +4,28 @@ import { Button, Dialog, Field, Flex, Input, Stack } from '@chakra-ui/react'
 import React from 'react'
 
 export default function ShopDialog({
-  item,
   editDialogOpen,
   handleOpenDialog,
   formData,
   setFormData,
   handleFormUpdate,
   formValidation,
-  dialogType
+  dialogType,
+  itemIdToEdit
 }: {
-  item: MerchItem,
-  editDialogOpen: boolean,
+  editDialogOpen: { open: boolean, type: 'edit' | 'add' },
   handleOpenDialog: () => void,
   formData: MerchItem,
   setFormData: React.Dispatch<React.SetStateAction<MerchItem>>,
   handleFormUpdate: (itemId: number) => Promise<void>,
   formValidation: () => boolean,
-  dialogType?: 'edit' | 'add'
+  dialogType?: 'edit' | 'add',
+  itemIdToEdit?: number
 }) {
 
   async function handleSubmitAction() {
-    if (item.id) {
-      await handleFormUpdate(item.id!);
+    if (editDialogOpen.type === 'edit') {
+      await handleFormUpdate(itemIdToEdit!);
     } else {
       await addMerchItem({
         name: formData.name,
@@ -39,7 +39,7 @@ export default function ShopDialog({
   }
 
   return (
-    <Dialog.Root open={editDialogOpen} onOpenChange={() => handleOpenDialog()}>
+    <Dialog.Root open={editDialogOpen.open} onOpenChange={() => handleOpenDialog()}>
       <Dialog.Backdrop />
       <Dialog.Positioner>
 
@@ -80,7 +80,7 @@ export default function ShopDialog({
                 {/* <Field.ErrorText>{errors.lastName?.message}</Field.ErrorText> */}
               </Field.Root>
 
-              <Button onClick={handleSubmitAction} disabled={!formValidation()}>{dialogType === 'add' ? 'Add' : 'Submit'}</Button>
+              <Button onClick={handleSubmitAction} disabled={!formValidation()}>{editDialogOpen.type === 'add' ? 'Add' : 'Submit'}</Button>
             </Stack>
           </Flex>
         </Dialog.Content>

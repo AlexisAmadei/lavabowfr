@@ -24,6 +24,7 @@ export default function Shop() {
       alignItems={'center'}
       justifyContent={'center'}
       paddingTop={'100px'}
+      paddingBottom={8}
     >
       <CompactAppBar />
       <Flex
@@ -35,7 +36,7 @@ export default function Shop() {
         <Grid templateColumns={{ base: '1fr', md: '1fr 1fr 1fr 1fr' }} gap={4} mt={10}>
           {/* Example merchandise items */}
           {items.map((item, index) => (
-            <ShopItemCard key={index} item={item} />
+            <ShopItemCard key={index} item={item} isAdminView={false} />
           ))}
         </Grid>
       </Flex>

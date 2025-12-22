@@ -9,7 +9,12 @@ import { useEffect, useState } from "react";
 
 export default function AdminMerchandise() {
   const [merchItems, setMerchItems] = useState<MerchItem[]>([]);
-  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [itemIdToEdit, setItemIdToEdit] = useState<number | null>(null);
+
+  const [editDialogOpen, setEditDialogOpen] = useState({
+    open: false,
+    type: 'edit' as 'edit' | 'add'
+  });
 
   // Form Data
   const [formData, setFormData] = useState<MerchItem>({
@@ -21,7 +26,11 @@ export default function AdminMerchandise() {
   });
 
   const handleOpenDialog = (item?: MerchItem | null) => {
-    setEditDialogOpen(!editDialogOpen);
+    setItemIdToEdit(item?.id || null);
+    setEditDialogOpen(prev => ({
+      open: !prev.open,
+      type: item ? 'edit' : 'add'
+    }));
     if (item) {
       setFormData({
         name: item.name,
@@ -53,12 +62,13 @@ export default function AdminMerchandise() {
     if (success) {
       const merchItems = await fetchMerchItems();
       setMerchItems(merchItems);
-      setEditDialogOpen(false);
+      setEditDialogOpen({ open: false, type: 'edit' });
     }
   }
 
   const handleAddNewItem = () => {
-    setEditDialogOpen(true);
+    console.log("Adding new item");
+    setEditDialogOpen({ open: true, type: 'add' });
     setFormData({
       name: '',
       description: '',
@@ -88,17 +98,17 @@ export default function AdminMerchandise() {
               <FontAwesomeIcon icon={faPen} />
             </IconButton>
             <ShopItemCard item={item} isAdminView={true} />
-            <ShopDialog
-              editDialogOpen={editDialogOpen}
-              handleOpenDialog={handleOpenDialog}
-              formData={formData}
-              setFormData={setFormData}
-              handleFormUpdate={handleFormUpdate}
-              formValidation={formValidation}
-              item={item}
-            />
           </Box>
         ))}
+        <ShopDialog
+          editDialogOpen={editDialogOpen}
+          handleOpenDialog={handleOpenDialog}
+          formData={formData}
+          setFormData={setFormData}
+          handleFormUpdate={handleFormUpdate}
+          formValidation={formValidation}
+          itemIdToEdit={itemIdToEdit!}
+        />
       </Box>
     </Box>
   )
