@@ -5,6 +5,9 @@
     "[typescriptreact]": {
         "editor.tabSize": 2
     },
+    "[typescript]": {
+        "editor.tabSize": 2
+    },
     "editor.insertSpaces": true,
     "chat.mcp.serverSampling": {
         "lavabowfr/.vscode/mcp.json: chakra-ui": {
