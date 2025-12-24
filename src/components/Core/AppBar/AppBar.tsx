@@ -1,14 +1,26 @@
 import LavaButton from '@/components/Design/LavaButton'
 import { Flex } from '@chakra-ui/react'
 import { ElementType } from 'react'
-import './AppBar.css'
 import menuItems from '@/lib/menuItems'
 import { scrollToSection } from '@/utils/navigation'
 import MediaLinks from './MediaLinks'
 import useIsMobile from '@/hooks/useIsMobile'
+import { useNavigate } from 'react-router'
+import { SubMenu } from './SubMenus'
+import './AppBar.css'
 
 export default function AppBar() {
   const isMobile = useIsMobile(1250);
+  const navigate = useNavigate();
+
+  const handleNav = (link: string) => {
+    if (link.startsWith('#')) {
+      scrollToSection(link)
+    } else {
+      navigate(link)
+    }
+  }
+
   return (
     <Flex className='app-bar'
       as={'nav'}
@@ -23,7 +35,7 @@ export default function AppBar() {
       gap={4}
     >
       {!isMobile && (
-        <MediaLinks />
+        <MediaLinks padding='4px' size='lg' />
       )}
       {menuItems.map(item => {
         const Icon = (('endIcon' in item && item.endIcon) ? item.endIcon : item.icon) as ElementType | undefined
@@ -33,15 +45,23 @@ export default function AppBar() {
             variant={item.variant as 'filled' | 'outlined' | 'text'}
             className="app-bar__button"
           >
-            <a
-              href={item.link}
-              onClick={(e) => {
-                e.preventDefault()
-                scrollToSection(item.link)
-              }}
-            >
-              {item.name}
-            </a>
+            {!item.subItems && (
+              <a
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNav(item.link);
+                }}
+              >
+                {item.name}
+              </a>
+            )}
+            {item.subItems && (
+              <SubMenu
+                parentName={item.name}
+                subItems={item.subItems}
+                handleNav={handleNav}
+              />
+            )}
             {Icon && (
               <span className="app-bar__icon-on-hover">
                 <Icon strokeWidth={1} size={30} />
