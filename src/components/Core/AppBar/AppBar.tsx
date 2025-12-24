@@ -1,6 +1,6 @@
 import LavaButton from '@/components/Design/LavaButton'
 import { Flex } from '@chakra-ui/react'
-import { ElementType } from 'react'
+import { ElementType, useState, useRef } from 'react'
 import menuItems from '@/lib/menuItems'
 import { scrollToSection } from '@/utils/navigation'
 import MediaLinks from './MediaLinks'
@@ -12,6 +12,8 @@ import './AppBar.css'
 export default function AppBar() {
   const isMobile = useIsMobile(1250);
   const navigate = useNavigate();
+  const [openMenuKey, setOpenMenuKey] = useState<string | null>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleNav = (link: string) => {
     if (link.startsWith('#')) {
@@ -20,6 +22,20 @@ export default function AppBar() {
       navigate(link)
     }
   }
+
+  const handleMouseEnter = (itemName: string) => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    setOpenMenuKey(itemName);
+  };
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setOpenMenuKey(null);
+    }, 150);
+  };
 
   return (
     <Flex className='app-bar'
@@ -44,6 +60,8 @@ export default function AppBar() {
             key={item.name}
             variant={item.variant as 'filled' | 'outlined' | 'text'}
             className="app-bar__button"
+            onMouseEnter={() => item.subItems && handleMouseEnter(item.name)}
+            onMouseLeave={() => item.subItems && handleMouseLeave()}
           >
             {!item.subItems && (
               <a
@@ -60,6 +78,7 @@ export default function AppBar() {
                 parentName={item.name}
                 subItems={item.subItems}
                 handleNav={handleNav}
+                open={openMenuKey === item.name}
               />
             )}
             {Icon && (

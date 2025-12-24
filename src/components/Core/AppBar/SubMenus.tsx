@@ -1,52 +1,28 @@
 import { MenuItem } from "@/lib/menuItems";
 import { Menu, Portal } from "@chakra-ui/react";
-import { useRef, useState } from "react";
 
 interface SubMenuProps {
   parentName: string
   subItems: MenuItem[]
-  handleNav: (link: string) => void
+  handleNav: (link: string) => void,
+  open?: boolean
 }
 
-export const SubMenu = ({ parentName, subItems, handleNav }: SubMenuProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  const handleMouseEnter = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-    setIsOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setIsOpen(false);
-    }, 150);
-  };
-
+export const SubMenu = ({ parentName, subItems, handleNav, open }: SubMenuProps) => {
   return (
     <Menu.Root
       closeOnSelect={true}
-      open={isOpen}
-      onOpenChange={(e) => setIsOpen(e.open)}
+      open={open}
+      onOpenChange={() => {}}
     >
       <Menu.Trigger asChild>
-        <span
-          style={{ cursor: 'pointer' }}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
+        <span style={{ cursor: 'pointer' }}>
           {parentName}
         </span>
       </Menu.Trigger>
       <Portal>
         <Menu.Positioner>
-          <Menu.Content
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-          >
+          <Menu.Content>
             {subItems.map((subItem) => (
               <Menu.Item
                 key={subItem.name}
