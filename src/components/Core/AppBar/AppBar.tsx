@@ -12,8 +12,7 @@ import './AppBar.css'
 export default function AppBar() {
   const isMobile = useIsMobile(1250);
   const navigate = useNavigate();
-  const [openMenuKey, setOpenMenuKey] = useState<string | null>(null);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  // const [openMenuKey, setOpenMenuKey] = useState<string | null>(null);
 
   const handleNav = (link: string) => {
     if (link.startsWith('#')) {
@@ -22,20 +21,6 @@ export default function AppBar() {
       navigate(link)
     }
   }
-
-  const handleMouseEnter = (itemName: string) => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-    setOpenMenuKey(itemName);
-  };
-
-  const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setOpenMenuKey(null);
-    }, 150);
-  };
 
   return (
     <Flex className='app-bar'
@@ -54,16 +39,13 @@ export default function AppBar() {
         <MediaLinks padding='4px' size='lg' />
       )}
       {menuItems.map(item => {
-        const Icon = (('endIcon' in item && item.endIcon) ? item.endIcon : item.icon) as ElementType | undefined
-        return (
-          <LavaButton
-            key={item.name}
-            variant={item.variant as 'filled' | 'outlined' | 'text'}
-            className="app-bar__button"
-            onMouseEnter={() => item.subItems && handleMouseEnter(item.name)}
-            onMouseLeave={() => item.subItems && handleMouseLeave()}
-          >
-            {!item.subItems && (
+        if (!item.subItems) {
+          return (
+            <LavaButton
+              key={item.name}
+              variant={item.variant as 'filled' | 'outlined' | 'text'}
+              className="app-bar__button"
+            >
               <a
                 onClick={(e) => {
                   e.preventDefault();
@@ -72,22 +54,18 @@ export default function AppBar() {
               >
                 {item.name}
               </a>
-            )}
-            {item.subItems && (
-              <SubMenu
-                parentName={item.name}
-                subItems={item.subItems}
-                handleNav={handleNav}
-                open={openMenuKey === item.name}
-              />
-            )}
-            {Icon && (
-              <span className="app-bar__icon-on-hover">
-                <Icon strokeWidth={1} size={30} />
-              </span>
-            )}
-          </LavaButton>
-        )
+            </LavaButton>
+          )
+        } else if (item.subItems) {
+          return (
+            <SubMenu key={item.name}
+              item={item}
+              parentName={item.name}
+              subItems={item.subItems}
+              handleNav={handleNav}
+            />
+          );
+        }
       })}
     </Flex>
   )

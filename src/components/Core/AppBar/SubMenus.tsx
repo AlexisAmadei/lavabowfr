@@ -1,28 +1,62 @@
+import LavaButton from "@/components/Design/LavaButton";
+import useIsMobile from "@/hooks/useIsMobile";
 import { MenuItem } from "@/lib/menuItems";
 import { Menu, Portal } from "@chakra-ui/react";
-
+import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useRef, useState } from "react";
 interface SubMenuProps {
+  item: MenuItem
   parentName: string
   subItems: MenuItem[]
   handleNav: (link: string) => void,
-  open?: boolean
+  // open?: boolean
 }
 
-export const SubMenu = ({ parentName, subItems, handleNav, open }: SubMenuProps) => {
+export const SubMenu = ({ item, parentName, subItems, handleNav }: SubMenuProps) => {
+  const [open, setOpen] = useState<boolean>(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    setOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setOpen(false);
+    }, 200);
+  };
   return (
     <Menu.Root
       closeOnSelect={true}
       open={open}
-      onOpenChange={() => {}}
     >
       <Menu.Trigger asChild>
-        <span style={{ cursor: 'pointer' }}>
-          {parentName}
-        </span>
+        <LavaButton
+          key={item.name}
+          variant={item.variant as 'filled' | 'outlined' | 'text'}
+          className="app-bar__button"
+          onMouseEnter={() => handleMouseEnter()}
+          onMouseLeave={() => handleMouseLeave()}
+        >
+          <span>
+            {parentName}
+            <FontAwesomeIcon icon={open ? faChevronDown : faChevronUp} />
+          </span>
+        </LavaButton>
       </Menu.Trigger>
       <Portal>
         <Menu.Positioner>
-          <Menu.Content>
+          <Menu.Content
+            padding={3}
+            borderRadius={'16px'}
+            onMouseEnter={() => handleMouseEnter()}
+            onMouseLeave={() => handleMouseLeave()}
+          >
             {subItems.map((subItem) => (
               <Menu.Item
                 key={subItem.name}
@@ -30,7 +64,12 @@ export const SubMenu = ({ parentName, subItems, handleNav, open }: SubMenuProps)
                 onClick={(e) => {
                   e.preventDefault();
                   handleNav(subItem.link);
+                  setOpen(false);
                 }}
+                borderRadius={'8px'}
+                cursor={'pointer'}
+                color={'#ED00E1'}
+                fontSize={'18px'}
               >
                 {subItem.name}
               </Menu.Item>
