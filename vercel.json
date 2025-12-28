@@ -9,6 +9,9 @@
   "functions": {
     "api/tinypng.js": {
       "maxDuration": 10
+    },
+    "api/online-polling.js": {
+      "maxDuration": 900
     }
   }
 }
