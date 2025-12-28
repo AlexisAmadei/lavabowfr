@@ -2,9 +2,9 @@ import LavaButton from '@/components/Design/LavaButton';
 import LavaTypo from '@/components/Design/LavaTypo'
 import { MerchItem } from '@/utils/supabase/shop';
 import { Box, Flex } from '@chakra-ui/react'
+import { Link } from 'react-router';
 
 export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, isAdminView: boolean }) {
-
   function formatTags(tag: string) {
     return `${tag.charAt(0).toUpperCase()}${tag.slice(1).replace(/_/g, ' ')}`;
   }
@@ -59,8 +59,15 @@ export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, i
         variant='filled'
         disabled={isAdminView}
       >
-        Ajouter au panier
+        <Link
+          target='_blank'
+          to={item.stripe_paylink}
+          style={{ textDecoration: 'none', color: 'inherit' }}
+        >
+          Acheter
+        </Link>
       </LavaButton>
+
     </Flex>
   )
 }

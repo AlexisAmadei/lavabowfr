@@ -22,7 +22,8 @@ export default function AdminMerchandise() {
     description: '',
     price: 0,
     tags: [],
-    stock: 0
+    stripe_paylink: '',
+    out_of_stock: false
   });
 
   const handleOpenDialog = (item?: MerchItem | null) => {
@@ -37,7 +38,8 @@ export default function AdminMerchandise() {
         description: item.description,
         price: item.price,
         tags: item.tags || [],
-        stock: item.stock || 0
+        stripe_paylink: item.stripe_paylink,
+        out_of_stock: item.out_of_stock
       });
     }
   }
@@ -46,6 +48,7 @@ export default function AdminMerchandise() {
     if (formData.name.trim() === '') return false;
     if (formData.description.trim() === '') return false;
     if (Number(formData.price) < 0) return false;
+    if (formData.stripe_paylink.length === 10) return false;
     return true;
   }
 
@@ -56,7 +59,8 @@ export default function AdminMerchandise() {
       description: formData.description,
       price: formData.price,
       tags: formData.tags,
-      stock: formData.stock
+      stripe_paylink: formData.stripe_paylink,
+      out_of_stock: formData.out_of_stock
     };
     const success = await updateMerchItem(updatedItem);
     if (success) {
@@ -74,15 +78,16 @@ export default function AdminMerchandise() {
       description: '',
       price: 0,
       tags: [],
-      stock: 0
+      stripe_paylink: '',
+      out_of_stock: false
     });
   };
 
+  async function fetchData() {
+    setMerchItems(await fetchMerchItems());
+  }
+
   useEffect(() => {
-    async function fetchData() {
-      const merchItems = await fetchMerchItems();
-      setMerchItems(merchItems);
-    }
     fetchData();
   }, []);
 
@@ -108,6 +113,7 @@ export default function AdminMerchandise() {
           handleFormUpdate={handleFormUpdate}
           formValidation={formValidation}
           itemIdToEdit={itemIdToEdit!}
+          onClose={fetchData}
         />
       </Box>
     </Box>

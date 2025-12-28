@@ -6,7 +6,8 @@ export interface MerchItem {
     description: string;
     price: number | string;
     tags: string[] | null;
-    stock: number | string | null;
+    stripe_paylink: string;
+    out_of_stock: boolean;
 }
 
 export async function fetchMerchItems(): Promise<MerchItem[]> {
@@ -35,7 +36,7 @@ export async function updateMerchItem(item: MerchItem): Promise<boolean> {
                 description: item.description,
                 price: item.price,
                 tags: item.tags,
-                stock: item.stock
+                stripe_paylink: item.stripe_paylink
             })
             .eq('id', item.id);
         if (error) {
@@ -58,7 +59,7 @@ export async function addMerchItem(item: Omit<MerchItem, 'id'>): Promise<boolean
                 description: item.description,
                 price: item.price,
                 tags: item.tags,
-                stock: item.stock
+                stripe_paylink: item.stripe_paylink
             }]);
         if (error) {
             console.error('Error adding merch item:', error);

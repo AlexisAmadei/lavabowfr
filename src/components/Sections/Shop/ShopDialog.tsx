@@ -1,6 +1,6 @@
 import LavaTypo from '@/components/Design/LavaTypo'
 import { addMerchItem, MerchItem } from '@/utils/supabase/shop'
-import { Button, Dialog, Field, Flex, Input, Stack } from '@chakra-ui/react'
+import { Button, Checkbox, Dialog, Field, Flex, Input, Stack } from '@chakra-ui/react'
 import React from 'react'
 
 export default function ShopDialog({
@@ -11,7 +11,8 @@ export default function ShopDialog({
   handleFormUpdate,
   formValidation,
   dialogType,
-  itemIdToEdit
+  itemIdToEdit,
+  onClose
 }: {
   editDialogOpen: { open: boolean, type: 'edit' | 'add' },
   handleOpenDialog: () => void,
@@ -20,7 +21,8 @@ export default function ShopDialog({
   handleFormUpdate: (itemId: number) => Promise<void>,
   formValidation: () => boolean,
   dialogType?: 'edit' | 'add',
-  itemIdToEdit?: number
+  itemIdToEdit?: number,
+  onClose: () => void
 }) {
 
   async function handleSubmitAction() {
@@ -32,10 +34,12 @@ export default function ShopDialog({
         description: formData.description,
         price: formData.price,
         tags: formData.tags,
-        stock: formData.stock
+        stripe_paylink: formData.stripe_paylink,
+        out_of_stock: formData.out_of_stock
       });
       handleOpenDialog();
     }
+    onClose();
   }
 
   return (
@@ -53,32 +57,38 @@ export default function ShopDialog({
               <Field.Root>
                 <Field.Label>First name</Field.Label>
                 <Input placeholder="Titre de l'article" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
-                {/* <Field.ErrorText>{errors.firstName?.message}</Field.ErrorText> */}
               </Field.Root>
 
               <Field.Root>
                 <Field.Label>Description</Field.Label>
                 <Input placeholder="Description de l'article" value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} />
-                {/* <Field.ErrorText>{errors.lastName?.message}</Field.ErrorText> */}
               </Field.Root>
 
               <Field.Root>
                 <Field.Label>Prix</Field.Label>
                 <Input placeholder="Prix de l'article €" value={formData.price} onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })} type="number" />
-                {/* <Field.ErrorText>{errors.lastName?.message}</Field.ErrorText> */}
               </Field.Root>
 
               <Field.Root>
                 <Field.Label>Tags</Field.Label>
                 <Input placeholder="Tags" value={formData.tags?.join(', ') ?? ''} onChange={(e) => setFormData({ ...formData, tags: e.target.value.split(',').map(tag => tag.trim()) })} />
-                {/* <Field.ErrorText>{errors.lastName?.message}</Field.ErrorText> */}
               </Field.Root>
 
               <Field.Root>
-                <Field.Label>Stock</Field.Label>
-                <Input placeholder="Stock" value={formData.stock ?? ''} onChange={(e) => setFormData({ ...formData, stock: e.target.value === '' ? null : Number(e.target.value) })} type="number" />
-                {/* <Field.ErrorText>{errors.lastName?.message}</Field.ErrorText> */}
+                <Field.Label>Stripe Payment Link</Field.Label>
+                <Input placeholder="Stripe Payment Link" value={formData.stripe_paylink} onChange={(e) => setFormData({ ...formData, stripe_paylink: e.target.value })} />
               </Field.Root>
+
+              <Checkbox.Root
+                display={'flex'}
+                alignItems={'center'}
+                checked={formData.out_of_stock}
+                onCheckedChange={(details) => setFormData({ ...formData, out_of_stock: !!details.checked })}
+              >
+                <Checkbox.HiddenInput />
+                <Checkbox.Control />
+                <Checkbox.Label>Out of Stock</Checkbox.Label>
+              </Checkbox.Root>
 
               <Button onClick={handleSubmitAction} disabled={!formValidation()}>{editDialogOpen.type === 'add' ? 'Add' : 'Submit'}</Button>
             </Stack>
