@@ -1,6 +1,6 @@
+import { ElementType } from 'react'
 import LavaButton from '@/components/Design/LavaButton'
 import { Flex } from '@chakra-ui/react'
-import { ElementType, useState, useRef } from 'react'
 import menuItems from '@/lib/menuItems'
 import { scrollToSection } from '@/utils/navigation'
 import MediaLinks from './MediaLinks'
@@ -12,7 +12,6 @@ import './AppBar.css'
 export default function AppBar() {
   const isMobile = useIsMobile(1250);
   const navigate = useNavigate();
-  // const [openMenuKey, setOpenMenuKey] = useState<string | null>(null);
 
   const handleNav = (link: string) => {
     if (link.startsWith('#')) {
@@ -39,6 +38,7 @@ export default function AppBar() {
         <MediaLinks padding='4px' size='lg' />
       )}
       {menuItems.map(item => {
+        const Icon = (('endIcon' in item && item.endIcon) ? item.endIcon : item.icon) as ElementType | undefined;
         if (!item.subItems) {
           return (
             <LavaButton
@@ -54,6 +54,11 @@ export default function AppBar() {
               >
                 {item.name}
               </a>
+              {Icon && (
+                <span className='app-bar__icon-on-hover' style={{ transition: 'all 0.3 ease'}}>
+                  <Icon />
+                </span>
+              )}
             </LavaButton>
           )
         } else if (item.subItems) {
