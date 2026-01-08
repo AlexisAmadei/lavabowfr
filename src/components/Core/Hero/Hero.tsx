@@ -1,13 +1,10 @@
 import React, { useEffect } from 'react'
 import { Box, Flex } from '@chakra-ui/react'
-import Logo from '@/components/Design/Logo'
 import Spotlight from './Spotlight'
 import HeroTypo from '@/components/Design/HeroTypo'
 import useIsMobile from '../../../hooks/useIsMobile'
 import MobileAppBar from '../AppBar/MobileAppBar'
 import MediaLinks from '../AppBar/MediaLinks'
-import OnlineCounter from './OnlineCounter'
-import ContextMenu from '@/components/Design/ContextMenu'
 
 export default function Hero() {
   const isMobile = useIsMobile();
@@ -53,15 +50,6 @@ export default function Hero() {
           mb={8}
           gap={isMobile ? '24px' : 0}
         >
-          {!isMobile && (
-            <Flex alignItems={'center'} gap={3}>
-              <ContextMenu>
-                <Logo h={'76'} w={'76'} />
-              </ContextMenu>
-              <OnlineCounter />
-            </Flex>
-          )}
-
           <Spotlight />
           {isMobile && <MediaLinks padding='6px' />}
         </Box>
