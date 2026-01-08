@@ -1,9 +1,10 @@
 import LavaButton from "@/components/Design/LavaButton";
 import { MenuItem } from "@/lib/menuItems";
 import { Menu, Portal } from "@chakra-ui/react";
-import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faBarsStaggered } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRef, useState } from "react";
+
 interface SubMenuProps {
   item: MenuItem
   parentName: string
@@ -42,7 +43,7 @@ export const SubMenu = ({ item, parentName, subItems, handleNav }: SubMenuProps)
           onMouseLeave={() => handleMouseLeave()}
         >
           {parentName}
-          <FontAwesomeIcon icon={open ? faChevronDown : faChevronUp} />
+          <FontAwesomeIcon icon={open ? faBarsStaggered : faBars} />
         </LavaButton>
       </Menu.Trigger>
       <Portal>

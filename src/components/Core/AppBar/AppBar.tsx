@@ -55,7 +55,7 @@ export default function AppBar() {
                 {item.name}
               </a>
               {Icon && (
-                <span className='app-bar__icon-on-hover' style={{ transition: 'all 0.3 ease'}}>
+                <span className='app-bar__icon-on-hover' style={{ transition: 'all 0.3 ease' }}>
                   <Icon />
                 </span>
               )}
