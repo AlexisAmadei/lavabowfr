@@ -35,7 +35,7 @@ export default function AppBar() {
       left={0}
       right={0}
       zIndex={1000}
-      justifyContent={'center'}
+      justifyContent={'space-evenly'}
       alignItems={'center'}
       gap={4}
     >
