@@ -9,7 +9,7 @@ import HeroOutlined from '@/assets/img/HeroTypo/hero-outlined.svg';
 
 export default function HeroTypo({ repeated = false }) {
   const isMobile = useIsMobile();
-  const smallHeight = typeof window !== 'undefined' ? window.innerHeight < 800 : false;
+  const smallHeight = typeof window !== 'undefined' ? window.innerHeight < 1000 : false;
 
   const firstImgRef = useRef<HTMLImageElement | null>(null);
   const [marqueeHeight, setMarqueeHeight] = useState<number | undefined>(undefined);
