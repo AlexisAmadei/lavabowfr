@@ -45,7 +45,7 @@ export default function Hero() {
           flexDirection={isMobile ? 'column' : 'row'}
           position={'relative'}
           alignItems={isMobile ? 'center' : 'flex-end'}
-          justifyContent={'space-between'}
+          justifyContent={'flex-end'}
           paddingX={!isMobile ? 16 : 4}
           mb={8}
           gap={isMobile ? '24px' : 0}
