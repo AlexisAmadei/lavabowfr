@@ -10,11 +10,5 @@
         "api/tinypng.js": {
             "maxDuration": 10
         }
-    },
-    "crons": [
-        {
-            "path": "/api/cleanup",
-            "schedule": "* * * * *"
-        }
-    ]
+    }
 }
