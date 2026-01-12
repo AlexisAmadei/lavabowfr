@@ -1,14 +1,20 @@
 {
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ],
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "functions": {
-    "api/tinypng.js": {
-      "maxDuration": 10
-    }
-  }
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/index.html"
+        }
+    ],
+    "$schema": "https://openapi.vercel.sh/vercel.json",
+    "functions": {
+        "api/tinypng.js": {
+            "maxDuration": 10
+        }
+    },
+    "crons": [
+        {
+            "path": "/api/cleanup",
+            "schedule": "* * * * *"
+        }
+    ]
 }
