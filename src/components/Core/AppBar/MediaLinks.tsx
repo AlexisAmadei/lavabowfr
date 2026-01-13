@@ -19,7 +19,7 @@ export default function MediaLinks({ content = 'all', size = '1x', color = 'var(
     { name: 'bandcamp', url: 'https://lavabow.bandcamp.com/', icon: () => <FontAwesomeIcon icon={faBandcamp} size={size} color={color} />, content: 'media' },
     { name: 'apple', url: 'https://music.apple.com/fr/artist/lava-bow/1516017856', icon: () => <FontAwesomeIcon icon={faApple} size={size} color={color} />, content: 'media' },
     { name: 'deezer', url: 'https://link.deezer.com/s/31FDlb4MIPSBsH6Nfnxdl', icon: () => <FontAwesomeIcon icon={faDeezer} size={size} color={color} />, content: 'media' },
-    { name: 'spotify', url: 'https://open.spotify.com/artist/54Y8JDIfmIb2zlHrB2ZoVF', icon: () => <FontAwesomeIcon icon={faSpotify} size={size} color={color} />, content: 'media' },
+    // { name: 'spotify', url: 'https://open.spotify.com/artist/54Y8JDIfmIb2zlHrB2ZoVF', icon: () => <FontAwesomeIcon icon={faSpotify} size={size} color={color} />, content: 'media' },
   ]
   const filteredLinks = content === 'all' ? links : links.filter(link => link.content === content);
 
