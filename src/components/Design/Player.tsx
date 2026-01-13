@@ -10,7 +10,6 @@ export default function Player() {
     <Box height={'100%'} display={'inline-flex'} alignItems={'center'}
       gap={2}
       backgroundColor={'var(--Background-bg-brand)'}
-      // backgroundColor={'#cacacaff'}
       padding={'6px 6px'}
       borderRadius={50}
     >
