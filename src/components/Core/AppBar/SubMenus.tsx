@@ -49,7 +49,7 @@ export const SubMenu = ({ item, parentName, subItems, handleNav }: SubMenuProps)
       <Portal>
         <Menu.Positioner>
           <Menu.Content
-            padding={3}
+            padding={2}
             borderRadius={'16px'}
             onMouseEnter={() => handleMouseEnter()}
             onMouseLeave={() => handleMouseLeave()}
