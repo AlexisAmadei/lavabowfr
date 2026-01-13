@@ -12,7 +12,7 @@ export interface MerchItem {
 
 export async function fetchMerchItems(): Promise<MerchItem[]> {
     try {
-        let { data: merch_items, error } = await supabase
+        const { data: merch_items, error } = await supabase
             .from('merch_items')
             .select('*');
 
