@@ -32,6 +32,7 @@ export default function HeroTypo({ repeated = false }) {
     } catch (e) {
       // ResizeObserver may not be available in some environments; fallback to window resize
       window.addEventListener('resize', update);
+      console.error('ResizeObserver not available, falling back to window resize:', e);
     }
 
     img.addEventListener('load', update);

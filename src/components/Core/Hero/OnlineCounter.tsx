@@ -10,6 +10,16 @@ export default function OnlineCounter() {
   const [onlineUsers, setOnlineUsers] = useState(0);
 
   useEffect(() => {
+    // Fetch initial count
+    const fetchInitialCount = async () => {
+      const { count } = await supabase
+        .from('online_users')
+        .select('*', { count: 'exact', head: true });
+      setOnlineUsers(count || 0);
+    };
+
+    fetchInitialCount();
+
     const channel = supabase
       .channel('online_users_changes')
       .on(

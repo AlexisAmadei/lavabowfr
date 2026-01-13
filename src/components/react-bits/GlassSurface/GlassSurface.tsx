@@ -2,7 +2,7 @@ import { useEffect, useRef, useId, useMemo, useState } from 'react';
 import './GlassSurface.css';
 
 const GlassSurface = ({
-  // @ts-ignore
+  // @ts-expect-error children type
   children,
   width = 200,
   height = 80,
@@ -37,7 +37,7 @@ const GlassSurface = ({
   const gaussianBlurRef = useRef(null);
 
   const generateDisplacementMap = () => {
-    // @ts-ignore
+    // @ts-expect-error containerRef type
     const rect = containerRef.current?.getBoundingClientRect();
     const actualWidth = rect?.width || 400;
     const actualHeight = rect?.height || 200;
@@ -66,7 +66,7 @@ const GlassSurface = ({
   };
 
   const updateDisplacementMap = () => {
-    // @ts-ignore
+    // @ts-expect-error feImageRef type
     feImageRef.current?.setAttribute('href', generateDisplacementMap());
   };
 
@@ -78,16 +78,16 @@ const GlassSurface = ({
       { ref: blueChannelRef, offset: blueOffset }
     ].forEach(({ ref, offset }) => {
       if (ref.current) {
-        // @ts-ignore
+    // @ts-expect-error ref type
         ref.current.setAttribute('scale', (distortionScale + offset).toString());
-        // @ts-ignore
+    // @ts-expect-error ref type
         ref.current.setAttribute('xChannelSelector', xChannel);
-        // @ts-ignore
+    // @ts-expect-error ref type
         ref.current.setAttribute('yChannelSelector', yChannel);
       }
     });
 
-    // @ts-ignore
+    // @ts-expect-error setAttribute type
     gaussianBlurRef.current?.setAttribute('stdDeviation', displace.toString());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
@@ -159,7 +159,7 @@ const GlassSurface = ({
   const containerStyle = {
     ...style,
     // allow 'fit-content' or 'auto' to size to children
-    // @ts-ignore
+    // @ts-expect-error containerStyle type
     ...(width === 'fit-content' || width === 'auto'
       ? { width: 'fit-content', display: 'inline-flex' }
       : { width: typeof width === 'number' ? `${width}px` : width }),

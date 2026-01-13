@@ -57,13 +57,13 @@ export default async function handler(req, res) {
         console.log('Checking Supabase update conditions:', {
             id: id,
             hasSupabaseUrl: !!process.env.SUPABASE_URL,
-            hasServiceRole: !!process.env.SUPABASE_SERVICE_ROLE_KEY
+            hasServiceRole: !!process.env.SUPABASE_SECRET_KEY
         });
 
-        if (id && process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
+        if (id && process.env.SUPABASE_URL && process.env.SUPABASE_SECRET_KEY) {
             const supabase = createClient(
                 process.env.SUPABASE_URL,
-                process.env.SUPABASE_SERVICE_ROLE_KEY
+                process.env.SUPABASE_SECRET_KEY
             );
 
             console.log('Updating verify_status for ID:', id, 'to', status);
