@@ -15,7 +15,7 @@ import useIsMobile from '@/hooks/useIsMobile'
 import useIsInView from '@/hooks/useIsInView'
 
 import './styles/Landing.css'
-import { supabase } from '@/utils/supabase/supabase'
+import { getOrCreateClientId, updateLastSeen, deleteOnlineUser } from '@/utils/clientId'
 
 const Videos = React.lazy(() => import('../components/Sections/Videos'));
 const Pictures = React.lazy(() => import('../components/Sections/Pictures/Pictures'));
@@ -26,35 +26,15 @@ export default function Landing() {
   const ref = React.useRef(null);
   const isInView = useIsInView(ref, 0.03);
 
-  const getOrCreateClientId = () => {
-    let clientId = localStorage.getItem('clientId');
-
-    if (!clientId) {
-      clientId = self.crypto.randomUUID();
-      localStorage.setItem('clientId', clientId);
-    }
-    return clientId;
-  };
-
   useEffect(() => {
     const clientId = getOrCreateClientId();
 
-    const updateLastSeen = async () => {
-      const { error } = await supabase
-        .from('online_users')
-        .upsert({ client_id: clientId, last_seen: new Date() });
-      if (error) console.error('Error updating last seen:', error);
-    };
-
-    const interval = setInterval(updateLastSeen, 30000);
-    updateLastSeen();
+    const interval = setInterval(() => updateLastSeen(clientId), 30000);
+    updateLastSeen(clientId);
 
     return () => {
       clearInterval(interval);
-      supabase
-        .from('online_users')
-        .delete()
-        .eq('client_id', clientId);
+      deleteOnlineUser(clientId);
     };
   }, []);
 
