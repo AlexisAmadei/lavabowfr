@@ -81,7 +81,7 @@ export default function Player() {
             WebkitMaskImage: 'linear-gradient(to right, black 0%, black 80%, transparent 100%)',
           }}
         >
-          <LavaTypo variant="h4" size={'14px'} style={{ }}>
+          <LavaTypo variant="h4" size={'14px'} style={{ userSelect: 'none' }}>
             {title}
           </LavaTypo>
         </Box>
