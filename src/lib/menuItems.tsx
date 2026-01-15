@@ -23,11 +23,6 @@ const menuItems: MenuItem[] = [
     ]
   },
   {
-    name: 'Merch',
-    link: '/shop',
-    variant: 'outlined',
-  },
-  {
     name: 'Contact',
     link: '#contact',
     variant: 'filled',
