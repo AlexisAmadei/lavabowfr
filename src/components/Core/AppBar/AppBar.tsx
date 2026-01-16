@@ -35,61 +35,69 @@ export default function AppBar() {
       left={0}
       right={0}
       zIndex={1000}
-      justifyContent={'space-evenly'}
+      justifyContent={'space-between'}
       alignItems={'center'}
-      gap={4}
+      px={16}
     >
       {!isMobile && (
-        <>
+        <Box
+          display={'inline-flex'}
+          alignItems={'center'}
+          gap={4}
+        >
           <Flex alignItems={'center'} gap={3}>
             <ContextMenu>
               <Logo h={'70'} w={'70'} />
             </ContextMenu>
             <OnlineCounter />
           </Flex>
-
           <MediaLinks padding='8px' size='lg' />
-
           <Player />
-        </>
+        </Box>
       )}
 
-      <Box display={'inline-flex'} gap={4} alignItems={'center'}>
-        {menuItems.map(item => {
-          const Icon = (('endIcon' in item && item.endIcon) ? item.endIcon : item.icon) as ElementType | undefined;
-          if (!item.subItems) {
-            return (
-              <LavaButton
-                key={item.name}
-                variant={item.variant as 'filled' | 'outlined' | 'text'}
-                className="app-bar__button"
-              >
-                <a
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNav(item.link);
-                  }}
+      <Box
+        display={'inline-flex'}
+        alignItems={'center'}
+        gap={4}
+      >
+        <Box display={'inline-flex'} gap={4} alignItems={'center'}>
+          {menuItems.map(item => {
+            const Icon = (('endIcon' in item && item.endIcon) ? item.endIcon : item.icon) as ElementType | undefined;
+            if (!item.subItems) {
+              return (
+                <LavaButton
+                  key={item.name}
+                  variant={item.variant as 'filled' | 'outlined' | 'text'}
+                  className="app-bar__button"
                 >
-                  {item.name}
-                </a>
-                {Icon && (
-                  <span className='app-bar__icon-on-hover' style={{ transition: 'all 0.3 ease' }}>
-                    <Icon />
-                  </span>
-                )}
-              </LavaButton>
-            )
-          } else if (item.subItems) {
-            return (
-              <SubMenu key={item.name}
-                item={item}
-                parentName={item.name}
-                subItems={item.subItems}
-                handleNav={handleNav}
-              />
-            );
-          }
-        })}
+                  <a
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNav(item.link);
+                    }}
+                  >
+                    {item.name}
+                  </a>
+                  {Icon && (
+                    <span className='app-bar__icon-on-hover' style={{ transition: 'all 0.3 ease' }}>
+                      <Icon />
+                    </span>
+                  )}
+                </LavaButton>
+              )
+            } else if (item.subItems) {
+              return (
+                <SubMenu key={item.name}
+                  item={item}
+                  parentName={item.name}
+                  subItems={item.subItems}
+                  handleNav={handleNav}
+                />
+              );
+            }
+          })}
+        </Box>
       </Box>
     </Flex>
   )
