@@ -3,18 +3,16 @@ import { faCompactDisc, faPause, faPlay } from "@fortawesome/free-solid-svg-icon
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
 import LavaTypo from "./LavaTypo";
+import { fetchDataFromTable } from "@/utils/supabase/supabase";
 
 export default function Player() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioProgress, setAudioProgress] = useState(0);
   const [title, setTitle] = useState<string | undefined>();
+  const [playerData, setPlayerData] = useState<any[]>([]);
+  const [currentTrackIndex, setCurrentTrackIndex] = useState<number>(0);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  function formatFileName(fileName: string) {
-    // return fileName.replace(/_/g, ' ').replace('.mp3', '');
-    return fileName;
-  }
 
   const updateAudioProgress = () => {
     if (audioRef.current) {
@@ -30,15 +28,6 @@ export default function Player() {
 
   useEffect(() => {
     if (!audioRef.current) return;
-    const sourceElement = audioRef.current.querySelector('source');
-    if (sourceElement) {
-      const src = sourceElement.getAttribute('src') || '';
-      setTitle(formatFileName(src.split('/').pop() || 'Unknown Title'));
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!audioRef.current) return;
 
     if (isPlaying) {
       audioRef.current.play().catch(error => {
@@ -50,16 +39,71 @@ export default function Player() {
     }
   }, [isPlaying]);
 
+  const handleTrackEnd = () => {
+    if (playerData.length > 0) {
+      // Move to next track
+      const nextIndex = (currentTrackIndex + 1) % playerData.length;
+      setCurrentTrackIndex(nextIndex);
+      setTitle(playerData[nextIndex].title || 'Unknown Title');
+      // Reset progress and auto-play the next track
+      if (audioRef.current) {
+        audioRef.current.currentTime = 0;
+      }
+      setIsPlaying(true);
+    }
+  };
+
+  useEffect(() => {
+    const fetchPlayerTable = async () => {
+      const data = await fetchDataFromTable('music_player');
+
+      if (data && data.length > 0) {
+        setPlayerData(data);
+        // Pick a random track on load
+        const randomIndex = Math.floor(Math.random() * data.length);
+        setCurrentTrackIndex(randomIndex);
+        setTitle(data[randomIndex].title || 'Unknown Title');
+      } else {
+        console.error('Failed to fetch player data');
+      }
+    }
+    fetchPlayerTable();
+  }, []);
+
+  useEffect(() => {
+    // Update audio source and title when track index changes
+    if (playerData.length > 0 && audioRef.current) {
+      const currentTrack = playerData[currentTrackIndex];
+      setTitle(currentTrack.title || 'Unknown Title');
+      // Force audio source update
+      const sourceElement = audioRef.current.querySelector('source');
+      if (sourceElement) {
+        sourceElement.src = currentTrack.audio_link;
+        audioRef.current.load();
+      }
+    }
+  }, [currentTrackIndex, playerData]);
+
   return (
     <Box height={'100%'} display={'inline-flex'} alignItems={'center'}
       gap={2}
-      backgroundColor={'var(--Background-bg-brand)'}
+      // backgroundColor={'var(--Background-bg-brand)'}
       padding={'6px 6px'}
       borderRadius={50}
     >
 
-      <audio ref={audioRef} loop>
-        <source id="lava-player" src="https://ygwmuznptpmxwjwwiite.supabase.co/storage/v1/object/public/lavabowfr/player/Horse_Pink_Poney.mp3" type="audio/mpeg" />
+      <audio
+        ref={audioRef}
+        onEnded={handleTrackEnd}
+        onTimeUpdate={updateAudioProgress}
+      >
+        {playerData.length > 0 && (
+          <source
+            id="lava-player"
+            src={playerData[currentTrackIndex].audio_link}
+            type="audio/mp3"
+          />
+        )}
       </audio>
 
       <Box
@@ -68,7 +112,7 @@ export default function Player() {
         animationIterationCount='infinite'
         animationTimingFunction='linear'
       >
-        <FontAwesomeIcon icon={faCompactDisc} size='2xl' />
+        <FontAwesomeIcon icon={faCompactDisc} size='2xl' color="var(--Background-bg-brand)" />
       </Box>
 
       {title ? (
@@ -98,9 +142,9 @@ export default function Player() {
         cursor='pointer'
       >
         <ProgressCircle.Root value={audioProgress}>
-          <ProgressCircle.Circle css={{ "--thickness": "5px" }}>
+          <ProgressCircle.Circle css={{ "--thickness": "4px" }}>
             <ProgressCircle.Track />
-            <ProgressCircle.Range strokeLinecap="round" stroke={'var(--main-accent)'} />
+            <ProgressCircle.Range strokeLinecap="round" stroke={'var(--Background-bg-brand)'} />
           </ProgressCircle.Circle>
         </ProgressCircle.Root>
         <Box
@@ -115,6 +159,7 @@ export default function Player() {
           <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} style={{ padding: 0, margin: 0 }} />
         </Box>
       </Flex>
+      <img src={playerData[currentTrackIndex]?.cover_link || "https://placehold.co/40x40/png"} alt="LavaBow Logo" style={{ borderRadius: '4px', height: '40px', width: '40px' }} />
     </Box>
   );
 }
