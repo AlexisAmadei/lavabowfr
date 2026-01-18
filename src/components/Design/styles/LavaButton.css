@@ -8,6 +8,7 @@
     cursor: pointer;
     transition: all 0.1s ease-in-out;
     border: 1.2px solid transparent;
+    outline: none;
 }
 
 .lava-button:hover {
@@ -22,6 +23,7 @@
     transition: opacity 0.3s ease, transform 0.3s ease;
     pointer-events: none;
     width: 0;
+    outline: none;
     overflow: hidden;
 }
 
@@ -36,6 +38,7 @@
 
 .lava-button.outlined {
     border: 1.2px solid #FFF;
+    outline: none;
     background-color: transparent;
 }
 
@@ -46,6 +49,7 @@
 
 .lava-button.filled {
     background-color: var(--secondary-accent);
+    outline: none;
     color: white;
 }
 

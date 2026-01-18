@@ -1,11 +1,12 @@
 import LavaTypo from '@/components/Design/LavaTypo'
 import Logo from '@/components/Design/Logo'
-import { Flex } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 import React from 'react'
 import { scrollToSection } from '@/utils/navigation'
 import menuItems from '@/lib/menuItems'
 import MediaLinks from './MediaLinks'
 import LavaButton from '@/components/Design/LavaButton'
+import Player from '@/components/Design/Player'
 
 export default function MobileAppBar() {
   const [open, setOpen] = React.useState(false)
@@ -26,16 +27,27 @@ export default function MobileAppBar() {
   return (
     <Flex
       direction={'row'}
-      alignItems={'flex-start'}
+      alignItems={'center'}
       justifyContent={'space-between'}
       w={'100%'}
       paddingX={6}
-      paddingTop={6}
+      paddingTop={4}
+
+      position={'fixed'}
+      top={0}
+      left={0}
+      right={0}
+      zIndex={1000}
     >
-      <div className="app-bar__logo">
+      <Box flexBasis={'1/6'} className="app-bar__logo">
         <Logo h={'50'} w={'50'} />
-      </div>
-      <div style={{ position: 'relative' }}>
+      </Box>
+
+      <Box flexBasis={'4/6'} textAlign={'center'}>
+        <Player isMobile={true} />
+      </Box>
+
+      <Box flexBasis={'1/6'} style={{ position: 'relative' }}>
         <div onClick={() => handleMenuToggle()} className='app-bar__menu-burger'>
           <LavaTypo variant='h2' size={24} color='white'>Menu</LavaTypo>
         </div>
@@ -88,7 +100,7 @@ export default function MobileAppBar() {
             </Flex>
           </>
         )}
-      </div>
+      </Box>
     </Flex>
   )
 }

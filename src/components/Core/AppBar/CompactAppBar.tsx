@@ -1,5 +1,5 @@
 import LavaButton from '@/components/Design/LavaButton'
-import { Box, Flex } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/react'
 import MediaLinks from './MediaLinks'
 import Logo from '@/components/Design/Logo'
 import { Link } from 'react-router'

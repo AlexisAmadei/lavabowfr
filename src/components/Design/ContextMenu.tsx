@@ -33,6 +33,7 @@ export default function ContextMenu({ children }: { children?: React.ReactNode }
     } catch (error) {
       // Fallback: open in new tab if download fails
       window.open(item.asset_link, '_blank');
+      console.error('Download failed, opened in new tab instead:', error);
     }
   }
 

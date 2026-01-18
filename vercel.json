@@ -1,14 +1,14 @@
 {
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/index.html"
+        }
+    ],
+    "$schema": "https://openapi.vercel.sh/vercel.json",
+    "functions": {
+        "api/tinypng.js": {
+            "maxDuration": 10
+        }
     }
-  ],
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "functions": {
-    "api/tinypng.js": {
-      "maxDuration": 10
-    }
-  }
 }

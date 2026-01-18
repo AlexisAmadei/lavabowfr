@@ -5,7 +5,7 @@ import { Outlet, useNavigate, useResolvedPath } from 'react-router'
 
 export default function AdminLayout() {
   const navigate = useNavigate()
-  // @ts-ignore
+  // @ts-expect-error useResolvedPath without arguments
   const path = useResolvedPath()
 
   const getUser = async () => {

@@ -81,8 +81,16 @@ export default function Footer() {
         <img src={lb_footer} alt='Logo Lavabow Footer' style={{ width: '100%', height: 'auto' }} title='Logo Lavabow Footer' />
       </Flex>
       <Box zIndex={1000} p={0} mt={4} py={2}>
-        <LavaTypo textAlign='center' variant='p' size={12}>© 2025 LAVA BOW |
-          <Link to={'/privacy'}>We use privacy-friendly analytics to count visitors</Link>
+        <LavaTypo textAlign='center' variant='p' size={12}>
+          © 2026 LAVA BOW -
+          <Link to={'/privacy'}
+            style={{
+              color: 'inherit',
+              textDecoration: 'underline',
+              marginLeft: '4px'
+            }}
+          >
+            We use privacy-friendly analytics to count visitors</Link>
         </LavaTypo>
       </Box>
     </Flex>

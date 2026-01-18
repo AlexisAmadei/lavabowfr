@@ -95,7 +95,7 @@ export default function Privacy() {
             Copyright
           </Heading>
           <Text color="fg.muted">
-            All music, images, and content © 2025 LAVA BOW. All rights reserved.
+            All music, images, and content © 2026 LAVA BOW. All rights reserved.
           </Text>
         </Box>
       </Stack>

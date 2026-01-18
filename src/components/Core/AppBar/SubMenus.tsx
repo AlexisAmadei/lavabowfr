@@ -1,16 +1,15 @@
 import LavaButton from "@/components/Design/LavaButton";
-import useIsMobile from "@/hooks/useIsMobile";
 import { MenuItem } from "@/lib/menuItems";
 import { Menu, Portal } from "@chakra-ui/react";
-import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faBarsStaggered } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRef, useState } from "react";
+
 interface SubMenuProps {
   item: MenuItem
   parentName: string
   subItems: MenuItem[]
   handleNav: (link: string) => void,
-  // open?: boolean
 }
 
 export const SubMenu = ({ item, parentName, subItems, handleNav }: SubMenuProps) => {
@@ -43,16 +42,14 @@ export const SubMenu = ({ item, parentName, subItems, handleNav }: SubMenuProps)
           onMouseEnter={() => handleMouseEnter()}
           onMouseLeave={() => handleMouseLeave()}
         >
-          <span>
-            {parentName}
-            <FontAwesomeIcon icon={open ? faChevronDown : faChevronUp} />
-          </span>
+          {parentName}
+          <FontAwesomeIcon icon={open ? faBarsStaggered : faBars} />
         </LavaButton>
       </Menu.Trigger>
       <Portal>
         <Menu.Positioner>
           <Menu.Content
-            padding={3}
+            padding={2}
             borderRadius={'16px'}
             onMouseEnter={() => handleMouseEnter()}
             onMouseLeave={() => handleMouseLeave()}
@@ -70,6 +67,10 @@ export const SubMenu = ({ item, parentName, subItems, handleNav }: SubMenuProps)
                 cursor={'pointer'}
                 color={'#ED00E1'}
                 fontSize={'18px'}
+                _hover={{
+                  backgroundColor: '#ED00E1',
+                  color: 'white'
+                }}
               >
                 {subItem.name}
               </Menu.Item>

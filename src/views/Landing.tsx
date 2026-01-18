@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Hero from '@/components/Core/Hero/Hero'
 import AboutSection from '@/components/Sections/AboutSection'
 import Newsletter from '@/components/Sections/Newsletter'
@@ -15,6 +15,7 @@ import useIsMobile from '@/hooks/useIsMobile'
 import useIsInView from '@/hooks/useIsInView'
 
 import './styles/Landing.css'
+import { getOrCreateClientId, updateLastSeen, deleteOnlineUser } from '@/utils/clientId'
 
 const Videos = React.lazy(() => import('../components/Sections/Videos'));
 const Pictures = React.lazy(() => import('../components/Sections/Pictures/Pictures'));
@@ -25,9 +26,21 @@ export default function Landing() {
   const ref = React.useRef(null);
   const isInView = useIsInView(ref, 0.03);
 
+  useEffect(() => {
+    const clientId = getOrCreateClientId();
+
+    const interval = setInterval(() => updateLastSeen(clientId), 30000);
+    updateLastSeen(clientId);
+
+    return () => {
+      clearInterval(interval);
+      deleteOnlineUser(clientId);
+    };
+  }, []);
+
   return (
     <div className='app-wrapper'>
-      {isMobile === false && <AppBar />}
+      {!isMobile && <AppBar />}
       <div className='landing-page'>
         <Hero />
         <Flex ref={ref} direction='column' className='landing-body' width='100%' overflow='hidden'>

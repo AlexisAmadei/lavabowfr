@@ -11,7 +11,7 @@ export interface MenuItem {
 
 const menuItems: MenuItem[] = [
   {
-    name: 'À propos',
+    name: 'Menu',
     link: '#about',
     variant: 'outlined',
     subItems: [

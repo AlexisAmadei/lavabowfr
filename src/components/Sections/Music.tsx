@@ -28,7 +28,7 @@ export default function Music() {
           alignItems={isMobile ? 'center' : 'flex-start'}
           justifyContent={'center'}
           gap={4}
-          width={isMobile ? '100%' : '50%'}
+          width={isMobile ? '100%' : '60%'}
           marginTop={isMobile ? 8 : 0}
         >
           <LavaTypo variant={'h2'}>Dernière sortie</LavaTypo>
@@ -37,7 +37,7 @@ export default function Music() {
           <iframe
             allow="autoplay ; encrypted-media; fullscreen *; clipboard-write"
             height="175"
-            style={{ width: '100%', maxWidth: '660px', overflow: 'hidden', borderRadius: '10px' }}
+            style={{ width: '100%', overflow: 'hidden', borderRadius: '4px' }}
             sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
             src="https://embed.music.apple.com/fr/song/smoking-man-in-a-cave-feat-lea/1845660528"
           ></iframe>

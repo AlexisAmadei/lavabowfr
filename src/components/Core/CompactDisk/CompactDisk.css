@@ -14,11 +14,11 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-width: 420px;
-    max-width: 420px;
+    min-width: 500px;
+    max-width: 500px;
     aspect-ratio: 1;
     border-radius: 50%;
-    border: 8px solid rgba(255, 255, 255, 0.30);
+    border: 6px solid rgba(255, 255, 255, 0.30);
 }
 
 .cd {
