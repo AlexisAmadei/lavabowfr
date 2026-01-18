@@ -82,7 +82,7 @@ export default function Footer() {
       </Flex>
       <Box zIndex={1000} p={0} mt={4} py={2}>
         <LavaTypo textAlign='center' variant='p' size={12}>
-          © 2025 LAVA BOW -
+          © 2026 LAVA BOW -
           <Link to={'/privacy'}
             style={{
               color: 'inherit',
