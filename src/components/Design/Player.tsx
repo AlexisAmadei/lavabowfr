@@ -104,7 +104,7 @@ export default function Player({ isMobile } : { isMobile?: boolean } = {}) {
       justifyContent={isMobile ? 'space-between' : 'flex-start'}
       padding={'6px 6px'}
       borderRadius={50}
-      backdropFilter={'blur(15px)'}
+      backdropFilter={'brightness(50%)'}
     >
 
       <audio

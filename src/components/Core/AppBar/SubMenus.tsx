@@ -41,6 +41,7 @@ export const SubMenu = ({ item, parentName, subItems, handleNav }: SubMenuProps)
           className="app-bar__button"
           onMouseEnter={() => handleMouseEnter()}
           onMouseLeave={() => handleMouseLeave()}
+          style={{ backgroundColor: 'white', color: 'black' }}
         >
           {parentName}
           <FontAwesomeIcon icon={open ? faBarsStaggered : faBars} />

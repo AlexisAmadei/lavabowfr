@@ -9,7 +9,6 @@ import { Tooltip } from '@/components/ui/tooltip';
 
 export default function OnlineCounter() {
   const [onlineUsers, setOnlineUsers] = useState(0);
-  const [mouseEnter, setMouseEnter] = useState(false);
 
   useEffect(() => {
     // Fetch initial count
@@ -50,22 +49,12 @@ export default function OnlineCounter() {
         padding={'6px 10px'}
         borderRadius={50}
         transition={'all 0.1s ease-in-out'}
-        // backgroundColor={onlineUsers < 0 ? 'blackAlpha.900' : 'green.solid'}
-        backdropFilter={'blur(50px)'}
-
-        onMouseEnter={() => setMouseEnter(true)}
-        onMouseLeave={() => setMouseEnter(false)}
+        backgroundColor={'white'}
+        color={'black'}
       >
         <LavaTypo variant='p' className='online-counter' style={{ pointerEvents: 'none', userSelect: 'none' }}>{onlineUsers}</LavaTypo>
         <Box className={`${onlineUsers ? 'online-counter_blink' : ''}`}>
-          <FontAwesomeIcon icon={faGlobe} size='lg'
-            color={
-              mouseEnter
-                ? 'white'
-                : onlineUsers > 0
-                  ? 'MediumSeaGreen' : 'white'
-            }
-          />
+          <FontAwesomeIcon icon={faGlobe} size='lg' color='MediumSeaGreen' />
         </Box>
       </Box>
     </Tooltip>

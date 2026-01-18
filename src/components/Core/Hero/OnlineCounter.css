@@ -1,5 +1,4 @@
 .online-counter {
-    color: var(--Background-bg-invert, #FFF);
     font-family: "Cossette Titre";
     font-size: 24px;
     font-style: normal;
@@ -7,7 +6,7 @@
     line-height: normal;
 }
 .online-counter_blink {
-    animation: blink 4s ease-in-out infinite;
+    animation: blink 2s ease-in-out infinite;
 }
 
 @keyframes blink {
