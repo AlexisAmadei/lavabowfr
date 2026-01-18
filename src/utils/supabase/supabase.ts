@@ -15,6 +15,5 @@ export const fetchDataFromTable = async (table_name: string) => {
     return null
   }
 
-  console.info(`Data fetched from ${table_name}:`, data)
   return data
 }
