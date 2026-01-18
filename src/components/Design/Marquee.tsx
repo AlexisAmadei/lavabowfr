@@ -98,7 +98,7 @@ export default function Marquee({
 
 function MarqueeContent({ height }: { height: number }) {
   // Number of copies to ensure full coverage
-  const copies = 10;
+  const copies = 5;
 
   return (
     <>

@@ -48,12 +48,12 @@ export default function HeroTypo({ repeated = false }) {
     <Box className='hero-typo' width={'100%'}>
       <img ref={firstImgRef} src={HeroFilled} width={'100%'} height={'auto'} alt='Lava Bow Hero Typo Filled' data-title='Lava Bow Hero Typo Filled' draggable={false} />
       {isMobile && !repeated ? (
-        <Marquee speed={10} gap={40} height={marqueeHeight} />
+        <Marquee speed={20} gap={30} height={marqueeHeight} />
       ) :
         (
           <img src={HeroOutlined} width={'100%'} height={'auto'} alt='Lava Bow Hero Typo Outlined' data-title='Lava Bow Hero Typo Outlined' draggable={false} />
         )}
-      {!smallHeight && (
+      {(!smallHeight || isMobile) && (
         <img src={HeroFilled} width={'100%'} height={'auto'} alt='Lava Bow Hero Typo Filled' data-title='Lava Bow Hero Typo Filled' draggable={false} />
       )}
     </Box>
