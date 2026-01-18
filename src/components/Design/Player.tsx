@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import LavaTypo from "./LavaTypo";
 import { fetchDataFromTable } from "@/utils/supabase/supabase";
 
-export default function Player() {
+export default function Player({ isMobile } : { isMobile?: boolean } = {}) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioProgress, setAudioProgress] = useState(0);
   const [title, setTitle] = useState<string | undefined>();
@@ -24,7 +24,7 @@ export default function Player() {
   useEffect(() => {
     if (!audioRef.current) return;
 
-    if (isPlaying) {
+    if (isPlaying && audioRef.current) {
       audioRef.current.play().catch(error => {
         console.error('Play failed:', error);
         setIsPlaying(false);
@@ -65,7 +65,7 @@ export default function Player() {
     }
     fetchPlayerTable();
 
-    const interval = setInterval(updateAudioProgress, 100000);
+    const interval = setInterval(updateAudioProgress, 1000);
     return () => clearInterval(interval);
   }, []);
 
@@ -74,10 +74,23 @@ export default function Player() {
     if (playerData.length > 0 && audioRef.current) {
       const currentTrack = playerData[currentTrackIndex];
       setTitle(currentTrack.title || 'Unknown Title');
+
       // Force audio source update
       const sourceElement = audioRef.current.querySelector('source');
+
       if (sourceElement) {
         sourceElement.src = currentTrack.audio_link;
+
+        audioRef.current.oncanplay = () => {
+          console.log('Media is ready to play');
+          setIsPlaying(true);
+        };
+
+        audioRef.current.onerror = () => {
+          console.error('Failed to load audio');
+          setIsPlaying(false);
+        };
+
         audioRef.current.load();
       }
     }
@@ -86,7 +99,9 @@ export default function Player() {
   return (
     <Box
       height={'100%'}
+      width={isMobile ? '100%' : 'auto'}
       display={'inline-flex'} alignItems={'center'} gap={2}
+      justifyContent={isMobile ? 'space-between' : 'flex-start'}
       padding={'6px 6px'}
       borderRadius={50}
       backdropFilter={'blur(15px)'}
@@ -118,20 +133,21 @@ export default function Player() {
 
       {title ? (
         <Box
-          // maxWidth={'200px'}
-          // whiteSpace={'nowrap'}
-          // overflow={'hidden'}
-          // css={{
-          //   maskImage: 'linear-gradient(to right, black 0%, black 80%, transparent 100%)',
-          //   WebkitMaskImage: 'linear-gradient(to right, black 0%, black 80%, transparent 100%)',
-          // }}
+          width={isMobile ? 'auto' : '150px'}
+          maxWidth={'200px'}
+          whiteSpace={'nowrap'}
+          overflow={'hidden'}
+          css={{
+            maskImage: 'linear-gradient(to right, black 0%, black 80%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to right, black 0%, black 80%, transparent 100%)',
+          }}
         >
           <LavaTypo variant="h4" size={'14px'} style={{ userSelect: 'none' }}>
             {title}
           </LavaTypo>
         </Box>
       ) : (
-        <SkeletonText noOfLines={1} variant={'shine'} width={'150px'} />
+        <SkeletonText noOfLines={1} variant={'shine'} width={isMobile ? '50px' : '150px'} />
       )}
 
       <Flex

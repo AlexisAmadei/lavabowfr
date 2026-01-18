@@ -36,7 +36,14 @@ export default function Hero() {
       }}
     >
       {isMobile && <MobileAppBar />}
-      <Flex direction='column' width='100%' height='100%' justifyContent={'space-between'} className='landing-hero-content'>
+      <Flex
+        className='landing-hero-content'
+        direction='column'
+        width='100%'
+        height='100%'
+        justifyContent={'space-between'}
+        marginTop={isMobile ? '100px' : 0}
+      >
         <HeroTypo />
         <Box
           className='hero-bottom'
