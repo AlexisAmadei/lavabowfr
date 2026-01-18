@@ -51,6 +51,7 @@ export default function OnlineCounter() {
         borderRadius={50}
         transition={'all 0.1s ease-in-out'}
         // backgroundColor={onlineUsers < 0 ? 'blackAlpha.900' : 'green.solid'}
+        backdropFilter={'blur(50px)'}
 
         onMouseEnter={() => setMouseEnter(true)}
         onMouseLeave={() => setMouseEnter(false)}

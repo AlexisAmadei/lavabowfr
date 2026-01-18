@@ -1,5 +1,5 @@
 import { Box, Flex, ProgressCircle, SkeletonText } from "@chakra-ui/react";
-import { faCompactDisc, faPause, faPlay } from "@fortawesome/free-solid-svg-icons";
+import { faPause, faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
 import LavaTypo from "./LavaTypo";
@@ -20,11 +20,6 @@ export default function Player() {
       setAudioProgress(progress);
     }
   };
-
-  useEffect(() => {
-    const interval = setInterval(updateAudioProgress, 500);
-    return () => clearInterval(interval);
-  }, []);
 
   useEffect(() => {
     if (!audioRef.current) return;
@@ -59,6 +54,7 @@ export default function Player() {
 
       if (data && data.length > 0) {
         setPlayerData(data);
+
         // Pick a random track on load
         const randomIndex = Math.floor(Math.random() * data.length);
         setCurrentTrackIndex(randomIndex);
@@ -68,6 +64,9 @@ export default function Player() {
       }
     }
     fetchPlayerTable();
+
+    const interval = setInterval(updateAudioProgress, 100000);
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -85,11 +84,12 @@ export default function Player() {
   }, [currentTrackIndex, playerData]);
 
   return (
-    <Box height={'100%'} display={'inline-flex'} alignItems={'center'}
-      gap={2}
-      // backgroundColor={'var(--Background-bg-brand)'}
+    <Box
+      height={'100%'}
+      display={'inline-flex'} alignItems={'center'} gap={2}
       padding={'6px 6px'}
       borderRadius={50}
+      backdropFilter={'blur(15px)'}
     >
 
       <audio
@@ -108,22 +108,23 @@ export default function Player() {
 
       <Box
         animation={isPlaying ? 'spin' : 'none'}
-        animationDuration='1s'
+        animationDuration='5s'
         animationIterationCount='infinite'
         animationTimingFunction='linear'
       >
-        <FontAwesomeIcon icon={faCompactDisc} size='2xl' color="var(--Background-bg-brand)" />
+        {/* <FontAwesomeIcon icon={faCompactDisc} size='2xl' color="var(--Background-bg-brand)" /> */}
+        <img src={playerData[currentTrackIndex]?.cover_link || "https://placehold.co/40x40/png"} alt="LavaBow Logo" style={{ borderRadius: '40px', height: '40px', width: '40px' }} />
       </Box>
 
       {title ? (
         <Box
-          maxWidth={'150px'}
-          overflow={'hidden'}
-          whiteSpace={'nowrap'}
-          css={{
-            maskImage: 'linear-gradient(to right, black 0%, black 80%, transparent 100%)',
-            WebkitMaskImage: 'linear-gradient(to right, black 0%, black 80%, transparent 100%)',
-          }}
+          // maxWidth={'200px'}
+          // whiteSpace={'nowrap'}
+          // overflow={'hidden'}
+          // css={{
+          //   maskImage: 'linear-gradient(to right, black 0%, black 80%, transparent 100%)',
+          //   WebkitMaskImage: 'linear-gradient(to right, black 0%, black 80%, transparent 100%)',
+          // }}
         >
           <LavaTypo variant="h4" size={'14px'} style={{ userSelect: 'none' }}>
             {title}
@@ -159,7 +160,7 @@ export default function Player() {
           <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} style={{ padding: 0, margin: 0 }} />
         </Box>
       </Flex>
-      <img src={playerData[currentTrackIndex]?.cover_link || "https://placehold.co/40x40/png"} alt="LavaBow Logo" style={{ borderRadius: '4px', height: '40px', width: '40px' }} />
+      {/* <img src={playerData[currentTrackIndex]?.cover_link || "https://placehold.co/40x40/png"} alt="LavaBow Logo" style={{ borderRadius: '4px', height: '40px', width: '40px' }} /> */}
     </Box>
   );
 }
