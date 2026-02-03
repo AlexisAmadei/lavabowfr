@@ -1,4 +1,4 @@
-import { Button, Dialog, Field, Fieldset, Input, Portal } from '@chakra-ui/react'
+import { Button, Checkbox, Dialog, Field, Fieldset, Input, Portal } from '@chakra-ui/react'
 import React from 'react'
 
 type VideoData = {
@@ -64,6 +64,17 @@ export default function AddVideoDialog({ open, onClose, onAdd }: AddVideoDialogP
                       value={formData.url}
                       onChange={(e) => updateField('url', e.target.value)}
                     />
+                  </Field.Root>
+
+                  <Field.Root>
+                    <Checkbox.Root
+                      checked={formData.status === 'active'}
+                      onCheckedChange={(e) => updateField('status', e.checked ? 'active' : 'inactive')}
+                    >
+                      <Checkbox.HiddenInput />
+                      <Checkbox.Control />
+                      <Checkbox.Label>Actif</Checkbox.Label>
+                    </Checkbox.Root>
                   </Field.Root>
 
                 </Fieldset.Content>

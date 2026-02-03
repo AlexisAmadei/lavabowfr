@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisVertical, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { SpotlightItem } from '@/types/types';
 import { toaster } from '@/components/ui/toaster';
+import StatusChip from '@/components/ui/StatusChip';
 
 export default function AdminSpotlight() {
   const [open, setOpen] = React.useState(false);
@@ -172,16 +173,7 @@ export default function AdminSpotlight() {
                 <Button height={'fit-content'} py={1} px={2} colorPalette={'blue'} variant='subtle' onClick={() => testLink(item.buy_link)}>Tester le lien</Button>
               </Flex>
 
-              <Box className='status-chip'
-                position={'absolute'}
-                top={'-10px'}
-                right={12}
-                backgroundColor={item.status === 'ACTIVE' ? 'green.100' : item.status === 'INACTIVE' ? 'red.100' : ''}
-                paddingX={2}
-                borderRadius={'full'}
-              >
-                <LavaTypo size={'14px'}>{item.status === 'ACTIVE' ? 'Spotlight actif' : item.status === 'INACTIVE' ? 'Spotlight inactif' : ''}</LavaTypo>
-              </Box>
+              <StatusChip status={item.status || ''} />
 
               <Box position={'absolute'} top={2} right={2}>
                 <Menu.Root>
