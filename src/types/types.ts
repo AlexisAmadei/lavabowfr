@@ -1,41 +1,41 @@
 export interface EventItem {
-    id?: number;
-    title: string;
-    description: string;
-    price: number;
-    date: string;
-    place: string;
-    link?: string;
-    status?: string;
-    img?: File | string;
+  id?: number;
+  title: string;
+  description: string;
+  price: number;
+  date: string;
+  place: string;
+  link?: string;
+  status?: string;
+  img?: File | string;
 }
 
 export interface SpotlightItem {
-    id?: number;
-    title: string;
-    subtitle: string;
-    listen_link: string;
-    buy_link: string;
-    status?: string;
+  id?: number;
+  title: string;
+  subtitle: string;
+  listen_link: string;
+  buy_link: string;
+  status?: string;
 }
 
 export interface PictureItem {
-    id?: number;
-    title: string;
-    description?: string;
-    date?: string;
-    link?: string;
-    place?: string;
-    img?: File | string;
-    status?: string;
+  id?: number;
+  title: string;
+  description?: string;
+  date?: string;
+  link?: string;
+  place?: string;
+  img?: File | string;
+  status?: string;
 }
 export type BeerGaugeProps = {
-    palier: {
-        id: number;
-    };
-    index: number;
-    getProgressPercentage: (index: number) => number;
-    IconBeer: string;
+  palier: {
+    id: number;
+  };
+  index: number;
+  getProgressPercentage: (index: number) => number;
+  IconBeer: string;
 };
 export interface EmailContact {
   id: string | number;
@@ -47,7 +47,7 @@ export interface EmailContact {
 }
 
 export interface ClicksItem {
-    id: number;
-    name: string;
-    target: number;
+  id: number;
+  name: string;
+  target: number;
 }
