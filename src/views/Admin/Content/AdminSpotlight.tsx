@@ -2,15 +2,17 @@ import DeleteDialog from '@/components/Core/Admin/DeleteDialog';
 import EditableDataListItem from '@/components/Core/Admin/EditableDataListItem';
 import LavaButton from '@/components/Design/LavaButton';
 import LavaTypo from '@/components/Design/LavaTypo';
-import { Box, Button, DataList, Flex, IconButton, Menu, Portal } from '@chakra-ui/react';
+import { Box, Button, DataList, Flex } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import AddSpotlightDialog from '../../../components/Core/Admin/AddSpotlightDialog';
 import { deleteSpotlightItem, fetchSpotlightContent, insertSpotlightItem, updateSpotlightItem } from '@/utils/supabase/spotlight';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisVertical, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { SpotlightItem } from '@/types/types';
 import { toaster } from '@/components/ui/toaster';
 import StatusChip from '@/components/ui/StatusChip';
+import AdminItemMenu from '@/components/Core/Admin/AdminItemMenu';
+import { updateItemStatus } from '@/utils/supabase/updateItemStatus';
 
 export default function AdminSpotlight() {
   const [open, setOpen] = React.useState(false);
@@ -67,25 +69,13 @@ export default function AdminSpotlight() {
     await fetchSpotlightContent(setSpotlightContent);
   };
 
-  const handleUpdateStatus = async (itemId: number, newStatus: string) => {
+  const handleUpdateStatus = async (itemId: number) => {
     const currentItem = spotlightContent.find(item => item.id === itemId);
     if (!currentItem) return;
 
-    // Check if status actually changed
-    if (currentItem.status === newStatus) {
-      return; // No change, skip update
-    }
-
-    // Update in Supabase
-    await updateSpotlightItem(itemId, {
-      status: newStatus,
-      title: '',
-      subtitle: '',
-      listen_link: '',
-      buy_link: ''
-    }).then(async () => {
+    await updateItemStatus('section_spotlight', itemId, currentItem.status || '').then(async () => {
       toaster.create({
-        title: "Statut du Spotlight mis à jour avec succès",
+        title: "Statut de l'élément Spotlight mis à jour avec succès",
         description: `Le statut de l'élément "${currentItem.title}" a été mis à jour.`,
         type: "success",
         duration: 5000,
@@ -176,37 +166,16 @@ export default function AdminSpotlight() {
               <StatusChip status={item.status || ''} />
 
               <Box position={'absolute'} top={2} right={2}>
-                <Menu.Root>
-                  <Menu.Trigger asChild>
-                    <IconButton
-                      variant={'ghost'}
-                      size={'xs'}
-                      py={1}
-                    >
-                      <FontAwesomeIcon icon={faEllipsisVertical} />
-                    </IconButton>
-                  </Menu.Trigger>
-                  <Portal>
-                    <Menu.Positioner>
-                      <Menu.Content>
-                        <Menu.Item value={item.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE'} onSelect={() => item.id && handleUpdateStatus(item.id, item.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE')}>
-                          {item.status === 'ACTIVE' ? 'Désactiver' : 'Activer'}
-                        </Menu.Item>
-                        <Menu.Item
-                          value="delete"
-                          color="fg.error"
-                          _hover={{ bg: "bg.error", color: "fg.error" }}
-                          onSelect={() => {
-                            setItemToDelete(item.id ?? undefined);
-                            setOpenDeleteDialog(true);
-                          }}
-                        >
-                          Delete...
-                        </Menu.Item>
-                      </Menu.Content>
-                    </Menu.Positioner>
-                  </Portal>
-                </Menu.Root>
+                <AdminItemMenu
+                  key={item.id}
+                  itemId={item.id!}
+                  itemStatus={item.status || ''}
+                  onUpdateStatus={handleUpdateStatus}
+                  onDelete={(id: number) => {
+                    setItemToDelete(id);
+                    setOpenDeleteDialog(true);
+                  }}
+                />
               </Box>
             </DataList.Root>
           )))}

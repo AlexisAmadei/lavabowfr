@@ -4,8 +4,7 @@ export async function updateItemStatus(tableName: string, itemId: number, status
   if (!status) return null;
 
   const newStatus = status.toLowerCase() === 'active' ? 'inactive' : 'active';
-  console.log('Updating item:', itemId, 'to status:', newStatus);
-  
+
   const { data, error } = await supabase
     .from(tableName)
     .update({ status: newStatus })
@@ -20,6 +19,6 @@ export async function updateItemStatus(tableName: string, itemId: number, status
   if (data) {
     console.log(`Statut mis à jour avec succès pour l'élément ID ${itemId} dans la table ${tableName} :`, data);
   }
-  
+
   return data;
 }
