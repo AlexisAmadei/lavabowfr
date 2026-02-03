@@ -9,6 +9,7 @@ import { deleteSpotlightItem, fetchSpotlightContent, insertSpotlightItem, update
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisVertical, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { SpotlightItem } from '@/types/types';
+import { toaster } from '@/components/ui/toaster';
 
 export default function AdminSpotlight() {
   const [open, setOpen] = React.useState(false);
@@ -18,7 +19,15 @@ export default function AdminSpotlight() {
 
   const handleAddSpotlightItem = async (newSpotlightItem: SpotlightItem) => {
     setOpen(false);
-    await insertSpotlightItem(newSpotlightItem);
+    await insertSpotlightItem(newSpotlightItem).then(() => {
+      toaster.create({
+        title: "Élément Spotlight ajouté avec succès",
+        description: `L'élément "${newSpotlightItem.title}" a été ajouté.`,
+        type: "success",
+        duration: 5000,
+      }
+      );
+    });
     await fetchSpotlightContent(setSpotlightContent);
   };
 
@@ -39,12 +48,15 @@ export default function AdminSpotlight() {
     };
 
     // Update in Supabase
-    const result = await updateSpotlightItem(itemId, updatedItem);
-
-    if (result) {
-      // Refetch from database to confirm the update
+    await updateSpotlightItem(itemId, updatedItem).then(async () => {
+      toaster.create({
+        title: "Élément Spotlight mis à jour avec succès",
+        description: `L'élément "${updatedItem.title}" a été mis à jour.`,
+        type: "success",
+        duration: 5000,
+      });
       await fetchSpotlightContent(setSpotlightContent);
-    }
+    });
   };
 
   const handleDeleteSpotlightItem = async (itemId: number) => {
@@ -64,18 +76,21 @@ export default function AdminSpotlight() {
     }
 
     // Update in Supabase
-    const result = await updateSpotlightItem(itemId, {
+    await updateSpotlightItem(itemId, {
       status: newStatus,
       title: '',
       subtitle: '',
       listen_link: '',
       buy_link: ''
-    });
-
-    if (result) {
-      // Refetch from database to confirm the update
+    }).then(async () => {
+      toaster.create({
+        title: "Statut du Spotlight mis à jour avec succès",
+        description: `Le statut de l'élément "${currentItem.title}" a été mis à jour.`,
+        type: "success",
+        duration: 5000,
+      });
       await fetchSpotlightContent(setSpotlightContent);
-    }
+    });
   };
 
   const testLink = (link: string | URL | undefined) => {
