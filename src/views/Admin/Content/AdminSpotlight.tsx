@@ -4,7 +4,7 @@ import LavaButton from '@/components/Design/LavaButton';
 import LavaTypo from '@/components/Design/LavaTypo';
 import { Box, Button, DataList, Flex, IconButton, Menu, Portal } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
-import AddSpotlightDialog from '../../components/Core/Admin/AddSpotlightDialog';
+import AddSpotlightDialog from '../../../components/Core/Admin/AddSpotlightDialog';
 import { deleteSpotlightItem, fetchSpotlightContent, insertSpotlightItem, updateSpotlightItem } from '@/utils/supabase/spotlight';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisVertical, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
@@ -117,102 +117,107 @@ export default function AdminSpotlight() {
         textAlign={'left'}
         justifyContent={'space-between'}
       >
-        {spotlightContent.map((item) => (
-          <DataList.Root
-            size={'lg'}
-            orientation={'horizontal'}
-            color={'black'}
-            px={'4'}
-            py={'2'}
-            gap={1}
-            key={item.id}
-            borderRadius={'md'}
-            borderWidth={'1px'}
-            borderColor={'gray.200'}
-            width={'full'}
-            position={'relative'}
-            backgroundColor={'gray.50'}
-          >
-            <EditableDataListItem
-              label="Titre"
-              value={item.title}
-              placeholder="Titre"
-              onValueCommit={(value: string) => item.id && handleUpdateField(item.id, 'title', value)}
-            />
-
-            <EditableDataListItem
-              label="Sous-Titre"
-              value={item.subtitle}
-              placeholder="Sous-titre"
-              onValueCommit={(value: string) => item.id && handleUpdateField(item.id, 'subtitle', value)}
-            />
-
-            <Flex direction={'row'} alignItems={'center'} gap={2}>
-              <EditableDataListItem
-                label="Lien d'écoute"
-                value={item.listen_link}
-                placeholder="Lien d'écoute"
-                onValueCommit={(value: string) => item.id && handleUpdateField(item.id, 'listen_link', value)}
-              />
-              <Button height={'fit-content'} py={1} px={2} colorPalette={'blue'} variant='subtle' onClick={() => testLink(item.listen_link)}>Tester le lien</Button>
-            </Flex>
-
-            <Flex direction={'row'} alignItems={'center'} gap={2}>
-              <EditableDataListItem
-                label="Lien d'achat"
-                value={item.buy_link}
-                placeholder="Lien d'achat"
-                onValueCommit={(value: string) => item.id && handleUpdateField(item.id, 'buy_link', value)}
-              />
-              <Button height={'fit-content'} py={1} px={2} colorPalette={'blue'} variant='subtle' onClick={() => testLink(item.buy_link)}>Tester le lien</Button>
-            </Flex>
-
-            <Box className='status-chip'
-              position={'absolute'}
-              top={'-10px'}
-              right={12}
-              backgroundColor={item.status === 'ACTIVE' ? 'green.100' : item.status === 'INACTIVE' ? 'red.100' : ''}
-              paddingX={2}
-              borderRadius={'full'}
+        {spotlightContent.length === 0 ? (
+          <LavaTypo variant={'p'} styles={{ color: 'black' }} size={'16px'}>
+            Aucun event disponible. Ajoutez-en un en cliquant sur "Ajouter un élément".
+          </LavaTypo>
+        ) : (
+          spotlightContent.map((item) => (
+            <DataList.Root
+              size={'lg'}
+              orientation={'horizontal'}
+              color={'black'}
+              px={'4'}
+              py={'2'}
+              gap={1}
+              key={item.id}
+              borderRadius={'md'}
+              borderWidth={'1px'}
+              borderColor={'gray.200'}
+              width={'full'}
+              position={'relative'}
+              backgroundColor={'gray.50'}
             >
-              <LavaTypo size={'14px'}>{item.status === 'ACTIVE' ? 'Spotlight actif' : item.status === 'INACTIVE' ? 'Spotlight inactif' : ''}</LavaTypo>
-            </Box>
+              <EditableDataListItem
+                label="Titre"
+                value={item.title}
+                placeholder="Titre"
+                onValueCommit={(value: string) => item.id && handleUpdateField(item.id, 'title', value)}
+              />
 
-            <Box position={'absolute'} top={2} right={2}>
-              <Menu.Root>
-                <Menu.Trigger asChild>
-                  <IconButton
-                    variant={'ghost'}
-                    size={'xs'}
-                    py={1}
-                  >
-                    <FontAwesomeIcon icon={faEllipsisVertical} />
-                  </IconButton>
-                </Menu.Trigger>
-                <Portal>
-                  <Menu.Positioner>
-                    <Menu.Content>
-                      <Menu.Item value={item.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE'} onSelect={() => item.id && handleUpdateStatus(item.id, item.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE')}>
-                        {item.status === 'ACTIVE' ? 'Désactiver' : 'Activer'}
-                      </Menu.Item>
+              <EditableDataListItem
+                label="Sous-Titre"
+                value={item.subtitle}
+                placeholder="Sous-titre"
+                onValueCommit={(value: string) => item.id && handleUpdateField(item.id, 'subtitle', value)}
+              />
+
+              <Flex direction={'row'} alignItems={'center'} gap={2}>
+                <EditableDataListItem
+                  label="Lien d'écoute"
+                  value={item.listen_link}
+                  placeholder="Lien d'écoute"
+                  onValueCommit={(value: string) => item.id && handleUpdateField(item.id, 'listen_link', value)}
+                />
+                <Button height={'fit-content'} py={1} px={2} colorPalette={'blue'} variant='subtle' onClick={() => testLink(item.listen_link)}>Tester le lien</Button>
+              </Flex>
+
+              <Flex direction={'row'} alignItems={'center'} gap={2}>
+                <EditableDataListItem
+                  label="Lien d'achat"
+                  value={item.buy_link}
+                  placeholder="Lien d'achat"
+                  onValueCommit={(value: string) => item.id && handleUpdateField(item.id, 'buy_link', value)}
+                />
+                <Button height={'fit-content'} py={1} px={2} colorPalette={'blue'} variant='subtle' onClick={() => testLink(item.buy_link)}>Tester le lien</Button>
+              </Flex>
+
+              <Box className='status-chip'
+                position={'absolute'}
+                top={'-10px'}
+                right={12}
+                backgroundColor={item.status === 'ACTIVE' ? 'green.100' : item.status === 'INACTIVE' ? 'red.100' : ''}
+                paddingX={2}
+                borderRadius={'full'}
+              >
+                <LavaTypo size={'14px'}>{item.status === 'ACTIVE' ? 'Spotlight actif' : item.status === 'INACTIVE' ? 'Spotlight inactif' : ''}</LavaTypo>
+              </Box>
+
+              <Box position={'absolute'} top={2} right={2}>
+                <Menu.Root>
+                  <Menu.Trigger asChild>
+                    <IconButton
+                      variant={'ghost'}
+                      size={'xs'}
+                      py={1}
+                    >
+                      <FontAwesomeIcon icon={faEllipsisVertical} />
+                    </IconButton>
+                  </Menu.Trigger>
+                  <Portal>
+                    <Menu.Positioner>
+                      <Menu.Content>
+                        <Menu.Item value={item.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE'} onSelect={() => item.id && handleUpdateStatus(item.id, item.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE')}>
+                          {item.status === 'ACTIVE' ? 'Désactiver' : 'Activer'}
+                        </Menu.Item>
                         <Menu.Item
-                        value="delete"
-                        color="fg.error"
-                        _hover={{ bg: "bg.error", color: "fg.error" }}
-                        onSelect={() => {
-                          setItemToDelete(item.id ?? undefined);
-                          setOpenDeleteDialog(true);
-                        }}
-                      >
-                        Delete...
-                      </Menu.Item>
-                    </Menu.Content>
-                  </Menu.Positioner>
-                </Portal>
-              </Menu.Root>
-            </Box>
-          </DataList.Root>
-        ))}
+                          value="delete"
+                          color="fg.error"
+                          _hover={{ bg: "bg.error", color: "fg.error" }}
+                          onSelect={() => {
+                            setItemToDelete(item.id ?? undefined);
+                            setOpenDeleteDialog(true);
+                          }}
+                        >
+                          Delete...
+                        </Menu.Item>
+                      </Menu.Content>
+                    </Menu.Positioner>
+                  </Portal>
+                </Menu.Root>
+              </Box>
+            </DataList.Root>
+          )))}
       </Flex>
 
       <AddSpotlightDialog

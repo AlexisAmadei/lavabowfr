@@ -55,16 +55,22 @@ export default function AdminClicks() {
       </Flex>
 
       <Box>
-        {clicksContent.map((item) => (
-          <Box key={item.id} mb={4} p={4} borderRadius={8} border={'1px solid #E2E8F0'}>
-            <LavaTypo variant={'h4'} color='black'>{item.name}</LavaTypo>
-            <LavaTypo variant={'p'} color='black'>Target: {item.target}</LavaTypo>
-            <LavaButton variant='outlined' style={{ color: 'black' }} onClick={() => {
-              setFormData(item);
-              setOpen(true);
-            }}>Modifier</LavaButton>
-          </Box>
-        ))}
+        {clicksContent.length === 0 ? (
+          <LavaTypo variant={'p'} styles={{ color: 'black' }} size={'16px'}>
+            Aucun event disponible. Ajoutez-en un en cliquant sur "Ajouter un élément".
+          </LavaTypo>
+        ) : (
+          clicksContent.map((item) => (
+            <Box key={item.id} mb={4} p={4} borderRadius={8} border={'1px solid #E2E8F0'}>
+              <LavaTypo variant={'h4'} color='black'>{item.name}</LavaTypo>
+              <LavaTypo variant={'p'} color='black'>Target: {item.target}</LavaTypo>
+              <LavaButton variant='outlined' style={{ color: 'black' }} onClick={() => {
+                setFormData(item);
+                setOpen(true);
+              }}>Modifier</LavaButton>
+            </Box>
+          ))
+        )}
       </Box>
 
       <Dialog.Root lazyMount open={open} onOpenChange={(e) => !e.open && onClose()} placement={'center'}>

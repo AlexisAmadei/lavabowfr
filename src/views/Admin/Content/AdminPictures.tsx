@@ -3,7 +3,6 @@ import React, { useEffect } from 'react'
 import { toaster } from '@/components/ui/toaster'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisVertical, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
-
 import LavaTypo from '@/components/Design/LavaTypo'
 import LavaButton from '@/components/Design/LavaButton'
 import EditableDataListItem from '@/components/Core/Admin/EditableDataListItem'
@@ -56,11 +55,15 @@ export default function AdminPictures() {
     if (!currentItem || currentItem[field] === value) return
 
     const updatedItem = { ...currentItem, [field]: value }
-    const result = await updatePictureItem(itemId, updatedItem)
-
-    if (result) {
+    await updatePictureItem(itemId, updatedItem).then(async() => {
+      toaster.create({
+        title: "Élément photo mis à jour avec succès",
+        description: `L'élément "${updatedItem.title}" a été mis à jour.`,
+        type: "success",
+        duration: 5000,
+      });
       await fetchPicturesContent(setPicturesContent)
-    }
+    });
   }
 
   const handleDeletePictureItem = async () => {
@@ -75,11 +78,15 @@ export default function AdminPictures() {
     const currentItem = picturesContent.find(item => item.id === itemId)
     if (!currentItem || currentItem.status === newStatus) return
 
-    const result = await updatePictureItem(itemId, { ...currentItem, status: newStatus })
-
-    if (result) {
+    await updatePictureItem(itemId, { ...currentItem, status: newStatus }).then(async() => {
+      toaster.create({
+        title: "Statut de la photo mis à jour avec succès",
+        description: `Le statut de la photo "${currentItem.title}" a été mis à jour.`,
+        type: "success",
+        duration: 5000,
+      });
       await fetchPicturesContent(setPicturesContent)
-    }
+    });
   }
 
   const testLink = (link?: string) => {

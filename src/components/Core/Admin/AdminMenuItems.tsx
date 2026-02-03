@@ -1,5 +1,5 @@
 import AdminContent from "@/views/Admin/AdminContent";
-import AdminMerchandise from "@/views/Admin/AdminMerchandise";
+import AdminMerchandise from "@/views/Admin/Content/AdminMerchandise";
 import AdminUsers from "@/views/Admin/AdminUsers/AdminUsers";
 import CloudStatus from "@/views/Admin/CloudStatus/CloudStatus";
 import { Box, Flex, Text } from "@chakra-ui/react";

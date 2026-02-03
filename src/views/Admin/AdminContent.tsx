@@ -1,8 +1,9 @@
 import { Box } from '@chakra-ui/react';
-import AdminSpotlight from './AdminSpotlight';
-import AdminEvents from './AdminEvents';
-import AdminPictures from './AdminPictures';
-import AdminClicks from './AdminClicks';
+import AdminSpotlight from './Content/AdminSpotlight';
+import AdminEvents from './Content/AdminEvents';
+import AdminPictures from './Content/AdminPictures';
+import AdminClicks from './Content/AdminClicks';
+import AdminVideos from './Content/AdminVideos';
 
 export default function AdminContent() {
   return (
@@ -11,6 +12,7 @@ export default function AdminContent() {
       <AdminEvents />
       <AdminPictures />
       <AdminClicks />
+      <AdminVideos />
     </Box>
   )
 }

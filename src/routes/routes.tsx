@@ -10,7 +10,7 @@ const Login = lazy(() => import('../views/Admin/Login'));
 const Dashboard = lazy(() => import('../views/Admin/Dashboard'));
 const AdminContent = lazy(() => import('../views/Admin/AdminContent'));
 const AdminUsers = lazy(() => import('../views/Admin/AdminUsers/AdminUsers'));
-const AdminMerchandise = lazy(() => import('../views/Admin/AdminMerchandise'));
+const AdminMerchandise = lazy(() => import('../views/Admin/Content/AdminMerchandise'));
 const CloudStatus = lazy(() => import('../views/Admin/CloudStatus/CloudStatus'));
 const Shop = lazy(() => import('@/views/Shop'));
 const Unsubscribe = lazy(() => import('../views/Unsubscribe'));
