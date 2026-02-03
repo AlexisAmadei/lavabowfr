@@ -1,18 +1,19 @@
 import LavaButton from '@/components/Design/LavaButton';
 import LavaTypo from '@/components/Design/LavaTypo'
 import { ClicksItem } from '@/types/types';
-import { fetchClicksContent, updateClicksItem } from '@/utils/supabase/click_palier'
+import { fetchClicksContent, insertClicksItem, updateClicksItem } from '@/utils/supabase/click_palier'
 import { Box, Button, Dialog, Field, Fieldset, Flex, Input, Portal } from '@chakra-ui/react'
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react'
 
 export default function AdminClicks() {
-  // const [open, setOpen] = useState(false);
   const [clicksContent, setClicksContent] = useState<ClicksItem[]>([]);
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState<ClicksItem>({
     id: 0,
     name: '',
-    target: ''
+    target: 0
   });
 
   const onClose = () => {
@@ -20,7 +21,7 @@ export default function AdminClicks() {
     setFormData({
       id: 0,
       name: '',
-      target: ''
+      target: 0
     });
   }
 
@@ -36,8 +37,8 @@ export default function AdminClicks() {
   };
 
   const handleSubmit = async () => {
-    await updateClicksItem(formData.id, formData);
-    fetchClicksItems();
+    await insertClicksItem(formData);
+    await fetchClicksItems();
     onClose();
   };
 
@@ -49,29 +50,34 @@ export default function AdminClicks() {
     <Box direction={'column'}>
       <Flex mb={4} justifyContent={'space-between'} alignItems={'center'}>
         <LavaTypo variant={'h3'} styles={{ color: 'black', marginBottom: '8px', textAlign: 'left' }}>Clicks</LavaTypo>
-        {/* <LavaButton variant={'filled'} onClick={() => setOpen(true)}>
+        <LavaButton variant={'filled'} onClick={() => setOpen(true)}>
           <FontAwesomeIcon icon={faPlusCircle} /> Ajouter un élément
-        </LavaButton> */}
+        </LavaButton>
       </Flex>
 
-      <Box>
-        {clicksContent.length === 0 ? (
-          <LavaTypo variant={'p'} styles={{ color: 'black' }} size={'16px'}>
-            Aucun event disponible. Ajoutez-en un en cliquant sur "Ajouter un élément".
-          </LavaTypo>
-        ) : (
-          clicksContent.map((item) => (
-            <Box key={item.id} mb={4} p={4} borderRadius={8} border={'1px solid #E2E8F0'}>
-              <LavaTypo variant={'h4'} color='black'>{item.name}</LavaTypo>
+      {clicksContent.length === 0 ? (
+        <LavaTypo variant={'p'} styles={{ color: 'black' }} size={'16px'}>
+          Aucun event disponible. Ajoutez-en un en cliquant sur "Ajouter un élément".
+        </LavaTypo>
+      ) : (
+        clicksContent.map((item) => (
+          <Flex key={item.id} mb={4} p={4} borderRadius={8} border={'1px solid #E2E8F0'} justifyContent={'space-between'}>
+            <Flex justifyContent='space-between' direction={'column'}>
+              <LavaTypo color='black'>Click item: {item.name}</LavaTypo>
               <LavaTypo variant={'p'} color='black'>Target: {item.target}</LavaTypo>
-              <LavaButton variant='outlined' style={{ color: 'black' }} onClick={() => {
+            </Flex>
+
+            <Button variant='subtle' colorPalette={'blue'}
+              onClick={() => {
                 setFormData(item);
                 setOpen(true);
-              }}>Modifier</LavaButton>
-            </Box>
-          ))
-        )}
-      </Box>
+              }}
+            >
+              Modifier
+            </Button>
+          </Flex>
+        ))
+      )}
 
       <Dialog.Root lazyMount open={open} onOpenChange={(e) => !e.open && onClose()} placement={'center'}>
         <Portal>
@@ -95,12 +101,12 @@ export default function AdminClicks() {
                       />
                     </Field.Root>
                     <Field.Root>
-                      <Field.Label>Description</Field.Label>
+                      <Field.Label>Target</Field.Label>
                       <Input
-                        title='Description'
-                        placeholder='Description'
+                        title='Target'
+                        placeholder='Target'
                         value={formData.target}
-                        onChange={(e) => updateField('target', e.target.value)}
+                        onChange={(e) => updateField('target', Number(e.target.value))}
                       />
                     </Field.Root>
                   </Fieldset.Content>
