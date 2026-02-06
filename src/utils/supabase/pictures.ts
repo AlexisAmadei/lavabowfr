@@ -70,38 +70,38 @@ export const fetchPicturesContent = async (
  * @returns Array containing the inserted item data, or null if error.
  */
 export const insertPictureItem = async (item: PictureItem & { img?: File }): Promise<PictureItem[] | null> => {
-    let storagePath: string | null = null
+  let storagePath: string | null = null
 
-    if (!item.title) {
-        console.error('Title is required to insert a picture item.')
-        return null
-    }
+  if (!item.title) {
+    console.error('Title is required to insert a picture item.')
+    return null
+  }
 
-    // Upload image file if provided
-    if (item.img && item.img instanceof File) {
-        console.log('Uploading picture file for a new item...')
-        const timestamp = Date.now()
-        const fileName = `${timestamp}_${item.img.name}`
-        storagePath = await uploadPictureFile(item.img, fileName)
-    }
+  // Upload image file if provided
+  if (item.img && item.img instanceof File) {
+    console.log('Uploading picture file for a new item...')
+    const timestamp = Date.now()
+    const fileName = `${timestamp}_${item.img.name}`
+    storagePath = await uploadPictureFile(item.img, fileName)
+  }
 
-    const { data, error } = await supabase
-        .from('section_pictures')
-        .insert([{
-            title: item.title,
-            storage_ref: storagePath,
-            date: item.date || null,
-            place: item.place || null,
-            status: 'ACTIVE',
-        }])
-        .select()
+  const { data, error } = await supabase
+    .from('section_pictures')
+    .insert([{
+      title: item.title,
+      storage_ref: storagePath,
+      date: item.date || null,
+      place: item.place || null,
+      status: 'ACTIVE',
+    }])
+    .select()
 
-    if (error) {
-        console.error('Error inserting picture item:', error)
-        return null
-    }
+  if (error) {
+    console.error('Error inserting picture item:', error)
+    return null
+  }
 
-    return data
+  return data
 }
 
 /**
@@ -140,65 +140,65 @@ export const updatePictureItem = async (
  * @returns The public URL of the new image, or null if error.
  */
 export const replacePictureFile = async (id: number, file: File): Promise<string | null> => {
-    try {
-        // Fetch the current DB record so we can delete the previous storage object later
-        const { data: currentRecord, error: selectError } = await supabase
-            .from('section_pictures')
-            .select('storage_ref')
-            .eq('id', id)
-            .single()
+  try {
+    // Fetch the current DB record so we can delete the previous storage object later
+    const { data: currentRecord, error: selectError } = await supabase
+      .from('section_pictures')
+      .select('storage_ref')
+      .eq('id', id)
+      .single()
 
-        if (selectError) {
-            // Not fatal, but log it — we won't be able to remove the old file if we can't read it
-            console.warn('Could not fetch current picture storage_ref before replace:', selectError)
-        }
-
-        const previousStorageRef: string | null = currentRecord?.storage_ref || null
-
-        // Upload the new file
-        const timestamp = Date.now()
-        const fileName = `${timestamp}_${file.name}`
-        const storagePath = await uploadPictureFile(file, fileName)
-
-        if (!storagePath) {
-            console.error('Failed to upload new picture file')
-            return null
-        }
-
-      // Update the database record with the new storage_ref
-      const { error } = await supabase
-        .from('section_pictures')
-        .update({
-          storage_ref: storagePath,
-        })
-        .eq('id', id)
-
-        if (error) {
-            console.error('Error updating picture storage_ref:', error)
-            return null
-        }
-
-        // If there was a previous stored file, remove it from storage
-        if (previousStorageRef) {
-            try {
-                const { error: removeError } = await supabase.storage
-                    .from('lavabowfr')
-                    .remove([previousStorageRef])
-
-                if (removeError) {
-                    // Non-fatal: log the error but keep the new URL in DB
-                    console.warn('Failed to remove previous picture from storage:', removeError)
-                }
-            } catch (remErr) {
-                console.warn('Exception when removing previous picture from storage:', remErr)
-            }
-        }
-
-        return storagePath
-    } catch (error) {
-        console.error('Exception replacing picture file:', error)
-        return null
+    if (selectError) {
+      // Not fatal, but log it — we won't be able to remove the old file if we can't read it
+      console.warn('Could not fetch current picture storage_ref before replace:', selectError)
     }
+
+    const previousStorageRef: string | null = currentRecord?.storage_ref || null
+
+    // Upload the new file
+    const timestamp = Date.now()
+    const fileName = `${timestamp}_${file.name}`
+    const storagePath = await uploadPictureFile(file, fileName)
+
+    if (!storagePath) {
+      console.error('Failed to upload new picture file')
+      return null
+    }
+
+    // Update the database record with the new storage_ref
+    const { error } = await supabase
+      .from('section_pictures')
+      .update({
+        storage_ref: storagePath,
+      })
+      .eq('id', id)
+
+    if (error) {
+      console.error('Error updating picture storage_ref:', error)
+      return null
+    }
+
+    // If there was a previous stored file, remove it from storage
+    if (previousStorageRef) {
+      try {
+        const { error: removeError } = await supabase.storage
+          .from('lavabowfr')
+          .remove([previousStorageRef])
+
+        if (removeError) {
+          // Non-fatal: log the error but keep the new URL in DB
+          console.warn('Failed to remove previous picture from storage:', removeError)
+        }
+      } catch (remErr) {
+        console.warn('Exception when removing previous picture from storage:', remErr)
+      }
+    }
+
+    return storagePath
+  } catch (error) {
+    console.error('Exception replacing picture file:', error)
+    return null
+  }
 }
 
 /**
@@ -207,15 +207,15 @@ export const replacePictureFile = async (id: number, file: File): Promise<string
  * @returns True if deletion was successful, null if there was an error.
  */
 export const deletePictureItem = async (id: number): Promise<boolean | null> => {
-    const { error } = await supabase
-        .from('section_pictures')
-        .update({ status: 'DELETED' })
-        .eq('id', id)
+  const { error } = await supabase
+    .from('section_pictures')
+    .update({ status: 'DELETED' })
+    .eq('id', id)
 
-    if (error) {
-        console.error('Error deleting picture item:', error)
-        return null
-    }
+  if (error) {
+    console.error('Error deleting picture item:', error)
+    return null
+  }
 
-    return true
+  return true
 }
