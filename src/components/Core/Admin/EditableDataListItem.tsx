@@ -18,7 +18,7 @@ export default function EditableDataListItem({ label, value, placeholder, onValu
       <DataList.ItemLabel>{label}</DataList.ItemLabel>
       <DataList.ItemValue>
         <Editable.Root
-          defaultValue={value}
+          defaultValue={value || ''}
           onValueCommit={(e) => onValueCommit(e.value)}
           placeholder={placeholder}
           submitMode="both"
