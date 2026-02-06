@@ -26,15 +26,26 @@ export default function AdminPictures() {
   const handleAddPictureItem = (data: Partial<PictureItem> & { img?: File | null }) => {
     setOpen(false)
 
+    if (data.title === undefined || data.title.trim() === '') {
+      toaster.create({
+        type: 'error',
+        title: 'Le titre est requis',
+        description: 'Veuillez fournir un titre pour la photo.',
+        duration: 5000,
+      })
+      return
+    }
+
+    console.log('Adding picture item with data:', data)
     // Build a full PictureItem from the partial data with sensible defaults so insertPictureItem receives the expected type.
-    const newPictureItem: PictureItem = {
-      id: (data as any).id ?? 0,
-      title: data.title ?? '',
-      description: data.description ?? '',
+    const newPictureItem: PictureItem & { img?: File } = {
+      title: data.title,
+      storage_ref: data.storage_ref,
       date: data.date ?? '',
       place: data.place ?? '',
       link: data.link ?? '',
       status: (data as any).status ?? 'INACTIVE',
+      img: data.img ?? undefined,
     }
 
     const addPromise = insertPictureItem(newPictureItem)
@@ -55,7 +66,7 @@ export default function AdminPictures() {
     if (!currentItem || currentItem[field] === value) return
 
     const updatedItem = { ...currentItem, [field]: value }
-    await updatePictureItem(itemId, updatedItem).then(async() => {
+    await updatePictureItem(itemId, updatedItem).then(async () => {
       toaster.create({
         title: "Élément photo mis à jour avec succès",
         description: `L'élément "${updatedItem.title}" a été mis à jour.`,
@@ -78,7 +89,7 @@ export default function AdminPictures() {
     const currentItem = picturesContent.find(item => item.id === itemId)
     if (!currentItem || currentItem.status === newStatus) return
 
-    await updatePictureItem(itemId, { ...currentItem, status: newStatus }).then(async() => {
+    await updatePictureItem(itemId, { ...currentItem, status: newStatus }).then(async () => {
       toaster.create({
         title: "Statut de la photo mis à jour avec succès",
         description: `Le statut de la photo "${currentItem.title}" a été mis à jour.`,
@@ -131,16 +142,9 @@ export default function AdminPictures() {
               >
                 <EditableDataListItem
                   label="Titre"
-                  value={item.title}
+                  value={item.title || ''}
                   placeholder="Titre"
                   onValueCommit={(value: string) => item.id && handleUpdateField(item.id, 'title', value)}
-                />
-
-                <EditableDataListItem
-                  label="Description"
-                  value={item.description || ''}
-                  placeholder="Description"
-                  onValueCommit={(value: string) => item.id && handleUpdateField(item.id, 'description', value)}
                 />
 
                 <EditableDataListItem

@@ -22,7 +22,7 @@ export interface SpotlightItem {
 export interface PictureItem {
   id?: number;
   title: string;
-  description?: string;
+  storage_ref?: string;
   date?: string;
   link?: string;
   place?: string;

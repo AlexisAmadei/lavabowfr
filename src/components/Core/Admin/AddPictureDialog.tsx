@@ -1,5 +1,5 @@
 import { toaster } from '@/components/ui/toaster'
-import { Button, Dialog, Field, Fieldset, FileUpload, Input, Portal, Textarea } from '@chakra-ui/react'
+import { Button, Dialog, Field, Fieldset, FileUpload, Input, Portal } from '@chakra-ui/react'
 import { faUpload } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
@@ -7,10 +7,9 @@ import type { PictureItem } from '@/types/types'
 
 const INITIAL_FORM_STATE = {
   title: '',
-  description: '',
   date: '',
-  link: '',
   place: '',
+  storage_ref: '',
 }
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5 MB
@@ -67,11 +66,15 @@ export default function AddPictureDialog({ open, onClose, onAdd }: AddPictureDia
   }
 
   return (
-    <Dialog.Root lazyMount open={open} onOpenChange={(e) => !e.open && onClose()} placement="center">
+    <Dialog.Root lazyMount
+      open={open}
+      onOpenChange={(e) => !e.open && onClose()}
+      placement="center"
+    >
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
-          <Dialog.Content>
+          <Dialog.Content maxH={'90vh'}>
             <Dialog.Header>
               <Dialog.Title color="black">Ajouter une photo</Dialog.Title>
             </Dialog.Header>
@@ -85,15 +88,6 @@ export default function AddPictureDialog({ open, onClose, onAdd }: AddPictureDia
                       placeholder="Titre"
                       value={formData.title}
                       onChange={(e) => updateField('title', e.target.value)}
-                    />
-                  </Field.Root>
-
-                  <Field.Root>
-                    <Field.Label>Description</Field.Label>
-                    <Textarea
-                      placeholder="Description"
-                      value={formData.description}
-                      onChange={(e) => updateField('description', e.target.value)}
                     />
                   </Field.Root>
 
@@ -130,11 +124,12 @@ export default function AddPictureDialog({ open, onClose, onAdd }: AddPictureDia
                         <FontAwesomeIcon icon={faUpload} /> Télécharger une image
                       </Button>
                     </FileUpload.Trigger>
+
                     {uploadedFile && (
                       <FileUpload.ItemGroup>
                         <FileUpload.Item file={uploadedFile}>
-                          <FileUpload.ItemPreview asChild>
-                            <FileUpload.ItemPreviewImage />
+                          <FileUpload.ItemPreview asChild maxW="100%" overflow="hidden">
+                            <FileUpload.ItemPreviewImage maxH="200px" objectFit="contain" />
                           </FileUpload.ItemPreview>
                           <FileUpload.ItemContent>
                             <FileUpload.ItemName />
@@ -144,6 +139,7 @@ export default function AddPictureDialog({ open, onClose, onAdd }: AddPictureDia
                         </FileUpload.Item>
                       </FileUpload.ItemGroup>
                     )}
+
                   </FileUpload.Root>
                 </Fieldset.Content>
 
