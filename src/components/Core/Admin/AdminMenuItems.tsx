@@ -46,6 +46,7 @@ export default function AdminMenuItems() {
     >
       {menuItems.map((item) => (
         <Link
+          key={item.path}
           to={item.path}
           style={{ textDecoration: 'none' }}
         >
