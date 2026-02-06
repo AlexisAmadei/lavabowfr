@@ -40,13 +40,11 @@ export default function AdminPictures() {
     // Build a full PictureItem from the partial data with sensible defaults so insertPictureItem receives the expected type.
     const newPictureItem: PictureItem & { img?: File } = {
       title: data.title,
-      storage_ref: data.storage_ref,
       date: data.date ?? '',
       place: data.place ?? '',
-      link: data.link ?? '',
-      status: (data as any).status ?? 'INACTIVE',
+      status: 'ACTIVE',
       img: data.img ?? undefined,
-    }
+    } as PictureItem & { img?: File }
 
     const addPromise = insertPictureItem(newPictureItem)
       .then(() => fetchPicturesContent(setPicturesContent))
@@ -66,15 +64,24 @@ export default function AdminPictures() {
     if (!currentItem || currentItem[field] === value) return
 
     const updatedItem = { ...currentItem, [field]: value }
-    await updatePictureItem(itemId, updatedItem).then(async () => {
+    const result = await updatePictureItem(itemId, updatedItem)
+
+    if (result) {
       toaster.create({
         title: "Élément photo mis à jour avec succès",
         description: `L'élément "${updatedItem.title}" a été mis à jour.`,
         type: "success",
         duration: 5000,
-      });
+      })
       await fetchPicturesContent(setPicturesContent)
-    });
+    } else {
+      toaster.create({
+        title: "Erreur",
+        description: "Impossible de mettre à jour l'élément",
+        type: "error",
+        duration: 5000,
+      })
+    }
   }
 
   const handleDeletePictureItem = async () => {

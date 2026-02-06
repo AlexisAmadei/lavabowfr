@@ -9,7 +9,6 @@ const INITIAL_FORM_STATE = {
   title: '',
   date: '',
   place: '',
-  storage_ref: '',
 }
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5 MB

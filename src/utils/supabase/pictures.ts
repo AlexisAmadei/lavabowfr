@@ -111,39 +111,26 @@ export const insertPictureItem = async (item: PictureItem & { img?: File }): Pro
  * @returns Array containing the updated item data, or null if error.
  */
 export const updatePictureItem = async (
-    id: number,
-    updatedItem: PictureItem
+  id: number,
+  updatedItem: PictureItem
 ): Promise<PictureItem[] | null> => {
-    const { title, storage_ref, date, place, status } = updatedItem
+  const { title, date, place, status } = updatedItem
 
-    try {
-        const { error: updateError } = await supabase
-            .from('section_pictures')
-            .update({ title, storage_ref, date, place, status })
-            .eq('id', id)
+  console.log(`Updating picture item with data ${JSON.stringify({ title, date, place, status })}...`)
 
-        if (updateError) {
-            console.error('Error updating picture item:', updateError)
-            return null
-        }
+  // Note: storage_ref is not updated here - use replacePictureFile to update the image
+  const { data, error } = await supabase
+    .from('section_pictures')
+    .update({ title, date, place, status })
+    .eq('id', id)
+    .select()
 
-        // Fetch the updated row
-        const { data, error: selectError } = await supabase
-            .from('section_pictures')
-            .select('*')
-            .eq('id', id)
-            .single()
+  if (error) {
+    console.error('Error updating picture item:', error)
+    return null
+  }
 
-        if (selectError) {
-            console.error('Error fetching updated picture:', selectError)
-            return [updatedItem]
-        }
-
-        return [data]
-    } catch (error) {
-        console.error('Exception updating picture item:', error)
-        return null
-    }
+  return data
 }
 
 /**
