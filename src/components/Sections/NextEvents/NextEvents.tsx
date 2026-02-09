@@ -74,7 +74,7 @@ export default function NextEvents() {
         id='events'
         className='lava-section'
         gap={'48px'}
-        height={isMobile ? '300px' : '800px'}
+        height={isMobile ? '300px' : '600px'}
         backgroundImage={`url(${noEventBg})`}
         backgroundSize='cover'
         backgroundPosition={'center'}
