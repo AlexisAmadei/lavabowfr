@@ -1,13 +1,10 @@
 import AddVideoDialog from '@/components/Core/Admin/AddVideoDialog'
 import AdminItemMenu from '@/components/Core/Admin/AdminItemMenu'
-import LavaButton from '@/components/Design/LavaButton'
 import LavaTypo from '@/components/Design/LavaTypo'
 import StatusChip from '@/components/ui/StatusChip'
 import { supabase } from '@/utils/supabase/supabase'
 import { updateItemStatus } from '@/utils/supabase/updateItemStatus'
 import { Box, Flex } from '@chakra-ui/react'
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useEffect, useState } from 'react'
 
 interface VideoItem {
@@ -17,8 +14,7 @@ interface VideoItem {
   status: 'active' | 'inactive';
 }
 
-export default function AdminVideos() {
-  const [open, setOpen] = useState(false);
+export default function AdminVideos({ open, setOpen }: { open: boolean, setOpen: (open: boolean) => void }) {
   const [videoList, setVideoList] = useState<VideoItem[]>([]);
 
     useEffect(() => {
@@ -82,13 +78,6 @@ export default function AdminVideos() {
 
     return (
       <Box direction={'column'}>
-        <Flex mb={4} justifyContent={'space-between'} alignItems={'center'}>
-          <LavaTypo variant={'h3'} styles={{ color: 'black', marginBottom: '8px', textAlign: 'left' }}>Vidéos</LavaTypo>
-          <LavaButton variant={'filled'} onClick={() => setOpen(true)}>
-            <FontAwesomeIcon icon={faPlusCircle} /> Ajouter un élément
-          </LavaButton>
-        </Flex>
-
         <Flex
           direction={'column'}
           gap={2}

@@ -2,9 +2,8 @@ import { Box, Button, DataList, Flex, IconButton, Image, Menu, Portal } from '@c
 import React, { useEffect } from 'react'
 import { toaster } from '@/components/ui/toaster'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsisVertical, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
+import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons'
 import LavaTypo from '@/components/Design/LavaTypo'
-import LavaButton from '@/components/Design/LavaButton'
 import EditableDataListItem from '@/components/Core/Admin/EditableDataListItem'
 import DeleteDialog from '@/components/Core/Admin/DeleteDialog'
 import AddPictureDialog from '@/components/Core/Admin/AddPictureDialog'
@@ -12,8 +11,7 @@ import ReplacePicture from '@/components/Core/Admin/ReplacePicture'
 import { fetchPicturesContent, insertPictureItem, updatePictureItem, deletePictureItem } from '@/utils/supabase/pictures'
 import { PictureItem } from '@/types/types'
 
-export default function AdminPictures() {
-  const [open, setOpen] = React.useState(false)
+export default function AdminPictures({ open, setOpen }: { open: boolean, setOpen: (open: boolean) => void }) {
   const [picturesContent, setPicturesContent] = React.useState<PictureItem[]>([])
   const [selectedForReplace, setSelectedForReplace] = React.useState<PictureItem | null>(null)
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false)
@@ -115,15 +113,6 @@ export default function AdminPictures() {
 
   return (
     <Box>
-      <Flex mb={4} justifyContent="space-between" alignItems="center">
-        <LavaTypo variant="h3" styles={{ color: 'black', marginBottom: '8px', textAlign: 'left' }}>
-          Lava Bow en photos
-        </LavaTypo>
-        <LavaButton variant="filled" onClick={() => setOpen(true)}>
-          <FontAwesomeIcon icon={faPlusCircle} />Ajouter un élément
-        </LavaButton>
-      </Flex>
-
       <Flex direction="row" gap={4} flexWrap="wrap" textAlign="left" justifyContent="space-between">
         {picturesContent.length === 0 ? (
           <LavaTypo variant="p" styles={{ color: 'black' }} size="16px">

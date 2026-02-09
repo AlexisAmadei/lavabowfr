@@ -1,21 +1,17 @@
 import DeleteDialog from '@/components/Core/Admin/DeleteDialog';
 import EditableDataListItem from '@/components/Core/Admin/EditableDataListItem';
-import LavaButton from '@/components/Design/LavaButton';
 import LavaTypo from '@/components/Design/LavaTypo';
 import { Box, Button, DataList, Flex } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import AddSpotlightDialog from '../../../components/Core/Admin/AddSpotlightDialog';
 import { deleteSpotlightItem, fetchSpotlightContent, insertSpotlightItem, updateSpotlightItem } from '@/utils/supabase/spotlight';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { SpotlightItem } from '@/types/types';
 import { toaster } from '@/components/ui/toaster';
 import StatusChip from '@/components/ui/StatusChip';
 import AdminItemMenu from '@/components/Core/Admin/AdminItemMenu';
 import { updateItemStatus } from '@/utils/supabase/updateItemStatus';
 
-export default function AdminSpotlight() {
-  const [open, setOpen] = React.useState(false);
+export default function AdminSpotlight({ open, setOpen }: { open: boolean, setOpen: (open: boolean) => void }) {
   const [spotlightContent, setSpotlightContent] = React.useState<SpotlightItem[]>([]);
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
   const [itemToDelete, setItemToDelete] = React.useState<number | undefined>(undefined);
@@ -94,13 +90,6 @@ export default function AdminSpotlight() {
 
   return (
     <Box direction={'column'}>
-      <Flex mb={4} justifyContent={'space-between'} alignItems={'center'}>
-        <LavaTypo variant={'h3'} styles={{ color: 'black', marginBottom: '8px', textAlign: 'left' }}>Spotlight</LavaTypo>
-        <LavaButton variant={'filled'} onClick={() => setOpen(true)}>
-          <FontAwesomeIcon icon={faPlusCircle} /> Ajouter un élément
-        </LavaButton>
-      </Flex>
-
       <Flex
         direction={'row'}
         gap={4}

@@ -1,4 +1,3 @@
-import LavaButton from '@/components/Design/LavaButton'
 import LavaTypo from '@/components/Design/LavaTypo'
 import { EventItem } from '@/types/types'
 import { Box, DataList, Flex, IconButton, Image, Menu, Portal } from '@chakra-ui/react'
@@ -9,11 +8,10 @@ import EditEventDialog from '../../../components/Core/Admin/EditEventDialog'
 import DeleteDialog from '@/components/Core/Admin/DeleteDialog'
 import { fetchEventsContent, insertEventItem, updateEventItem } from '@/utils/supabase/events'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsisVertical, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
+import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons'
 
-export default function AdminEvents() {
+export default function AdminEvents({ open, setOpen }: { open: boolean, setOpen: (open: boolean) => void }) {
   const [events, setEvents] = React.useState<EventItem[]>([])
-  const [open, setOpen] = React.useState(false)
   const [openEditDialog, setOpenEditDialog] = React.useState(false)
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false)
   const [itemToDelete, setItemToDelete] = React.useState<number | null>(null);
@@ -63,13 +61,6 @@ export default function AdminEvents() {
 
   return (
     <Box direction={'column'}>
-      <Flex mb={4} justifyContent={'space-between'} alignItems={'center'}>
-        <LavaTypo variant={'h3'} styles={{ color: 'black', marginBottom: '16px', textAlign: 'left' }}>Events</LavaTypo>
-        <LavaButton variant={'filled'} onClick={() => setOpen(true)}>
-          <FontAwesomeIcon icon={faPlusCircle} /> Ajouter un élément
-        </LavaButton>
-      </Flex>
-
       <Flex
         direction={'row'}
         gap={2}

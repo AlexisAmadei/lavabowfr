@@ -1,15 +1,11 @@
-import LavaButton from '@/components/Design/LavaButton';
 import LavaTypo from '@/components/Design/LavaTypo'
 import { ClicksItem } from '@/types/types';
-import { fetchClicksContent, insertClicksItem, updateClicksItem } from '@/utils/supabase/click_palier'
+import { fetchClicksContent, insertClicksItem } from '@/utils/supabase/click_palier'
 import { Box, Button, Dialog, Field, Fieldset, Flex, Input, Portal } from '@chakra-ui/react'
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react'
 
-export default function AdminClicks() {
+export default function AdminClicks({ open, setOpen }: { open: boolean, setOpen: (open: boolean) => void }) {
   const [clicksContent, setClicksContent] = useState<ClicksItem[]>([]);
-  const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState<ClicksItem>({
     id: 0,
     name: '',
@@ -48,13 +44,6 @@ export default function AdminClicks() {
 
   return (
     <Box direction={'column'}>
-      <Flex mb={4} justifyContent={'space-between'} alignItems={'center'}>
-        <LavaTypo variant={'h3'} styles={{ color: 'black', marginBottom: '8px', textAlign: 'left' }}>Clicks</LavaTypo>
-        <LavaButton variant={'filled'} onClick={() => setOpen(true)}>
-          <FontAwesomeIcon icon={faPlusCircle} /> Ajouter un élément
-        </LavaButton>
-      </Flex>
-
       {clicksContent.length === 0 ? (
         <LavaTypo variant={'p'} styles={{ color: 'black' }} size={'16px'}>
           Aucun event disponible. Ajoutez-en un en cliquant sur "Ajouter un élément".
