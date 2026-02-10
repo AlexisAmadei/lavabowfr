@@ -132,7 +132,7 @@ export default function Player({ isMobile } : { isMobile?: boolean } = {}) {
         animationTimingFunction='linear'
       >
         {playerData[currentTrackIndex]?.cover_link && (
-          <img src={playerData[currentTrackIndex]?.cover_link} alt={playerData[currentTrackIndex]?.title || 'Unknown Title'} />
+          <img src={playerData[currentTrackIndex]?.cover_link} alt={playerData[currentTrackIndex]?.title || 'Unknown Title'} height={'40px'} width={'40px'} style={{ borderRadius: '50px'}} />
         )}
       </Box>
 
