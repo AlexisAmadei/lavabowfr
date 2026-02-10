@@ -14,6 +14,7 @@ export default function Videos() {
   useEffect(() => {
     const ref = document.getElementById('featured-video');
     if (ref) {
+      console.log('Featured video container height:', ref.clientHeight);
       setMaxHeight(ref.clientHeight);
     }
   }, []);
@@ -73,10 +74,10 @@ export default function Videos() {
           </Flex>
 
           {otherVideos.length > 0 && (
-            <Flex
+            <Flex className='others-videos'
               direction={'column'}
-              maxHeight={maxHeight ?? '400px'}
               gap={3}
+              maxH={'672px'}
             >
               <LavaTypo variant={'h3'}>Voir plus</LavaTypo>
               <Box
