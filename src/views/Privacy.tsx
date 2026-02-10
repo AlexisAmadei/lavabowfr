@@ -11,7 +11,7 @@ export default function Privacy() {
       <Stack gap={8}>
         <Box>
           <Text fontSize="sm" color="fg.muted">
-            Last updated: November 27, 2024
+            Last updated: February 11, 2026
           </Text>
         </Box>
 
