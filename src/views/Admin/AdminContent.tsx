@@ -21,11 +21,10 @@ export default function AdminContent() {
     { id: 'videos', name: 'Vidéos', element: <AdminVideos open={openDialog === 'videos'} setOpen={(open) => setOpenDialog(open ? 'videos' : null)} /> },
   ]
 
-
   return (
     <Box flexDirection={'column'} display={'flex'} gap={8} pr={2} mt={4}>
       {ELEMENTS.map(el => (
-        <Box direction={'column'}>
+        <Box direction={'column'} key={el.id}>
           <Flex mb={4} justifyContent={'space-between'} alignItems={'center'}>
             <LavaTypo variant={'h3'} styles={{ color: 'black', marginBottom: '8px', textAlign: 'left' }}>{el.name}</LavaTypo>
             <LavaButton variant={'filled'} onClick={() => setOpenDialog(el.id)}>

@@ -51,3 +51,12 @@ export interface ClicksItem {
   name: string;
   target: number;
 }
+export interface Video {
+  id?: number
+  description?: string
+  url?: string
+  status?: string
+  order?: number
+  created_at: string
+  updated_at: string
+}

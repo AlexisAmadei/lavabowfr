@@ -5,6 +5,7 @@ type VideoData = {
   description?: string
   url?: string
   status: "active" | "inactive" | string
+  order?: number
 }
 
 interface AddVideoDialogProps {
