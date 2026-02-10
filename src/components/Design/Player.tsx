@@ -96,6 +96,10 @@ export default function Player({ isMobile } : { isMobile?: boolean } = {}) {
     }
   }, [currentTrackIndex, playerData]);
 
+  if(playerData.length === 0) {
+    return null; // Don't render the player if there's no data
+  }
+
   return (
     <Box
       height={'100%'}
@@ -127,8 +131,9 @@ export default function Player({ isMobile } : { isMobile?: boolean } = {}) {
         animationIterationCount='infinite'
         animationTimingFunction='linear'
       >
-        {/* <FontAwesomeIcon icon={faCompactDisc} size='2xl' color="var(--Background-bg-brand)" /> */}
-        <img src={playerData[currentTrackIndex]?.cover_link || "https://placehold.co/40x40/png"} alt="LavaBow Logo" style={{ borderRadius: '40px', height: '40px', width: '40px' }} />
+        {playerData[currentTrackIndex]?.cover_link && (
+          <img src={playerData[currentTrackIndex]?.cover_link} alt={playerData[currentTrackIndex]?.title || 'Unknown Title'} />
+        )}
       </Box>
 
       {title ? (
@@ -176,7 +181,6 @@ export default function Player({ isMobile } : { isMobile?: boolean } = {}) {
           <FontAwesomeIcon icon={isPlaying ? faPause : faPlay} style={{ padding: 0, margin: 0 }} />
         </Box>
       </Flex>
-      {/* <img src={playerData[currentTrackIndex]?.cover_link || "https://placehold.co/40x40/png"} alt="LavaBow Logo" style={{ borderRadius: '4px', height: '40px', width: '40px' }} /> */}
     </Box>
   );
 }
