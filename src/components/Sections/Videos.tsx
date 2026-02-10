@@ -7,17 +7,8 @@ import { fetchDataFromTable } from '@/utils/supabase/supabase'
 import { Video } from '@/types/types'
 
 export default function Videos() {
-  const [maxHeight, setMaxHeight] = React.useState<number | undefined>(undefined);
   const isMobile = useIsMobile(1300);
   const [videoList, setVideoList] = React.useState<Video[]>([]);
-
-  useEffect(() => {
-    const ref = document.getElementById('featured-video');
-    if (ref) {
-      console.log('Featured video container height:', ref.clientHeight);
-      setMaxHeight(ref.clientHeight);
-    }
-  }, []);
 
   useEffect(() => {
     async function fetchVideoList() {
