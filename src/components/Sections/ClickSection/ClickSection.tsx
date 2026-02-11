@@ -49,7 +49,7 @@ export default function ClickSection() {
           alignItems={'center'}
           gap={4}
         >
-          <ClickCounter count={clickCount} setCount={setClickCount} isMobile={isMobile} />
+          <ClickCounter count={clickCount} setCount={setClickCount} isMobile={!isMobile} />
 
           <Flex direction={'column'} alignItems={'center'} marginTop={4}>
             <LavaTypo variant={'h4'}>Clique et débloque des paliers :</LavaTypo>
