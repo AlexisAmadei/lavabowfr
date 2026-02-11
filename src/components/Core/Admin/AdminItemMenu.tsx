@@ -35,7 +35,10 @@ export default function AdminItemMenu({
           <Menu.Content>
             <Menu.Item
               value={newStatus}
-              onSelect={() => onUpdateStatus(itemId, newStatus)}
+              onPointerDown={(e) => e.stopPropagation()}
+              onSelect={() => {
+                onUpdateStatus(itemId, newStatus)
+              }}
             >
               {isActive ? 'Désactiver' : 'Activer'}
             </Menu.Item>
@@ -43,6 +46,7 @@ export default function AdminItemMenu({
               value="delete"
               color="fg.error"
               _hover={{ bg: "bg.error", color: "fg.error" }}
+              onPointerDown={(e) => e.stopPropagation()}
               onSelect={() => onDelete(itemId)}
             >
               Supprimer

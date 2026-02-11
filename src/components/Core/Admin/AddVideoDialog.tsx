@@ -21,7 +21,23 @@ export default function AddVideoDialog({ open, onClose, onAdd }: AddVideoDialogP
     status: 'active'
   })
 
+  function getVideoId(url: string): string | null {
+    const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+    const match = url.match(regex);
+    return match ? match[1] : null;
+  }
+
   const handleSubmit = () => {
+    const videoId = getVideoId(formData.url || '');
+
+    if (!videoId) {
+      alert('URL de vidéo YouTube invalide. Veuillez entrer une URL valide.');
+      return;
+    } else {
+      console.log('ID de la vidéo extrait :', videoId);
+      formData.url = `https://www.youtube.com/embed/${videoId}`;
+    }
+
     onAdd(formData)
     setFormData({
       description: '',
