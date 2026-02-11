@@ -30,13 +30,15 @@ function SortableVideoItem({
   videoElement,
   handleUpdateStatus,
   setVideoToDelete,
-  setOpenDeleteDialog
+  setOpenDeleteDialog,
+  onEdit
 }: {
   video: Video
   videoElement: ({ label, element }: { label: string, element?: string }) => React.JSX.Element
   handleUpdateStatus: (id: number) => void
   setVideoToDelete: (video: Video) => void
   setOpenDeleteDialog: (open: boolean) => void
+  onEdit: (video: Video) => void
 }) {
   const {
     attributes,
@@ -92,6 +94,7 @@ function SortableVideoItem({
           setVideoToDelete(video)
           setOpenDeleteDialog(true)
         }}
+        onEdit={() => onEdit(video)}
       />
     </Flex>
   )
@@ -101,6 +104,7 @@ export default function AdminVideos({ open, setOpen }: { open: boolean, setOpen:
   const [videoList, setVideoList] = useState<Video[]>([]);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [videoToDelete, setVideoToDelete] = useState<Video | undefined>(undefined);
+  const [editingVideo, setEditingVideo] = useState<Video | undefined>(undefined);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -191,6 +195,35 @@ export default function AdminVideos({ open, setOpen }: { open: boolean, setOpen:
     setVideoToDelete(undefined);
   }
 
+  const handleEdit = async (videoId: number, data: { description?: string; url?: string; status: 'active' | 'inactive' | string; order?: number }) => {
+    const { error } = await supabase
+      .from('section_videos')
+      .update({
+        description: data.description,
+        url: data.url,
+        status: data.status
+      })
+      .eq('id', videoId);
+
+    if (error) {
+      console.error('Erreur lors de la modification de la vidéo :', error);
+      return;
+    }
+
+    // Refresh the list
+    const { data: newData } = await supabase
+      .from('section_videos')
+      .select('*')
+      .order('order', { ascending: true });
+
+    if (newData) {
+      setVideoList(newData);
+    }
+
+    setEditingVideo(undefined);
+    setOpen(false);
+  }
+
   const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event
 
@@ -202,22 +235,42 @@ export default function AdminVideos({ open, setOpen }: { open: boolean, setOpen:
     const newIndex = videoList.findIndex((video) => video.id === over.id)
 
     const newVideoList = arrayMove(videoList, oldIndex, newIndex)
+    const previousVideoList = videoList // Store for rollback
 
+    // Optimistic update
     setVideoList(newVideoList)
 
-    const updates = newVideoList.map((video: Video, index: number) => ({
-      id: video.id!,
-      order: index + 1
-    }))
+    // Only update items whose order actually changed
+    const minIndex = Math.min(oldIndex, newIndex)
+    const maxIndex = Math.max(oldIndex, newIndex)
+    const updates = newVideoList
+      .slice(minIndex, maxIndex + 1)
+      .map((video: Video, idx: number) => ({
+        id: video.id!,
+        order: minIndex + idx + 1
+      }))
 
-    for (const update of updates) {
-      await supabase
-        .from('section_videos')
-        .update({ order: update.order })
-        .eq('id', update.id)
+    try {
+      // Parallel updates instead of sequential
+      const results = await Promise.all(
+        updates.map((update) =>
+          supabase
+            .from('section_videos')
+            .update({ order: update.order })
+            .eq('id', update.id)
+        )
+      )
+
+      // Check for any errors
+      const errors = results.filter((r) => r.error)
+      if (errors.length > 0) {
+        throw new Error(errors[0].error?.message || 'Failed to update order')
+      }
+    } catch (error) {
+      console.error('Erreur lors de la réorganisation des vidéos :', error)
+      // Rollback optimistic update on failure
+      setVideoList(previousVideoList)
     }
-
-    fetchVideoContent()
   }
 
   function videoElement({ label, element = "N/A" }: { label: string, element?: string }) {
@@ -259,6 +312,7 @@ export default function AdminVideos({ open, setOpen }: { open: boolean, setOpen:
                   handleUpdateStatus={handleUpdateStatus}
                   setVideoToDelete={setVideoToDelete}
                   setOpenDeleteDialog={setOpenDeleteDialog}
+                  onEdit={setEditingVideo}
                 />
               ))}
             </SortableContext>
@@ -267,9 +321,14 @@ export default function AdminVideos({ open, setOpen }: { open: boolean, setOpen:
       </DndContext>
 
       <AddVideoDialog
-        open={open}
-        onClose={() => setOpen(false)}
+        open={open || !!editingVideo}
+        onClose={() => {
+          setOpen(false);
+          setEditingVideo(undefined);
+        }}
         onAdd={handleAddVideo}
+        editingVideo={editingVideo as any}
+        onEdit={handleEdit}
       />
 
       <DeleteDialog

@@ -12,14 +12,33 @@ interface AddVideoDialogProps {
   open: boolean
   onClose: () => void
   onAdd: (data: VideoData) => void
+  editingVideo?: VideoData & { id: number }
+  onEdit?: (id: number, data: VideoData) => void
 }
 
-export default function AddVideoDialog({ open, onClose, onAdd }: AddVideoDialogProps) {
+export default function AddVideoDialog({ open, onClose, onAdd, editingVideo, onEdit }: AddVideoDialogProps) {
+  const isEditing = !!editingVideo
   const [formData, setFormData] = React.useState({
     description: '',
     url: '',
     status: 'active'
   })
+
+  React.useEffect(() => {
+    if (isEditing && editingVideo) {
+      setFormData({
+        description: editingVideo.description || '',
+        url: editingVideo.url || '',
+        status: editingVideo.status
+      })
+    } else if (open) {
+      setFormData({
+        description: '',
+        url: '',
+        status: 'active'
+      })
+    }
+  }, [open, editingVideo, isEditing])
 
   function getVideoId(url: string): string | null {
     const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
@@ -35,10 +54,18 @@ export default function AddVideoDialog({ open, onClose, onAdd }: AddVideoDialogP
       return;
     } else {
       console.log('ID de la vidéo extrait :', videoId);
-      formData.url = `https://www.youtube.com/embed/${videoId}`;
     }
 
-    onAdd(formData)
+    const formattedData = {
+      ...formData,
+      url: `https://www.youtube.com/embed/${videoId}`
+    };
+
+    if (isEditing && editingVideo && onEdit) {
+      onEdit(editingVideo.id, formattedData)
+    } else {
+      onAdd(formattedData)
+    }
     setFormData({
       description: '',
       url: '',
@@ -57,7 +84,7 @@ export default function AddVideoDialog({ open, onClose, onAdd }: AddVideoDialogP
         <Dialog.Positioner>
           <Dialog.Content>
             <Dialog.Header>
-              <Dialog.Title color={'black'}>Ajouter une Vidéo</Dialog.Title>
+              <Dialog.Title color={'black'}>{isEditing ? 'Modifier la Vidéo' : 'Ajouter une Vidéo'}</Dialog.Title>
             </Dialog.Header>
 
             <Dialog.Body color={'black'}>
@@ -97,7 +124,7 @@ export default function AddVideoDialog({ open, onClose, onAdd }: AddVideoDialogP
                 </Fieldset.Content>
 
                 <Button variant={'subtle'} colorPalette={'green'} onClick={handleSubmit}>
-                  Ajouter la Vidéo
+                  {isEditing ? 'Modifier la Vidéo' : 'Ajouter la Vidéo'}
                 </Button>
               </Fieldset.Root>
             </Dialog.Body>

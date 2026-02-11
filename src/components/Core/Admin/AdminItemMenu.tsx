@@ -7,6 +7,7 @@ interface AdminItemMenuProps {
   itemStatus: 'active' | 'inactive' | 'ACTIVE' | 'INACTIVE' | string;
   onUpdateStatus: (id: number, status: string) => void;
   onDelete: (id: number) => void;
+  onEdit?: (id: number) => void;
 }
 
 export default function AdminItemMenu({
@@ -14,6 +15,7 @@ export default function AdminItemMenu({
   itemStatus,
   onUpdateStatus,
   onDelete,
+  onEdit,
 }: AdminItemMenuProps) {
   const isActive = itemStatus?.toLowerCase() === 'active';
   const newStatus = isActive ? 'inactive' : 'active';
@@ -33,6 +35,15 @@ export default function AdminItemMenu({
       <Portal>
         <Menu.Positioner>
           <Menu.Content>
+            {onEdit && (
+              <Menu.Item
+                value="edit"
+                onPointerDown={(e) => e.stopPropagation()}
+                onSelect={() => onEdit(itemId)}
+              >
+                Modifier
+              </Menu.Item>
+            )}
             <Menu.Item
               value={newStatus}
               onPointerDown={(e) => e.stopPropagation()}
