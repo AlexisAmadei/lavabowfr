@@ -14,7 +14,7 @@ interface EditableDataListItemProps {
  */
 export default function EditableDataListItem({ label, value, placeholder, onValueCommit }: EditableDataListItemProps) {
   return (
-    <DataList.Item width={'100%'}>
+    <DataList.Item width={'80%'}>
       <DataList.ItemLabel>{label}</DataList.ItemLabel>
       <DataList.ItemValue>
         <Editable.Root

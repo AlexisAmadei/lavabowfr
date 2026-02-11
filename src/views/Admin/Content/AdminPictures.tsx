@@ -119,7 +119,7 @@ export default function AdminPictures({ open, setOpen }: { open: boolean, setOpe
             Aucune photo disponible. Ajoutez-en une en cliquant sur "Ajouter un élément".
           </LavaTypo>
         ) : (
-          <Flex width="full" direction="row" gap={4} flexWrap="wrap" textAlign="left" justifyContent="space-between">
+          <Flex width="full" direction="row" gap={3} flexWrap="wrap" textAlign="left" justifyContent="space-between">
             {picturesContent.map((item) => (
               <DataList.Root
                 size={'lg'}

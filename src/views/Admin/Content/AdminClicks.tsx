@@ -50,7 +50,7 @@ export default function AdminClicks({ open, setOpen }: { open: boolean, setOpen:
         </LavaTypo>
       ) : (
         clicksContent.map((item) => (
-          <Flex key={item.id} mb={4} p={4} borderRadius={8} border={'1px solid #E2E8F0'} justifyContent={'space-between'}>
+          <Flex key={item.id} mb={2} p={4} borderRadius={8} border={'1px solid #E2E8F0'} justifyContent={'space-between'}>
             <Flex justifyContent='space-between' direction={'column'}>
               <LavaTypo color='black'>Click item: {item.name}</LavaTypo>
               <LavaTypo variant={'p'} color='black'>Target: {item.target}</LavaTypo>

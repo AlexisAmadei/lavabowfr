@@ -76,7 +76,7 @@ export default function AdminEvents({ open, setOpen }: { open: boolean, setOpen:
           <Flex
             width={'full'}
             direction={'row'}
-            gap={4}
+            gap={2}
             flexWrap={'wrap'}
             textAlign={'left'}
             justifyContent={'space-between'}
