@@ -1,5 +1,6 @@
 import { EventItem } from "@/types/types";
 import { supabase } from "./supabase";
+import { toaster } from "@/components/ui/toaster";
 
 /**
  * Uploads a file to the Supabase storage bucket 'lavabowfr'
@@ -62,8 +63,13 @@ export const fetchEventsContent = async (
 
 export const insertEventItem = async (eventData: EventItem) => {
     // Validate required fields - note: price can be 0 for free events
-    if (!eventData.title || !eventData.description || typeof eventData.price !== 'number' || !eventData.date || !eventData.place) {
+    if (!eventData.title || typeof eventData.price !== 'number' || !eventData.date || !eventData.place) {
         console.error('All fields are required to insert an event item.', eventData);
+        toaster.create({
+          title: 'Title, price, date, and place are required fields.',
+          description: 'Please fill in all required fields before submitting.',
+          type:'error',
+        })
         return null;
     }
 
