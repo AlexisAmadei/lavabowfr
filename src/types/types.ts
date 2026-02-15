@@ -32,6 +32,7 @@ export interface PictureItem {
   img?: File | string;
   status?: GeneralStatus;
 }
+
 export type BeerGaugeProps = {
   palier: {
     id: number;
@@ -40,6 +41,7 @@ export type BeerGaugeProps = {
   getProgressPercentage: (index: number) => number;
   IconBeer: string;
 };
+
 export interface EmailContact {
   id: string | number;
   email: string;
@@ -54,6 +56,7 @@ export interface ClicksItem {
   name: string;
   target: number;
 }
+
 export interface Video {
   id?: number
   description?: string
