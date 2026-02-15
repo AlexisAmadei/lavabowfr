@@ -58,7 +58,7 @@ export default function AdminMerchandise() {
       name: formData.name,
       description: formData.description,
       price: formData.price,
-      tags: formData.tags,
+      tags: formData.tags || [],
       stripe_paylink: formData.stripe_paylink,
       out_of_stock: formData.out_of_stock
     };

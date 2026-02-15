@@ -23,6 +23,11 @@ const menuItems: MenuItem[] = [
     ]
   },
   {
+    name: 'Lava Shop',
+    link: 'shop',
+    variant: 'outlined',
+  },
+  {
     name: 'Contact',
     link: '#contact',
     variant: 'filled',

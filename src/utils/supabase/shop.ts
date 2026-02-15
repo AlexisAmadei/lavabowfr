@@ -5,7 +5,7 @@ export interface MerchItem {
     name: string;
     description: string;
     price: number | string;
-    tags: string[] | null;
+    tags: string[];
     stripe_paylink: string;
     out_of_stock: boolean;
 }
@@ -20,7 +20,10 @@ export async function fetchMerchItems(): Promise<MerchItem[]> {
             console.error('Error fetching merch items:', error);
             return [];
         }
-        return merch_items as MerchItem[];
+        return (merch_items || []).map(item => ({
+            ...item,
+            tags: Array.isArray(item.tags) ? item.tags : []
+        })) as MerchItem[];
     } catch (error) {
         console.error('Unexpected error fetching merch items:', error);
         return [];

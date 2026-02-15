@@ -71,7 +71,7 @@ export default function ShopDialog({
 
               <Field.Root>
                 <Field.Label>Tags</Field.Label>
-                <Input placeholder="Tags" value={formData.tags?.join(', ') ?? ''} onChange={(e) => setFormData({ ...formData, tags: e.target.value.split(',').map(tag => tag.trim()) })} />
+                <Input placeholder="Tags" value={formData.tags?.join(', ') ?? ''} onChange={(e) => setFormData({ ...formData, tags: e.target.value.trim() === '' ? [] : e.target.value.split(',').map(tag => tag.trim()) })} />
               </Field.Root>
 
               <Field.Root>

@@ -9,6 +9,8 @@ export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, i
     return `${tag.charAt(0).toUpperCase()}${tag.slice(1).replace(/_/g, ' ')}`;
   }
 
+  console.log(item.tags)
+
   return (
     <Flex
       direction={'column'}
