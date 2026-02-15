@@ -105,7 +105,7 @@ export default function EventTicket({ event }: { event: EventItem | null }) {
           </Flex>
         </Flex>
 
-        <Divider orientation='vertical' color={'white'} />
+        <Divider orientation={isMobile ? 'horizontal' : 'vertical'} color={'white'} />
       </Flex>
 
       <Flex id='right-part'
@@ -133,6 +133,7 @@ export default function EventTicket({ event }: { event: EventItem | null }) {
             <Image src={Heads} alt='Event Heads' width={'auto'} height={'70px'} objectFit={'contain'} title='Event Heads' />
             <Logo h={'70'} w={'70'} />
           </Flex>
+
           <Box className='description' my={isMobile ? 3 : 0} px={isMobile ? 2 : 0}>
             <LavaTypo size={TICKET_DESC_SIZE}
               styles={{
@@ -147,7 +148,7 @@ export default function EventTicket({ event }: { event: EventItem | null }) {
             </LavaTypo>
           </Box>
           {eventPayable && (
-            <LavaButton style={{ backgroundColor: 'var(--main-accent)' }} fullWidth={true} onClick={handleEventClick}>Ma place</LavaButton>
+            <LavaButton style={{ backgroundColor: 'var(--main-accent)' }} fullWidth={true} onClick={handleEventClick}>Prendre Ma Place</LavaButton>
           )}
         </Flex>
 
@@ -155,30 +156,50 @@ export default function EventTicket({ event }: { event: EventItem | null }) {
           <Divider orientation={isMobile ? 'horizontal' : 'vertical'} color={'#ffffffd8'} dashed={true} thickness={'2px'} dashArray={'8 8'} rounded={true} />
         </Box>
 
-        <Flex id='barcode'
-          alignItems={'center'}
-          justifyContent={'center'}
-          width={'30px'}
-          height={'100%'}
-          position={isMobile ? undefined : 'absolute'}
-          right={'0'}
-          top={'0'}
-          m={0}
-          // backgroundColor={isMobile ? 'transparent' : 'var(--Background-bg-brand)'}
-          zIndex={0}
-        >
-          <div style={{ transform: isMobile ? undefined : 'rotate(90deg)', width: 'fit-content' }}>
-            <Barcode
-              renderer='svg'
-              value={'https://lavabow.fr'}
-              width={!isMobile ? 1 : 4}
-              height={30}
-              displayValue={false}
-              background='var(--Background-bg-brand)'
-              lineColor='white'
-            />
-          </div>
-        </Flex>
+        {isMobile ? (
+          <Flex id='barcode'
+            alignItems={'center'}
+            justifyContent={'center'}
+            width={'100%'}
+            height={'120px'}
+            m={0}
+            zIndex={0}
+          >
+              <Barcode
+                renderer='svg'
+                value={'lavabow.fr'}
+                width={2}
+                height={30}
+                displayValue={false}
+                background='var(--Background-bg-brand)'
+                lineColor='white'
+              />
+          </Flex>
+        ) : (
+          <Flex id='barcode'
+            alignItems={'center'}
+            justifyContent={'center'}
+            width={'30px'}
+            height={'100%'}
+            position={isMobile ? undefined : 'absolute'}
+            right={isMobile ? undefined : '0'}
+            top={isMobile ? undefined : '0'}
+            m={0}
+            zIndex={0}
+          >
+            <div style={{ transform: isMobile ? 'rotate(0deg)' : 'rotate(90deg)', width: 'fit-content' }}>
+              <Barcode
+                renderer='svg'
+                value={'https://lavabow.fr'}
+                width={!isMobile ? 1 : 4}
+                height={30}
+                displayValue={false}
+                background='var(--Background-bg-brand)'
+                lineColor='white'
+              />
+            </div>
+          </Flex>
+        )}
       </Flex>
     </Flex>
   );

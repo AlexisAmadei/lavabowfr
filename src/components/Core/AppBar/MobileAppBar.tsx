@@ -5,7 +5,6 @@ import React from 'react'
 import { scrollToSection } from '@/utils/navigation'
 import menuItems from '@/lib/menuItems'
 import MediaLinks from './MediaLinks'
-import LavaButton from '@/components/Design/LavaButton'
 import Player from '@/components/Design/Player'
 
 export default function MobileAppBar() {
@@ -82,18 +81,25 @@ export default function MobileAppBar() {
               <LavaTypo variant='h2' color='white' onClick={() => handleMenuToggle()} size={24}>Close</LavaTypo>
               <Flex width="100%" direction={'column'} justifyContent={'100%'} alignItems={'flex-end'} gap={4} marginTop={'16px'}>
                 {menuItems.map(item => {
-                  if (item.variant === 'filled') {
+                  if (item.subItems && item.subItems.length > 0) {
                     return (
-                      <LavaButton variant='filled' color='secondary' key={item.name} onClick={() => handleMenuItemClick(item.link)}>
-                        <LavaTypo size={18}>{item.name}</LavaTypo>
-                      </LavaButton>
+                      <Box key={item.name} width={'100%'}>
+                        <Flex direction={'column'} alignItems={'flex-end'} gap={3} marginTop={2}>
+                          {item.subItems.map(subItem => (
+                            <LavaTypo key={subItem.name} color='white' size={16} onClick={() => handleMenuItemClick(subItem.link)}>
+                              {subItem.name}
+                            </LavaTypo>
+                          ))}
+                        </Flex>
+                      </Box>
+                    )
+                  } else {
+                    return (
+                      <LavaTypo key={item.name} color='white' size={18} onClick={() => handleMenuItemClick(item.link)}>
+                        {item.name}
+                      </LavaTypo>
                     )
                   }
-                  return (
-                    <LavaTypo key={item.name} size={18} onClick={() => handleMenuItemClick(item.link)}>
-                      {item.name}
-                    </LavaTypo>
-                  )
                 })}
               </Flex>
               <MediaLinks padding='8px' />
