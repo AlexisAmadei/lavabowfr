@@ -81,11 +81,10 @@ export default function EventTicket({ event }: { event: EventItem | null }) {
             />
             <LavaTypo variant={'h2'} size={TICKET_TITLE_SIZE} styles={{ marginBottom: '8px', position: 'relative', zIndex: 1 }}>{event?.title.toUpperCase() || 'Event Title'}</LavaTypo>
           </Box>
-          <Divider orientation='horizontal' color={'white'} />
 
           <Flex direction={'row'} width={'100%'} justifyContent={'space-between'} mt={'8px'} alignItems={'center'} gap={1} textWrap={'nowrap'}>
             <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '800' }}>PRIX</LavaTypo>
-            <Divider orientation={'horizontal'} color={'#ffffffd8'} dashed={true} thickness={'0.5px'} dashArray={'2 1'} />
+            <Divider orientation={'horizontal'} color={'#ffffffd8'} dashed={true} thickness={'0.6px'} dashArray={'2 2'} />
             <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '800' }}>{event?.price === 0 ? 'PRIX LIBRE' : `${event?.price}€`}</LavaTypo>
           </Flex>
 
@@ -93,7 +92,7 @@ export default function EventTicket({ event }: { event: EventItem | null }) {
 
           <Flex direction={'row'} width={'100%'} justifyContent={'space-between'} alignItems={'center'} gap={1} textWrap={'nowrap'}>
             <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '800' }}>DATE</LavaTypo>
-            <Divider orientation={'horizontal'} color={'#ffffffd8'} dashed={true} thickness={'0.5px'} dashArray={'2 1'} />
+            <Divider orientation={'horizontal'} color={'#ffffffd8'} dashed={true} thickness={'0.6px'} dashArray={'2 2'} />
             <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '800' }}>{event?.date ? new Date(event.date).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : "Sam t'as oublié la date"}</LavaTypo>
           </Flex>
 
@@ -101,7 +100,7 @@ export default function EventTicket({ event }: { event: EventItem | null }) {
 
           <Flex direction={'row'} width={'100%'} justifyContent={'space-between'} alignItems={'center'} gap={1} textWrap={'nowrap'}>
             <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '800' }}>LIEU</LavaTypo>
-            <Divider orientation={'horizontal'} color={'#ffffffd8'} dashed={true} thickness={'0.5px'} dashArray={'2 1'} />
+            <Divider orientation={'horizontal'} color={'#ffffffd8'} dashed={true} thickness={'0.6px'} dashArray={'2 2'} />
             <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '800' }}>{event?.place || "Sam t'as oublié le lieu"}</LavaTypo>
           </Flex>
         </Flex>
@@ -153,7 +152,7 @@ export default function EventTicket({ event }: { event: EventItem | null }) {
         </Flex>
 
         <Box h={'100%'} marginRight={!isMobile ? '40px' : undefined} id='divider'>
-          <Divider orientation={isMobile ? 'horizontal' : 'vertical'} color={'#ffffffd8'} dashed={true} thickness={'1.5px'} dashArray={'8 8'} rounded={true} />
+          <Divider orientation={isMobile ? 'horizontal' : 'vertical'} color={'#ffffffd8'} dashed={true} thickness={'2px'} dashArray={'8 8'} rounded={true} />
         </Box>
 
         <Flex id='barcode'
