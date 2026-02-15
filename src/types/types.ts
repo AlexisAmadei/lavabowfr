@@ -1,3 +1,6 @@
+export type GeneralStatus = 'ACTIVE' | 'INACTIVE' | 'DELETED';
+export type EventStatus = 'ACTIVE' | 'INACTIVE' | 'DELETED' | 'PAST' | 'CANCELED';
+
 export interface EventItem {
   id?: number;
   title: string;
@@ -6,7 +9,7 @@ export interface EventItem {
   date: string;
   place: string;
   link?: string;
-  status?: string;
+  status?: EventStatus;
   img?: File | string;
 }
 
@@ -16,7 +19,7 @@ export interface SpotlightItem {
   subtitle: string;
   listen_link: string;
   buy_link: string;
-  status?: string;
+  status?: GeneralStatus;
 }
 
 export interface PictureItem {
@@ -27,7 +30,7 @@ export interface PictureItem {
   link?: string;
   place?: string;
   img?: File | string;
-  status?: string;
+  status?: GeneralStatus;
 }
 export type BeerGaugeProps = {
   palier: {
@@ -43,7 +46,7 @@ export interface EmailContact {
   created_at: string;
   firstName: string;
   lastName: string;
-  status: string;
+  status: GeneralStatus;
 }
 
 export interface ClicksItem {
@@ -55,7 +58,7 @@ export interface Video {
   id?: number
   description?: string
   url?: string
-  status?: string
+  status?: GeneralStatus
   order?: number
   created_at: string
   updated_at: string
