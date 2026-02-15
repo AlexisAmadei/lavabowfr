@@ -46,13 +46,13 @@ export default function Music() {
             <LavaTypo variant={'h3'} size={'30px'} styles={{ marginTop: '16px' }}>
               Tu peux nous trouver partout sinon
             </LavaTypo>
-            <Box className="social-pill" style={{ display: 'inline-flex', alignItems: 'center' }}
+            <Box style={{ display: 'inline-flex', alignItems: 'center' }}
               width={'fit-content'}
               backgroundColor={'white'} color={'var(--main-accent)'}
               py={isMobile ? 1 : 1}
               px={2}
               gap={4}
-              borderRadius={50}
+              borderRadius={3}
               mt={4}
             >
               <MediaLinks content='media' size='2x' color='var(--main-accent)' padding='0' />
