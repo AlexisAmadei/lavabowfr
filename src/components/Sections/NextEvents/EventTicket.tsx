@@ -5,7 +5,6 @@ import LavaTypo from '@/components/Design/LavaTypo'
 import LavaButton from '@/components/Design/LavaButton'
 import Heads from '@/assets/img/events/heads.webp'
 import Barcode from 'react-barcode'
-import TicketPlacement from './TicketPlacement'
 import Logo from '@/components/Design/Logo'
 import Stabilo from '@/assets/textures/stabilo.svg'
 import useIsMobile from '@/hooks/useIsMobile'
@@ -63,26 +62,6 @@ export default function EventTicket({ event }: { event: EventItem | null }) {
         py={1}
         p={1}
       >
-        <Flex
-          direction={isMobile ? 'row' : 'column'}
-          height={isMobile ? '40px' : '100%'} width={isMobile ? '100%' : '40px'}
-          alignItems={'center'}
-          gap={2}
-          mx={3}
-          margin={0} marginBottom={isMobile ? 2 : 0}
-          justify={'space-between'}
-          paddingX={isMobile ? 2 : 0}
-        >
-          <TicketPlacement type="Num" number="1" isMobile={isMobile} />
-          <Divider orientation={isMobile ? 'vertical' : 'horizontal'} color={'white'} thickness={'1px'} />
-
-          <TicketPlacement type="Rang" number="15" isMobile={isMobile} />
-          <Divider orientation={isMobile ? 'vertical' : 'horizontal'} color={'white'} thickness={'1px'} />
-
-          <TicketPlacement type="Siège" number="20" isMobile={isMobile} />
-        </Flex>
-        <Divider orientation={isMobile ? 'horizontal' : 'vertical'} color={'white'} />
-
         <Flex direction={'column'} height={'100%'} justifyContent={'space-around'} gap={1} paddingLeft={isMobile ? 0 : 2} width={'100%'} pr={isMobile ? 0 : 1}>
           <Box position={'relative'} width={'fit-content'}>
             <Image
