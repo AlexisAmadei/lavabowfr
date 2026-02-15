@@ -3,8 +3,10 @@ import { Link, Outlet } from 'react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
 import AdminMenuItems from '@/components/Core/Admin/AdminMenuItems';
+import useIsMobile from '@/hooks/useIsMobile';
 
 export default function Dashboard() {
+  const isMobile = useIsMobile();
 
   return (
     <Grid
@@ -26,14 +28,14 @@ export default function Dashboard() {
           direction="column"
           alignItems="flex-start"
         >
-          <Text fontSize="xl" fontWeight="bold" mb={8}>
-            Lava Admin
+          <Text fontSize="xl" fontWeight="bold" mb={isMobile ? 0 : 8}>
+            {!isMobile && 'Lava Admin'}
           </Text>
           <AdminMenuItems />
 
           <Link to="/" style={{ marginTop: 'auto', textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <FontAwesomeIcon icon={faHouse} />
-            Retour au site
+            {!isMobile && <span>Retour au site</span>}
           </Link>
         </Flex>
       </GridItem>

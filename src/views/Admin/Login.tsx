@@ -1,5 +1,6 @@
 import LavaButton from '@/components/Design/LavaButton';
 import LavaTypo from '@/components/Design/LavaTypo'
+import useIsMobile from '@/hooks/useIsMobile';
 import { signInUser } from '@/utils/supabase/users';
 import { AbsoluteCenter, Flex, Input } from '@chakra-ui/react'
 import React from 'react'
@@ -7,12 +8,13 @@ import { useNavigate } from 'react-router';
 
 export default function Login() {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [error, setError] = React.useState(null);
+  const [error, setError] = React.useState('');
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
       if (!email || !password) {
@@ -37,7 +39,7 @@ export default function Login() {
   };
 
   return (
-    <AbsoluteCenter>
+    <AbsoluteCenter w={'100%'} p={4}>
       <Flex
         direction="column"
         align="center"
@@ -46,18 +48,19 @@ export default function Login() {
         borderRadius="md"
         border={"1px solid gray"}
         gap={4}
+        width={'100%'}
       >
         <LavaTypo variant={"h2"}>T'as rien à faire ici !</LavaTypo>
-        <form onSubmit={handleSubmit}>
-          <Flex direction="column" gap={4} width={'500px'}>
-            <Input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-            <Input placeholder="Mot de passe" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-            <LavaButton type="submit" variant="filled" marginTop={4} width="100%">
-              <LavaTypo variant="text" size="18px">Se connecter</LavaTypo>
+        <form onSubmit={handleSubmit} style={{ width:'100%'}}>
+          <Flex direction="column" gap={4} width={!isMobile ? '500px' : '100%'}>
+            <Input width={'100%'} placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            <Input width={'100%'} placeholder="Mot de passe" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            <LavaButton type="submit" variant="filled">
+              <LavaTypo size="18px">Se connecter</LavaTypo>
             </LavaButton>
           </Flex>
         </form>
-        {error && <LavaTypo variant="text" styles={{ color: 'red' }} size={16}>{error}</LavaTypo>}
+        {error && <LavaTypo styles={{ color: 'red' }} size={16}>{error}</LavaTypo>}
       </Flex>
     </AbsoluteCenter>
   )

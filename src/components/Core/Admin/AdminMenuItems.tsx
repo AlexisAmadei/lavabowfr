@@ -7,6 +7,7 @@ import { faCloud, faDatabase, faShoppingCart, faUsers } from "@fortawesome/free-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Link } from "react-router";
+import useIsMobile from "@/hooks/useIsMobile";
 
 export default function AdminMenuItems() {
   const menuItems = [
@@ -36,6 +37,7 @@ export default function AdminMenuItems() {
     }
   ];
 
+  const isMobile = useIsMobile();
   const [selectedMenuItem, setSelectedMenuItem] = useState(menuItems[0]);
 
   return (
@@ -65,10 +67,12 @@ export default function AdminMenuItems() {
               backgroundColor: selectedMenuItem.path === item.path ? 'whiteAlpha.900' : 'whiteAlpha.200'
             }}
           >
-            <Box mr={2}>
+            <Box mr={isMobile ? 0 : 2}>
               {item.icon}
             </Box>
-            <Text fontSize="md">{item.label}</Text>
+            {!isMobile && (
+              <Text fontSize="md">{item.label}</Text>
+            )}
           </Box>
         </Link>
       ))}
