@@ -9,8 +9,6 @@ export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, i
     return `${tag.charAt(0).toUpperCase()}${tag.slice(1).replace(/_/g, ' ')}`;
   }
 
-  console.log(item.tags)
-
   return (
     <Flex
       direction={'column'}
@@ -47,7 +45,11 @@ export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, i
           ))}
         </Box>
 
-        <img src='https://placehold.co/300x300' alt='Merchandise Item' />
+        <img
+          src={item.image_url || 'https://placehold.co/300x300'}
+          alt={item.name}
+          style={{ width: '100%', height: '300px', objectFit: 'cover' }}
+        />
 
         <Flex justifyContent={'space-between'} gap={4} textWrap={'balance'}>
           <LavaTypo variant='h3' color='var(--main-accent)' style={{ fontWeight: 'normal' }}>{item.name}</LavaTypo>
