@@ -6,7 +6,7 @@ import useIsMobile from '../../../hooks/useIsMobile'
 
 import { AnimatePresence, motion } from "motion/react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRightLong } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRightLong, faPlay } from '@fortawesome/free-solid-svg-icons'
 import { fetchSpotlightContent } from '@/utils/supabase/spotlight'
 
 type SpotlightItem = {
@@ -27,7 +27,12 @@ export default function Spotlight() {
   const [activeContent, setActiveContent] = React.useState<SpotlightItem | undefined>(undefined)
 
   async function fetchSpotlight() {
-    await fetchSpotlightContent(setSpotlightData);
+    await fetchSpotlightContent((data: SpotlightItem[]) => {
+      const activeOnly = data.filter(
+        item => item.status?.toUpperCase() === 'ACTIVE'
+      )
+      setSpotlightData(activeOnly)
+    })
   }
 
   useEffect(() => {
@@ -60,8 +65,12 @@ export default function Spotlight() {
   }
 
   return (
-    <Flex direction={'column'} alignItems={isMobile ? 'center' : 'flex-end'} width={isMobile ? '100%' : 'auto'} className='spotlight'>
-
+    <Flex className='spotlight'
+      direction={'row'}
+      alignItems={isMobile ? 'center' : 'center'}
+      width={'100%'}
+      justifyContent={'space-between'}
+    >
       {/* Animated title and description */}
       <AnimatePresence mode="wait">
         <motion.div
@@ -70,9 +79,9 @@ export default function Spotlight() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: isMobile ? 'center' : 'flex-end' }}
+          style={{ display: 'flex', flexDirection: 'column', alignItems: isMobile ? 'center' : 'flex-start' }}
         >
-          <LavaTypo variant={'h2'} textAlign={isMobile ? 'center' : 'left'} styles={{ marginBottom: isMobile ? '8px' : '' }}>“{activeContent?.title}”</LavaTypo>
+          <LavaTypo variant={'h2'} textAlign={isMobile ? 'center' : 'left'} styles={{ marginBottom: isMobile ? '8px' : '' }}>{activeContent?.title}</LavaTypo>
           <LavaTypo variant={'p'} styles={{ marginBottom: !isMobile ? '24px' : '' }}>{activeContent?.subtitle}</LavaTypo>
         </motion.div>
       </AnimatePresence>
@@ -80,14 +89,14 @@ export default function Spotlight() {
       {/* Static buttons */}
       <Flex direction={'row'} gap={4} marginTop={4}>
         <LavaButton variant='filled' padding={mP} onClick={() => window.open(activeContent?.listen_link, '_blank')} className="app-bar__button" style={{ gap: 0 }}>
-          <LavaTypo variant={'p'} size={isMobile ? '16px' : '24px'}>Écouter</LavaTypo>
+          <LavaTypo variant={'p'} size={isMobile ? '16px' : '24px'}>Écouter les singles</LavaTypo>
           <span className="app-bar__icon-on-hover">
             <FontAwesomeIcon icon={faArrowRightLong} />
           </span>
         </LavaButton>
 
         <LavaButton variant='outlined' padding={mP} onClick={() => window.open(activeContent?.buy_link, '_blank')} className="app-bar__button">
-          <LavaTypo variant={'p'} size={isMobile ? '16px' : '24px'}>Acheter</LavaTypo>
+          <LavaTypo variant={'p'} size={isMobile ? '16px' : '24px'}><FontAwesomeIcon icon={faPlay} />  Voir le teaser</LavaTypo>
         </LavaButton>
       </Flex>
 

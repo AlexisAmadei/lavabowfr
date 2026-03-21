@@ -4,7 +4,7 @@ import React from 'react'
 type VideoData = {
   description?: string
   url?: string
-  status: "active" | "inactive" | string
+  status: "ACTIVE" | "INACTIVE" | string
   order?: number
 }
 
@@ -21,7 +21,7 @@ export default function AddVideoDialog({ open, onClose, onAdd, editingVideo, onE
   const [formData, setFormData] = React.useState({
     description: '',
     url: '',
-    status: 'active'
+    status: 'ACTIVE'
   })
 
   React.useEffect(() => {
@@ -35,7 +35,7 @@ export default function AddVideoDialog({ open, onClose, onAdd, editingVideo, onE
       setFormData({
         description: '',
         url: '',
-        status: 'active'
+        status: 'ACTIVE'
       })
     }
   }, [open, editingVideo, isEditing])
@@ -69,7 +69,7 @@ export default function AddVideoDialog({ open, onClose, onAdd, editingVideo, onE
     setFormData({
       description: '',
       url: '',
-      status: 'active'
+      status: 'ACTIVE'
     })
   }
 
@@ -112,8 +112,8 @@ export default function AddVideoDialog({ open, onClose, onAdd, editingVideo, onE
 
                   <Field.Root>
                     <Checkbox.Root
-                      checked={formData.status === 'active'}
-                      onCheckedChange={(e) => updateField('status', e.checked ? 'active' : 'inactive')}
+                      checked={formData.status === 'ACTIVE'}
+                      onCheckedChange={(e) => updateField('status', e.checked ? 'ACTIVE' : 'INACTIVE')}
                     >
                       <Checkbox.HiddenInput />
                       <Checkbox.Control />

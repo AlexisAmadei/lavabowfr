@@ -1,65 +1,93 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Box, Flex } from '@chakra-ui/react'
 import Spotlight from './Spotlight'
 import HeroTypo from '@/components/Design/HeroTypo'
 import useIsMobile from '../../../hooks/useIsMobile'
 import MobileAppBar from '../AppBar/MobileAppBar'
 import MediaLinks from '../AppBar/MediaLinks'
+import ReactPlayer from 'react-player'
 
 export default function Hero() {
   const isMobile = useIsMobile();
-
-  const [coverImage, setCoverImage] = React.useState<string | null>(null);
-
-  useEffect(() => {
-    const loadImage = async () => {
-      if (isMobile) {
-        const image = await import('@/assets/img/cover-mobile.webp');
-        setCoverImage(image.default);
-      } else {
-        const image = await import('@/assets/img/cover.webp');
-        setCoverImage(image.default);
-      }
-    };
-    loadImage();
-  }, [isMobile]);
 
   return (
     <div className='landing-hero'
       style={{
         position: 'relative',
-        backgroundImage: coverImage ? `url(${coverImage})` : 'none',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
         minHeight: '100vh',
+        overflow: 'hidden',
       }}
     >
-      {isMobile && <MobileAppBar />}
+      {/* Background Video */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 0,
+      }}>
+        <ReactPlayer
+          src={isMobile ? 'https://www.youtube.com/shorts/M123B5fSJmY' : 'https://youtu.be/thG_gKBKQaI?si=VRd1JT5lHuoBDqbs'}
+          playing
+          loop
+          muted
+          width="100%"
+          height="100%"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+          }}
+        />
+        {/* Dark overlay for better text readability */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(0, 0, 0, 0.4)',
+          zIndex: 1,
+        }} />
+      </div>
+
+      {/* Content layer */}
       <Flex
-        className='landing-hero-content'
+        position={'relative'}
+        zIndex={2}
+        minH={'100vh'}
         direction='column'
         width='100%'
         height='100%'
         justifyContent={'space-between'}
-        marginTop={isMobile ? '100px' : 0}
       >
-        <HeroTypo />
-        <Box
-          className='hero-bottom'
-          width={'100%'}
-          display={'flex'}
-          flexDirection={isMobile ? 'column' : 'row'}
-          position={'relative'}
-          alignItems={isMobile ? 'center' : 'flex-end'}
-          justifyContent={'flex-end'}
-          paddingX={!isMobile ? 16 : 4}
-          mb={8}
-          gap={isMobile ? '24px' : 0}
+        {isMobile && <MobileAppBar />}
+        <Flex
+          className='landing-hero-content'
+          direction='column'
+          width='100%'
+          height='100%'
+          justifyContent={'space-between'}
+          marginTop={isMobile ? '100px' : 0}
         >
-          <Spotlight />
-          {isMobile && <MediaLinks padding='6px' />}
-        </Box>
+          <HeroTypo />
+          <Box
+            className='hero-bottom'
+            width={'100%'}
+            display={'flex'}
+            flexDirection={isMobile ? 'column' : 'row'}
+            position={'relative'}
+            alignItems={isMobile ? 'center' : 'flex-end'}
+            justifyContent={'flex-end'}
+            paddingX={!isMobile ? 16 : 4}
+            mb={8}
+            gap={isMobile ? '24px' : 0}
+          >
+            <Spotlight />
+            {isMobile && <MediaLinks padding='6px' />}
+          </Box>
+        </Flex>
       </Flex>
     </div >
   )
