@@ -11,6 +11,17 @@ export interface MenuItem {
 
 const menuItems: MenuItem[] = [
   {
+    name: 'Contact',
+    link: '#contact',
+    variant: 'filled',
+    icon: () => <FontAwesomeIcon icon={faArrowRightLong} />
+  },
+  {
+    name: 'Lava Shop',
+    link: 'shop',
+    variant: 'outlined',
+  },
+  {
     name: 'Menu',
     link: '#about',
     variant: 'outlined',
@@ -21,12 +32,6 @@ const menuItems: MenuItem[] = [
       { name: 'Vidéos', link: '#videos', variant: 'outlined' },
       { name: 'Photos', link: '#photos', variant: 'outlined' },
     ]
-  },
-  {
-    name: 'Contact',
-    link: '#contact',
-    variant: 'filled',
-    icon: () => <FontAwesomeIcon icon={faArrowRightLong} />
   },
 ]
 

@@ -1,3 +1,4 @@
+@import url('./styles/fonts.css');
 @import url('./styles/var.css');
 
 :root {
@@ -9,6 +10,11 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+    /* Font families */
+    --font-archivo-black: 'Archivo Black', sans-serif;
+    --font-cossette-titre: 'Cossette Titre', serif;
+    --font-stack-sans: 'Stack Sans Text', 'Stack Sans Text Fallback', sans-serif;
 }
 
 html,
@@ -20,6 +26,7 @@ body {
     max-width: 100vw;
     box-sizing: border-box;
     overflow-x: hidden;
+    font-family: var(--font-stack-sans);
 }
 
 #root {

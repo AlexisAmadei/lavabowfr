@@ -1,7 +1,10 @@
 import LavaTypo from '@/components/Design/LavaTypo'
-import { addMerchItem, MerchItem } from '@/utils/supabase/shop'
-import { Button, Checkbox, Dialog, Field, Flex, Input, Stack } from '@chakra-ui/react'
-import React from 'react'
+import { addMerchItem, MerchItem, uploadMerchImage, deleteMerchImage } from '@/utils/supabase/shop'
+import { Button, Checkbox, Dialog, Field, Flex, Input, Stack, Text, FileUpload, Image } from '@chakra-ui/react'
+import React, { useState, useEffect } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUpload, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { toaster } from '@/components/ui/toaster'
 
 export default function ShopDialog({
   editDialogOpen,
@@ -18,28 +21,128 @@ export default function ShopDialog({
   handleOpenDialog: () => void,
   formData: MerchItem,
   setFormData: React.Dispatch<React.SetStateAction<MerchItem>>,
-  handleFormUpdate: (itemId: number) => Promise<void>,
+  handleFormUpdate: (itemId: number, updatedData?: Partial<MerchItem>) => Promise<void>,
   formValidation: () => boolean,
   dialogType?: 'edit' | 'add',
   itemIdToEdit?: number,
   onClose: () => void
 }) {
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+
+  // Update preview when dialog opens or formData changes
+  useEffect(() => {
+    if (editDialogOpen.open) {
+      setImagePreview(formData.image_url || null);
+      setSelectedImage(null);
+    }
+  }, [editDialogOpen.open, formData.image_url]);
+
+  // Validate image file
+  const validateImage = (file: File): string | null => {
+    // Check file size (5MB max)
+    const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+    if (file.size > maxSize) {
+      return 'Image must be smaller than 5MB';
+    }
+
+    // Check if it's an image
+    if (!file.type.startsWith('image/')) {
+      return 'File must be an image';
+    }
+
+    // Check if image is square using Image element
+    return new Promise<string | null>((resolve) => {
+      const img = new window.Image();
+      img.onload = () => {
+        if (img.width !== img.height) {
+          resolve('Image must be square (same width and height)');
+        } else {
+          resolve(null);
+        }
+      };
+      img.onerror = () => resolve('Failed to load image');
+      img.src = URL.createObjectURL(file);
+    }) as any;
+  };
+
+  const handleImageChange = async (details: any) => {
+    const file = details.files?.[0];
+    if (!file) return;
+
+    const error = await validateImage(file);
+    if (error) {
+      toaster.create({
+        title: 'Invalid Image',
+        description: error,
+        type: 'error',
+      });
+      return;
+    }
+
+    setSelectedImage(file);
+    const preview = URL.createObjectURL(file);
+    setImagePreview(preview);
+  };
+
+  const handleRemoveImage = () => {
+    if (imagePreview && imagePreview.startsWith('blob:')) {
+      URL.revokeObjectURL(imagePreview);
+    }
+    setSelectedImage(null);
+    setImagePreview(null);
+    setFormData({ ...formData, image_url: undefined });
+  };
 
   async function handleSubmitAction() {
-    if (editDialogOpen.type === 'edit') {
-      await handleFormUpdate(itemIdToEdit!);
-    } else {
-      await addMerchItem({
-        name: formData.name,
-        description: formData.description,
-        price: formData.price,
-        tags: formData.tags,
-        stripe_paylink: formData.stripe_paylink,
-        out_of_stock: formData.out_of_stock
-      });
-      handleOpenDialog();
+    setIsUploading(true);
+    try {
+      let imageUrl = formData.image_url;
+
+      // Upload new image if selected
+      if (selectedImage) {
+        // Delete old image if updating
+        if (editDialogOpen.type === 'edit' && formData.image_url) {
+          await deleteMerchImage(formData.image_url);
+        }
+
+        // Upload new image
+        const uploadedUrl = await uploadMerchImage(selectedImage, formData.name);
+        if (uploadedUrl) {
+          imageUrl = uploadedUrl;
+        } else {
+          toaster.create({
+            title: 'Upload Failed',
+            description: 'Failed to upload image. Please try again.',
+            type: 'error',
+          });
+          setIsUploading(false);
+          return;
+        }
+      }
+
+      if (editDialogOpen.type === 'edit') {
+        // Pass the imageUrl to handleFormUpdate so it uses the correct value
+        await handleFormUpdate(itemIdToEdit!, { image_url: imageUrl });
+        // Update local state so parent has the new value
+        setFormData({ ...formData, image_url: imageUrl });
+      } else {
+        await addMerchItem({
+          name: formData.name,
+          description: formData.description,
+          price: formData.price,
+          tags: formData.tags,
+          stripe_paylink: formData.stripe_paylink,
+          out_of_stock: formData.out_of_stock,
+          image_url: imageUrl
+        });
+        handleOpenDialog();
+      }
+      onClose();
+    } finally {
+      setIsUploading(false);
     }
-    onClose();
   }
 
   return (
@@ -71,7 +174,7 @@ export default function ShopDialog({
 
               <Field.Root>
                 <Field.Label>Tags</Field.Label>
-                <Input placeholder="Tags" value={formData.tags?.join(', ') ?? ''} onChange={(e) => setFormData({ ...formData, tags: e.target.value.split(',').map(tag => tag.trim()) })} />
+                <Input placeholder="Tags" value={formData.tags?.join(', ') ?? ''} onChange={(e) => setFormData({ ...formData, tags: e.target.value.trim() === '' ? [] : e.target.value.split(',').map(tag => tag.trim()) })} />
               </Field.Root>
 
               <Field.Root>
@@ -90,7 +193,53 @@ export default function ShopDialog({
                 <Checkbox.Label>Out of Stock</Checkbox.Label>
               </Checkbox.Root>
 
-              <Button onClick={handleSubmitAction} disabled={!formValidation()}>{editDialogOpen.type === 'add' ? 'Add' : 'Submit'}</Button>
+              <Field.Root>
+                <Field.Label>Merch Image</Field.Label>
+                <Text fontSize="sm" color="fg.muted" mb={2}>
+                  Image must be square and smaller than 5MB
+                </Text>
+                
+                {imagePreview ? (
+                    <Flex direction="column" gap={2}>
+                      <Image 
+                        src={imagePreview} 
+                        alt="Preview" 
+                        maxW="200px" 
+                        maxH="200px" 
+                        objectFit="cover"
+                        borderRadius={4}
+                      />
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        colorScheme="red"
+                        onClick={handleRemoveImage}
+                        width="fit-content"
+                      >
+                        <FontAwesomeIcon icon={faXmark} />
+                        Remove Image
+                      </Button>
+                    </Flex>
+                  ) : (
+                    <FileUpload.Root 
+                      accept="image/*"
+                      maxFiles={1}
+                      onFileAccept={handleImageChange}
+                    >
+                      <FileUpload.HiddenInput />
+                      <FileUpload.Trigger asChild>
+                        <Button variant="outline" size="sm">
+                          <FontAwesomeIcon icon={faUpload} />
+                          Upload Image
+                        </Button>
+                      </FileUpload.Trigger>
+                    </FileUpload.Root>
+                )}
+              </Field.Root>
+
+              <Button onClick={handleSubmitAction} disabled={!formValidation() || isUploading}>
+                {isUploading ? 'Uploading...' : editDialogOpen.type === 'add' ? 'Add' : 'Submit'}
+              </Button>
             </Stack>
           </Flex>
         </Dialog.Content>

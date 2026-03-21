@@ -4,7 +4,7 @@ import Contact from '@/components/Sections/Contact'
 import Footer from '@/components/Sections/Footer'
 import ShopItemCard from '@/components/Sections/Shop/ShopItemCard'
 import { fetchMerchItems, MerchItem } from '@/utils/supabase/shop'
-import { Container, Flex, Grid } from '@chakra-ui/react'
+import { Box, Container, Flex, Grid } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 
 export default function Shop() {
@@ -35,11 +35,16 @@ export default function Shop() {
       >
         <LavaTypo variant='h1' textAlign='center'>Soutiens nous, en étant trop stylé</LavaTypo>
 
-        <Grid templateColumns={{ base: '1fr', md: '1fr 1fr 1fr 1fr' }} gap={4} mt={10}>
-          {/* Example merchandise items */}
-          {items.map((item, index) => (
-            <ShopItemCard key={index} item={item} isAdminView={false} />
-          ))}
+        <Grid templateColumns={{ base: '1fr', md: '1fr 1fr 1fr 1fr' }} gap={4} mt={10} px={16}>
+          {items.length > 0 ? (
+            items.map((item, index) => (
+              <ShopItemCard key={index} item={item} isAdminView={false} />
+            ))
+          ) : (
+            <Box gridColumn={'1 / -1'} textAlign='center' py={10}>
+              <LavaTypo variant='h2' textAlign='center'>Aucun article disponible pour le moment. Restez à l&apos;écoute !</LavaTypo>
+            </Box>
+          )}
         </Grid>
       </Flex>
       <Contact />

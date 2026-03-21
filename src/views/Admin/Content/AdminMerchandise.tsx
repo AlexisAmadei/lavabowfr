@@ -52,15 +52,16 @@ export default function AdminMerchandise() {
     return true;
   }
 
-  const handleFormUpdate = async (itemId: number) => {
+  const handleFormUpdate = async (itemId: number, updatedData?: Partial<MerchItem>) => {
     const updatedItem: MerchItem = {
       id: itemId,
-      name: formData.name,
-      description: formData.description,
-      price: formData.price,
-      tags: formData.tags,
-      stripe_paylink: formData.stripe_paylink,
-      out_of_stock: formData.out_of_stock
+      name: updatedData?.name ?? formData.name,
+      description: updatedData?.description ?? formData.description,
+      price: updatedData?.price ?? formData.price,
+      tags: updatedData?.tags ?? (formData.tags || []),
+      stripe_paylink: updatedData?.stripe_paylink ?? formData.stripe_paylink,
+      out_of_stock: updatedData?.out_of_stock ?? formData.out_of_stock,
+      image_url: updatedData?.image_url ?? formData.image_url
     };
     const success = await updateMerchItem(updatedItem);
     if (success) {
