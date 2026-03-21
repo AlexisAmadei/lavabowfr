@@ -5,6 +5,7 @@ import LavaTypo from '../Design/LavaTypo'
 import useIsMobile from '../../hooks/useIsMobile'
 import { fetchDataFromTable } from '@/utils/supabase/supabase'
 import { Video } from '@/types/types'
+import ReactPlayer from 'react-player'
 
 export default function Videos() {
   const isMobile = useIsMobile(1300);
@@ -36,10 +37,11 @@ export default function Videos() {
           <LavaTypo variant={'h2'} size={25}>Dernière vidéo</LavaTypo>
           {featuredVideo?.url && (
             <Box width={'350px'}>
-              <iframe id="ytplayer" width={'350px'} height={'200px'}
+              <ReactPlayer
                 src={featuredVideo.url}
-                name='youtube-embed'
-              ></iframe>
+                width={'350px'}
+                height={'200px'}
+              />
             </Box>
           )}
         </Flex>
@@ -56,10 +58,11 @@ export default function Videos() {
             <LavaTypo variant={'h2'}>Absolute Cinéma</LavaTypo>
             {featuredVideo?.url && (
               <Box>
-                <iframe id="ytplayer" width={isMobile ? "100%" : "996"} height={isMobile ? "300" : "600"}
+                <ReactPlayer
                   src={featuredVideo.url}
-                  name='youtube-embed' loading='lazy'
-                ></iframe>
+                  width={isMobile ? "100%" : "996px"}
+                  height={isMobile ? "300px" : "600px"}
+                />
               </Box>
             )}
           </Flex>
@@ -82,10 +85,12 @@ export default function Videos() {
               >
                 {otherVideos.map((video) => (
                   video.url && (
-                    <iframe key={video.id} id="ytplayer" width={'320px'} height={'180px'}
+                    <ReactPlayer
+                      key={video.id}
                       src={video.url}
-                      name='youtube-embed' loading='lazy'
-                    ></iframe>
+                      width={isMobile ? "100%" : "320px"}
+                      height={isMobile ? "200px" : "180px"}
+                    />
                   )
                 ))}
               </Box>

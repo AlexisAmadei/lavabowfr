@@ -77,7 +77,7 @@ function SortableVideoItem({
     >
       <Box>
         {videoElement({
-          label: 'Description (non affiché):',
+          label: 'Titre (non affiché):',
           element: video.description
         })}
         {videoElement({
@@ -297,7 +297,7 @@ export default function AdminVideos({ open, setOpen }: { open: boolean, setOpen:
         >
           {videoList.length === 0 ? (
             <LavaTypo variant={'p'} styles={{ color: 'black' }} size={'16px'}>
-              Aucun event disponible. Ajoutez-en un en cliquant sur "Ajouter un élément".
+              Aucun élément disponible. Ajoutez-en un en cliquant sur "Ajouter un élément".
             </LavaTypo>
           ) : (
             <SortableContext
