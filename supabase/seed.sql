@@ -1,12 +1,47 @@
+-- Insert test user
+insert into auth.users (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, raw_app_meta_data, raw_user_meta_data, created_at, updated_at, confirmation_token, recovery_token, email_change_token_new, email_change)
+values (
+  '00000000-0000-0000-0000-000000000000',
+  gen_random_uuid(),
+  'authenticated',
+  'authenticated',
+  'alexis@lavabow.fr',
+  crypt('azerqsdf', gen_salt('bf')),
+  now(),
+  '{"provider":"email","providers":["email"]}',
+  '{}',
+  now(),
+  now(),
+  '',
+  '',
+  '',
+  ''
+);
+
+-- Insert corresponding identity
+insert into auth.identities (id, user_id, provider_id, provider, identity_data, last_sign_in_at, created_at, updated_at)
+select
+  gen_random_uuid(),
+  id,
+  id,
+  'email',
+  format('{"sub":"%s","email":"%s"}', id::text, email)::jsonb,
+  now(),
+  now(),
+  now()
+from auth.users
+where email = 'alexis@lavabow.fr';
+
+
 insert into section_spotlight (title, subtitle, listen_link, status)
 values
-    ('Spotlight Item 1', 'Subtitle for item 1', 'https://example.com/listen1', 'ACTIVE'),
-    ('Spotlight Item 2', 'Subtitle for item 2', 'https://example.com/listen2', 'INACTIVE');
+    ('LOVE, CHEER & BEERS', 'Nouvel album de LAVA BOW - 17 avril 2026', 'https://example.com/listen1', 'ACTIVE'),
+    ('Grief Song', 'Notre dernier single', 'https://example.com/listen2', 'INACTIVE');
 
 insert into section_videos (description, url, status, "order")
 values
-    ('Video 1 Description', 'https://example.com/video1', 'ACTIVE', 1),
-    ('Video 2 Description', 'https://example.com/video2', 'INACTIVE', 2);
+    ('Video 1 Description', 'https://youtu.be/thG_gKBKQaI?si=JbtfU9wQYdjdTCgb', 'ACTIVE', 1),
+    ('Video 2 Description', 'https://youtu.be/HGwAhmrsR9w?si=KDui_88slsMX6U2m', 'ACTIVE', 2);
 
 insert into clicks_paliers (name, target)
 values

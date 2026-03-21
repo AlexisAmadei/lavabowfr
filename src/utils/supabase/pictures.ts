@@ -39,7 +39,8 @@ export const fetchPicturesContent = async (
       .from('section_pictures')
       .select('*')
       .neq('status', 'DELETED')
-      .order('id', { ascending: true });
+      .order('date', { ascending: false, nullsFirst: false })
+      .order('id', { ascending: false });
 
     if (error) {
       console.error('Error fetching pictures content:', error);
