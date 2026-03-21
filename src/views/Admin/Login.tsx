@@ -48,7 +48,6 @@ export default function Login() {
         borderRadius="md"
         border={"1px solid gray"}
         gap={4}
-        width={'100%'}
       >
         <LavaTypo variant={"h2"}>T'as rien à faire ici !</LavaTypo>
         <form onSubmit={handleSubmit} style={{ width:'100%'}}>
