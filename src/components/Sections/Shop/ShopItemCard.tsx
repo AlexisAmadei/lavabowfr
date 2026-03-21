@@ -1,7 +1,7 @@
 import LavaButton from '@/components/Design/LavaButton';
 import LavaTypo from '@/components/Design/LavaTypo'
 import { MerchItem } from '@/utils/supabase/shop';
-import { Box, Flex } from '@chakra-ui/react'
+import { Box, Flex, Badge } from '@chakra-ui/react'
 import { Link } from 'react-router';
 
 export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, isAdminView: boolean }) {
@@ -28,9 +28,23 @@ export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, i
           position={'absolute'}
           top={'6px'}
           right={'6px'}
+          display={'flex'}
+          flexDirection={'column'}
           gap={2}
           width={'fit-content'}
         >
+          {item.quantity === 0 && (
+            <Badge 
+              variant="solid" 
+              colorPalette="red"
+              style={{
+                padding: '4px 6px',
+                borderRadius: '100px',
+              }}
+            >
+              Out of Stock
+            </Badge>
+          )}
           {item.tags?.map((tag, index) => (
             <span key={index}
               style={{
@@ -61,15 +75,21 @@ export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, i
 
       <LavaButton
         variant='filled'
-        disabled={isAdminView}
+        disabled={isAdminView || item.quantity === 0}
       >
-        <Link
-          target='_blank'
-          to={item.stripe_paylink}
-          style={{ textDecoration: 'none', color: 'inherit' }}
-        >
-          Acheter
-        </Link>
+        {item.quantity === 0 ? (
+          <span style={{ textDecoration: 'none', color: 'inherit' }}>
+            Out of Stock
+          </span>
+        ) : (
+          <Link
+            target='_blank'
+            to={item.stripe_paylink}
+            style={{ textDecoration: 'none', color: 'inherit' }}
+          >
+            Acheter
+          </Link>
+        )}
       </LavaButton>
 
     </Flex>

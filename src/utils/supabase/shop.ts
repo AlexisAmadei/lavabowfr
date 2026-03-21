@@ -7,7 +7,7 @@ export interface MerchItem {
   price: number | string;
   tags: string[];
   stripe_paylink: string;
-  out_of_stock: boolean;
+  quantity: number;
   image_url?: string;
 }
 
@@ -41,6 +41,7 @@ export async function updateMerchItem(item: MerchItem): Promise<boolean> {
         price: item.price,
         tags: item.tags,
         stripe_paylink: item.stripe_paylink,
+        quantity: item.quantity,
         image_url: item.image_url
       })
       .eq('id', item.id);
@@ -65,6 +66,7 @@ export async function addMerchItem(item: Omit<MerchItem, 'id'>): Promise<boolean
         price: item.price,
         tags: item.tags,
         stripe_paylink: item.stripe_paylink,
+        quantity: item.quantity,
         image_url: item.image_url
       }]);
     if (error) {

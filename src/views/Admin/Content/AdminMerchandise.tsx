@@ -23,7 +23,7 @@ export default function AdminMerchandise() {
     price: 0,
     tags: [],
     stripe_paylink: '',
-    out_of_stock: false
+    quantity: 0
   });
 
   const handleOpenDialog = (item?: MerchItem | null) => {
@@ -39,7 +39,7 @@ export default function AdminMerchandise() {
         price: item.price,
         tags: item.tags || [],
         stripe_paylink: item.stripe_paylink,
-        out_of_stock: item.out_of_stock
+        quantity: item.quantity
       });
     }
   }
@@ -60,7 +60,7 @@ export default function AdminMerchandise() {
       price: updatedData?.price ?? formData.price,
       tags: updatedData?.tags ?? (formData.tags || []),
       stripe_paylink: updatedData?.stripe_paylink ?? formData.stripe_paylink,
-      out_of_stock: updatedData?.out_of_stock ?? formData.out_of_stock,
+      quantity: updatedData?.quantity ?? formData.quantity,
       image_url: updatedData?.image_url ?? formData.image_url
     };
     const success = await updateMerchItem(updatedItem);
@@ -80,7 +80,7 @@ export default function AdminMerchandise() {
       price: 0,
       tags: [],
       stripe_paylink: '',
-      out_of_stock: false
+      quantity: 0
     });
   };
 

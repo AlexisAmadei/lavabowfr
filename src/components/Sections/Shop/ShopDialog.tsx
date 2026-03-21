@@ -1,6 +1,6 @@
 import LavaTypo from '@/components/Design/LavaTypo'
 import { addMerchItem, MerchItem, uploadMerchImage, deleteMerchImage } from '@/utils/supabase/shop'
-import { Button, Checkbox, Dialog, Field, Flex, Input, Stack, Text, FileUpload, Image } from '@chakra-ui/react'
+import { Button, Dialog, Field, Flex, Input, Stack, Text, FileUpload, Image } from '@chakra-ui/react'
 import React, { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUpload, faXmark } from '@fortawesome/free-solid-svg-icons'
@@ -134,7 +134,7 @@ export default function ShopDialog({
           price: formData.price,
           tags: formData.tags,
           stripe_paylink: formData.stripe_paylink,
-          out_of_stock: formData.out_of_stock,
+          quantity: formData.quantity,
           image_url: imageUrl
         });
         handleOpenDialog();
@@ -182,16 +182,17 @@ export default function ShopDialog({
                 <Input placeholder="Stripe Payment Link" value={formData.stripe_paylink} onChange={(e) => setFormData({ ...formData, stripe_paylink: e.target.value })} />
               </Field.Root>
 
-              <Checkbox.Root
-                display={'flex'}
-                alignItems={'center'}
-                checked={formData.out_of_stock}
-                onCheckedChange={(details) => setFormData({ ...formData, out_of_stock: !!details.checked })}
-              >
-                <Checkbox.HiddenInput />
-                <Checkbox.Control />
-                <Checkbox.Label>Out of Stock</Checkbox.Label>
-              </Checkbox.Root>
+              <Field.Root>
+                <Field.Label>Quantity</Field.Label>
+                <Input 
+                  placeholder="Available quantity" 
+                  value={formData.quantity} 
+                  onChange={(e) => setFormData({ ...formData, quantity: Number(e.target.value) })} 
+                  type="number"
+                  min="0"
+                />
+                <Field.HelperText>When quantity reaches 0, item will show as out of stock</Field.HelperText>
+              </Field.Root>
 
               <Field.Root>
                 <Field.Label>Merch Image</Field.Label>
