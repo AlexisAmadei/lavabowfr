@@ -57,8 +57,9 @@ export default function AddVideoDialog({ open, onClose, onAdd, editingVideo, onE
     }
 
     const formattedData = {
-      ...formData,
-      url: `https://www.youtube.com/embed/${videoId}`
+      description: formData.description,
+      url: formData.url,
+      status: 'ACTIVE' // Toujours définir le statut sur "ACTIVE" lors de l'ajout ou de la modification
     };
 
     if (isEditing && editingVideo && onEdit) {
