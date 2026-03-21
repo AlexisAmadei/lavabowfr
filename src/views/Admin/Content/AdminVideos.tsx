@@ -130,7 +130,7 @@ export default function AdminVideos({ open, setOpen }: { open: boolean, setOpen:
     fetchVideoContent();
   }, []);
 
-  const handleAddVideo = async (data: { description?: string; url?: string; status: 'active' | 'inactive' | string; order?: number }) => {
+  const handleAddVideo = async (data: { description?: string; url?: string; status: 'ACTIVE' | 'INACTIVE' | string; order?: number }) => {
     const maxOrder = videoList.length > 0
       ? Math.max(...videoList.map(v => v.order || 0))
       : 0;
@@ -172,6 +172,7 @@ export default function AdminVideos({ open, setOpen }: { open: boolean, setOpen:
   const handleDelete = async (video: Video) => {
     if (!video.id) return;
 
+    // Delete the video
     const { error } = await supabase
       .from('section_videos')
       .delete()
@@ -182,26 +183,61 @@ export default function AdminVideos({ open, setOpen }: { open: boolean, setOpen:
       return;
     }
 
+    // Fetch remaining items
     const { data: newData } = await supabase
       .from('section_videos')
       .select('*')
       .order('order', { ascending: true });
 
-    if (newData) {
-      setVideoList(newData);
+    if (newData && newData.length > 0) {
+      // Readjust order fields to be sequential
+      const updates = newData.map((item: Video, index: number) => ({
+        id: item.id!,
+        newOrder: index + 1,
+      }));
+
+      // Update all items with new sequential order
+      try {
+        await Promise.all(
+          updates.map((update) =>
+            supabase
+              .from('section_videos')
+              .update({ order: update.newOrder })
+              .eq('id', update.id)
+          )
+        );
+
+        // Fetch the final updated list
+        const { data: finalData } = await supabase
+          .from('section_videos')
+          .select('*')
+          .order('order', { ascending: true });
+
+        if (finalData) {
+          setVideoList(finalData);
+        }
+      } catch (error) {
+        console.error('Erreur lors de la réorganisation des vidéos après suppression :', error);
+        // Still show the list even if reordering fails
+        setVideoList(newData);
+      }
+    } else {
+      // No items left
+      setVideoList([]);
     }
 
     setOpenDeleteDialog(false);
     setVideoToDelete(undefined);
   }
 
-  const handleEdit = async (videoId: number, data: { description?: string; url?: string; status: 'active' | 'inactive' | string; order?: number }) => {
+  const handleEdit = async (videoId: number, data: { description?: string; url?: string; status: 'ACTIVE' | 'INACTIVE' | string; order?: number }) => {
     const { error } = await supabase
       .from('section_videos')
       .update({
         description: data.description,
         url: data.url,
-        status: data.status
+        status: data.status,
+        order: data.order
       })
       .eq('id', videoId);
 
@@ -240,17 +276,15 @@ export default function AdminVideos({ open, setOpen }: { open: boolean, setOpen:
     // Optimistic update
     setVideoList(newVideoList)
 
-    // Only update items whose order actually changed
-    const minIndex = Math.min(oldIndex, newIndex)
-    const maxIndex = Math.max(oldIndex, newIndex)
-    const updates = newVideoList
-      .slice(minIndex, maxIndex + 1)
-      .map((video: Video, idx: number) => ({
-        id: video.id!,
-        order: minIndex + idx + 1
-      }))
+    // Update all items to ensure sequential order values
+    const updates = newVideoList.map((video: Video, idx: number) => ({
+      id: video.id!,
+      order: idx + 1
+    }))
 
     try {
+      console.log('Updating video order:', updates)
+
       // Parallel updates instead of sequential
       const results = await Promise.all(
         updates.map((update) =>
@@ -258,14 +292,18 @@ export default function AdminVideos({ open, setOpen }: { open: boolean, setOpen:
             .from('section_videos')
             .update({ order: update.order })
             .eq('id', update.id)
+            .select()
         )
       )
 
       // Check for any errors
       const errors = results.filter((r) => r.error)
       if (errors.length > 0) {
+        console.error('Update errors:', errors)
         throw new Error(errors[0].error?.message || 'Failed to update order')
       }
+
+      console.log('Video order updated successfully:', results)
     } catch (error) {
       console.error('Erreur lors de la réorganisation des vidéos :', error)
       // Rollback optimistic update on failure
