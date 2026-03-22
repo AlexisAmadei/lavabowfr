@@ -13,10 +13,8 @@
         "lavabowfr/.vscode/mcp.json: chakra-ui": {
             "allowedModels": [
                 "copilot/gpt-5-mini",
-                "copilot/claude-sonnet-4.5"
+                "copilot/auto"
             ]
         }
     },
-    "typescript.suggest.autoImports": true,
-    "javascript.suggest.autoImports": true,
 }

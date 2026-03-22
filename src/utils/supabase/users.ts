@@ -3,8 +3,8 @@ import { supabase } from "./supabase";
 
 /* TYPE DEFINITIONS */
 interface SignInResponse {
-    data: any | null;
-    error: any | null;
+  data: any | null;
+  error: any | null;
 }
 
 /**
@@ -14,9 +14,9 @@ interface SignInResponse {
  * @returns Object containing authentication data or error.
  */
 export const signInUser = async (email: string, password: string): Promise<SignInResponse> => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password
-    })
-    return { data, error }
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password
+  })
+  return { data, error }
 }
