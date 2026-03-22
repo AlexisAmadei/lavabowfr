@@ -1,7 +1,7 @@
 import React, { useEffect, useState, forwardRef } from 'react'
 import Section from '@/components/Design/Section'
 import LavaTypo from '@/components/Design/LavaTypo'
-import { Box, Flex } from '@chakra-ui/react'
+import { Box, Center, Flex, Grid } from '@chakra-ui/react'
 import EventTicket from './EventTicket'
 import useIsMobile from '@/hooks/useIsMobile'
 import LavaButton from '@/components/Design/LavaButton'
@@ -45,6 +45,7 @@ const button = {
 
 export default function NextEvents() {
   const isMobile = useIsMobile();
+  const isSmallerThan1600 = useIsMobile(1600);
   const [events, setEvents] = React.useState<EventItem[]>([]);
   const [filteredEvents, setFilteredEvents] = React.useState<EventItem[]>([]);
 
@@ -186,11 +187,17 @@ export default function NextEvents() {
 
   return (
     <Section id='events' title={'Retrouve nous en concert'}>
-      <Flex mb={4} flexWrap={'wrap'} width={'100%'} direction={'column'} justifyContent={'space-around'} alignItems={'center'} gap={30}>
+      <Grid
+        mb={4}
+        width={'100%'}
+        templateColumns={isSmallerThan1600 ? 'repeat(1, 1fr)' : 'repeat(2, minmax(0, 1fr))'}
+        gap={'16px'}
+        justifyItems={isSmallerThan1600 ? 'center' : undefined}
+      >
         {filteredEvents.map((event, index) => (
           <EventTicket event={event} key={index} />
         ))}
-      </Flex>
+      </Grid>
     </Section>
   )
 }
