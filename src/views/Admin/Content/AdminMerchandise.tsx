@@ -1,8 +1,9 @@
+import LavaButton from "@/components/Design/LavaButton";
 import LavaTypo from "@/components/Design/LavaTypo";
 import ShopDialog from "@/components/Sections/Shop/ShopDialog";
 import ShopItemCard from "@/components/Sections/Shop/ShopItemCard";
 import { fetchMerchItems, MerchItem, updateMerchItem } from "@/utils/supabase/shop";
-import { Box, Button, IconButton } from "@chakra-ui/react";
+import { Box, Flex, IconButton } from "@chakra-ui/react";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
@@ -23,7 +24,7 @@ export default function AdminMerchandise() {
     price: 0,
     tags: [],
     stripe_paylink: '',
-    quantity: 0
+    out_of_stock: false,
   });
 
   const handleOpenDialog = (item?: MerchItem | null) => {
@@ -33,13 +34,14 @@ export default function AdminMerchandise() {
       type: item ? 'edit' : 'add'
     }));
     if (item) {
+      console.log('Opening dialog for item:', item.out_of_stock);
       setFormData({
         name: item.name,
         description: item.description,
         price: item.price,
         tags: item.tags || [],
         stripe_paylink: item.stripe_paylink,
-        quantity: item.quantity
+        out_of_stock: item.out_of_stock,
       });
     }
   }
@@ -60,7 +62,7 @@ export default function AdminMerchandise() {
       price: updatedData?.price ?? formData.price,
       tags: updatedData?.tags ?? (formData.tags || []),
       stripe_paylink: updatedData?.stripe_paylink ?? formData.stripe_paylink,
-      quantity: updatedData?.quantity ?? formData.quantity,
+      out_of_stock: updatedData?.out_of_stock ?? formData.out_of_stock,
       image_url: updatedData?.image_url ?? formData.image_url
     };
     const success = await updateMerchItem(updatedItem);
@@ -72,7 +74,6 @@ export default function AdminMerchandise() {
   }
 
   const handleAddNewItem = () => {
-    console.log("Adding new item");
     setEditDialogOpen({ open: true, type: 'add' });
     setFormData({
       name: '',
@@ -80,7 +81,7 @@ export default function AdminMerchandise() {
       price: 0,
       tags: [],
       stripe_paylink: '',
-      quantity: 0
+      out_of_stock: false,
     });
   };
 
@@ -94,9 +95,11 @@ export default function AdminMerchandise() {
 
   return (
     <Box flexDirection={'column'} display={'flex'} gap={8} pr={2} mt={4} color={'black'}>
-      <LavaTypo variant="h2">Lava Shop</LavaTypo>
+      <Flex justifyContent={'space-between'} alignItems={'center'}>
+        <LavaTypo variant="h2">Lava Shop</LavaTypo>
+        <LavaButton variant="filled" onClick={handleAddNewItem}>Ajouter un article</LavaButton>
+      </Flex>
 
-      <Button variant="subtle" onClick={handleAddNewItem}>Ajouter un article</Button>
       <Box position={'relative'}>
         {merchItems.map((item) => (
           <Box key={item.id} position={'relative'} display={'inline-block'} mr={4} mb={4}>
@@ -106,6 +109,7 @@ export default function AdminMerchandise() {
             <ShopItemCard item={item} isAdminView={true} />
           </Box>
         ))}
+
         <ShopDialog
           editDialogOpen={editDialogOpen}
           handleOpenDialog={handleOpenDialog}
@@ -115,7 +119,9 @@ export default function AdminMerchandise() {
           formValidation={formValidation}
           itemIdToEdit={itemIdToEdit!}
           onClose={fetchData}
+          dialogType={editDialogOpen.type}
         />
+
       </Box>
     </Box>
   )

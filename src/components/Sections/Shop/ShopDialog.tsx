@@ -1,6 +1,6 @@
 import LavaTypo from '@/components/Design/LavaTypo'
 import { addMerchItem, MerchItem, uploadMerchImage, deleteMerchImage } from '@/utils/supabase/shop'
-import { Button, Dialog, Field, Flex, Input, Stack, Text, FileUpload, Image } from '@chakra-ui/react'
+import { Button, Dialog, Field, Flex, Input, Stack, Text, FileUpload, Image, Checkbox } from '@chakra-ui/react'
 import React, { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUpload, faXmark } from '@fortawesome/free-solid-svg-icons'
@@ -30,6 +30,7 @@ export default function ShopDialog({
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  // const [isOutOfStock, setIsOutOfStock] = useState(formData.out_of_stock || false);
 
   // Update preview when dialog opens or formData changes
   useEffect(() => {
@@ -134,7 +135,7 @@ export default function ShopDialog({
           price: formData.price,
           tags: formData.tags,
           stripe_paylink: formData.stripe_paylink,
-          quantity: formData.quantity,
+          out_of_stock: formData.out_of_stock,
           image_url: imageUrl
         });
         handleOpenDialog();
@@ -153,12 +154,12 @@ export default function ShopDialog({
         <Dialog.Content>
           <Flex direction={'column'} backgroundColor={'white'} padding={6} borderRadius={8} minWidth={'400px'}>
             <LavaTypo variant='h3'>
-              {dialogType === 'add' ? 'Add Merch Item' : 'Edit Merch Item'}
+              {dialogType === 'add' ? 'Ajouter un article' : 'Modifier l\'article'}
             </LavaTypo>
 
             <Stack gap="4" align="flex-start" maxW="sm">
               <Field.Root>
-                <Field.Label>First name</Field.Label>
+                <Field.Label>Article</Field.Label>
                 <Input placeholder="Titre de l'article" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
               </Field.Root>
 
@@ -178,63 +179,60 @@ export default function ShopDialog({
               </Field.Root>
 
               <Field.Root>
-                <Field.Label>Stripe Payment Link</Field.Label>
+                <Field.Label>Lien Stripe</Field.Label>
                 <Input placeholder="Stripe Payment Link" value={formData.stripe_paylink} onChange={(e) => setFormData({ ...formData, stripe_paylink: e.target.value })} />
               </Field.Root>
 
-              <Field.Root>
-                <Field.Label>Quantity</Field.Label>
-                <Input 
-                  placeholder="Available quantity" 
-                  value={formData.quantity} 
-                  onChange={(e) => setFormData({ ...formData, quantity: Number(e.target.value) })} 
-                  type="number"
-                  min="0"
-                />
-                <Field.HelperText>When quantity reaches 0, item will show as out of stock</Field.HelperText>
-              </Field.Root>
+              <Checkbox.Root
+                checked={formData.out_of_stock}
+                onCheckedChange={(e) => setFormData({ ...formData, out_of_stock: !!e.checked })}
+              >
+                <Checkbox.HiddenInput />
+                <Checkbox.Control />
+                <Checkbox.Label>Article hors-stock</Checkbox.Label>
+              </Checkbox.Root>
 
               <Field.Root>
-                <Field.Label>Merch Image</Field.Label>
+                <Field.Label>Image</Field.Label>
                 <Text fontSize="sm" color="fg.muted" mb={2}>
-                  Image must be square and smaller than 5MB
+                  Format carré et plus petit que 5MB
                 </Text>
-                
+
                 {imagePreview ? (
-                    <Flex direction="column" gap={2}>
-                      <Image 
-                        src={imagePreview} 
-                        alt="Preview" 
-                        maxW="200px" 
-                        maxH="200px" 
-                        objectFit="cover"
-                        borderRadius={4}
-                      />
-                      <Button 
-                        size="sm" 
-                        variant="outline" 
-                        colorScheme="red"
-                        onClick={handleRemoveImage}
-                        width="fit-content"
-                      >
-                        <FontAwesomeIcon icon={faXmark} />
-                        Remove Image
-                      </Button>
-                    </Flex>
-                  ) : (
-                    <FileUpload.Root 
-                      accept="image/*"
-                      maxFiles={1}
-                      onFileAccept={handleImageChange}
+                  <Flex direction="column" gap={2}>
+                    <Image
+                      src={imagePreview}
+                      alt="Preview"
+                      maxW="200px"
+                      maxH="200px"
+                      objectFit="cover"
+                      borderRadius={4}
+                    />
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      colorScheme="red"
+                      onClick={handleRemoveImage}
+                      width="fit-content"
                     >
-                      <FileUpload.HiddenInput />
-                      <FileUpload.Trigger asChild>
-                        <Button variant="outline" size="sm">
-                          <FontAwesomeIcon icon={faUpload} />
-                          Upload Image
-                        </Button>
-                      </FileUpload.Trigger>
-                    </FileUpload.Root>
+                      <FontAwesomeIcon icon={faXmark} />
+                      Supprimer l'image
+                    </Button>
+                  </Flex>
+                ) : (
+                  <FileUpload.Root
+                    accept="image/*"
+                    maxFiles={1}
+                    onFileAccept={handleImageChange}
+                  >
+                    <FileUpload.HiddenInput />
+                    <FileUpload.Trigger asChild>
+                      <Button variant="outline" size="sm">
+                        <FontAwesomeIcon icon={faUpload} />
+                        Télécharger une image
+                      </Button>
+                    </FileUpload.Trigger>
+                  </FileUpload.Root>
                 )}
               </Field.Root>
 

@@ -25,11 +25,11 @@ values
     ('Event 1', 'Description for event 1', 20, '2024-12-01 18:00:00+00', 'Venue 1', 'https://example.com/event1'),
     ('Event 2', 'Description for event 2', 0, '2025-01-15 20:00:00+00', 'Venue 2', 'https://example.com/event2');
 
-insert into merch_items (name, description, price, tags, stripe_paylink, quantity)
+insert into merch_items (name, description, price, tags, stripe_paylink, out_of_stock)
 values
-    ('T-Shirt Lavabowfr', 'T-shirt officiel avec logo Lavabowfr', 25, ARRAY['clothing', 'new'], 'https://buy.stripe.com/example1', 50),
-    ('Casquette Brodée', 'Casquette snapback avec logo brodé', 20, ARRAY['clothing', 'accessories'], 'https://buy.stripe.com/example2', 30),
-    ('Poster Édition Limitée', 'Poster format A2 édition limitée', 15, ARRAY['collectible', 'limited_edition'], 'https://buy.stripe.com/example3', 0);
+    ('T-Shirt Lavabowfr', 'T-shirt officiel avec logo Lavabowfr', 25, ARRAY['clothing', 'new'], 'https://buy.stripe.com/example1', false),
+    ('Casquette Brodée', 'Casquette snapback avec logo brodé', 20, ARRAY['clothing', 'accessories'], 'https://buy.stripe.com/example2', false),
+    ('Poster Édition Limitée', 'Poster format A2 édition limitée', 15, ARRAY['collectible', 'limited_edition'], 'https://buy.stripe.com/example3', true);
 
 -- Insert test user
 insert into auth.users (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, raw_app_meta_data, raw_user_meta_data, created_at, updated_at, confirmation_token, recovery_token, email_change_token_new, email_change)

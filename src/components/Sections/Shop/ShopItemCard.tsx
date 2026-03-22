@@ -1,7 +1,7 @@
 import LavaButton from '@/components/Design/LavaButton';
 import LavaTypo from '@/components/Design/LavaTypo'
 import { MerchItem } from '@/utils/supabase/shop';
-import { Box, Flex, Badge } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 import { Link } from 'react-router';
 
 export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, isAdminView: boolean }) {
@@ -33,18 +33,6 @@ export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, i
           gap={2}
           width={'fit-content'}
         >
-          {item.quantity === 0 && (
-            <Badge 
-              variant="solid" 
-              colorPalette="red"
-              style={{
-                padding: '4px 6px',
-                borderRadius: '100px',
-              }}
-            >
-              Out of Stock
-            </Badge>
-          )}
           {item.tags?.map((tag, index) => (
             <span key={index}
               style={{
@@ -59,11 +47,34 @@ export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, i
           ))}
         </Box>
 
-        <img
-          src={item.image_url || 'https://placehold.co/300x300'}
-          alt={item.name}
-          style={{ width: '100%', height: '300px', objectFit: 'cover' }}
-        />
+        <Box
+          position={'relative'}
+        >
+          {item.out_of_stock && (
+            <LavaTypo
+              variant='h4'
+              color='white'
+              style={{
+                fontWeight: 'normal',
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                backgroundColor: 'var(--Background-bg-brand)',
+                padding: '8px 8px',
+                borderRadius: '4px',
+                zIndex: 1
+              }}
+            >
+              HORS STOCK
+            </LavaTypo>
+          )}
+          <img
+            src={item.image_url || 'https://placehold.co/300x300'}
+            alt={item.name}
+            style={{ width: '100%', height: '300px', objectFit: 'cover' }}
+          />
+        </Box>
 
         <Flex justifyContent={'space-between'} gap={4} textWrap={'balance'}>
           <LavaTypo variant='h3' color='var(--main-accent)' style={{ fontWeight: 'normal' }}>{item.name}</LavaTypo>
@@ -75,9 +86,9 @@ export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, i
 
       <LavaButton
         variant='filled'
-        disabled={isAdminView || item.quantity === 0}
+        disabled={isAdminView || item.out_of_stock}
       >
-        {item.quantity === 0 ? (
+        {item.out_of_stock ? (
           <span style={{ textDecoration: 'none', color: 'inherit' }}>
             Out of Stock
           </span>

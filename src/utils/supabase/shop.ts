@@ -7,7 +7,7 @@ export interface MerchItem {
   price: number | string;
   tags: string[];
   stripe_paylink: string;
-  quantity: number;
+  out_of_stock: boolean;
   image_url?: string;
 }
 
@@ -21,6 +21,7 @@ export async function fetchMerchItems(): Promise<MerchItem[]> {
       console.error('Error fetching merch items:', error);
       return [];
     }
+    console.log('Fetched merch items:', merch_items);
     return (merch_items || []).map(item => ({
       ...item,
       tags: Array.isArray(item.tags) ? item.tags : []
@@ -41,7 +42,7 @@ export async function updateMerchItem(item: MerchItem): Promise<boolean> {
         price: item.price,
         tags: item.tags,
         stripe_paylink: item.stripe_paylink,
-        quantity: item.quantity,
+        out_of_stock: item.out_of_stock,
         image_url: item.image_url
       })
       .eq('id', item.id);
@@ -66,7 +67,7 @@ export async function addMerchItem(item: Omit<MerchItem, 'id'>): Promise<boolean
         price: item.price,
         tags: item.tags,
         stripe_paylink: item.stripe_paylink,
-        quantity: item.quantity,
+        out_of_stock: item.out_of_stock,
         image_url: item.image_url
       }]);
     if (error) {
