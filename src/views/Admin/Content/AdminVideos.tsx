@@ -114,7 +114,7 @@ export default function AdminVideos({ open, setOpen }: { open: boolean, setOpen:
   )
 
   async function fetchVideoContent() {
-    let { data, error } = await supabase
+    const { data, error } = await supabase
       .from('section_videos')
       .select('*')
       .order('order', { ascending: true });
