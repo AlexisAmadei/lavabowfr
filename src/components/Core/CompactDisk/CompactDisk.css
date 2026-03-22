@@ -30,7 +30,7 @@
     animation: rotate-clockwise 20s linear infinite;
 
     /* Album cover background */
-    background: url('../../../assets/img/music/cd-cover.jpg') center/cover no-repeat;
+    background: url('../../../assets/img/music/cover_grief.webp') center/cover no-repeat;
 }
 
 .cd::before {
