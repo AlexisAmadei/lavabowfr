@@ -20,7 +20,7 @@ type SpotlightItem = {
 
 export default function Spotlight() {
   const isMobile = useIsMobile();
-  const mP = isMobile ? '12px 24px' : '12px 32px';
+  const mP = isMobile ? '8px 12px' : '12px 32px';
 
   const [timer, setTimer] = React.useState(0)
   const [spotlightData, setSpotlightData] = React.useState<SpotlightItem[]>([])
@@ -66,7 +66,7 @@ export default function Spotlight() {
 
   return (
     <Flex className='spotlight'
-      direction={'row'}
+      direction={isMobile ? 'column' : 'row'}
       alignItems={isMobile ? 'center' : 'center'}
       width={'100%'}
       justifyContent={'space-between'}
@@ -81,8 +81,21 @@ export default function Spotlight() {
           transition={{ duration: 0.5, ease: "easeInOut" }}
           style={{ display: 'flex', flexDirection: 'column', alignItems: isMobile ? 'center' : 'flex-start' }}
         >
-          <LavaTypo variant={'h2'} textAlign={isMobile ? 'center' : 'left'} styles={{ marginBottom: isMobile ? '8px' : '' }}>{activeContent?.title}</LavaTypo>
-          <LavaTypo variant={'p'} styles={{ marginBottom: !isMobile ? '24px' : '' }}>{activeContent?.subtitle}</LavaTypo>
+          <LavaTypo
+            variant={'h2'}
+            textAlign={isMobile ? 'center' : 'left'}
+            size={!isMobile ? '50px' : '28px'}
+            styles={{ marginBottom: isMobile ? '8px' : '' }}
+          >
+            {activeContent?.title}
+          </LavaTypo>
+          <LavaTypo
+            variant={'p'}
+            size={!isMobile ? '20px' : '16px'}
+            styles={{ marginBottom: !isMobile ? '24px' : '' }}
+          >
+            {activeContent?.subtitle}
+          </LavaTypo>
         </motion.div>
       </AnimatePresence>
 
