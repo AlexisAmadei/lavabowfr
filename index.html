@@ -52,15 +52,19 @@
 
 <body>
     <script>
-        window.op = window.op || function () { var n = []; return new Proxy(function () { arguments.length && n.push([].slice.call(arguments)) }, { get: function (t, r) { return "q" === r ? n : function () { n.push([r].concat([].slice.call(arguments))) } }, has: function (t, r) { return "q" === r } }) }();
-        window.op('init', {
-            clientId: '2837d323-ef60-4b8b-9ccd-d3d49c515d60',
-            trackScreenViews: true,
-            trackOutgoingLinks: true,
-            trackAttributes: true,
-        });
-</script>
-<script src="https://openpanel.dev/op1.js" defer async></script>
+      window.op=window.op||function(){var n=[];return new Proxy(function(){arguments.length&&n.push([].slice.call(arguments))},{get:function(t,r){return"q"===r?n:function(){n.push([r].concat([].slice.call(arguments)))}} ,has:function(t,r){return"q"===r}}) }();
+      window.op('init', {
+	    apiUrl: 'https://openpanel.alexisamadei.fr/api',
+        clientId: 'eadad13b-ea23-4990-8c6d-4ac5c27349cb',
+        trackScreenViews: true,
+        trackOutgoingLinks: true,
+        trackAttributes: true,
+        // sessionReplay: {
+        //   enabled: true,
+        // },
+      });
+    </script>
+    <script src="https://openpanel.dev/op1.js" defer async></script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     <script src="https://kit.fontawesome.com/36211f5750.js" crossorigin="anonymous" defer></script>
