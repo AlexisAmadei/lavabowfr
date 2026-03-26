@@ -3,11 +3,12 @@ import AdminMerchandise from "@/views/Admin/Content/AdminMerchandise";
 import AdminUsers from "@/views/Admin/AdminUsers/AdminUsers";
 import CloudStatus from "@/views/Admin/CloudStatus/CloudStatus";
 import { Box, Flex, Text } from "@chakra-ui/react";
-import { faCloud, faDatabase, faShoppingCart, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faCloud, faCube, faDatabase, faShoppingCart, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Link } from "react-router";
 import useIsMobile from "@/hooks/useIsMobile";
+import AdminGlobalVars from "@/views/Admin/Content/AdminGlobalVars";
 
 export default function AdminMenuItems() {
   const menuItems = [
@@ -28,6 +29,12 @@ export default function AdminMenuItems() {
       icon: <FontAwesomeIcon icon={faShoppingCart} />,
       path: '/admin/dashboard/merchandise',
       component: AdminMerchandise
+    },
+    {
+      label: 'Global Variables',
+      icon: <FontAwesomeIcon icon={faCube} />,
+      path: '/admin/dashboard/global-vars',
+      component: AdminGlobalVars
     },
     {
       label: 'Cloud Status',

@@ -3,6 +3,7 @@ import { RouteObject } from 'react-router';
 import Landing from '../views/Landing';
 import NotFound from '../views/NotFound';
 import LazyRoute from './LazyRoute';
+import AdminGlobalVars from '@/views/Admin/Content/AdminGlobalVars';
 
 // Lazy load admin components
 const AdminLayout = lazy(() => import('../Layouts/AdminLayout'));
@@ -54,6 +55,10 @@ export const routes: RouteObject[] = [
             path: 'supabase-status',
             element: <LazyRoute component={CloudStatus} />,
           },
+          {
+            path: 'global-vars',
+            element: <LazyRoute component={AdminGlobalVars} />,
+          }
         ],
       },
     ],

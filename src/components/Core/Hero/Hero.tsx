@@ -5,9 +5,11 @@ import useIsMobile from '../../../hooks/useIsMobile'
 import MobileAppBar from '../AppBar/MobileAppBar'
 import MediaLinks from '../AppBar/MediaLinks'
 import ReactPlayer from 'react-player'
+import { useGetGlobalVar } from '@/hooks/useGetGlobalVar'
 
 export default function Hero() {
   const isMobile = useIsMobile();
+  const heroVideoUrl = useGetGlobalVar('HERO_VIDEO_URL') || '';
 
   return (
     <div className='landing-hero'
@@ -27,7 +29,7 @@ export default function Hero() {
         zIndex: 0,
       }}>
         <ReactPlayer
-          src={isMobile ? 'https://www.youtube.com/shorts/M123B5fSJmY' : 'https://youtu.be/HGwAhmrsR9w'}
+          src={isMobile ? 'https://www.youtube.com/shorts/M123B5fSJmY' : heroVideoUrl}
           playing
           loop
           muted

@@ -4,6 +4,7 @@ import { BrowserRouter, useRoutes } from 'react-router'
 import './index.css'
 import { ChakraProvider, defaultSystem } from '@chakra-ui/react'
 import { routes } from './routes/routes'
+import { GlobalVarProvider } from './contexts/GlobalContext'
 
 // Lazy load analytics to prevent blocking FCP
 const Analytics = lazy(() => import('@vercel/analytics/react').then(m => ({ default: m.Analytics })));
@@ -17,13 +18,16 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <ChakraProvider value={defaultSystem}>
-        <App />
 
-        {/* Load analytics after initial render */}
+        <GlobalVarProvider>
+          <App />
+        </GlobalVarProvider>
+
         <Suspense fallback={null}>
           <Analytics />
           <SpeedInsights />
         </Suspense>
+
       </ChakraProvider>
     </BrowserRouter>
   </StrictMode>,
