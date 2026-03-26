@@ -1,4 +1,3 @@
-import React from 'react'
 import { Box, Flex } from '@chakra-ui/react'
 import Spotlight from './Spotlight'
 import HeroTypo from '@/components/Design/HeroTypo'
@@ -28,7 +27,7 @@ export default function Hero() {
         zIndex: 0,
       }}>
         <ReactPlayer
-          src={isMobile ? 'https://www.youtube.com/shorts/M123B5fSJmY' : 'https://youtu.be/thG_gKBKQaI?si=VRd1JT5lHuoBDqbs'}
+          src={isMobile ? 'https://www.youtube.com/shorts/M123B5fSJmY' : 'https://youtu.be/HGwAhmrsR9w'}
           playing
           loop
           muted
