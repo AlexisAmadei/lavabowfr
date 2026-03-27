@@ -52,17 +52,17 @@
 
 <body>
     <script>
-      window.op=window.op||function(){var n=[];return new Proxy(function(){arguments.length&&n.push([].slice.call(arguments))},{get:function(t,r){return"q"===r?n:function(){n.push([r].concat([].slice.call(arguments)))}} ,has:function(t,r){return"q"===r}}) }();
-      window.op('init', {
-	    apiUrl: 'https://openpanel.alexisamadei.fr/api',
-        clientId: 'eadad13b-ea23-4990-8c6d-4ac5c27349cb',
-        trackScreenViews: true,
-        trackOutgoingLinks: true,
-        trackAttributes: true,
-        // sessionReplay: {
-        //   enabled: true,
-        // },
-      });
+        window.op = window.op || function () { var n = []; return new Proxy(function () { arguments.length && n.push([].slice.call(arguments)) }, { get: function (t, r) { return "q" === r ? n : function () { n.push([r].concat([].slice.call(arguments))) } }, has: function (t, r) { return "q" === r } }) }();
+        window.op('init', {
+            apiUrl: 'https://openpanel.alexisamadei.fr/api',
+            clientId: '4164c241-6ab4-404b-8eed-d1b96ca816d9',
+            trackScreenViews: true,
+            trackOutgoingLinks: true,
+            trackAttributes: true,
+            // sessionReplay: {
+            //   enabled: true,
+            // },
+        });
     </script>
     <script src="https://openpanel.dev/op1.js" defer async></script>
     <div id="root"></div>
