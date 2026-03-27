@@ -8,6 +8,7 @@ export interface MerchItem {
   tags: string[];
   stripe_paylink: string;
   out_of_stock: boolean;
+  status: 'ACTIVE' | 'INACTIVE';
   image_url?: string;
 }
 
@@ -43,6 +44,7 @@ export async function updateMerchItem(item: MerchItem): Promise<boolean> {
         tags: item.tags,
         stripe_paylink: item.stripe_paylink,
         out_of_stock: item.out_of_stock,
+        status: item.status,
         image_url: item.image_url
       })
       .eq('id', item.id);
@@ -68,6 +70,7 @@ export async function addMerchItem(item: Omit<MerchItem, 'id'>): Promise<boolean
         tags: item.tags,
         stripe_paylink: item.stripe_paylink,
         out_of_stock: item.out_of_stock,
+        status: item.status,
         image_url: item.image_url
       }]);
     if (error) {

@@ -3,7 +3,7 @@ import LavaTypo from "@/components/Design/LavaTypo";
 import ShopDialog from "@/components/Sections/Shop/ShopDialog";
 import ShopItemCard from "@/components/Sections/Shop/ShopItemCard";
 import { fetchMerchItems, MerchItem, updateMerchItem } from "@/utils/supabase/shop";
-import { Box, Flex, IconButton } from "@chakra-ui/react";
+import { Box, Flex, IconButton, Switch } from "@chakra-ui/react";
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
@@ -25,6 +25,7 @@ export default function AdminMerchandise() {
     tags: [],
     stripe_paylink: '',
     out_of_stock: false,
+    status: 'INACTIVE',
   });
 
   const handleOpenDialog = (item?: MerchItem | null) => {
@@ -42,6 +43,7 @@ export default function AdminMerchandise() {
         tags: item.tags || [],
         stripe_paylink: item.stripe_paylink,
         out_of_stock: item.out_of_stock,
+        status: item.status,
       });
     }
   }
@@ -63,6 +65,7 @@ export default function AdminMerchandise() {
       tags: updatedData?.tags ?? (formData.tags || []),
       stripe_paylink: updatedData?.stripe_paylink ?? formData.stripe_paylink,
       out_of_stock: updatedData?.out_of_stock ?? formData.out_of_stock,
+      status: updatedData?.status ?? formData.status,
       image_url: updatedData?.image_url ?? formData.image_url
     };
     const success = await updateMerchItem(updatedItem);
@@ -82,7 +85,19 @@ export default function AdminMerchandise() {
       tags: [],
       stripe_paylink: '',
       out_of_stock: false,
+      status: 'INACTIVE',
     });
+  };
+
+  const handleStatusToggle = async (item: MerchItem, checked: boolean) => {
+    const nextStatus = checked ? 'ACTIVE' : 'INACTIVE';
+    const success = await updateMerchItem({ ...item, status: nextStatus });
+
+    if (!success) return;
+
+    setMerchItems((prev) => prev.map((merchItem) =>
+      merchItem.id === item.id ? { ...merchItem, status: nextStatus } : merchItem
+    ));
   };
 
   async function fetchData() {
@@ -106,6 +121,20 @@ export default function AdminMerchandise() {
             <IconButton aria-label="Edit item" position={'absolute'} top={0} left={0} zIndex={1} borderRadius={'full'} onClick={() => handleOpenDialog(item)}>
               <FontAwesomeIcon icon={faPen} />
             </IconButton>
+
+            <Box position={'absolute'} top={0} right={0} zIndex={1} backgroundColor={'white'} borderRadius={'md'} px={2} py={1}>
+              <Switch.Root
+                checked={item.status === 'ACTIVE'}
+                onCheckedChange={(details) => handleStatusToggle(item, details.checked)}
+                size={'sm'}
+                colorPalette={item.status === 'ACTIVE' ? 'green' : 'gray'}
+              >
+                <Switch.HiddenInput />
+                <Switch.Control />
+                <Switch.Label>{item.status === 'ACTIVE' ? 'Active' : 'Inactive'}</Switch.Label>
+              </Switch.Root>
+            </Box>
+
             <ShopItemCard item={item} isAdminView={true} />
           </Box>
         ))}

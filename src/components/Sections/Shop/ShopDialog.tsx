@@ -136,6 +136,7 @@ export default function ShopDialog({
           tags: formData.tags,
           stripe_paylink: formData.stripe_paylink,
           out_of_stock: formData.out_of_stock,
+          status: formData.status,
           image_url: imageUrl
         });
         handleOpenDialog();
