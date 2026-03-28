@@ -8,15 +8,22 @@ export interface MerchItem {
   tags: string[];
   stripe_paylink: string;
   out_of_stock: boolean;
-  status: 'ACTIVE' | 'INACTIVE';
+  status: 'ACTIVE' | 'INACTIVE' | 'DELETED';
   image_url?: string;
 }
 
-export async function fetchMerchItems(): Promise<MerchItem[]> {
+export async function fetchMerchItems(activeOnly?: boolean): Promise<MerchItem[]> {
   try {
-    const { data: merch_items, error } = await supabase
+    let query = supabase
       .from('merch_items')
-      .select('*');
+      .select('*')
+      .neq('status', 'DELETED')
+
+    if (activeOnly) {
+      query = query.eq('status', 'ACTIVE');
+    }
+
+    const { data: merch_items, error } = await query;
 
     if (error) {
       console.error('Error fetching merch items:', error);

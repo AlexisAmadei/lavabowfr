@@ -12,7 +12,7 @@ export default function Shop() {
 
   useEffect(() => {
     async function loadItems() {
-      const merchItems = await fetchMerchItems()
+      const merchItems = await fetchMerchItems(true);
       setItems(merchItems)
     }
     loadItems()

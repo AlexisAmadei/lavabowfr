@@ -96,6 +96,29 @@ export default function ShopDialog({
     setFormData({ ...formData, image_url: undefined });
   };
 
+  async function handleDeleteAction() {
+    if (editDialogOpen.type !== 'edit' || !itemIdToEdit) return;
+
+    setIsUploading(true);
+    try {
+      await handleFormUpdate(itemIdToEdit, { status: 'DELETED' });
+      toaster.create({
+        title: 'Article supprimé',
+        description: 'L\'article a été marqué comme supprimé.',
+        type: 'success',
+      });
+      onClose();
+    } catch {
+      toaster.create({
+        title: 'Suppression impossible',
+        description: 'Une erreur est survenue pendant la suppression.',
+        type: 'error',
+      });
+    } finally {
+      setIsUploading(false);
+    }
+  }
+
   async function handleSubmitAction() {
     setIsUploading(true);
     try {
@@ -158,7 +181,7 @@ export default function ShopDialog({
               {dialogType === 'add' ? 'Ajouter un article' : 'Modifier l\'article'}
             </LavaTypo>
 
-            <Stack gap="4" align="flex-start" maxW="sm">
+            <Stack gap="4" align="flex-start" maxW="sm" width={'100%'}>
               <Field.Root>
                 <Field.Label>Article</Field.Label>
                 <Input placeholder="Titre de l'article" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
@@ -237,9 +260,21 @@ export default function ShopDialog({
                 )}
               </Field.Root>
 
-              <Button onClick={handleSubmitAction} disabled={!formValidation() || isUploading}>
-                {isUploading ? 'Uploading...' : editDialogOpen.type === 'add' ? 'Add' : 'Submit'}
-              </Button>
+              <Flex
+                width={'100%'}
+                justifyContent={'space-between'}
+              >
+                <Button onClick={handleSubmitAction} disabled={!formValidation() || isUploading}>
+                  {isUploading ? 'Uploading...' : editDialogOpen.type === 'add' ? 'Add' : 'Submit'}
+                </Button>
+                <Button
+                  onClick={handleDeleteAction}
+                  disabled={editDialogOpen.type !== 'edit' || isUploading}
+                >
+                  Supprimer
+                </Button>
+              </Flex>
+
             </Stack>
           </Flex>
         </Dialog.Content>
