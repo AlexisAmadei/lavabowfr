@@ -15,7 +15,7 @@
     transform: scale(1.02) !important;
 }
 
-.lava-button .app-bar__icon-on-hover {
+.lava-button.app-bar__icon-on-hover {
     display: inline-flex;
     align-items: center;
     opacity: 0;
@@ -27,7 +27,7 @@
     overflow: hidden;
 }
 
-.lava-button:hover .app-bar__icon-on-hover {
+.lava-button:hover.app-bar__icon-on-hover {
     opacity: 1;
     transform: translateX(0);
     pointer-events: auto;

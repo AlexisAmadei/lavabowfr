@@ -1,4 +1,4 @@
-import CompactAppBar from '@/components/Core/AppBar/CompactAppBar'
+import AppBar from '@/components/Core/AppBar/AppBar'
 import LavaTypo from '@/components/Design/LavaTypo'
 import Contact from '@/components/Sections/Contact'
 import Footer from '@/components/Sections/Footer'
@@ -28,7 +28,8 @@ export default function Shop() {
       p={0}
       paddingTop={100}
     >
-      <CompactAppBar />
+      {/* <CompactAppBar /> */}
+      <AppBar />
       <Flex
         direction={'column'}
         alignItems={'center'}

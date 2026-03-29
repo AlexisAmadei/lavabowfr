@@ -1,11 +1,11 @@
-import { ElementType } from 'react'
+import { ElementType, useEffect } from 'react'
 import LavaButton from '@/components/Design/LavaButton'
 import { Box, Flex } from '@chakra-ui/react'
 import menuItems from '@/lib/menuItems'
 import { scrollToSection } from '@/utils/navigation'
 import MediaLinks from './MediaLinks'
 import useIsMobile from '@/hooks/useIsMobile'
-import { useNavigate } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 import { SubMenu } from './SubMenus'
 import './AppBar.css'
 import Logo from '@/components/Design/Logo'
@@ -16,6 +16,9 @@ import Player from '@/components/Design/Player'
 export default function AppBar() {
   const isMobile = useIsMobile(1250);
   const navigate = useNavigate();
+  const path = useLocation();
+  const normalizeRoute = (route: string) => route === '/' ? '/' : route.replace(/^\/+|\/+$/g, '');
+  const currentRoute = normalizeRoute(path.pathname);
 
   const handleNav = (link: string) => {
     if (link.startsWith('#')) {
@@ -24,6 +27,11 @@ export default function AppBar() {
       navigate(link)
     }
   }
+
+  useEffect(() => {
+    console.log('Current path:', path.pathname.slice(1));
+    console.log('Menu items:', menuItems);
+  }, [path])
 
   return (
     <Flex className='app-bar'
@@ -64,7 +72,7 @@ export default function AppBar() {
         <Box display={'inline-flex'} gap={4} alignItems={'center'}>
           {menuItems.map(item => {
             const Icon = (('endIcon' in item && item.endIcon) ? item.endIcon : item.icon) as ElementType | undefined;
-            if (!item.subItems) {
+            if (!item.subItems && normalizeRoute(item.link) !== currentRoute) {
               return (
                 <LavaButton
                   key={item.name}

@@ -17,6 +17,11 @@ const menuItems: MenuItem[] = [
     icon: () => <FontAwesomeIcon icon={faArrowRightLong} />
   },
   {
+    name: 'Accueil',
+    link: '/',
+    variant: 'outlined',
+  },
+  {
     name: 'Lava Shop',
     link: 'shop',
     variant: 'outlined',
