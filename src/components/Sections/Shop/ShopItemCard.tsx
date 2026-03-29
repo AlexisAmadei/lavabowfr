@@ -1,5 +1,6 @@
 import LavaButton from '@/components/Design/LavaButton';
 import LavaTypo from '@/components/Design/LavaTypo'
+import { op } from '@/lib/openpanel';
 import { MerchItem } from '@/utils/supabase/shop';
 import { Box, Flex } from '@chakra-ui/react'
 import { Link } from 'react-router';
@@ -97,6 +98,7 @@ export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, i
             target='_blank'
             to={item.stripe_paylink}
             style={{ textDecoration: 'none', color: 'inherit' }}
+            onClick={() => op.track(`shop_item`, { itemName: item.name })}
           >
             Acheter
           </Link>
