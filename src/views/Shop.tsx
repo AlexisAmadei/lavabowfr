@@ -4,11 +4,18 @@ import Contact from '@/components/Sections/Contact'
 import Footer from '@/components/Sections/Footer'
 import ShopItemCard from '@/components/Sections/Shop/ShopItemCard'
 import { fetchMerchItems, MerchItem } from '@/utils/supabase/shop'
-import { Box, Container, Flex, Grid } from '@chakra-ui/react'
+import { Box, Checkbox, Container, Flex, Grid } from '@chakra-ui/react'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useEffect, useState } from 'react'
 
 export default function Shop() {
   const [items, setItems] = useState<MerchItem[]>([])
+  const [inStockOnly, setInStockOnly] = useState(false)
+
+  const filteredItems = inStockOnly
+    ? items.filter((item) => !item.out_of_stock)
+    : items
 
   useEffect(() => {
     async function loadItems() {
@@ -36,9 +43,26 @@ export default function Shop() {
       >
         <LavaTypo variant='h1' textAlign='center'>Soutiens nous, en étant trop stylé</LavaTypo>
 
+        <Flex
+          direction={'row'}
+          mt={6}
+          borderRadius={'sm'}
+          backgroundColor={'white'}
+          padding={3}
+        >
+          <Checkbox.Root
+            checked={inStockOnly}
+            onCheckedChange={(e) => setInStockOnly(!!e.checked)}
+          >
+            <Checkbox.HiddenInput />
+            <Checkbox.Control />
+            <Checkbox.Label color={'black'}>Disponible seulement</Checkbox.Label>
+          </Checkbox.Root>
+        </Flex>
+
         <Grid templateColumns={{ base: '1fr', md: '1fr 1fr 1fr 1fr' }} gap={4} mt={10} px={16}>
-          {items.length > 0 ? (
-            items.map((item, index) => (
+          {filteredItems.length > 0 ? (
+            filteredItems.map((item, index) => (
               <ShopItemCard key={index} item={item} isAdminView={false} />
             ))
           ) : (
