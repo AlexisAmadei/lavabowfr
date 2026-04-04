@@ -1,6 +1,6 @@
 import LavaTypo from '@/components/Design/LavaTypo'
-import { addMerchItem, MerchItem, uploadMerchImage, deleteMerchImage } from '@/utils/supabase/shop'
-import { Button, Dialog, Field, Flex, Input, Stack, Text, FileUpload, Image, Checkbox } from '@chakra-ui/react'
+import { addMerchItem, MerchItem, uploadMerchImage, deleteMerchImage, MerchCategory, fetchMerchCategories } from '@/utils/supabase/shop'
+import { Button, Dialog, Field, Flex, Input, Stack, Text, FileUpload, Image, Checkbox, Select, createListCollection, Portal } from '@chakra-ui/react'
 import React, { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUpload, faXmark } from '@fortawesome/free-solid-svg-icons'
@@ -30,6 +30,7 @@ export default function ShopDialog({
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [categories, setCategories] = useState<MerchCategory[]>([]);
   // const [isOutOfStock, setIsOutOfStock] = useState(formData.out_of_stock || false);
 
   // Update preview when dialog opens or formData changes
@@ -37,8 +38,15 @@ export default function ShopDialog({
     if (editDialogOpen.open) {
       setImagePreview(formData.image_url || null);
       setSelectedImage(null);
+      // Fetch categories when dialog opens
+      fetchCategories();
     }
   }, [editDialogOpen.open, formData.image_url]);
+
+  const fetchCategories = async () => {
+    const fetchedCategories = await fetchMerchCategories();
+    setCategories(fetchedCategories);
+  };
 
   // Validate image file
   const validateImage = (file: File): string | null => {
@@ -160,7 +168,8 @@ export default function ShopDialog({
           stripe_paylink: formData.stripe_paylink,
           out_of_stock: formData.out_of_stock,
           status: formData.status,
-          image_url: imageUrl
+          image_url: imageUrl,
+          category: formData.category
         });
         handleOpenDialog();
       }
@@ -200,6 +209,43 @@ export default function ShopDialog({
               <Field.Root>
                 <Field.Label>Tags</Field.Label>
                 <Input placeholder="Tags" value={formData.tags?.join(', ') ?? ''} onChange={(e) => setFormData({ ...formData, tags: e.target.value.trim() === '' ? [] : e.target.value.split(',').map(tag => tag.trim()) })} />
+              </Field.Root>
+
+              <Field.Root>
+                <Field.Label>Catégorie</Field.Label>
+                <Select.Root
+                  collection={createListCollection({
+                    items: categories,
+                    itemToString: (item) => item.name,
+                    itemToValue: (item) => String(item.id),
+                  })}
+                  size="sm"
+                  width="100%"
+                  value={formData.category ? [String(formData.category)] : []}
+                  onValueChange={(e) => setFormData({ ...formData, category: e.value ? Number(e.value[0]) : undefined })}
+                >
+                  <Select.HiddenSelect />
+                  <Select.Control>
+                    <Select.Trigger>
+                      <Select.ValueText placeholder="Sélectionner une catégorie" />
+                    </Select.Trigger>
+                    <Select.IndicatorGroup>
+                      <Select.Indicator />
+                    </Select.IndicatorGroup>
+                  </Select.Control>
+                  <Portal>
+                    <Select.Positioner>
+                      <Select.Content>
+                        {categories.map((category) => (
+                          <Select.Item item={category} key={category.id}>
+                            {category.name}
+                            <Select.ItemIndicator />
+                          </Select.Item>
+                        ))}
+                      </Select.Content>
+                    </Select.Positioner>
+                  </Portal>
+                </Select.Root>
               </Field.Root>
 
               <Field.Root>
