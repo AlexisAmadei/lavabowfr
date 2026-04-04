@@ -237,7 +237,7 @@ export default function ShopDialog({
                     <Select.Positioner>
                       <Select.Content>
                         {categories.map((category) => (
-                          <Select.Item item={category} key={category.id}>
+                          <Select.Item item={category} key={category.id} color={'black'}>
                             {category.name}
                             <Select.ItemIndicator />
                           </Select.Item>

@@ -16,6 +16,7 @@ export interface MerchItem {
 export interface MerchCategory {
   id: number;
   name: string;
+  order?: number;
 }
 
 export async function fetchMerchItems(activeOnly?: boolean): Promise<MerchItem[]> {
@@ -35,7 +36,6 @@ export async function fetchMerchItems(activeOnly?: boolean): Promise<MerchItem[]
       console.error('Error fetching merch items:', error);
       return [];
     }
-    console.log('Fetched merch items:', merch_items);
     return (merch_items || []).map(item => ({
       ...item,
       tags: Array.isArray(item.tags) ? item.tags : []
@@ -172,7 +172,7 @@ export async function fetchMerchCategories(): Promise<MerchCategory[]> {
     const { data: categories, error } = await supabase
       .from('merch_categories')
       .select('*')
-      .order('name', { ascending: true });
+      .order('order', { ascending: true });
 
     if (error) {
       console.error('Error fetching categories:', error);
@@ -188,9 +188,27 @@ export async function fetchMerchCategories(): Promise<MerchCategory[]> {
 
 export async function addMerchCategory(name: string): Promise<boolean> {
   try {
+    // Get the current highest order number
+    const { data: categories, error: fetchError } = await supabase
+      .from('merch_categories')
+      .select('order')
+      .order('order', { ascending: false })
+      .limit(1);
+
+    if (fetchError) {
+      console.error('Error fetching categories for order:', fetchError);
+      return false;
+    }
+
+    // Calculate the next order number
+    const nextOrder = (categories && categories.length > 0 && categories[0].order !== null)
+      ? (categories[0].order as number) + 1
+      : 0;
+
+    // Insert new category with the next order
     const { error } = await supabase
       .from('merch_categories')
-      .insert([{ name }]);
+      .insert([{ name, order: nextOrder }]);
 
     if (error) {
       console.error('Error adding category:', error);
@@ -238,6 +256,48 @@ export async function deleteMerchCategory(id: number): Promise<boolean> {
     return true;
   } catch (error) {
     console.error('Unexpected error deleting category:', error);
+    return false;
+  }
+}
+
+export async function updateCategoryOrder(categories: MerchCategory[]): Promise<boolean> {
+  try {
+    console.log('updateCategoryOrder called with categories:', categories);
+    
+    const updates = categories.map((category, index) => ({
+      id: category.id,
+      order: index
+    }));
+
+    console.log('Updates to be applied:', updates);
+
+    for (const update of updates) {
+      console.log(`Updating category id ${update.id} with order ${update.order}`);
+      
+      const { error, data, status } = await supabase
+        .from('merch_categories')
+        .update({ order: update.order })
+        .eq('id', update.id)
+        .select();
+
+      console.log(`Update response for id ${update.id}:`, { error, data, status });
+
+      if (error) {
+        console.error(`Error updating category id ${update.id}:`, error);
+        return false;
+      }
+      
+      if (!data || data.length === 0) {
+        console.warn(`No rows updated for category id ${update.id}. This might indicate an RLS policy issue.`);
+      }
+      
+      console.log(`Successfully updated category id ${update.id}`);
+    }
+
+    console.log('All category orders updated successfully');
+    return true;
+  } catch (error) {
+    console.error('Unexpected error updating category order:', error);
     return false;
   }
 }

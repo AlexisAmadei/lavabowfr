@@ -3,9 +3,10 @@ import LavaButton from "@/components/Design/LavaButton";
 import LavaTypo from "@/components/Design/LavaTypo";
 import ShopDialog from "@/components/Sections/Shop/ShopDialog";
 import ShopItemCard from "@/components/Sections/Shop/ShopItemCard";
+import CategoryDialog from "@/components/Sections/Shop/CategoryDialog";
 import { fetchMerchItems, MerchItem, updateMerchItem, MerchCategory, fetchMerchCategories, addMerchCategory, updateMerchCategory, deleteMerchCategory } from "@/utils/supabase/shop";
-import { Box, Button, Flex, IconButton, Switch, Dialog, Input, Editable } from "@chakra-ui/react";
-import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { Box, Button, Flex, IconButton, Switch } from "@chakra-ui/react";
+import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 
@@ -168,99 +169,16 @@ export default function AdminMerchandise() {
       </Flex>
 
       {/* Category Dialog */}
-      <Dialog.Root open={categoryDialogOpen} onOpenChange={(details) => setCategoryDialogOpen(details.open)}>
-        <Dialog.Backdrop />
-        <Dialog.Positioner>
-          <Dialog.Content>
-            <Dialog.Header>
-              <Dialog.Title>Manage Categories</Dialog.Title>
-            </Dialog.Header>
-            <Dialog.Body>
-              <Flex direction={'column'} gap={4}>
-                {/* Add New Category */}
-                <Flex direction={'column'} gap={2}>
-                  <label htmlFor="category-name" style={{ color: 'black', fontWeight: 'bold' }}>
-                    Add New Category
-                  </label>
-                  <Input
-                    id="category-name"
-                    placeholder="Enter category name"
-                    value={categoryFormData.name}
-                    onChange={(e) => setCategoryFormData(prev => ({ ...prev, name: e.target.value }))}
-                    onKeyDown={(e) => e.key === 'Enter' && handleSaveCategory()}
-                    color={'black'}
-                  />
-                  <Button
-                    onClick={handleSaveCategory}
-                    colorScheme="blue"
-                    size="sm"
-                    width={'fit-content'}
-                  >
-                    Add Category
-                  </Button>
-                </Flex>
-
-                {/* Categories List with Editable */}
-                <Box borderTop={'1px solid #ccc'} pt={4}>
-                  <LavaTypo variant="h4">Existing Categories</LavaTypo>
-                  <Flex direction={'column'} gap={2} maxHeight={'300px'} overflowY={'auto'}>
-                    {categories.map(category => (
-                      <Flex key={category.id} justifyContent={'space-between'} alignItems={'center'} p={2} borderBottom={'1px solid #eee'} color={'black'}>
-                        <Editable.Root
-                          value={category.name}
-                          onValueChange={async (details) => {
-                            const success = await updateMerchCategory(category.id, details.value);
-                            if (success) {
-                              setCategories(prev =>
-                                prev.map(cat => cat.id === category.id ? { ...cat, name: details.value } : cat)
-                              );
-                            }
-                          }}
-                          textAlign="start"
-                          flex={1}
-                        >
-                          <Editable.Preview cursor="pointer" />
-                          <Editable.Input />
-                          <Editable.Control>
-                            <Editable.EditTrigger asChild>
-                              <IconButton variant="ghost" size="xs">
-                                <FontAwesomeIcon icon={faPen} />
-                              </IconButton>
-                            </Editable.EditTrigger>
-                            <Editable.CancelTrigger asChild>
-                              <Button variant="outline" size="xs">Cancel</Button>
-                            </Editable.CancelTrigger>
-                            <Editable.SubmitTrigger asChild>
-                              <Button variant="outline" size="xs" colorScheme="green">Save</Button>
-                            </Editable.SubmitTrigger>
-                          </Editable.Control>
-                        </Editable.Root>
-                        <IconButton
-                          aria-label="Delete category"
-                          size="sm"
-                          colorScheme="red"
-                          variant="outline"
-                          onClick={() => handleDeleteCategory(category.id)}
-                        >
-                          <FontAwesomeIcon icon={faTrash} />
-                        </IconButton>
-                      </Flex>
-                    ))}
-                    {categories.length === 0 && (
-                      <p style={{ color: '#999', textAlign: 'center', padding: '1rem' }}>No categories yet</p>
-                    )}
-                  </Flex>
-                </Box>
-              </Flex>
-            </Dialog.Body>
-            <Dialog.Footer>
-              <Button onClick={handleOpenCategoryDialog} colorScheme="gray">
-                Close
-              </Button>
-            </Dialog.Footer>
-          </Dialog.Content>
-        </Dialog.Positioner>
-      </Dialog.Root>
+      <CategoryDialog
+        open={categoryDialogOpen}
+        onOpenChange={setCategoryDialogOpen}
+        categories={categories}
+        categoryFormData={categoryFormData}
+        onCategoryFormDataChange={setCategoryFormData}
+        onSaveCategory={handleSaveCategory}
+        onDeleteCategory={handleDeleteCategory}
+        onUpdateCategory={updateMerchCategory}
+      />
 
       <Box position={'relative'}>
         {/* Group items by category */}
