@@ -6,21 +6,24 @@ import { scrollToSection } from '@/utils/navigation'
 import menuItems from '@/lib/menuItems'
 import MediaLinks from './MediaLinks'
 import Player from '@/components/Design/Player'
+import { useNavigate } from 'react-router'
 
 export default function MobileAppBar() {
   const [open, setOpen] = React.useState(false)
+  const navigate = useNavigate()
 
   const handleMenuToggle = () => {
-    if (open) {
-      setOpen(false)
-    } else {
-      setOpen(true)
-    }
+    setOpen(prev => !prev)
   }
 
   const handleMenuItemClick = (link: string) => {
-    scrollToSection(link)
-    handleMenuToggle()
+    if (link.startsWith('#')) {
+      scrollToSection(link)
+    } else {
+      navigate(link)
+    }
+
+    setOpen(false)
   }
 
   return (
