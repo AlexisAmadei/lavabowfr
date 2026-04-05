@@ -28,11 +28,6 @@ export default function AppBar() {
     }
   }
 
-  useEffect(() => {
-    console.log('Current path:', path.pathname.slice(1));
-    console.log('Menu items:', menuItems);
-  }, [path])
-
   return (
     <Flex className='app-bar'
       as={'nav'}

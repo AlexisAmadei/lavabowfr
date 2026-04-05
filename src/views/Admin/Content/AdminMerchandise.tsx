@@ -46,7 +46,6 @@ export default function AdminMerchandise() {
       type: item ? 'edit' : 'add'
     }));
     if (item) {
-      console.log('Opening dialog for item:', item.out_of_stock);
       setFormData({
         name: item.name,
         description: item.description,

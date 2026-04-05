@@ -34,8 +34,6 @@ export default function AdminPictures({ open, setOpen }: { open: boolean, setOpe
       return
     }
 
-    console.log('Adding picture item with data:', data)
-    // Build a full PictureItem from the partial data with sensible defaults so insertPictureItem receives the expected type.
     const newPictureItem: PictureItem & { img?: File } = {
       title: data.title,
       date: data.date ?? '',

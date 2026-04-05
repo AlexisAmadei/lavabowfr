@@ -283,8 +283,6 @@ export default function AdminVideos({ open, setOpen }: { open: boolean, setOpen:
     }))
 
     try {
-      console.log('Updating video order:', updates)
-
       // Parallel updates instead of sequential
       const results = await Promise.all(
         updates.map((update) =>
@@ -302,11 +300,8 @@ export default function AdminVideos({ open, setOpen }: { open: boolean, setOpen:
         console.error('Update errors:', errors)
         throw new Error(errors[0].error?.message || 'Failed to update order')
       }
-
-      console.log('Video order updated successfully:', results)
     } catch (error) {
       console.error('Erreur lors de la réorganisation des vidéos :', error)
-      // Rollback optimistic update on failure
       setVideoList(previousVideoList)
     }
   }

@@ -82,7 +82,6 @@ export default function Player({ isMobile } : { isMobile?: boolean } = {}) {
         sourceElement.src = currentTrack.audio_link;
 
         audioRef.current.oncanplay = () => {
-          console.log('Media is ready to play');
           setIsPlaying(true);
         };
 
@@ -97,7 +96,7 @@ export default function Player({ isMobile } : { isMobile?: boolean } = {}) {
   }, [currentTrackIndex, playerData]);
 
   if(playerData.length === 0) {
-    return null; // Don't render the player if there's no data
+    return null;
   }
 
   return (
