@@ -37,14 +37,17 @@ export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, i
           flexDirection={'column'}
           gap={2}
           width={'fit-content'}
+          zIndex={9999}
         >
           {item.tags?.map((tag, index) => (
             <span key={index}
               style={{
-                padding: '4px 6px',
+                padding: '4px 8px',
                 borderRadius: '100px',
                 backgroundColor: 'var(--tertiary-accent)',
                 color: 'white',
+                textAlign: 'center',
+                fontSize: '12px'
               }}
             >
               {formatTags(tag)}
