@@ -1,9 +1,11 @@
 import AppBar from '@/components/Core/AppBar/AppBar'
+import MobileAppBar from '@/components/Core/AppBar/MobileAppBar'
 import Divider from '@/components/Design/Divider'
 import LavaTypo from '@/components/Design/LavaTypo'
 import Contact from '@/components/Sections/Contact'
 import Footer from '@/components/Sections/Footer'
 import ShopItemCard from '@/components/Sections/Shop/ShopItemCard'
+import useIsMobile from '@/hooks/useIsMobile'
 import { fetchMerchItems, MerchItem, MerchCategory, fetchMerchCategories } from '@/utils/supabase/shop'
 import { Box, Checkbox, Container, Flex, Button } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
@@ -13,6 +15,7 @@ export default function Shop() {
   const [categories, setCategories] = useState<MerchCategory[]>([])
   const [inStockOnly, setInStockOnly] = useState(false)
   const [selectedCategories, setSelectedCategories] = useState<Set<number>>(new Set())
+  const isMobile = useIsMobile();
 
   const filteredItems = items.filter((item) => {
     const passesStockFilter = !inStockOnly || !item.out_of_stock
@@ -41,8 +44,7 @@ export default function Shop() {
       p={0}
       paddingTop={100}
     >
-      {/* <CompactAppBar /> */}
-      <AppBar />
+      {isMobile ? <MobileAppBar  /> : <AppBar />}
       <Flex
         direction={'column'}
         alignItems={'center'}
