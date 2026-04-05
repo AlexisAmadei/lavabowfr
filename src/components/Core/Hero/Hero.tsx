@@ -29,16 +29,17 @@ export default function Hero() {
         zIndex: 0,
       }}>
         <ReactPlayer
-          src={isMobile ? 'https://www.youtube.com/shorts/M123B5fSJmY' : heroVideoUrl}
+          src={heroVideoUrl}
           playing
           loop
           muted
-          width="100%"
+          width={isMobile ? '177.78vh' : '100%'}
           height="100%"
           style={{
             position: 'absolute',
             top: 0,
-            left: 0,
+            left: isMobile ? '50%' : 0,
+            transform: isMobile ? 'translateX(-50%)' : undefined,
           }}
         />
         {/* Dark overlay for better text readability */}
