@@ -1,11 +1,14 @@
 import LavaButton from '@/components/Design/LavaButton';
 import LavaTypo from '@/components/Design/LavaTypo'
+import useIsMobile from '@/hooks/useIsMobile';
 import { op } from '@/lib/openpanel';
 import { MerchItem } from '@/utils/supabase/shop';
 import { Box, Flex } from '@chakra-ui/react'
 import { Link } from 'react-router';
 
 export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, isAdminView: boolean }) {
+  const isMobile = useIsMobile();
+
   function formatTags(tag: string) {
     return `${tag.charAt(0).toUpperCase()}${tag.slice(1).replace(/_/g, ' ')}`;
   }
@@ -14,7 +17,7 @@ export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, i
     <Flex
       direction={'column'}
       padding={3}
-      height={'550px'}
+      height={isMobile ? '' : '550px'}
       width={'300px'}
       backgroundColor={!isAdminView ? 'white' : 'gray.50'}
       justifyContent={'space-between'}
@@ -24,6 +27,7 @@ export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, i
         gap={2}
         textAlign={'left'}
         position={'relative'}
+        mb={2}
       >
         <Box id="item-tags"
           position={'absolute'}
@@ -82,7 +86,7 @@ export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, i
           <LavaTypo variant='h3' color='var(--main-accent)'>{item.price}€</LavaTypo>
         </Flex>
 
-        <LavaTypo color='gray'>{item.description}</LavaTypo>
+        <LavaTypo color='gray' style={{ textAlign: 'left'}}>{item.description}</LavaTypo>
       </Flex>
 
       <LavaButton

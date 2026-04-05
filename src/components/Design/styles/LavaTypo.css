@@ -65,7 +65,7 @@ span.lava-typo.bold {
 
 @media screen and (max-width: 768px) {
     .lava-typo {
-        text-align: center !important;
+        text-align: center;
     }
 
     h1.lava-typo {
