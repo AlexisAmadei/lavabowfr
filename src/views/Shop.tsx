@@ -4,10 +4,11 @@ import Divider from '@/components/Design/Divider'
 import LavaTypo from '@/components/Design/LavaTypo'
 import Contact from '@/components/Sections/Contact'
 import Footer from '@/components/Sections/Footer'
+import ShopFilters from '@/components/Sections/Shop/ShopFilters'
 import ShopItemCard from '@/components/Sections/Shop/ShopItemCard'
 import useIsMobile from '@/hooks/useIsMobile'
 import { fetchMerchItems, MerchItem, MerchCategory, fetchMerchCategories } from '@/utils/supabase/shop'
-import { Box, Checkbox, Container, Flex, Button } from '@chakra-ui/react'
+import { Box, Container, Flex } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 
 export default function Shop() {
@@ -52,56 +53,13 @@ export default function Shop() {
         <LavaTypo variant='h1' textAlign='center'>Soutiens nous, en étant trop stylé</LavaTypo>
 
         {items.length > 0 && (
-          <Flex
-            direction={'column'}
-            gap={4}
-            mt={6}
-            borderRadius={'sm'}
-            backgroundColor={'white'}
-            padding={4}
-            px={16}
-            justifyContent={'space-between'}
-          >
-            {/* Stock Filter */}
-            <Flex direction={'row'}>
-              <Checkbox.Root
-                checked={inStockOnly}
-                onCheckedChange={(e) => setInStockOnly(!!e.checked)}
-              >
-                <Checkbox.HiddenInput />
-                <Checkbox.Control />
-                <Checkbox.Label color={'black'}>Disponible seulement</Checkbox.Label>
-              </Checkbox.Root>
-            </Flex>
-
-            {/* Category Filters */}
-            {categories.length > 0 && (
-              <Flex direction={'column'} gap={2}>
-                <LavaTypo color={'black'}>Catégories</LavaTypo>
-                <Flex wrap={'wrap'} gap={2}>
-                  {categories.map((category) => (
-                    <Button
-                      key={category.id}
-                      size="sm"
-                      variant={selectedCategories.has(category.id) ? 'solid' : 'outline'}
-                      colorScheme={selectedCategories.has(category.id) ? 'blue' : 'gray'}
-                      onClick={() => {
-                        const newSelected = new Set(selectedCategories)
-                        if (newSelected.has(category.id)) {
-                          newSelected.delete(category.id)
-                        } else {
-                          newSelected.add(category.id)
-                        }
-                        setSelectedCategories(newSelected)
-                      }}
-                    >
-                      {category.name}
-                    </Button>
-                  ))}
-                </Flex>
-              </Flex>
-            )}
-          </Flex>
+          <ShopFilters
+            categories={categories}
+            inStockOnly={inStockOnly}
+            setInStockOnly={setInStockOnly}
+            selectedCategories={selectedCategories}
+            setSelectedCategories={setSelectedCategories}
+          />
         )}
 
         <Box width={'100%'} mt={10} px={16}>
