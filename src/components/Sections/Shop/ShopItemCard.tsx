@@ -4,7 +4,6 @@ import useIsMobile from '@/hooks/useIsMobile';
 import { op } from '@/lib/openpanel';
 import { MerchItem } from '@/utils/supabase/shop';
 import { Box, Flex } from '@chakra-ui/react'
-import { Link } from 'react-router';
 
 export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, isAdminView: boolean }) {
   const isMobile = useIsMobile();
@@ -101,14 +100,15 @@ export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, i
             Out of Stock
           </span>
         ) : (
-          <Link
+          <a
             target='_blank'
-            to={item.stripe_paylink}
+            rel='noopener noreferrer'
+            href={item.stripe_paylink}
             style={{ textDecoration: 'none', color: 'inherit' }}
             onClick={() => op.track(`shop_item`, { itemName: item.name })}
           >
             Acheter
-          </Link>
+          </a>
         )}
       </LavaButton>
 
