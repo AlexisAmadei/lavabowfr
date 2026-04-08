@@ -18,7 +18,7 @@ export default function AdminLayout() {
       const user = await getUser()
       if (!user) {
         navigate('/admin/login')
-      } else if (user && path.pathname === '/admin')
+      } else if (user && (path.pathname === '/admin' || path.pathname === '/admin/'))
         navigate('/admin/dashboard')
     }
     fetchUser()
