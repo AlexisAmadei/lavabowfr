@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Field, Flex, IconButton, Input, InputGroup, Icon } from '@chakra-ui/react'
 import { ArrowIcon } from './Icons';
 import './styles/LavaInput.css'
@@ -29,10 +29,16 @@ export default function LavaInput({ placeholder, setError, error, variant, liqui
           title: 'Tu es déjà inscrit(e) à la newsletter !',
           type: 'info',
         });
-      } else if (!res.ok) {
+      } else if (res.status === 400) {
         setError(true);
         toaster.create({
           title: 'Mets un vrai mail par contre !',
+          type: 'error',
+        });
+      } else if (!res.ok) {
+        setError(true);
+        toaster.create({
+          title: 'Une erreur est survenue, réessaie !',
           type: 'error',
         });
       } else {
@@ -70,12 +76,6 @@ export default function LavaInput({ placeholder, setError, error, variant, liqui
     }
     insertEmail(email);
   }
-
-  useEffect(() => {
-    if (error) {
-      setError(true);
-    }
-  }, [error, setError]);
 
   const endIcon = (
     <IconButton onClick={handleSubmit} variant={'ghost'} rounded={'full'} aria-label='Send' className='lava-input-button'>
