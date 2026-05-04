@@ -15,11 +15,6 @@ values
     ('Palier 3', 60),
     ('Palier 4', 100);
 
-insert into newsletter (email, verify_status, mailchimp_synced)
-values
-    ('exemple1@exemple.com', 'verified', true),
-    ('exemple2@exemple.com', 'unverified', false);
-
 insert into section_events (title, description, price, date, place, link)
 values
     ('Event 1', 'Description for event 1', 20, '2024-12-01 18:00:00+00', 'Venue 1', 'https://example.com/event1'),
