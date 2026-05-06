@@ -12,6 +12,7 @@ import Logo from '@/components/Design/Logo'
 import ContextMenu from '@/components/Design/ContextMenu'
 import OnlineCounter from '../Hero/OnlineCounter'
 import Player from '@/components/Design/Player'
+import CartButton from './CartButton'
 
 export default function AppBar() {
   const isMobile = useIsMobile(1250);
@@ -65,6 +66,7 @@ export default function AppBar() {
         alignItems={'center'}
         gap={4}
       >
+        <CartButton />
         <Box display={'inline-flex'} gap={4} alignItems={'center'}>
           {menuItems.map(item => {
             const Icon = (('endIcon' in item && item.endIcon) ? item.endIcon : item.icon) as ElementType | undefined;

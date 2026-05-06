@@ -7,7 +7,6 @@ import ScrollToTop from '@/components/Core/ScrollToTop/ScrollToTop'
 import Footer from '@/components/Sections/Footer'
 import ClickSection from '@/components/Sections/ClickSection/ClickSection'
 import Contact from '@/components/Sections/Contact'
-import { Toaster } from '@/components/ui/toaster'
 import AppBar from '@/components/Core/AppBar/AppBar'
 import LanguageToggle from '@/components/Core/LanguageToggle/LanguageToggle'
 
@@ -57,7 +56,6 @@ export default function Landing() {
           <Footer />
         </Flex>
       </div>
-      <Toaster />
       <LanguageToggle />
     </div>
   )

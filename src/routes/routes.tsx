@@ -14,6 +14,7 @@ const AdminUsers = lazy(() => import('../views/Admin/AdminUsers/AdminUsers'));
 const AdminMerchandise = lazy(() => import('../views/Admin/Content/AdminMerchandise'));
 const CloudStatus = lazy(() => import('../views/Admin/CloudStatus/CloudStatus'));
 const Shop = lazy(() => import('@/views/Shop'));
+const Cart = lazy(() => import('@/views/Cart'));
 const Unsubscribe = lazy(() => import('../views/Unsubscribe'));
 const Privacy = lazy(() => import('../views/Privacy'));
 
@@ -25,6 +26,10 @@ export const routes: RouteObject[] = [
   {
     path: 'shop',
     element: <LazyRoute component={Shop} />,
+  },
+  {
+    path: 'cart',
+    element: <LazyRoute component={Cart} />,
   },
   {
     path: '/admin',

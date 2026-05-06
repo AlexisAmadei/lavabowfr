@@ -3,16 +3,52 @@ import LavaTypo from '@/components/Design/LavaTypo'
 import useIsMobile from '@/hooks/useIsMobile';
 import { op } from '@/lib/openpanel';
 import { MerchItem } from '@/utils/supabase/shop';
+import { addItem } from '@/utils/cart';
 import { Box, Flex } from '@chakra-ui/react'
 import { useTranslation } from '@/i18n/useTranslation';
+import { toaster } from '@/components/ui/toaster';
+
+const priceFormatter = new Intl.NumberFormat('fr-FR', {
+  style: 'currency',
+  currency: 'EUR',
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 2,
+});
 
 export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, isAdminView: boolean }) {
   const isMobile = useIsMobile();
   const { t } = useTranslation();
 
+  const priceCents = typeof item.price_cents === 'number'
+    ? item.price_cents
+    : Math.round(Number(item.price) * 100);
+  const formattedPrice = priceFormatter.format(priceCents / 100);
+
+  const isOutOfStock = item.stock === 0 || item.out_of_stock;
+  const canAdd = !isAdminView && !isOutOfStock && item.id !== undefined;
+
   function formatTags(tag: string) {
     return `${tag.charAt(0).toUpperCase()}${tag.slice(1).replace(/_/g, ' ')}`;
   }
+
+  const handleAddToCart = () => {
+    if (!canAdd || item.id === undefined) return;
+    const added = addItem(String(item.id), item.stock ?? null);
+    if (added) {
+      toaster.create({
+        title: t.cart.addedToast,
+        description: t.cart.addedToastDescription(item.name),
+        type: 'success',
+      });
+      op.track('shop_add_to_cart', { itemName: item.name, itemId: item.id });
+    } else {
+      toaster.create({
+        title: t.cart.stockReachedToast,
+        description: t.cart.stockReachedToastDescription,
+        type: 'info',
+      });
+    }
+  };
 
   return (
     <Flex
@@ -59,7 +95,7 @@ export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, i
         <Box
           position={'relative'}
         >
-          {item.out_of_stock && (
+          {isOutOfStock && (
             <LavaTypo
               variant='h4'
               color='white'
@@ -87,31 +123,18 @@ export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, i
 
         <Flex justifyContent={'space-between'} gap={4} textWrap={'balance'}>
           <LavaTypo variant='h3' color='var(--main-accent)' style={{ fontWeight: 'normal' }}>{item.name}</LavaTypo>
-          <LavaTypo variant='h3' color='var(--main-accent)'>{item.price}€</LavaTypo>
+          <LavaTypo variant='h3' color='var(--main-accent)'>{formattedPrice}</LavaTypo>
         </Flex>
 
-        <LavaTypo color='gray' style={{ textAlign: 'left'}}>{item.description}</LavaTypo>
+        <LavaTypo color='gray' style={{ textAlign: 'left' }}>{item.description}</LavaTypo>
       </Flex>
 
       <LavaButton
         variant='filled'
-        disabled={isAdminView || item.out_of_stock}
+        disabled={!canAdd}
+        onClick={handleAddToCart}
       >
-        {item.out_of_stock ? (
-          <span style={{ textDecoration: 'none', color: 'inherit' }}>
-            {t.shop.outOfStockBuy}
-          </span>
-        ) : (
-          <a
-            target='_blank'
-            rel='noopener noreferrer'
-            href={item.stripe_paylink}
-            style={{ textDecoration: 'none', color: 'inherit' }}
-            onClick={() => op.track(`shop_item`, { itemName: item.name })}
-          >
-            {t.shop.buy}
-          </a>
-        )}
+        {isOutOfStock ? t.shop.outOfStockBuy : t.shop.addToCart}
       </LavaButton>
 
     </Flex>

@@ -85,6 +85,33 @@ export interface Translations {
     outOfStock: string;
     outOfStockBuy: string;
     buy: string;
+    addToCart: string;
+  };
+  cart: {
+    title: string;
+    empty: string;
+    continueShopping: string;
+    remove: string;
+    clearAll: string;
+    clearConfirmTitle: string;
+    clearConfirmMessage: string;
+    cancel: string;
+    confirm: string;
+    delivery: string;
+    deliveryInHand: string;
+    deliveryShipping: string;
+    shippingNotice: string;
+    subtotal: string;
+    shippingLabel: string;
+    total: string;
+    checkout: string;
+    expiredToast: string;
+    expiredToastDescription: string;
+    addedToast: string;
+    addedToastDescription: (name: string) => string;
+    stockReachedToast: string;
+    stockReachedToastDescription: string;
+    viewCart: string;
   };
   newsletterMessages: {
     alreadySubscribed: string;

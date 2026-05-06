@@ -6,6 +6,7 @@ import { scrollToSection } from '@/utils/navigation'
 import useMenuItems from '@/hooks/useMenuItems'
 import MediaLinks from './MediaLinks'
 import Player from '@/components/Design/Player'
+import CartButton from './CartButton'
 import { useNavigate } from 'react-router'
 import { useTranslation } from '@/i18n/useTranslation'
 
@@ -52,7 +53,8 @@ export default function MobileAppBar() {
         <Player isMobile={true} />
       </Box>
 
-      <Box flexBasis={'1/6'} style={{ position: 'relative' }}>
+      <Box flexBasis={'1/6'} style={{ position: 'relative' }} display={'inline-flex'} alignItems={'center'} justifyContent={'flex-end'} gap={2}>
+        <CartButton size='sm' />
         <div onClick={() => handleMenuToggle()} className='app-bar__menu-burger'>
           <LavaTypo variant='h2' size={24} color='white'>{t.menu.menuLabel}</LavaTypo>
         </div>

@@ -55,6 +55,10 @@ export default function Shop() {
       >
         <LavaTypo variant='h1' textAlign='center'>{t.shop.title}</LavaTypo>
 
+        <Box maxW={'700px'} mx={'auto'} mt={3} px={4} textAlign={'center'}>
+          <LavaTypo color='gray' style={{ fontSize: '14px' }}>{t.cart.shippingNotice}</LavaTypo>
+        </Box>
+
         {items.length > 0 && (
           <ShopFilters
             categories={categories}

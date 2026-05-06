@@ -5,6 +5,10 @@ export interface MerchItem {
   name: string;
   description: string;
   price: number | string;
+  // NOT NULL in DB; optional in TS during the v1→v2 transition until the admin UI inputs cents directly.
+  price_cents?: number;
+  // null = unlimited stock; decremented on checkout.session.completed.
+  stock?: number | null;
   tags: string[];
   stripe_paylink: string;
   out_of_stock: boolean;
@@ -48,19 +52,27 @@ export async function fetchMerchItems(activeOnly?: boolean): Promise<MerchItem[]
 
 export async function updateMerchItem(item: MerchItem): Promise<boolean> {
   try {
+    // Bridge: admin form still edits whole-euro `price`; derive `price_cents` so the v2 column stays valid.
+    const priceCents = typeof item.price_cents === 'number'
+      ? item.price_cents
+      : Math.round(Number(item.price) * 100);
+    const update: Record<string, unknown> = {
+      name: item.name,
+      description: item.description,
+      price: item.price,
+      price_cents: priceCents,
+      tags: item.tags,
+      stripe_paylink: item.stripe_paylink,
+      out_of_stock: item.out_of_stock,
+      status: item.status,
+      image_url: item.image_url,
+      category: item.category,
+    };
+    // Only touch `stock` when explicitly provided so admin saves don't accidentally null it out.
+    if (item.stock !== undefined) update.stock = item.stock;
     const { error } = await supabase
       .from('merch_items')
-      .update({
-        name: item.name,
-        description: item.description,
-        price: item.price,
-        tags: item.tags,
-        stripe_paylink: item.stripe_paylink,
-        out_of_stock: item.out_of_stock,
-        status: item.status,
-        image_url: item.image_url,
-        category: item.category
-      })
+      .update(update)
       .eq('id', item.id);
     if (error) {
       console.error('Error updating merch item:', error);
@@ -75,12 +87,18 @@ export async function updateMerchItem(item: MerchItem): Promise<boolean> {
 
 export async function addMerchItem(item: Omit<MerchItem, 'id'>): Promise<boolean> {
   try {
+    // Bridge: admin form still edits whole-euro `price`; derive `price_cents` so the v2 column stays valid.
+    const priceCents = typeof item.price_cents === 'number'
+      ? item.price_cents
+      : Math.round(Number(item.price) * 100);
     const { error } = await supabase
       .from('merch_items')
       .insert([{
         name: item.name,
         description: item.description,
         price: item.price,
+        price_cents: priceCents,
+        stock: item.stock ?? null,
         tags: item.tags,
         stripe_paylink: item.stripe_paylink,
         out_of_stock: item.out_of_stock,
