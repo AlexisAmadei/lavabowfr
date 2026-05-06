@@ -4,9 +4,11 @@ import useIsMobile from '@/hooks/useIsMobile';
 import { op } from '@/lib/openpanel';
 import { MerchItem } from '@/utils/supabase/shop';
 import { Box, Flex } from '@chakra-ui/react'
+import { useTranslation } from '@/i18n/useTranslation';
 
 export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, isAdminView: boolean }) {
   const isMobile = useIsMobile();
+  const { t } = useTranslation();
 
   function formatTags(tag: string) {
     return `${tag.charAt(0).toUpperCase()}${tag.slice(1).replace(/_/g, ' ')}`;
@@ -73,7 +75,7 @@ export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, i
                 zIndex: 1
               }}
             >
-              HORS STOCK
+              {t.shop.outOfStock}
             </LavaTypo>
           )}
           <img
@@ -97,7 +99,7 @@ export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, i
       >
         {item.out_of_stock ? (
           <span style={{ textDecoration: 'none', color: 'inherit' }}>
-            Out of Stock
+            {t.shop.outOfStockBuy}
           </span>
         ) : (
           <a
@@ -107,7 +109,7 @@ export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, i
             style={{ textDecoration: 'none', color: 'inherit' }}
             onClick={() => op.track(`shop_item`, { itemName: item.name })}
           >
-            Acheter
+            {t.shop.buy}
           </a>
         )}
       </LavaButton>

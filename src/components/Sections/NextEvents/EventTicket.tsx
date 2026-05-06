@@ -11,10 +11,12 @@ import useIsMobile from '@/hooks/useIsMobile'
 import type { EventItem } from '@/types/types'
 import { useEffect, useState } from 'react'
 import { insertAuditLog } from '@/utils/supabase/audit_log'
+import { useTranslation } from '@/i18n/useTranslation'
 
 export default function EventTicket({ event }: { event: EventItem | null }) {
   const isMobile = useIsMobile();
   const [eventPayable, setEventPayable] = useState<boolean>(false);
+  const { t, language } = useTranslation();
 
   const TICKET_TITLE_SIZE = isMobile ? '30px' : '38px';
   const TICKET_TEXT_SIZE = '18px';
@@ -79,29 +81,29 @@ export default function EventTicket({ event }: { event: EventItem | null }) {
               title='highlight'
               aria-hidden={true}
             />
-            <LavaTypo variant={'h2'} size={TICKET_TITLE_SIZE} styles={{ marginBottom: '8px', position: 'relative', zIndex: 1 }}>{event?.title.toUpperCase() || 'Event Title'}</LavaTypo>
+            <LavaTypo variant={'h2'} size={TICKET_TITLE_SIZE} styles={{ marginBottom: '8px', position: 'relative', zIndex: 1 }}>{event?.title.toUpperCase() || t.events.eventTitleFallback}</LavaTypo>
           </Box>
 
           <Flex direction={'row'} width={'100%'} justifyContent={'space-between'} mt={'8px'} alignItems={'center'} gap={1} textWrap={'nowrap'}>
-            <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '800' }}>PRIX</LavaTypo>
+            <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '800' }}>{t.events.price}</LavaTypo>
             <Divider orientation={'horizontal'} color={'#ffffffd8'} dashed={true} thickness={'0.6px'} dashArray={'2 2'} />
-            <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '800' }}>{event?.price === 0 ? 'PRIX LIBRE' : `${event?.price}€`}</LavaTypo>
+            <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '800' }}>{event?.price === 0 ? t.events.free : `${event?.price}€`}</LavaTypo>
           </Flex>
 
           <Divider orientation='horizontal' color={'white'} />
 
           <Flex direction={'row'} width={'100%'} justifyContent={'space-between'} alignItems={'center'} gap={1} textWrap={'nowrap'}>
-            <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '800' }}>DATE</LavaTypo>
+            <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '800' }}>{t.events.date}</LavaTypo>
             <Divider orientation={'horizontal'} color={'#ffffffd8'} dashed={true} thickness={'0.6px'} dashArray={'2 2'} />
-            <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '800' }}>{event?.date ? new Date(event.date).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : "Sam t'as oublié la date"}</LavaTypo>
+            <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '800' }}>{event?.date ? new Date(event.date).toLocaleDateString(language === 'en' ? 'en-GB' : 'fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : t.events.missingDate}</LavaTypo>
           </Flex>
 
           <Divider orientation='horizontal' color={'white'} />
 
           <Flex direction={'row'} width={'100%'} justifyContent={'space-between'} alignItems={'center'} gap={1} textWrap={'nowrap'}>
-            <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '800' }}>LIEU</LavaTypo>
+            <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '800' }}>{t.events.place}</LavaTypo>
             <Divider orientation={'horizontal'} color={'#ffffffd8'} dashed={true} thickness={'0.6px'} dashArray={'2 2'} />
-            <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '800' }}>{event?.place || "Sam t'as oublié le lieu"}</LavaTypo>
+            <LavaTypo variant={'h3'} size={TICKET_TEXT_SIZE} styles={{ fontWeight: '800' }}>{event?.place || t.events.missingPlace}</LavaTypo>
           </Flex>
         </Flex>
 
@@ -144,11 +146,11 @@ export default function EventTicket({ event }: { event: EventItem | null }) {
               }}
               textAlign={isMobile ? 'center' : 'left'}
             >
-              {event?.description || "Sam t'as encore oublié la description.. spammez le sam@lavabow.fr"}
+              {event?.description || t.events.missingDescription}
             </LavaTypo>
           </Box>
           {eventPayable && (
-            <LavaButton style={{ backgroundColor: 'var(--main-accent)' }} fullWidth={true} onClick={handleEventClick}>Prendre Ma Place</LavaButton>
+            <LavaButton style={{ backgroundColor: 'var(--main-accent)' }} fullWidth={true} onClick={handleEventClick}>{t.events.buyTicket}</LavaButton>
           )}
         </Flex>
 

@@ -8,6 +8,7 @@ import LavaButton from '@/components/Design/LavaButton'
 import noEventBg from '@/assets/img/events/no-events.webp'
 import { fetchEventsContent } from '@/utils/supabase/events'
 import type { EventItem } from '@/types/types'
+import { useTranslation } from '@/i18n/useTranslation'
 
 import { AnimatePresence, motion, usePresenceData } from 'motion/react'
 
@@ -46,6 +47,7 @@ const button = {
 export default function NextEvents() {
   const isMobile = useIsMobile();
   const isSmallerThan1600 = useIsMobile(1600);
+  const { t } = useTranslation();
   const [events, setEvents] = React.useState<EventItem[]>([]);
   const [filteredEvents, setFilteredEvents] = React.useState<EventItem[]>([]);
 
@@ -82,10 +84,10 @@ export default function NextEvents() {
         background={'radial-gradient(56.7% 49.96% at 50% 50%, rgba(0, 0, 0, 0.00) 0%, #000 100%), url(' + noEventBg + ') lightgray 50% / cover no-repeat;'}
       >
         <LavaTypo variant={'h2'} size={isMobile ? '22px' : undefined}>
-          Comme toi, Côme attend patiemment le prochain évènement...
+          {t.events.noEvents}
         </LavaTypo>
         <LavaButton variant='outlined' onClick={() => window.open('https://www.instagram.com/lava_bow/', '_blank')}>
-          <LavaTypo variant={'h4'} styles={{ padding: '12px 24px' }}>En attendant suis nos aventures ici</LavaTypo>
+          <LavaTypo variant={'h4'} styles={{ padding: '12px 24px' }}>{t.events.followUs}</LavaTypo>
         </LavaButton>
       </Box>
     )
@@ -126,7 +128,7 @@ export default function NextEvents() {
   if (isMobile) {
     return (
       <Section id='events'>
-        <LavaTypo variant={'h1'} size={'22px'}>Retrouve nous en concert</LavaTypo>
+        <LavaTypo variant={'h1'} size={'22px'}>{t.events.title}</LavaTypo>
 
         <Box width="100%" overflow="hidden" minHeight={'450px'}>
           <AnimatePresence
@@ -149,7 +151,7 @@ export default function NextEvents() {
         >
           <motion.button
             initial={false}
-            aria-label="Previous"
+            aria-label={t.events.previous}
             style={{
               ...button,
               backgroundColor: 'rgba(255, 255, 255, 0.1)',
@@ -169,7 +171,7 @@ export default function NextEvents() {
 
           <motion.button
             initial={false}
-            aria-label="Next"
+            aria-label={t.events.next}
             style={{
               ...button,
               backgroundColor: 'rgba(255, 255, 255, 0.1)',
@@ -186,7 +188,7 @@ export default function NextEvents() {
   }
 
   return (
-    <Section id='events' title={'Retrouve nous en concert'}>
+    <Section id='events' title={t.events.title}>
       <Grid
         mb={4}
         width={'100%'}

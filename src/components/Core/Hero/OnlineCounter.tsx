@@ -6,9 +6,11 @@ import { useEffect, useState } from 'react'
 import './OnlineCounter.css'
 import { supabase } from '@/utils/supabase/supabase';
 import { Tooltip } from '@/components/ui/tooltip';
+import { useTranslation } from '@/i18n/useTranslation';
 
 export default function OnlineCounter() {
   const [onlineUsers, setOnlineUsers] = useState(0);
+  const { t } = useTranslation();
 
   useEffect(() => {
     // Fetch initial count
@@ -41,7 +43,7 @@ export default function OnlineCounter() {
   }, []);
 
   return (
-    <Tooltip content={`${onlineUsers} user${onlineUsers !== 1 ? 's' : ''} online`} openDelay={100}>
+    <Tooltip content={`${onlineUsers} ${onlineUsers !== 1 ? t.online.users : t.online.user} ${t.online.online}`} openDelay={100}>
       <Box
         display={'inline-flex'}
         alignItems={'center'}

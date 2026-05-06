@@ -6,12 +6,14 @@ import LavaTypo from '@/components/Design/LavaTypo'
 import { fetchPicturesContent } from '@/utils/supabase/pictures'
 import useIsMobile from '@/hooks/useIsMobile'
 import type { PictureItem } from '@/types/types'
+import { useTranslation } from '@/i18n/useTranslation'
 
 export default function Pictures() {
   const [pictures, setPictures] = useState<PictureItem[]>([]);
   const [activeId, setActiveId] = useState<number | null>(null);
   const [containerWidth, setContainerWidth] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const { t, language } = useTranslation();
 
   const isMobile = useIsMobile();
 
@@ -69,7 +71,7 @@ export default function Pictures() {
   }
 
   return (
-    <Section id="photos" title="Lava Bow en photos">
+    <Section id="photos" title={t.pictures.title}>
       <Flex
         ref={containerRef}
         direction={'row'}
@@ -121,7 +123,7 @@ export default function Pictures() {
                 }}
                 textAlign='right'
               >
-                {new Date(photo.date || '').toLocaleDateString('fr-FR').replace(/\//g, '.')}
+                {new Date(photo.date || '').toLocaleDateString(language === 'en' ? 'en-GB' : 'fr-FR').replace(/\//g, '.')}
               </LavaTypo>
             </Box>
           ))}

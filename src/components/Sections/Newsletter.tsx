@@ -4,9 +4,11 @@ import LavaTypo from '@/components/Design/LavaTypo'
 import LavaInput from '@/components/Design/LavaInput'
 import bgPic from '@/assets/img/newsletter.webp'
 import Section from '@/components/Design/Section'
+import { useTranslation } from '@/i18n/useTranslation'
 
 export default function Newsletter() {
   const [error, setError] = React.useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (error) {
@@ -23,13 +25,13 @@ export default function Newsletter() {
       <Flex gap={8} direction={'column'} alignItems={'center'} position={'relative'}>
 
         <Flex gap={3} direction={'column'} alignItems={'center'}>
-          <LavaTypo variant={'h2'}>Newsletter</LavaTypo>
-          <LavaTypo variant={'p'} styles={{ textAlign: 'center' }}>Deviens un LAVA FAN et ne rate plus aucune actualité !</LavaTypo>
+          <LavaTypo variant={'h2'}>{t.newsletter.title}</LavaTypo>
+          <LavaTypo variant={'p'} styles={{ textAlign: 'center' }}>{t.newsletter.subtitle}</LavaTypo>
         </Flex>
 
         <Box width={'100%'} maxWidth={'400px'} position={'relative'}>
           <LavaInput
-            placeholder='Email'
+            placeholder={t.newsletter.emailPlaceholder}
             error={error}
             setError={setError}
           />

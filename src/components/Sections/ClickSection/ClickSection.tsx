@@ -8,11 +8,13 @@ import BeerGauge from './BeerGauge'
 import ClickSpark from '@/components/react-bits/ClickSpark'
 import { fetchClicksContent } from '@/utils/supabase/click_palier'
 import { ClicksItem } from '@/types/types'
+import { useTranslation } from '@/i18n/useTranslation'
 
 export default function ClickSection() {
   const [clickCount, setClickCount] = React.useState(0);
   const [clicksItems, setClicksItems] = React.useState<ClicksItem[]>([]);
   const isMobile = useIsMobile();
+  const { t } = useTranslation();
 
   function getProgressPercentage(index: number): number {
     const palier = clicksItems[index]
@@ -40,7 +42,7 @@ export default function ClickSection() {
   }, []);
 
   return (
-    <Section title="Chauffe ce compteur !">
+    <Section title={t.click.title}>
       <ClickSpark>
 
         <Flex
@@ -52,7 +54,7 @@ export default function ClickSection() {
           <ClickCounter count={clickCount} setCount={setClickCount} isMobile={!isMobile} />
 
           <Flex direction={'column'} alignItems={'center'} marginTop={4}>
-            <LavaTypo variant={'h4'}>Clique et débloque des paliers :</LavaTypo>
+            <LavaTypo variant={'h4'}>{t.click.unlockTiers}</LavaTypo>
 
             <div style={{ display: 'grid', gridTemplateColumns: `${!isMobile ? 'repeat(2, 1fr)' : 'repeat(1, 1fr)'}`, gap: `${isMobile ? '10px' : '16px'}`, marginTop: '16px', width: '100%' }}>
               {clicksItems.map((palier, index) => {
@@ -73,7 +75,7 @@ export default function ClickSection() {
                       }}
                     />
                     <Flex style={{ position: 'relative', zIndex: 1, alignItems: 'center', gap: '8px', flex: 1 }} direction={'row'} justifyContent={'center'} alignItems={'center'}>
-                      <LavaTypo variant={'h3'} size={!isMobile ? 24 : 16} styles={{ color: isPalierReached(palier.target) ? 'white' : 'var(--main-accent)' }}>{palier.target} clics</LavaTypo>
+                      <LavaTypo variant={'h3'} size={!isMobile ? 24 : 16} styles={{ color: isPalierReached(palier.target) ? 'white' : 'var(--main-accent)' }}>{palier.target} {t.click.clicksSuffix}</LavaTypo>
                       <span style={{ fontWeight: 'bold', fontSize: `${isMobile ? '14px' : '20px'}`, color: 'white' }}> - </span>
                       <LavaTypo variant={'p'} size={isMobile ? 12 : 18} styles={{ color: 'white' }}>{palier.name}</LavaTypo>
                     </Flex>

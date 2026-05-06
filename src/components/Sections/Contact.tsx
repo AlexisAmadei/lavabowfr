@@ -7,15 +7,16 @@ import ClipboardElement from '../Core/ClipboardElement'
 import Frogs from '@/assets/img/contact/3frogs.svg'
 import Car from '@/assets/img/contact/car.svg'
 import useIsMobile from '@/hooks/useIsMobile'
+import { useTranslation } from '@/i18n/useTranslation'
 
 export default function Contact() {
   const isMobile = useIsMobile();
+  const { t } = useTranslation();
 
   return (
-    <Section id={'contact'} bgColor={'var(--Background-bg-brand)'} title={'Contact'} position='relative'>
+    <Section id={'contact'} bgColor={'var(--Background-bg-brand)'} title={t.contact.title} position='relative'>
       <LavaTypo textAlign='center' variant='p'>
-        Pour plus d’infos, une envie de nous programmer, ou même juste pour nous raconter ta meilleure blague,
-        c’est par ici !
+        {t.contact.intro}
       </LavaTypo>
 
       <Flex

@@ -1,6 +1,7 @@
 import LavaTypo from '@/components/Design/LavaTypo'
 import { MerchCategory } from '@/utils/supabase/shop'
 import { Accordion, Badge, Box, Button, Checkbox, Flex } from '@chakra-ui/react'
+import { useTranslation } from '@/i18n/useTranslation'
 
 interface ShopFiltersProps {
 categories: MerchCategory[]
@@ -17,6 +18,7 @@ setInStockOnly,
 selectedCategories,
 setSelectedCategories,
 }: ShopFiltersProps) {
+const { t } = useTranslation()
 const hasActiveFilters = inStockOnly || selectedCategories.size > 0
 const activeFilterCount = (inStockOnly ? 1 : 0) + selectedCategories.size
 
@@ -69,9 +71,9 @@ alignItems={'center'}
 gap={3}
 >
 <Flex direction={'column'} alignItems={'flex-start'} gap={1}>
-<LavaTypo color={'black'}>Filtrer la boutique</LavaTypo>
+<LavaTypo color={'black'}>{t.shop.filtersTitle}</LavaTypo>
 <LavaTypo color={'black'} style={{ opacity: 0.75, fontSize: '0.95rem' }}>
-Affinez rapidement les produits visibles.
+{t.shop.filtersSubtitle}
 </LavaTypo>
 </Flex>
 
@@ -82,7 +84,7 @@ variant={'subtle'}
 borderRadius={'full'}
 px={3}
 >
-{activeFilterCount} filtre{activeFilterCount > 1 ? 's' : ''}
+{t.shop.filterCount(activeFilterCount)}
 </Badge>
 <Accordion.ItemIndicator color={'black'} />
 </Flex>
@@ -103,7 +105,7 @@ bg={'rgba(255, 255, 255, 0.75)'}
 backdropFilter={'blur(4px)'}
 _hover={{ background: 'rgba(255, 255, 255, 0.95)' }}
 >
-Réinitialiser
+{t.shop.reset}
 </Button>
 </Flex>
 )}
@@ -132,7 +134,7 @@ borderColor: 'var(--main-accent)',
 }}
 />
 <Checkbox.Label color={'black'} fontWeight={'600'}>
-Disponible seulement
+{t.shop.inStockOnly}
 </Checkbox.Label>
 </Checkbox.Root>
 
@@ -144,7 +146,7 @@ borderRadius={'full'}
 px={3}
 py={1}
 >
-En stock
+{t.shop.inStock}
 </Badge>
 )}
 </Flex>
@@ -152,14 +154,14 @@ En stock
 {categories.length > 0 && (
 <Flex direction={'column'} gap={3} mt={4}>
 <Flex justifyContent={'space-between'} alignItems={'center'}>
-<LavaTypo color={'black'}>Catégories</LavaTypo>
+<LavaTypo color={'black'}>{t.shop.categories}</LavaTypo>
 <Badge
 colorPalette={selectedCategories.size > 0 ? 'pink' : 'gray'}
 variant={'subtle'}
 borderRadius={'full'}
 px={3}
 >
-{selectedCategories.size} sélectionnée{selectedCategories.size > 1 ? 's' : ''}
+{t.shop.categoriesSelected(selectedCategories.size)}
 </Badge>
 </Flex>
 

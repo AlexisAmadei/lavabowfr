@@ -4,10 +4,12 @@ import LavaTypo from '@/components/Design/LavaTypo'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { PictureItem } from '@/types/types'
+import { useTranslation } from '@/i18n/useTranslation'
 
 export default function MobilePictures({ pictures }: { pictures: PictureItem[] }) {
+  const { t } = useTranslation();
   return (
-    <Section id='photos' title='Lava Bow en photos'>
+    <Section id='photos' title={t.pictures.title}>
 
       <Carousel.Root
         slideCount={pictures.length}
