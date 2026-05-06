@@ -1,1 +1,0 @@
-ALTER TABLE merch_categories ADD COLUMN "order" INTEGER DEFAULT 0;
