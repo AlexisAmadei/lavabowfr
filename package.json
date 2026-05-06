@@ -32,7 +32,8 @@
         "react-barcode": "^1.6.1",
         "react-dom": "^19.2.4",
         "react-player": "^3.4.0",
-        "react-router": "^7.14.0"
+        "react-router": "^7.14.0",
+        "stripe": "^22.1.1"
     },
     "devDependencies": {
         "@eslint/js": "^9.39.4",
