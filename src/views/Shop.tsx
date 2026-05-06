@@ -1,5 +1,6 @@
 import AppBar from '@/components/Core/AppBar/AppBar'
 import MobileAppBar from '@/components/Core/AppBar/MobileAppBar'
+import LanguageToggle from '@/components/Core/LanguageToggle/LanguageToggle'
 import Divider from '@/components/Design/Divider'
 import LavaTypo from '@/components/Design/LavaTypo'
 import Contact from '@/components/Sections/Contact'
@@ -10,6 +11,7 @@ import useIsMobile from '@/hooks/useIsMobile'
 import { fetchMerchItems, MerchItem, MerchCategory, fetchMerchCategories } from '@/utils/supabase/shop'
 import { Box, Container, Flex } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
+import { useTranslation } from '@/i18n/useTranslation'
 
 export default function Shop() {
   const [items, setItems] = useState<MerchItem[]>([])
@@ -17,6 +19,7 @@ export default function Shop() {
   const [inStockOnly, setInStockOnly] = useState(false)
   const [selectedCategories, setSelectedCategories] = useState<Set<number>>(new Set())
   const isMobile = useIsMobile();
+  const { t } = useTranslation();
 
   const filteredItems = items.filter((item) => {
     const passesStockFilter = !inStockOnly || !item.out_of_stock
@@ -50,7 +53,7 @@ export default function Shop() {
         direction={'column'}
         alignItems={'center'}
       >
-        <LavaTypo variant='h1' textAlign='center'>Soutiens nous, en étant trop stylé</LavaTypo>
+        <LavaTypo variant='h1' textAlign='center'>{t.shop.title}</LavaTypo>
 
         {items.length > 0 && (
           <ShopFilters
@@ -88,7 +91,7 @@ export default function Shop() {
             const noCategory = filteredItems.filter(item => !item.category);
             return noCategory.length > 0 ? (
               <Box mb={8}>
-                <LavaTypo variant="h3" style={{ marginBottom: '16px' }}>Et le reste !</LavaTypo>
+                <LavaTypo variant="h3" style={{ marginBottom: '16px' }}>{t.shop.otherItems}</LavaTypo>
                 <Flex wrap={'wrap'} gap={4}>
                   {noCategory.map((item) => (
                     <ShopItemCard key={item.id} item={item} isAdminView={false} />
@@ -101,13 +104,14 @@ export default function Shop() {
           {/* Empty state */}
           {filteredItems.length === 0 && (
             <Box textAlign='center' py={10}>
-              <LavaTypo variant='h2' textAlign='center'>Aucun article disponible pour le moment. Restez à l&apos;écoute !</LavaTypo>
+              <LavaTypo variant='h2' textAlign='center'>{t.shop.emptyState}</LavaTypo>
             </Box>
           )}
         </Box>
       </Flex>
       <Contact />
       <Footer />
+      <LanguageToggle />
     </Container>
   )
 }

@@ -1,0 +1,101 @@
+import type { ReactNode } from 'react';
+
+export type Language = 'fr' | 'en';
+
+export interface Translations {
+  about: {
+    title: string;
+    paragraphs: ReactNode[];
+  };
+  music: {
+    title: string;
+    singlesHeading: string;
+    findUsEverywhere: string;
+  };
+  newsletter: {
+    title: string;
+    subtitle: string;
+    emailPlaceholder: string;
+  };
+  videos: {
+    title: string;
+    latest: string;
+    featured: string;
+    seeMore: string;
+  };
+  pictures: {
+    title: string;
+  };
+  click: {
+    title: string;
+    unlockTiers: string;
+    clicksSuffix: string;
+  };
+  contact: {
+    title: string;
+    intro: string;
+  };
+  footer: {
+    booking: string;
+    socials: string;
+    newsletter: string;
+    emailPlaceholder: string;
+    copyright: string;
+  };
+  events: {
+    title: string;
+    noEvents: string;
+    followUs: string;
+    price: string;
+    free: string;
+    date: string;
+    place: string;
+    missingDate: string;
+    missingPlace: string;
+    missingDescription: string;
+    buyTicket: string;
+    eventTitleFallback: string;
+    previous: string;
+    next: string;
+  };
+  menu: {
+    contact: string;
+    home: string;
+    shop: string;
+    menuLabel: string;
+    about: string;
+    music: string;
+    events: string;
+    videos: string;
+    photos: string;
+    close: string;
+  };
+  shop: {
+    title: string;
+    filtersTitle: string;
+    filtersSubtitle: string;
+    filterCount: (n: number) => string;
+    reset: string;
+    inStockOnly: string;
+    inStock: string;
+    categories: string;
+    categoriesSelected: (n: number) => string;
+    otherItems: string;
+    emptyState: string;
+    outOfStock: string;
+    outOfStockBuy: string;
+    buy: string;
+  };
+  newsletterMessages: {
+    alreadySubscribed: string;
+    invalidEmail: string;
+    genericError: string;
+    success: string;
+    emptyEmail: string;
+  };
+  online: {
+    user: string;
+    users: string;
+    online: string;
+  };
+}

@@ -4,6 +4,7 @@ import { ArrowIcon } from './Icons';
 import './styles/LavaInput.css'
 import { toaster } from '../ui/toaster';
 import GlassSurface from '../react-bits/GlassSurface/GlassSurface';
+import { useTranslation } from '@/i18n/useTranslation';
 
 
 export default function LavaInput({ placeholder, setError, error, variant, liquidGlass }: {
@@ -14,6 +15,7 @@ export default function LavaInput({ placeholder, setError, error, variant, liqui
   liquidGlass?: boolean;
 }) {
   const [email, setEmail] = React.useState('');
+  const { t } = useTranslation();
 
   const insertEmail = async (email: string) => {
     try {
@@ -32,28 +34,38 @@ export default function LavaInput({ placeholder, setError, error, variant, liqui
       } else if (res.status === 400) {
         setError(true);
         toaster.create({
-          title: 'Mets un vrai mail par contre !',
+          title: t.newsletterMessages.invalidEmail,
           type: 'error',
         });
       } else if (!res.ok) {
         setError(true);
-        toaster.create({
-          title: 'Une erreur est survenue, réessaie !',
-          type: 'error',
-        });
+        if (error === 'invalid') {
+          toaster.create({
+            title: t.newsletterMessages.invalidEmail,
+            type: 'error',
+          });
+          return;
+        } else if (typeof error !== 'string' && error.message.includes('duplicate key value')) {
+          toaster.create({
+            title: t.newsletterMessages.alreadySubscribed,
+            type: 'info',
+          });
+        }
       } else {
         setEmail('');
         toaster.create({
-          title: 'Inscription réussie !',
+          title: t.newsletterMessages.success,
           type: 'success',
         });
       }
-    } catch {
-      setError(true);
-      toaster.create({
-        title: 'Une erreur est survenue, réessaie !',
-        type: 'error',
-      });
+    } catch (err: unknown) {
+      const error = err as { message?: string } | undefined
+      if (error?.message?.includes?.('duplicate key value')) {
+        toaster.create({
+          title: t.newsletterMessages.alreadySubscribed,
+          type: 'info',
+        });
+      }
     }
   }
 
@@ -61,7 +73,7 @@ export default function LavaInput({ placeholder, setError, error, variant, liqui
     if (!email) {
       setError(true);
       toaster.create({
-        title: 'Faut écrire un truc par contre...🤓☝️',
+        title: t.newsletterMessages.emptyEmail,
         type: 'info',
       });
       return;
@@ -69,7 +81,7 @@ export default function LavaInput({ placeholder, setError, error, variant, liqui
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setError(true);
       toaster.create({
-        title: 'Mets un vrai mail par contre !',
+        title: t.newsletterMessages.invalidEmail,
         type: 'error',
       });
       return;

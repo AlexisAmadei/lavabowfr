@@ -9,6 +9,7 @@ import ClickSection from '@/components/Sections/ClickSection/ClickSection'
 import Contact from '@/components/Sections/Contact'
 import { Toaster } from '@/components/ui/toaster'
 import AppBar from '@/components/Core/AppBar/AppBar'
+import LanguageToggle from '@/components/Core/LanguageToggle/LanguageToggle'
 
 import { Flex } from '@chakra-ui/react'
 import useIsMobile from '@/hooks/useIsMobile'
@@ -57,6 +58,7 @@ export default function Landing() {
         </Flex>
       </div>
       <Toaster />
+      <LanguageToggle />
     </div>
   )
 }

@@ -5,6 +5,7 @@ import './index.css'
 import { ChakraProvider, defaultSystem } from '@chakra-ui/react'
 import { routes } from './routes/routes'
 import { GlobalVarProvider } from './contexts/GlobalContext'
+import { LanguageProvider } from './i18n/LanguageContext'
 
 // Lazy load analytics to prevent blocking FCP
 const Analytics = lazy(() => import('@vercel/analytics/react').then(m => ({ default: m.Analytics })));
@@ -20,7 +21,9 @@ createRoot(document.getElementById('root')!).render(
       <ChakraProvider value={defaultSystem}>
 
         <GlobalVarProvider>
-          <App />
+          <LanguageProvider>
+            <App />
+          </LanguageProvider>
         </GlobalVarProvider>
 
         <Suspense fallback={null}>

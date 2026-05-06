@@ -1,7 +1,7 @@
-import { ElementType, useEffect } from 'react'
+import { ElementType } from 'react'
 import LavaButton from '@/components/Design/LavaButton'
 import { Box, Flex } from '@chakra-ui/react'
-import menuItems from '@/lib/menuItems'
+import useMenuItems from '@/hooks/useMenuItems'
 import { scrollToSection } from '@/utils/navigation'
 import MediaLinks from './MediaLinks'
 import useIsMobile from '@/hooks/useIsMobile'
@@ -17,6 +17,7 @@ export default function AppBar() {
   const isMobile = useIsMobile(1250);
   const navigate = useNavigate();
   const path = useLocation();
+  const menuItems = useMenuItems();
   const normalizeRoute = (route: string) => route === '/' ? '/' : route.replace(/^\/+|\/+$/g, '');
   const currentRoute = normalizeRoute(path.pathname);
 

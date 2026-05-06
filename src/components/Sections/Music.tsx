@@ -5,15 +5,17 @@ import { Box, Flex } from '@chakra-ui/react'
 import CompactDisk from '../Core/CompactDisk/CompactDisk'
 import useIsMobile from '@/hooks/useIsMobile'
 import MediaLinks from '../Core/AppBar/MediaLinks'
+import { useTranslation } from '@/i18n/useTranslation'
 
 export default function Music() {
   const isMobile = useIsMobile();
+  const { t } = useTranslation();
 
   return (
     <Section
       bgColor={'var(--secondary-accent)'}
       id='music'
-      title={'Notre Musique'}
+      title={t.music.title}
     >
       <Flex
         width={'100%'}
@@ -31,7 +33,7 @@ export default function Music() {
           width={isMobile ? '100%' : '60%'}
           marginTop={isMobile ? 8 : 0}
         >
-          <LavaTypo variant={'h2'}>LOVE, CHEER & BEERS, les singles</LavaTypo>
+          <LavaTypo variant={'h2'}>{t.music.singlesHeading}</LavaTypo>
 
           <Flex
             direction={'column'}
@@ -48,7 +50,7 @@ export default function Music() {
 
           <Flex direction={'column'} alignItems={isMobile ? 'center' : 'flex-start'} justifyContent={'center'}>
             <LavaTypo variant={'h3'} size={'30px'} styles={{ marginTop: '16px' }}>
-              Tu peux nous trouver partout sinon
+              {t.music.findUsEverywhere}
             </LavaTypo>
             <Box style={{ display: 'inline-flex', alignItems: 'center' }}
               width={'fit-content'}

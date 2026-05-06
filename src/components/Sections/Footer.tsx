@@ -5,10 +5,12 @@ import LavaInput from '../Design/LavaInput'
 import lb_footer from '@/assets/footer/lb_footer.svg'
 import useIsMobile from '@/hooks/useIsMobile'
 import ClipboardElement from '../Core/ClipboardElement'
+import { useTranslation } from '@/i18n/useTranslation'
 
 export default function Footer() {
   const isMobile = useIsMobile();
   const [error, setError] = React.useState(false);
+  const { t } = useTranslation();
 
   return (
     <Flex
@@ -30,7 +32,7 @@ export default function Footer() {
           justifyContent={'center'}
           paddingX={4}
         >
-          <LavaTypo variant={'h3'}>Booking</LavaTypo>
+          <LavaTypo variant={'h3'}>{t.footer.booking}</LavaTypo>
           <ClipboardElement text='lavabow.band@gmail.com' />
         </Flex>
 
@@ -41,7 +43,7 @@ export default function Footer() {
           paddingX={4}
           height={'68px'}
         >
-          <LavaTypo variant={'h3'}>Réseaux</LavaTypo>
+          <LavaTypo variant={'h3'}>{t.footer.socials}</LavaTypo>
           <Flex flexDirection={'row'} gap={1} alignItems={'center'} zIndex={100}>
             <a className="footer-link" href='https://www.instagram.com/lavabow/' target='_blank' rel='noopener noreferrer'>
               <LavaTypo>Instagram</LavaTypo>
@@ -63,11 +65,11 @@ export default function Footer() {
           paddingX={4}
           m={0}
         >
-          <LavaTypo variant={'h3'}>Newsletter</LavaTypo>
+          <LavaTypo variant={'h3'}>{t.footer.newsletter}</LavaTypo>
           <Box width={'100%'}>
             <LavaInput
               liquidGlass={false}
-              placeholder="Email"
+              placeholder={t.footer.emailPlaceholder}
               variant={'subtle'}
               error={error}
               setError={setError}
@@ -81,7 +83,7 @@ export default function Footer() {
       </Flex>
       <Box zIndex={1000} p={0} mt={1} py={2}>
         <LavaTypo textAlign='center' variant='p' size={12}>
-          © 2026 LAVA BOW
+          {t.footer.copyright}
         </LavaTypo>
       </Box>
     </Flex>

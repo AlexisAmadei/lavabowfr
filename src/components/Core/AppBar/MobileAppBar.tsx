@@ -3,13 +3,16 @@ import Logo from '@/components/Design/Logo'
 import { Box, Flex } from '@chakra-ui/react'
 import React from 'react'
 import { scrollToSection } from '@/utils/navigation'
-import menuItems from '@/lib/menuItems'
+import useMenuItems from '@/hooks/useMenuItems'
 import MediaLinks from './MediaLinks'
 import Player from '@/components/Design/Player'
 import { useNavigate } from 'react-router'
+import { useTranslation } from '@/i18n/useTranslation'
 
 export default function MobileAppBar() {
   const [open, setOpen] = React.useState(false)
+  const menuItems = useMenuItems()
+  const { t } = useTranslation()
   const navigate = useNavigate()
 
   const handleMenuToggle = () => {
@@ -51,7 +54,7 @@ export default function MobileAppBar() {
 
       <Box flexBasis={'1/6'} style={{ position: 'relative' }}>
         <div onClick={() => handleMenuToggle()} className='app-bar__menu-burger'>
-          <LavaTypo variant='h2' size={24} color='white'>Menu</LavaTypo>
+          <LavaTypo variant='h2' size={24} color='white'>{t.menu.menuLabel}</LavaTypo>
         </div>
         {open && (
           <>
@@ -81,7 +84,7 @@ export default function MobileAppBar() {
               width={'100%'}
               backgroundColor={'var(--Background-bg-brand)'}
             >
-              <LavaTypo variant='h2' color='white' onClick={() => handleMenuToggle()} size={24}>Close</LavaTypo>
+              <LavaTypo variant='h2' color='white' onClick={() => handleMenuToggle()} size={24}>{t.menu.close}</LavaTypo>
               <Flex width="100%" direction={'column'} justifyContent={'100%'} alignItems={'flex-end'} gap={4} marginTop={'16px'}>
                 {menuItems.map(item => {
                   if (item.subItems && item.subItems.length > 0) {

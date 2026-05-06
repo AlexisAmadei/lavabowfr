@@ -6,10 +6,12 @@ import useIsMobile from '../../hooks/useIsMobile'
 import { fetchDataFromTable } from '@/utils/supabase/supabase'
 import { Video } from '@/types/types'
 import ReactPlayer from 'react-player'
+import { useTranslation } from '@/i18n/useTranslation'
 
 export default function Videos() {
   const isMobile = useIsMobile(1300);
   const [videoList, setVideoList] = React.useState<Video[]>([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     async function fetchVideoList() {
@@ -31,10 +33,10 @@ export default function Videos() {
 
   if (isMobile) {
     return (
-      <Section id={'videos'} title={'Vidéos'}>
+      <Section id={'videos'} title={t.videos.title}>
 
         <Flex direction={'column'} gap={6} alignItems={'center'}>
-          <LavaTypo variant={'h2'} size={25}>Dernière vidéo</LavaTypo>
+          <LavaTypo variant={'h2'} size={25}>{t.videos.latest}</LavaTypo>
           {featuredVideo?.url && (
             <Box width={'350px'}>
               <ReactPlayer
@@ -50,12 +52,12 @@ export default function Videos() {
   }
 
   return (
-    <Section id='videos' title={'Vidéos'}>
+    <Section id='videos' title={t.videos.title}>
       <Flex direction={'column'} gap={8} width={'100%'} alignItems={'center'}>
         <Flex justifyContent={'flex-start'} direction={isMobile ? "column" : "row"} gap={3} height={'100%'}>
 
           <Flex direction={'column'} gap={3} id='featured-video'>
-            <LavaTypo variant={'h2'}>Absolute Cinéma</LavaTypo>
+            <LavaTypo variant={'h2'}>{t.videos.featured}</LavaTypo>
             {featuredVideo?.url && (
               <Box>
                 <ReactPlayer
@@ -73,7 +75,7 @@ export default function Videos() {
               gap={3}
               maxH={'672px'}
             >
-              <LavaTypo variant={'h3'}>Voir plus</LavaTypo>
+              <LavaTypo variant={'h3'}>{t.videos.seeMore}</LavaTypo>
               <Box
                 className='video-list'
                 display={'flex'}
