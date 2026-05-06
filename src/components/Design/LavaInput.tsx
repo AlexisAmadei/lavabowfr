@@ -1,15 +1,10 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Field, Flex, IconButton, Input, InputGroup, Icon } from '@chakra-ui/react'
 import { ArrowIcon } from './Icons';
 import './styles/LavaInput.css'
-import { insertNewsletterItem } from '@/utils/supabase/newsletter';
 import { toaster } from '../ui/toaster';
 import GlassSurface from '../react-bits/GlassSurface/GlassSurface';
 
-function checkEmailFormat(email: string) {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-}
 
 export default function LavaInput({ placeholder, setError, error, variant, liquidGlass }: {
   placeholder?: string;
@@ -22,45 +17,43 @@ export default function LavaInput({ placeholder, setError, error, variant, liqui
 
   const insertEmail = async (email: string) => {
     try {
-      if (!checkEmailFormat(email)) {
+      const res = await fetch('/api/mailchimp/addcontact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.toLowerCase().trim() }),
+      });
+
+      if (res.status === 409) {
+        setError(true);
+        toaster.create({
+          title: 'Tu es déjà inscrit(e) à la newsletter !',
+          type: 'info',
+        });
+      } else if (res.status === 400) {
         setError(true);
         toaster.create({
           title: 'Mets un vrai mail par contre !',
           type: 'error',
         });
-        return;
-      }
-
-      const { error } = await insertNewsletterItem(email.toLowerCase().trim());
-      if (error) {
+      } else if (!res.ok) {
         setError(true);
-        if (error === 'invalid') {
-          toaster.create({
-            title: 'Mets un vrai mail par contre !',
-            type: 'error',
-          });
-          return;
-        } else if (typeof error !== 'string' && error.message.includes('duplicate key value')) {
-          toaster.create({
-            title: 'Tu es déjà inscrit(e) à la newsletter !',
-            type: 'info',
-          });
-        }
+        toaster.create({
+          title: 'Une erreur est survenue, réessaie !',
+          type: 'error',
+        });
       } else {
         setEmail('');
         toaster.create({
-          title: 'Inscription réussie ! (On va quand même vérifier ce que t\'as donné comme mail 🥸)',
+          title: 'Inscription réussie !',
           type: 'success',
         });
       }
-    } catch (err: unknown) {
-      const error = err as { message?: string } | undefined
-      if (error?.message?.includes?.('duplicate key value')) {
-        toaster.create({
-          title: 'Tu es déjà inscrit(e) à la newsletter !',
-          type: 'info',
-        });
-      }
+    } catch {
+      setError(true);
+      toaster.create({
+        title: 'Une erreur est survenue, réessaie !',
+        type: 'error',
+      });
     }
   }
 
@@ -83,12 +76,6 @@ export default function LavaInput({ placeholder, setError, error, variant, liqui
     }
     insertEmail(email);
   }
-
-  useEffect(() => {
-    if (error) {
-      setError(true);
-    }
-  }, [error, setError]);
 
   const endIcon = (
     <IconButton onClick={handleSubmit} variant={'ghost'} rounded={'full'} aria-label='Send' className='lava-input-button'>
