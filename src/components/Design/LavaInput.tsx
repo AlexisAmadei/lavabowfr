@@ -24,6 +24,7 @@ export default function LavaInput({ placeholder, setError, error, variant, liqui
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email.toLowerCase().trim() }),
       });
+      const result = await res.json().catch(() => null);
 
       if (res.status === 409) {
         setError(true);
@@ -39,16 +40,15 @@ export default function LavaInput({ placeholder, setError, error, variant, liqui
         });
       } else if (!res.ok) {
         setError(true);
-        if (error === 'invalid') {
-          toaster.create({
-            title: t.newsletterMessages.invalidEmail,
-            type: 'error',
-          });
-          return;
-        } else if (typeof error !== 'string' && error.message.includes('duplicate key value')) {
+        if (result?.error === 'duplicate') {
           toaster.create({
             title: t.newsletterMessages.alreadySubscribed,
             type: 'info',
+          });
+        } else {
+          toaster.create({
+            title: t.newsletterMessages.invalidEmail,
+            type: 'error',
           });
         }
       } else {
