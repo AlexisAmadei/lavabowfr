@@ -32,3 +32,6 @@ fakeData/
 supabase/.branches/_current_branch
 supabase/migrations/*.sql
 supabase/.temp
+
+# ai tools
+.claude
