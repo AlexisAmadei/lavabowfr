@@ -113,6 +113,27 @@ export interface Translations {
     stockReachedToastDescription: string;
     viewCart: string;
   };
+  checkout: {
+    title: string;
+    summary: string;
+    payCta: string;
+    payingCta: string;
+    backToCart: string;
+    errorOutOfStock: string;
+    errorInsufficientStock: (available: number) => string;
+    errorMissing: string;
+    errorInactive: string;
+    errorGeneric: string;
+  };
+  orderSuccess: {
+    title: string;
+    thanks: string;
+    orderIdLabel: string;
+    receiptNote: string;
+    pendingNote: string;
+    backToShop: string;
+    notFound: string;
+  };
   newsletterMessages: {
     alreadySubscribed: string;
     invalidEmail: string;
