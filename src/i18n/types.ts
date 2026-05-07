@@ -112,6 +112,13 @@ export interface Translations {
     stockReachedToast: string;
     stockReachedToastDescription: string;
     viewCart: string;
+    orderSummary: string;
+    productCode: string;
+    quantity: string;
+    action: string;
+    promoCodePlaceholder: string;
+    apply: string;
+    promo: string;
   };
   checkout: {
     title: string;

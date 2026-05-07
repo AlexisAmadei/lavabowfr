@@ -130,6 +130,13 @@ export const en: Translations = {
     stockReachedToast: 'Stock limit reached',
     stockReachedToastDescription: 'You already have the maximum available quantity in your cart.',
     viewCart: 'View cart',
+    orderSummary: 'Order summary',
+    productCode: 'Product code',
+    quantity: 'Quantity',
+    action: 'Action',
+    promoCodePlaceholder: 'Promo code',
+    apply: 'Apply',
+    promo: 'Promo code',
   },
   checkout: {
     title: 'Order summary',

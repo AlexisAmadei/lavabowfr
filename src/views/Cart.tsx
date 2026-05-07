@@ -25,6 +25,7 @@ import {
   Dialog,
   Flex,
   IconButton,
+  Input,
   Portal,
   RadioGroup,
 } from '@chakra-ui/react';
@@ -58,6 +59,8 @@ export default function Cart() {
 
   const [products, setProducts] = useState<MerchItem[]>([]);
   const [confirmClearOpen, setConfirmClearOpen] = useState(false);
+  const [promoCode, setPromoCode] = useState('');
+  const [appliedPromo, setAppliedPromo] = useState<{ code: string; discount: number } | null>(null);
 
   useCartExpiryCheck(() => {
     toaster.create({
@@ -91,6 +94,15 @@ export default function Cart() {
     navigate('/checkout');
   };
 
+  const handleApplyPromo = () => {
+    if (promoCode.trim()) {
+      setAppliedPromo({
+        code: promoCode,
+        discount: Math.round(totals.subtotalCents * 0.1), // Placeholder: 10% discount
+      });
+    }
+  };
+
   return (
     <Container
       backgroundColor={'var(--Background-bg-brand)'}
@@ -120,15 +132,40 @@ export default function Cart() {
             maxW={'1100px'}
             alignItems={'flex-start'}
           >
+            {/* Product List */}
             <Flex
               direction={'column'}
-              gap={4}
+              gap={0}
               flex={1}
               width={'100%'}
-              backgroundColor={'white'}
+              backgroundColor={'#f1f1f1'}
               borderRadius={8}
               p={4}
             >
+              {/* Column Headers */}
+              <Flex
+                width={'100%'}
+                justifyContent={'space-between'}
+                alignItems={'center'}
+                pb={3}
+                borderBottom={'1px solid #959595'}
+                mb={3}
+              >
+                <Box flex={1} minW={0}>
+                  <LavaTypo color='#959595' size='14px'>{t.cart.productCode || 'Code produit'}</LavaTypo>
+                </Box>
+                <Box flex={1} textAlign='center'>
+                  <LavaTypo color='#959595' size='14px'>{t.cart.quantity || 'Quantité'}</LavaTypo>
+                </Box>
+                <Box flex={1} textAlign='right'>
+                  <LavaTypo color='#959595' size='14px'>{t.cart.total || 'Total'}</LavaTypo>
+                </Box>
+                <Box width='60px' textAlign='right'>
+                  <LavaTypo color='#959595' size='14px'>{t.cart.action || 'Action'}</LavaTypo>
+                </Box>
+              </Flex>
+
+              {/* Product Items */}
               {cart.items.map((line) => {
                 const product = productById.get(line.productId);
                 if (!product) return null;
@@ -139,70 +176,95 @@ export default function Cart() {
                   : Math.round(Number(product.price) * 100)) * line.quantity;
 
                 return (
-                  <Flex
-                    key={line.productId}
-                    align={'center'}
-                    gap={4}
-                    borderBottom={'1px solid #eee'}
-                    pb={3}
-                  >
-                    <img
-                      src={product.image_url || 'https://placehold.co/80x80'}
-                      alt={product.name}
-                      style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 4 }}
-                    />
-                    <Flex direction={'column'} flex={1} gap={1}>
-                      <LavaTypo variant='h4' color='black' style={{ fontWeight: 'normal' }}>
-                        {product.name}
-                      </LavaTypo>
-                      <LavaTypo color='gray'>
-                        {formatCents(typeof product.price_cents === 'number'
-                          ? product.price_cents
-                          : Math.round(Number(product.price) * 100))}
-                      </LavaTypo>
-                    </Flex>
-
-                    <Flex align={'center'} gap={2}>
-                      <IconButton
-                        size='sm'
-                        aria-label='decrement'
-                        onClick={() => decrementItem(line.productId)}
-                        disabled={!productsLoaded}
-                      >
-                        <FontAwesomeIcon icon={faMinus} />
-                      </IconButton>
-                      <LavaTypo color='black' style={{ minWidth: 24, textAlign: 'center' }}>
-                        {line.quantity}
-                      </LavaTypo>
-                      <IconButton
-                        size='sm'
-                        aria-label='increment'
-                        onClick={() => incrementItem(line.productId, stock)}
-                        disabled={!productsLoaded || atMax}
-                      >
-                        <FontAwesomeIcon icon={faPlus} />
-                      </IconButton>
-                    </Flex>
-
-                    <LavaTypo color='black' style={{ minWidth: 80, textAlign: 'right' }}>
-                      {formatCents(lineTotalCents)}
-                    </LavaTypo>
-
-                    <IconButton
-                      size='sm'
-                      aria-label={t.cart.remove}
-                      variant='ghost'
-                      onClick={() => removeItem(line.productId)}
+                  <Flex key={line.productId} direction='column' gap={0}>
+                    <Flex
+                      width={'100%'}
+                      align={'center'}
+                      justifyContent={'space-between'}
+                      gap={4}
+                      borderBottom={'1px solid #959595'}
+                      py={3}
                     >
-                      <FontAwesomeIcon icon={faTrash} />
-                    </IconButton>
+                      {/* Product Info */}
+                      <Flex direction={'column'} flex={1} minW={0}>
+                        <Flex align='center' gap={3} width='100%'>
+                          <img
+                            src={product.image_url || 'https://placehold.co/70x70'}
+                            alt={product.name}
+                            style={{ width: 70, height: 70, objectFit: 'cover', borderRadius: 4, flexShrink: 0 }}
+                          />
+                          <Flex direction={'column'} flex={1} minW={0} gap={1}>
+                            <LavaTypo variant='h4' color='#ed00e1' style={{ fontWeight: 'normal', wordBreak: 'break-word' }}>
+                              {product.name}
+                            </LavaTypo>
+                            <LavaTypo color='#959595' size='14px'>
+                              {product.description || 'Standard'}
+                            </LavaTypo>
+                          </Flex>
+                        </Flex>
+                      </Flex>
+
+                      {/* Quantity */}
+                      <Flex flex={1} justifyContent='center'>
+                        <Flex
+                          align={'center'}
+                          gap={2}
+                          px={2}
+                          py={1}
+                          borderRadius='100px'
+                          border='1px solid #060606'
+                        >
+                          <IconButton
+                            size='xs'
+                            aria-label='decrement'
+                            onClick={() => decrementItem(line.productId)}
+                            disabled={!productsLoaded}
+                            variant='ghost'
+                          >
+                            <FontAwesomeIcon icon={faMinus} size='sm' />
+                          </IconButton>
+                          <LavaTypo color='black' size='14px' style={{ minWidth: 20, textAlign: 'center' }}>
+                            {line.quantity}
+                          </LavaTypo>
+                          <IconButton
+                            size='xs'
+                            aria-label='increment'
+                            onClick={() => incrementItem(line.productId, stock)}
+                            disabled={!productsLoaded || atMax}
+                            variant='ghost'
+                          >
+                            <FontAwesomeIcon icon={faPlus} size='sm' />
+                          </IconButton>
+                        </Flex>
+                      </Flex>
+
+                      {/* Total Price */}
+                      <Box flex={1} textAlign='right'>
+                        <LavaTypo color='#ed00e1' variant='h4' style={{ fontWeight: 'normal' }}>
+                          {formatCents(lineTotalCents)}
+                        </LavaTypo>
+                      </Box>
+
+                      {/* Delete Action */}
+                      <Box width='60px' textAlign='right'>
+                        <IconButton
+                          size='sm'
+                          aria-label={t.cart.remove}
+                          variant='ghost'
+                          onClick={() => removeItem(line.productId)}
+                        >
+                          <FontAwesomeIcon icon={faTrash} />
+                        </IconButton>
+                      </Box>
+                    </Flex>
                   </Flex>
                 );
               })}
 
-              <Flex justifyContent={'flex-end'} mt={2}>
+              {/* Clear All Button */}
+              <Flex justifyContent={'flex-end'} mt={4} pt={3}>
                 <LavaButton
-                  variant='outlined'
+                  variant='filled'
                   onClick={() => setConfirmClearOpen(true)}
                 >
                   {t.cart.clearAll}
@@ -210,16 +272,92 @@ export default function Cart() {
               </Flex>
             </Flex>
 
+            {/* Order Summary */}
             <Flex
               direction={'column'}
               gap={4}
-              width={isMobile ? '100%' : '380px'}
-              backgroundColor={'white'}
+              width={isMobile ? '100%' : '400px'}
+              backgroundColor={'#f1f1f1'}
               borderRadius={8}
               p={4}
             >
-              <LavaTypo variant='h3' color='black' style={{ fontWeight: 'normal' }}>
-                {t.cart.delivery}
+              <LavaTypo color='#959595' size='14px'>
+                {t.cart.orderSummary || 'Résumé de la commande'}
+              </LavaTypo>
+
+              <Box height={'1px'} backgroundColor={'#959595'} />
+
+              {/* Promo Code Section */}
+              <Flex gap={2} width='100%'>
+                <Input
+                  placeholder={t.cart.promoCodePlaceholder || 'Code promo'}
+                  value={promoCode}
+                  onChange={(e) => setPromoCode(e.target.value)}
+                  borderRadius='100px'
+                  border='1px solid #060606'
+                  px={6}
+                  py={3}
+                  fontSize='16px'
+                  flex={1}
+                />
+                <LavaButton
+                  variant='filled'
+                  onClick={handleApplyPromo}
+                  size='medium'
+                >
+                  {t.cart.apply || 'Appliquer'}
+                </LavaButton>
+              </Flex>
+
+              <Box height={'1px'} backgroundColor={'#959595'} />
+
+              {/* Price Breakdown */}
+              <Flex direction='column' gap={2}>
+                <Flex justifyContent={'space-between'}>
+                  <LavaTypo color='#959595' size='14px'>{t.cart.subtotal || 'Total de la commande'}</LavaTypo>
+                  <LavaTypo color='#060606' size='14px' style={{ fontWeight: 'bold' }}>{formatCents(totals.subtotalCents)}</LavaTypo>
+                </Flex>
+
+                {appliedPromo && (
+                  <Flex justifyContent={'space-between'}>
+                    <LavaTypo color='#959595' size='14px'>{`${t.cart.promo || 'Code promo'} (${Math.round((appliedPromo.discount / totals.subtotalCents) * 100)}%)`}</LavaTypo>
+                    <LavaTypo color='#060606' size='14px' style={{ fontWeight: 'bold' }}>{`-${formatCents(appliedPromo.discount)}`}</LavaTypo>
+                  </Flex>
+                )}
+
+                <Flex justifyContent={'space-between'}>
+                  <LavaTypo color='#959595' size='14px'>{t.cart.shippingLabel || 'Frais de livraison'}</LavaTypo>
+                  <LavaTypo color='#060606' size='14px' style={{ fontWeight: 'bold' }}>
+                    {cart.deliveryMethod === 'shipping'
+                      ? formatCents(SHIPPING_COST_CENTS)
+                      : formatCents(0)}
+                  </LavaTypo>
+                </Flex>
+              </Flex>
+
+              <Box height={'1px'} backgroundColor={'#959595'} />
+
+              {/* Total */}
+              <Flex justifyContent={'space-between'} alignItems='center'>
+                <LavaTypo color='#060606' size='16px' style={{ fontWeight: 'bold' }}>{t.cart.total || 'Total'}</LavaTypo>
+                <LavaTypo
+                  color='#060606'
+                  size='24px'
+                  style={{ fontWeight: 'bold', fontFamily: "'Cossette_Texte', serif" }}
+                >
+                  {formatCents(
+                    totals.totalCents +
+                    (cart.deliveryMethod === 'shipping' ? SHIPPING_COST_CENTS : 0) -
+                    (appliedPromo?.discount || 0)
+                  )}
+                </LavaTypo>
+              </Flex>
+
+              {/* Delivery Options */}
+              <Box height={'1px'} backgroundColor={'#959595'} />
+
+              <LavaTypo color='#060606' size='14px' style={{ fontWeight: 'bold' }}>
+                {t.cart.delivery || 'Livraison'}
               </LavaTypo>
 
               <RadioGroup.Root
@@ -234,49 +372,32 @@ export default function Cart() {
                   <RadioGroup.Item value='in_hand'>
                     <RadioGroup.ItemHiddenInput />
                     <RadioGroup.ItemIndicator />
-                    <RadioGroup.ItemText color={'black'}>
+                    <RadioGroup.ItemText color={'#060606'} fontSize='14px'>
                       {t.cart.deliveryInHand}
                     </RadioGroup.ItemText>
                   </RadioGroup.Item>
                   <RadioGroup.Item value='shipping'>
                     <RadioGroup.ItemHiddenInput />
                     <RadioGroup.ItemIndicator />
-                    <RadioGroup.ItemText color={'black'}>
+                    <RadioGroup.ItemText color={'#060606'} fontSize='14px'>
                       {t.cart.deliveryShipping}
                     </RadioGroup.ItemText>
                   </RadioGroup.Item>
                 </Flex>
               </RadioGroup.Root>
 
-              <Box fontSize={'sm'} color={'gray.600'} mt={2}>
+              <Box fontSize={'sm'} color={'#959595'}>
                 {t.cart.shippingNotice}
               </Box>
 
-              <Box height={'1px'} backgroundColor={'#eee'} my={2} />
-
-              <Flex justifyContent={'space-between'}>
-                <LavaTypo color='black'>{t.cart.subtotal}</LavaTypo>
-                <LavaTypo color='black'>{formatCents(totals.subtotalCents)}</LavaTypo>
-              </Flex>
-              <Flex justifyContent={'space-between'}>
-                <LavaTypo color='black'>{t.cart.shippingLabel}</LavaTypo>
-                <LavaTypo color='black'>
-                  {cart.deliveryMethod === 'shipping'
-                    ? formatCents(SHIPPING_COST_CENTS)
-                    : formatCents(0)}
-                </LavaTypo>
-              </Flex>
-              <Flex justifyContent={'space-between'}>
-                <LavaTypo variant='h4' color='black'>{t.cart.total}</LavaTypo>
-                <LavaTypo variant='h4' color='black'>{formatCents(totals.totalCents)}</LavaTypo>
-              </Flex>
-
+              {/* Checkout Button */}
               <LavaButton
                 variant='filled'
                 disabled={isEmpty}
                 onClick={handleCheckout}
+                size='medium'
               >
-                {t.cart.checkout}
+                {t.cart.checkout || 'Payer'}
               </LavaButton>
             </Flex>
           </Flex>

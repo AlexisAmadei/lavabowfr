@@ -248,13 +248,14 @@ export default function Checkout() {
 
             <LavaButton
               variant='filled'
+              color='secondary'
               disabled={isEmpty || submitting}
               onClick={handlePay}
             >
               {submitting ? t.checkout.payingCta : t.checkout.payCta}
             </LavaButton>
             <LavaButton
-              variant='outlined'
+              variant='filled'
               disabled={submitting}
               onClick={() => navigate('/cart')}
             >
