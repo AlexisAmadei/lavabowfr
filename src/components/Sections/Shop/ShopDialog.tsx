@@ -164,6 +164,7 @@ export default function ShopDialog({
           name: formData.name,
           description: formData.description,
           price: formData.price,
+          stock: formData.stock,
           tags: formData.tags,
           stripe_paylink: formData.stripe_paylink,
           out_of_stock: formData.out_of_stock,
@@ -204,6 +205,23 @@ export default function ShopDialog({
               <Field.Root>
                 <Field.Label>Prix</Field.Label>
                 <Input placeholder="Prix de l'article €" value={formData.price} onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })} type="number" />
+              </Field.Root>
+
+              <Field.Root>
+                <Field.Label>Stock disponible</Field.Label>
+                <Input
+                  placeholder="Laisser vide pour stock illimité"
+                  value={formData.stock ?? ''}
+                  onChange={(e) => setFormData({
+                    ...formData,
+                    stock: e.target.value === '' ? null : Number(e.target.value)
+                  })}
+                  type="number"
+                  min={0}
+                />
+                <Text fontSize="sm" color="fg.muted">
+                  Indique le nombre d&apos;articles disponibles avant rupture.
+                </Text>
               </Field.Root>
 
               <Field.Root>

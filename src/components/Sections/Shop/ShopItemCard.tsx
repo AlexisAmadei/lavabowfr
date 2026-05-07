@@ -58,6 +58,8 @@ export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, i
       width={'300px'}
       backgroundColor={!isAdminView ? 'white' : 'gray.50'}
       justifyContent={'space-between'}
+      position={'relative'}
+      isolation={'isolate'}
     >
       <Flex id='item-details' color={'black'}
         direction={'column'}
@@ -74,7 +76,7 @@ export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, i
           flexDirection={'column'}
           gap={2}
           width={'fit-content'}
-          zIndex={9999}
+          zIndex={2}
         >
           {item.tags?.map((tag, index) => (
             <span key={index}

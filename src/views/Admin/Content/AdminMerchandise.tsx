@@ -32,6 +32,7 @@ export default function AdminMerchandise() {
     name: '',
     description: '',
     price: 0,
+    stock: null,
     tags: [],
     stripe_paylink: '',
     out_of_stock: false,
@@ -50,6 +51,7 @@ export default function AdminMerchandise() {
         name: item.name,
         description: item.description,
         price: item.price,
+        stock: item.stock ?? null,
         tags: item.tags || [],
         stripe_paylink: item.stripe_paylink,
         out_of_stock: item.out_of_stock,
@@ -63,6 +65,7 @@ export default function AdminMerchandise() {
     if (formData.name.trim() === '') return false;
     if (formData.description.trim() === '') return false;
     if (Number(formData.price) < 0) return false;
+    if (formData.stock !== undefined && formData.stock !== null && (!Number.isInteger(Number(formData.stock)) || Number(formData.stock) < 0)) return false;
     if (formData.stripe_paylink.length === 10) return false;
     return true;
   }
@@ -73,6 +76,7 @@ export default function AdminMerchandise() {
       name: updatedData?.name ?? formData.name,
       description: updatedData?.description ?? formData.description,
       price: updatedData?.price ?? formData.price,
+      stock: updatedData?.stock ?? formData.stock,
       tags: updatedData?.tags ?? (formData.tags || []),
       stripe_paylink: updatedData?.stripe_paylink ?? formData.stripe_paylink,
       out_of_stock: updatedData?.out_of_stock ?? formData.out_of_stock,
@@ -94,6 +98,7 @@ export default function AdminMerchandise() {
       name: '',
       description: '',
       price: 0,
+      stock: null,
       tags: [],
       stripe_paylink: '',
       out_of_stock: false,
