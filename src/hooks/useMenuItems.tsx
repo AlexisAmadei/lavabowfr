@@ -22,7 +22,7 @@ export default function useMenuItems(): MenuItem[] {
       },
       {
         name: t.menu.shop,
-        link: 'shop',
+        link: '/shop',
         variant: 'outlined',
       },
       {
