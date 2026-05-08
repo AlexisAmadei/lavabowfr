@@ -15,8 +15,6 @@ import {
   decrementItem,
   incrementItem,
   removeItem,
-  setDeliveryMethod,
-  SHIPPING_COST_CENTS,
 } from '@/utils/cart';
 import { fetchMerchItems, MerchItem } from '@/utils/supabase/shop';
 import {
@@ -27,7 +25,6 @@ import {
   IconButton,
   Input,
   Portal,
-  RadioGroup,
 } from '@chakra-ui/react';
 import { faMinus, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -299,9 +296,11 @@ export default function Cart() {
                   py={3}
                   fontSize='16px'
                   flex={1}
+                  color={'black'}
                 />
                 <LavaButton
                   variant='filled'
+                  color='secondary'
                   onClick={handleApplyPromo}
                   size='medium'
                 >
@@ -325,14 +324,6 @@ export default function Cart() {
                   </Flex>
                 )}
 
-                <Flex justifyContent={'space-between'}>
-                  <LavaTypo color='#959595' size='14px'>{t.cart.shippingLabel || 'Frais de livraison'}</LavaTypo>
-                  <LavaTypo color='#060606' size='14px' style={{ fontWeight: 'bold' }}>
-                    {cart.deliveryMethod === 'shipping'
-                      ? formatCents(SHIPPING_COST_CENTS)
-                      : formatCents(0)}
-                  </LavaTypo>
-                </Flex>
               </Flex>
 
               <Box height={'1px'} backgroundColor={'#959595'} />
@@ -345,50 +336,9 @@ export default function Cart() {
                   size='24px'
                   style={{ fontWeight: 'bold', fontFamily: "'Cossette_Texte', serif" }}
                 >
-                  {formatCents(
-                    totals.totalCents +
-                    (cart.deliveryMethod === 'shipping' ? SHIPPING_COST_CENTS : 0) -
-                    (appliedPromo?.discount || 0)
-                  )}
+                  {formatCents(totals.subtotalCents - (appliedPromo?.discount || 0))}
                 </LavaTypo>
               </Flex>
-
-              {/* Delivery Options */}
-              <Box height={'1px'} backgroundColor={'#959595'} />
-
-              <LavaTypo color='#060606' size='14px' style={{ fontWeight: 'bold' }}>
-                {t.cart.delivery || 'Livraison'}
-              </LavaTypo>
-
-              <RadioGroup.Root
-                value={cart.deliveryMethod}
-                onValueChange={(e) => {
-                  if (e.value === 'in_hand' || e.value === 'shipping') {
-                    setDeliveryMethod(e.value);
-                  }
-                }}
-              >
-                <Flex direction={'column'} gap={2}>
-                  <RadioGroup.Item value='in_hand'>
-                    <RadioGroup.ItemHiddenInput />
-                    <RadioGroup.ItemIndicator />
-                    <RadioGroup.ItemText color={'#060606'} fontSize='14px'>
-                      {t.cart.deliveryInHand}
-                    </RadioGroup.ItemText>
-                  </RadioGroup.Item>
-                  <RadioGroup.Item value='shipping'>
-                    <RadioGroup.ItemHiddenInput />
-                    <RadioGroup.ItemIndicator />
-                    <RadioGroup.ItemText color={'#060606'} fontSize='14px'>
-                      {t.cart.deliveryShipping}
-                    </RadioGroup.ItemText>
-                  </RadioGroup.Item>
-                </Flex>
-              </RadioGroup.Root>
-
-              <Box fontSize={'sm'} color={'#959595'}>
-                {t.cart.shippingNotice}
-              </Box>
 
               {/* Checkout Button */}
               <LavaButton

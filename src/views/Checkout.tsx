@@ -60,12 +60,6 @@ export default function Checkout() {
     if (cart.items.length === 0) navigate('/shop', { replace: true });
   }, [cart.items.length, navigate]);
 
-  const productById = useMemo(() => {
-    const map = new Map<string, MerchItem>();
-    for (const p of products) map.set(String(p.id), p);
-    return map;
-  }, [products]);
-
   const productInfos = useMemo(
     () => products.map(merchToProductInfo),
     [products],
@@ -129,72 +123,24 @@ export default function Checkout() {
         <LavaTypo variant='h1' textAlign='center'>{t.checkout.title}</LavaTypo>
 
         <Flex
-          direction={isMobile ? 'column' : 'row'}
+          direction={'column'}
           gap={8}
           mt={8}
           width={'100%'}
           maxW={'1100px'}
-          alignItems={'flex-start'}
+          alignItems={'center'}
         >
           <Flex
             direction={'column'}
             gap={4}
-            flex={1}
             width={'100%'}
+            maxW={'640px'}
             backgroundColor={'white'}
             borderRadius={8}
             p={4}
           >
             <LavaTypo variant='h3' color='black' style={{ fontWeight: 'normal' }}>
-              {t.checkout.summary}
-            </LavaTypo>
-
-            {cart.items.map((line) => {
-              const product = productById.get(line.productId);
-              if (!product) return null;
-              const unitCents = typeof product.price_cents === 'number'
-                ? product.price_cents
-                : Math.round(Number(product.price) * 100);
-              const lineTotalCents = unitCents * line.quantity;
-              return (
-                <Flex
-                  key={line.productId}
-                  align={'center'}
-                  gap={4}
-                  borderBottom={'1px solid #eee'}
-                  pb={3}
-                >
-                  <img
-                    src={product.image_url || 'https://placehold.co/64x64'}
-                    alt={product.name}
-                    style={{ width: 64, height: 64, objectFit: 'cover', borderRadius: 4 }}
-                  />
-                  <Flex direction={'column'} flex={1} gap={1}>
-                    <LavaTypo variant='h4' color='black' style={{ fontWeight: 'normal' }}>
-                      {product.name}
-                    </LavaTypo>
-                    <LavaTypo color='gray'>
-                      {formatCents(unitCents)} × {line.quantity}
-                    </LavaTypo>
-                  </Flex>
-                  <LavaTypo color='black' style={{ minWidth: 80, textAlign: 'right' }}>
-                    {formatCents(lineTotalCents)}
-                  </LavaTypo>
-                </Flex>
-              );
-            })}
-          </Flex>
-
-          <Flex
-            direction={'column'}
-            gap={4}
-            width={isMobile ? '100%' : '380px'}
-            backgroundColor={'white'}
-            borderRadius={8}
-            p={4}
-          >
-            <LavaTypo variant='h3' color='black' style={{ fontWeight: 'normal' }}>
-              {t.cart.delivery}
+              {t.checkout.payCta || 'Paiement'}
             </LavaTypo>
 
             <RadioGroup.Root
