@@ -31,7 +31,7 @@ export default async function handler(req, res) {
   }
   if (!body || typeof body !== 'object') return badRequest(res, 'Missing body');
 
-  const { items, deliveryMethod, shippingAddress } = body;
+  const { items, deliveryMethod } = body;
   if (!Array.isArray(items) || items.length === 0) return badRequest(res, 'Cart is empty');
   if (!ALLOWED_DELIVERY.has(deliveryMethod)) return badRequest(res, 'Invalid deliveryMethod');
 
@@ -106,20 +106,8 @@ export default async function handler(req, res) {
   const shippingCostCents = deliveryMethod === 'shipping' ? SHIPPING_COST_CENTS : 0;
   const totalCents = subtotalCents + shippingCostCents;
 
-  // Validate and persist shipping address when shipping is requested.
-  let shippingAddressToSave = null;
-  if (deliveryMethod === 'shipping') {
-    if (!shippingAddress || typeof shippingAddress !== 'object') {
-      return badRequest(res, 'Missing shippingAddress for shipping deliveryMethod');
-    }
-    const required = ['full_name', 'line1', 'postal_code', 'city', 'country'];
-    for (const k of required) {
-      if (!shippingAddress[k] || String(shippingAddress[k]).trim() === '') {
-        return badRequest(res, 'Invalid shippingAddress', { field: k });
-      }
-    }
-    shippingAddressToSave = shippingAddress;
-  }
+  // Shipping address is collected by Stripe Checkout (shipping_address_collection)
+  // and persisted by the webhook from session.shipping_details.address.
 
   // Insert pending order BEFORE calling Stripe so the UUID can be sent as metadata + idempotency key.
   const { data: orderRow, error: insertOrderError } = await supabase
@@ -130,7 +118,6 @@ export default async function handler(req, res) {
       subtotal_cents: subtotalCents,
       total_cents: totalCents,
       status: 'pending',
-      shipping_address: shippingAddressToSave,
     })
     .select('id')
     .single();
