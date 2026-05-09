@@ -122,7 +122,7 @@ bg={'rgba(255, 255, 255, 0.78)'}
 >
 <Checkbox.Root
 checked={inStockOnly}
-onCheckedChange={(e) => setInStockOnly(!!e.checked)}
+onCheckedChange={(e) => setInStockOnly(e.checked === true)}
 >
 <Checkbox.HiddenInput />
 <Checkbox.Control

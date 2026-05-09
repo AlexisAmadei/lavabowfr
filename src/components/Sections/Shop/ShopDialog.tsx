@@ -305,7 +305,7 @@ export default function ShopDialog({
                           <Checkbox.Root
                             checked={enabled}
                             onCheckedChange={(e) => {
-                              const isOn = !!e.checked;
+                              const isOn = e.checked === true;
                               const next = (formData.sizes ?? []).filter((s) => s.size !== size);
                               if (isOn) next.push({ size: size as SizeValue, stock: null });
                               next.sort((a, b) => SIZE_VALUES.indexOf(a.size) - SIZE_VALUES.indexOf(b.size));
