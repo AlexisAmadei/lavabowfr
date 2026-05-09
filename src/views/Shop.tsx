@@ -8,7 +8,7 @@ import Footer from '@/components/Sections/Footer'
 import ShopFilters from '@/components/Sections/Shop/ShopFilters'
 import ShopItemCard from '@/components/Sections/Shop/ShopItemCard'
 import useIsMobile from '@/hooks/useIsMobile'
-import { fetchMerchItems, MerchItem, MerchCategory, fetchMerchCategories } from '@/utils/supabase/shop'
+import { fetchMerchItems, MerchItem, MerchCategory, fetchMerchCategories, isItemOutOfStock } from '@/utils/supabase/shop'
 import { Box, Container, Flex } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from '@/i18n/useTranslation'
@@ -22,7 +22,7 @@ export default function Shop() {
   const { t } = useTranslation();
 
   const filteredItems = items.filter((item) => {
-    const passesStockFilter = !inStockOnly || !item.out_of_stock
+    const passesStockFilter = !inStockOnly || !isItemOutOfStock(item)
     const passesCategoryFilter = selectedCategories.size === 0 || (item.category && selectedCategories.has(item.category))
     return passesStockFilter && passesCategoryFilter
   })

@@ -50,9 +50,7 @@ export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, i
   }, [item.sizes, hasSizes]);
 
   const allSizesOut = hasSizes && sizeOptions.every((opt) => opt.outOfStock);
-  const isOutOfStock = hasSizes
-    ? allSizesOut || item.out_of_stock
-    : item.stock === 0 || item.out_of_stock;
+  const isOutOfStock = hasSizes ? allSizesOut : item.stock === 0;
 
   const sizeCollection = useMemo(
     () => createListCollection({

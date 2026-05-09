@@ -37,7 +37,6 @@ export default function ShopDialog({
   const [stockMode, setStockMode] = useState<'general' | 'sizes'>(
     (formData.sizes?.length ?? 0) > 0 ? 'sizes' : 'general',
   );
-  // const [isOutOfStock, setIsOutOfStock] = useState(formData.out_of_stock || false);
 
   // Update preview when dialog opens or formData changes
   useEffect(() => {
@@ -182,7 +181,6 @@ export default function ShopDialog({
           stock: formData.stock,
           tags: formData.tags,
           stripe_paylink: formData.stripe_paylink,
-          out_of_stock: formData.out_of_stock,
           status: formData.status,
           image_url: imageUrl,
           category: formData.category
@@ -388,15 +386,6 @@ export default function ShopDialog({
                 <Field.Label>Lien Stripe</Field.Label>
                 <Input placeholder="Stripe Payment Link" value={formData.stripe_paylink} onChange={(e) => setFormData({ ...formData, stripe_paylink: e.target.value })} />
               </Field.Root>
-
-              <Checkbox.Root
-                checked={formData.out_of_stock}
-                onCheckedChange={(e) => setFormData({ ...formData, out_of_stock: !!e.checked })}
-              >
-                <Checkbox.HiddenInput />
-                <Checkbox.Control />
-                <Checkbox.Label>Article hors-stock</Checkbox.Label>
-              </Checkbox.Root>
 
               <Field.Root>
                 <Field.Label>Image</Field.Label>

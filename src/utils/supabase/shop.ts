@@ -20,12 +20,21 @@ export interface MerchItem {
   stock?: number | null;
   tags: string[];
   stripe_paylink: string;
-  out_of_stock: boolean;
   status: 'ACTIVE' | 'INACTIVE' | 'DELETED';
   image_url?: string;
   category?: number;
   // Empty / undefined = no per-size stock, the article is size-less.
   sizes?: MerchItemSize[];
+}
+
+// Derived from real stock values: general `stock` for size-less items, per-size
+// stock rows for sized items. `null` stock means unlimited (never out).
+export function isItemOutOfStock(item: Pick<MerchItem, 'stock' | 'sizes'>): boolean {
+  const sizes = item.sizes ?? [];
+  if (sizes.length > 0) {
+    return sizes.every((s) => typeof s.stock === 'number' && s.stock <= 0);
+  }
+  return item.stock === 0;
 }
 
 export interface MerchCategory {
@@ -112,7 +121,6 @@ export async function updateMerchItem(item: MerchItem): Promise<boolean> {
       price_cents: priceCents,
       tags: item.tags,
       stripe_paylink: item.stripe_paylink,
-      out_of_stock: item.out_of_stock,
       status: item.status,
       image_url: item.image_url,
       category: item.category,
@@ -150,7 +158,6 @@ export async function addMerchItem(item: Omit<MerchItem, 'id'>): Promise<number 
         stock: item.stock ?? null,
         tags: item.tags,
         stripe_paylink: item.stripe_paylink,
-        out_of_stock: item.out_of_stock,
         status: item.status,
         image_url: item.image_url,
         category: item.category

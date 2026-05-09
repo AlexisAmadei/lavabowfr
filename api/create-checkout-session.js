@@ -69,7 +69,7 @@ export default async function handler(req, res) {
 
   const { data: products, error: fetchError } = await supabase
     .from('merch_items')
-    .select('id, name, price_cents, stock, status, out_of_stock, sizes:merch_item_sizes(size, stock)')
+    .select('id, name, price_cents, stock, status, sizes:merch_item_sizes(size, stock)')
     .in('id', productIds);
 
   if (fetchError) {
@@ -85,7 +85,6 @@ export default async function handler(req, res) {
     const product = byId.get(line.productId);
     if (!product) return badRequest(res, 'Product not found', { productId: line.productId, reason: 'missing' });
     if (product.status !== 'ACTIVE') return badRequest(res, 'Product is not available', { productId: line.productId, reason: 'inactive' });
-    if (product.out_of_stock) return badRequest(res, 'Product is out of stock', { productId: line.productId, reason: 'out_of_stock' });
     const productSizes = Array.isArray(product.sizes) ? product.sizes : [];
     const isSized = productSizes.length > 0;
     if (isSized) {

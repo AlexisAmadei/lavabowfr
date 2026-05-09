@@ -38,7 +38,7 @@ const merchToProductInfo = (item: MerchItem): CartProductInfo => ({
 
 interface CheckoutSessionError {
   error?: string;
-  reason?: 'missing' | 'inactive' | 'out_of_stock' | 'insufficient_stock' | 'invalid_price' | 'size_required' | 'invalid_size';
+  reason?: 'missing' | 'inactive' | 'insufficient_stock' | 'invalid_price' | 'size_required' | 'invalid_size';
   available?: number;
 }
 
@@ -85,7 +85,6 @@ export default function Checkout() {
         const payload: CheckoutSessionError = await res.json().catch(() => ({}));
         const message = (() => {
           switch (payload.reason) {
-            case 'out_of_stock': return t.checkout.errorOutOfStock;
             case 'missing': return t.checkout.errorMissing;
             case 'inactive': return t.checkout.errorInactive;
             case 'size_required': return t.checkout.errorSizeRequired;
