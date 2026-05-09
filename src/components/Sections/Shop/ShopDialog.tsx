@@ -1,6 +1,9 @@
 import LavaTypo from '@/components/Design/LavaTypo'
-import { addMerchItem, MerchItem, uploadMerchImage, deleteMerchImage, MerchCategory, fetchMerchCategories, SIZE_VALUES, SizeValue, upsertMerchItemSizes } from '@/utils/supabase/shop'
-import { Box, Button, Dialog, Field, Flex, Input, Stack, Text, FileUpload, Image, Checkbox, Select, createListCollection, Portal, RadioGroup } from '@chakra-ui/react'
+import ShopStockPerSize from '@/components/Sections/Shop/ShopStockPerSize'
+import ShopGlobalStock from '@/components/Sections/Shop/ShopGlobalStock'
+import ShopCategory from '@/components/Sections/Shop/ShopCategory'
+import { addMerchItem, MerchItem, uploadMerchImage, deleteMerchImage, MerchCategory, fetchMerchCategories, upsertMerchItemSizes } from '@/utils/supabase/shop'
+import { Button, Dialog, Field, Flex, Input, Stack, Text, FileUpload, Image, RadioGroup } from '@chakra-ui/react'
 import React, { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUpload, faXmark } from '@fortawesome/free-solid-svg-icons'
@@ -31,12 +34,19 @@ export default function ShopDialog({
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [categories, setCategories] = useState<MerchCategory[]>([]);
-  const [bulkSizeStock, setBulkSizeStock] = useState<string>('');
   // Picker between "single article-wide stock" and "stock per clothing size".
   // Initialised from formData on dialog open; user-driven afterwards.
   const [stockMode, setStockMode] = useState<'general' | 'sizes'>(
     (formData.sizes?.length ?? 0) > 0 ? 'sizes' : 'general',
   );
+
+  const logSizeState = (label: string, nextSizes: MerchItem['sizes']) => {
+    console.log(`[ShopDialog] ${label}`, {
+      stockMode,
+      sizes: nextSizes,
+      currentItem: formData.id ?? null,
+    });
+  };
 
   // Update preview when dialog opens or formData changes
   useEffect(() => {
@@ -231,11 +241,19 @@ export default function ShopDialog({
                     if (e.value === 'general') {
                       setStockMode('general');
                       // Switch back to article-wide stock: drop any per-size rows.
-                      setFormData({ ...formData, sizes: [] });
+                      setFormData((prev) => {
+                        const next = { ...prev, sizes: [] };
+                        console.log('[ShopDialog] switched to general stock mode', next);
+                        return next;
+                      });
                     } else if (e.value === 'sizes') {
                       setStockMode('sizes');
                       // Switch to per-size stock: clear the article-wide counter; admin enables sizes below.
-                      setFormData({ ...formData, stock: null });
+                      setFormData((prev) => {
+                        const next = { ...prev, stock: null };
+                        console.log('[ShopDialog] switched to per-size stock mode', next);
+                        return next;
+                      });
                     }
                   }}
                 >
@@ -254,90 +272,15 @@ export default function ShopDialog({
                 </RadioGroup.Root>
               </Field.Root>
 
+              {/* Stock Settings */}
               {stockMode === 'general' ? (
-                <Field.Root>
-                  <Field.Label>Stock disponible</Field.Label>
-                  <Input
-                    placeholder="Laisser vide pour stock illimité"
-                    value={formData.stock ?? ''}
-                    onChange={(e) => setFormData({
-                      ...formData,
-                      stock: e.target.value === '' ? null : Number(e.target.value)
-                    })}
-                    type="number"
-                    min={0}
-                  />
-                  <Text fontSize="sm" color="fg.muted">
-                    Indique le nombre d&apos;articles disponibles avant rupture.
-                  </Text>
-                </Field.Root>
+                <ShopGlobalStock formData={formData} setFormData={setFormData} />
               ) : (
-                <Field.Root>
-                  <Field.Label>Tailles disponibles</Field.Label>
-                  <Flex align="center" gap={2} mb={3} width="100%">
-                    <Input
-                      type="number"
-                      min={0}
-                      placeholder="Ex. 50"
-                      value={bulkSizeStock}
-                      onChange={(e) => setBulkSizeStock(e.target.value)}
-                      flex={1}
-                    />
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        const parsed = bulkSizeStock === '' ? null : Number(bulkSizeStock);
-                        const next = SIZE_VALUES.map((s) => ({ size: s as SizeValue, stock: parsed }));
-                        setFormData({ ...formData, sizes: next });
-                      }}
-                    >
-                      Appliquer à toutes les tailles
-                    </Button>
-                  </Flex>
-                  <Flex direction="column" gap={2} width="100%">
-                    {SIZE_VALUES.map((size) => {
-                      const current = formData.sizes?.find((s) => s.size === size);
-                      const enabled = current !== undefined;
-                      const stockValue = enabled ? current.stock : null;
-                      return (
-                        <Flex key={size} align="center" gap={3}>
-                          <Checkbox.Root
-                            checked={enabled}
-                            onCheckedChange={(e) => {
-                              const isOn = e.checked === true;
-                              const next = (formData.sizes ?? []).filter((s) => s.size !== size);
-                              if (isOn) next.push({ size: size as SizeValue, stock: null });
-                              next.sort((a, b) => SIZE_VALUES.indexOf(a.size) - SIZE_VALUES.indexOf(b.size));
-                              setFormData({ ...formData, sizes: next });
-                            }}
-                          >
-                            <Checkbox.HiddenInput />
-                            <Checkbox.Control />
-                            <Checkbox.Label>{size}</Checkbox.Label>
-                          </Checkbox.Root>
-                          <Box flex={1}>
-                            <Input
-                              type="number"
-                              min={0}
-                              placeholder="Stock (vide = illimité)"
-                              value={stockValue ?? ''}
-                              disabled={!enabled}
-                              onChange={(e) => {
-                                const raw = e.target.value;
-                                const parsed = raw === '' ? null : Number(raw);
-                                const next = (formData.sizes ?? []).map((s) =>
-                                  s.size === size ? { ...s, stock: parsed } : s,
-                                );
-                                setFormData({ ...formData, sizes: next });
-                              }}
-                            />
-                          </Box>
-                        </Flex>
-                      );
-                    })}
-                  </Flex>
-                </Field.Root>
+                <ShopStockPerSize
+                  formData={formData}
+                  setFormData={setFormData}
+                  logSizeState={logSizeState}
+                />
               )}
 
               <Field.Root>
@@ -345,42 +288,11 @@ export default function ShopDialog({
                 <Input placeholder="Tags" value={formData.tags?.join(', ') ?? ''} onChange={(e) => setFormData({ ...formData, tags: e.target.value.trim() === '' ? [] : e.target.value.split(',').map(tag => tag.trim()) })} />
               </Field.Root>
 
-              <Field.Root>
-                <Field.Label>Catégorie</Field.Label>
-                <Select.Root
-                  collection={createListCollection({
-                    items: categories,
-                    itemToString: (item) => item.name,
-                    itemToValue: (item) => String(item.id),
-                  })}
-                  size="sm"
-                  width="100%"
-                  value={formData.category ? [String(formData.category)] : []}
-                  onValueChange={(e) => setFormData({ ...formData, category: e.value ? Number(e.value[0]) : undefined })}
-                >
-                  <Select.HiddenSelect />
-                  <Select.Control>
-                    <Select.Trigger>
-                      <Select.ValueText placeholder="Sélectionner une catégorie" />
-                    </Select.Trigger>
-                    <Select.IndicatorGroup>
-                      <Select.Indicator />
-                    </Select.IndicatorGroup>
-                  </Select.Control>
-                  <Portal>
-                    <Select.Positioner>
-                      <Select.Content>
-                        {categories.map((category) => (
-                          <Select.Item item={category} key={category.id} color={'black'}>
-                            {category.name}
-                            <Select.ItemIndicator />
-                          </Select.Item>
-                        ))}
-                      </Select.Content>
-                    </Select.Positioner>
-                  </Portal>
-                </Select.Root>
-              </Field.Root>
+              <ShopCategory
+                formData={formData}
+                setFormData={setFormData}
+                categories={categories}
+              />
 
               <Field.Root>
                 <Field.Label>Lien Stripe</Field.Label>

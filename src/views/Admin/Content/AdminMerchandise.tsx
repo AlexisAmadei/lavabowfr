@@ -67,7 +67,19 @@ export default function AdminMerchandise() {
     if (formData.name.trim() === '') return false;
     if (formData.description.trim() === '') return false;
     if (Number(formData.price) < 0) return false;
-    if (formData.stock !== undefined && formData.stock !== null && (!Number.isInteger(Number(formData.stock)) || Number(formData.stock) < 0)) return false;
+    // Stock rule: blank/null = unlimited (allowed). Any explicit number must be a positive integer.
+    // 0 or negative would silently block checkout, so we reject them here.
+    if (formData.stock !== undefined && formData.stock !== null) {
+      const n = Number(formData.stock);
+      if (!Number.isInteger(n) || n <= 0) return false;
+    }
+    if (formData.sizes && formData.sizes.length > 0) {
+      for (const s of formData.sizes) {
+        if (s.stock === null || s.stock === undefined) continue;
+        const n = Number(s.stock);
+        if (!Number.isInteger(n) || n <= 0) return false;
+      }
+    }
     if (formData.stripe_paylink.length === 10) return false;
     return true;
   }
