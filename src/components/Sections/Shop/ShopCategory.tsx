@@ -35,12 +35,20 @@ export default function ShopCategory({ formData, setFormData, categories }: Prop
         <Portal>
           <Select.Positioner>
             <Select.Content>
-              {categories.map((category) => (
-                <Select.Item item={category} key={category.id} color={'black'}>
-                  {category.name}
-                  <Select.ItemIndicator />
-                </Select.Item>
-              ))}
+              {categories.length > 0 ? (
+                categories.map((category) => (
+                  <Select.Item item={category} key={category.id} color={'black'}>
+                    {category.name}
+                    <Select.ItemIndicator />
+                  </Select.Item>
+                ))
+              ) : (
+                <Select.ItemGroup>
+                  <Select.ItemGroupLabel color={'gray'}>
+                    Aucune catégorie trouvée
+                  </Select.ItemGroupLabel>
+                </Select.ItemGroup>
+              )}
             </Select.Content>
           </Select.Positioner>
         </Portal>

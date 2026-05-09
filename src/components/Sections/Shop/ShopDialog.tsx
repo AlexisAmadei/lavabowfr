@@ -294,10 +294,10 @@ export default function ShopDialog({
                 categories={categories}
               />
 
-              <Field.Root>
+              {/* <Field.Root>
                 <Field.Label>Lien Stripe</Field.Label>
                 <Input placeholder="Stripe Payment Link" value={formData.stripe_paylink} onChange={(e) => setFormData({ ...formData, stripe_paylink: e.target.value })} />
-              </Field.Root>
+              </Field.Root> */}
 
               <Field.Root>
                 <Field.Label>Image</Field.Label>
