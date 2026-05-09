@@ -120,7 +120,29 @@ async function handleCheckoutCompleted(session) {
 
   const { error: rpcError } = await supabase.rpc('decrement_stock', { p_order_id: orderId });
   if (rpcError) {
-    // Order is already paid; surface for monitoring but don't fail the webhook.
+    // The RPC raises 'oversold' (P0001) when the stock >= 0 CHECK trips, meaning
+    // another buyer drained the item between pre-checkout validation and now.
+    // We've already taken the customer's money, so refund automatically and mark
+    // the order so ops can follow up. Any other error: leave the order paid and
+    // surface for monitoring.
+    const isOversold = rpcError.code === 'P0001' || /oversold/i.test(rpcError.message || '');
+    if (isOversold) {
+      console.warn('stripe-webhook: oversold detected, auto-refunding', { orderId, paymentIntentId });
+      if (paymentIntentId) {
+        try {
+          await getStripe().refunds.create({ payment_intent: paymentIntentId });
+        } catch (refundErr) {
+          console.error('stripe-webhook: oversold refund failed (manual intervention required)', { orderId, paymentIntentId, refundErr });
+        }
+      }
+      const { error: oversoldErr } = await supabase
+        .from('orders')
+        .update({ status: 'oversold' })
+        .eq('id', orderId)
+        .eq('status', 'paid');
+      if (oversoldErr) console.error('stripe-webhook: failed to mark oversold', { orderId, oversoldErr });
+      return; // Skip the confirmation email — the customer is getting refunded, not fulfilled.
+    }
     console.error('stripe-webhook: stock decrement failed', { orderId, error: rpcError });
   }
 
