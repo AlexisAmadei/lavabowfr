@@ -2,7 +2,7 @@ import LavaButton from '@/components/Design/LavaButton';
 import LavaTypo from '@/components/Design/LavaTypo'
 import useIsMobile from '@/hooks/useIsMobile';
 import { op } from '@/lib/openpanel';
-import { MerchItem, SIZE_VALUES, SizeValue } from '@/utils/supabase/shop';
+import { MerchItem, SIZE_VALUES, SizeValue, isItemLowStock } from '@/utils/supabase/shop';
 import { addItem } from '@/utils/cart';
 import { Box, createListCollection, Flex, Portal, Select } from '@chakra-ui/react'
 import { useMemo, useState } from 'react';
@@ -51,6 +51,7 @@ export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, i
 
   const allSizesOut = hasSizes && sizeOptions.every((opt) => opt.outOfStock);
   const isOutOfStock = hasSizes ? allSizesOut : item.stock === 0;
+  const isLowStock = isItemLowStock(item);
 
   const sizeCollection = useMemo(
     () => createListCollection({
@@ -131,6 +132,20 @@ export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, i
           width={'fit-content'}
           zIndex={2}
         >
+          {isLowStock && !isOutOfStock && (
+            <span
+              style={{
+                padding: '4px 8px',
+                borderRadius: '100px',
+                backgroundColor: 'var(--Background-bg-brand)',
+                color: 'white',
+                textAlign: 'center',
+                fontSize: '12px'
+              }}
+            >
+              {t.shop.lowStock}
+            </span>
+          )}
           {item.tags?.map((tag, index) => (
             <span key={index}
               style={{

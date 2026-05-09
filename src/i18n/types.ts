@@ -84,6 +84,7 @@ export interface Translations {
     emptyState: string;
     outOfStock: string;
     outOfStockBuy: string;
+    lowStock: string;
     buy: string;
     addToCart: string;
     sizePlaceholder: string;

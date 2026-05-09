@@ -37,6 +37,21 @@ export function isItemOutOfStock(item: Pick<MerchItem, 'stock' | 'sizes'>): bool
   return item.stock === 0;
 }
 
+export const LOW_STOCK_THRESHOLD = 10;
+
+// Low stock = at least one finite stock value (general or any size) sits strictly
+// between 0 and the threshold. `null` stock = unlimited, never triggers the flag.
+export function isItemLowStock(item: Pick<MerchItem, 'stock' | 'sizes'>): boolean {
+  if (isItemOutOfStock(item)) return false;
+  const sizes = item.sizes ?? [];
+  if (sizes.length > 0) {
+    return sizes.some(
+      (s) => typeof s.stock === 'number' && s.stock > 0 && s.stock < LOW_STOCK_THRESHOLD,
+    );
+  }
+  return typeof item.stock === 'number' && item.stock > 0 && item.stock < LOW_STOCK_THRESHOLD;
+}
+
 export interface MerchCategory {
   id: number;
   name: string;

@@ -102,6 +102,7 @@ export const fr: Translations = {
     emptyState: "Aucun article disponible pour le moment. Restez à l'écoute !",
     outOfStock: 'HORS STOCK',
     outOfStockBuy: 'Hors stock',
+    lowStock: 'Stock limité',
     buy: 'Acheter',
     addToCart: 'Ajouter au panier',
     sizePlaceholder: 'Choisir une taille',
