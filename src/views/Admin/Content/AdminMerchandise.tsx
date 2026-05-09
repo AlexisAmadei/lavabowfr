@@ -1,6 +1,7 @@
 import Divider from "@/components/Design/Divider";
 import LavaButton from "@/components/Design/LavaButton";
 import LavaTypo from "@/components/Design/LavaTypo";
+import Loading from "@/components/Design/Loading";
 import ShopDialog from "@/components/Sections/Shop/ShopDialog";
 import ShopItemCard from "@/components/Sections/Shop/ShopItemCard";
 import CategoryDialog from "@/components/Sections/Shop/CategoryDialog";
@@ -12,6 +13,7 @@ import { useEffect, useState } from "react";
 
 export default function AdminMerchandise() {
   const [merchItems, setMerchItems] = useState<MerchItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [itemIdToEdit, setItemIdToEdit] = useState<number | null>(null);
 
   const [editDialogOpen, setEditDialogOpen] = useState({
@@ -151,11 +153,20 @@ export default function AdminMerchandise() {
   };
 
   async function fetchData() {
-    setMerchItems(await fetchMerchItems());
+    const [items, cats] = await Promise.all([fetchMerchItems(), fetchMerchCategories()]);
+    setMerchItems(items);
+    setCategories(cats);
   }
 
   useEffect(() => {
-    fetchData();
+    (async () => {
+      setIsLoading(true);
+      try {
+        await fetchData();
+      } finally {
+        setIsLoading(false);
+      }
+    })();
   }, []);
 
   return (
@@ -183,9 +194,22 @@ export default function AdminMerchandise() {
         onUpdateCategory={updateMerchCategory}
       />
 
-      <Box position={'relative'}>
+      <Box position={'relative'} minHeight={isLoading ? '160px' : undefined}>
+        {isLoading && (
+          <Flex justifyContent={'center'} alignItems={'center'} py={16} gap={3} color={'black'}>
+            <Loading acaxis={'horizontal'} />
+            <LavaTypo variant={'p'} size={'14px'}>Chargement des articles…</LavaTypo>
+          </Flex>
+        )}
+
+        {!isLoading && merchItems.length === 0 && (
+          <LavaTypo variant={'p'} styles={{ color: 'black' }} size={'16px'}>
+            Aucun article disponible. Ajoutez-en un en cliquant sur "Ajouter un article".
+          </LavaTypo>
+        )}
+
         {/* Group items by category */}
-        {categories.map((category) => {
+        {!isLoading && categories.map((category) => {
           const categoryItems = merchItems.filter(item => item.category === category.id);
           if (categoryItems.length === 0) return null;
 
