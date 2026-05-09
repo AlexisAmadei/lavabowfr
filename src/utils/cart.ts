@@ -1,4 +1,8 @@
-export const CART_STORAGE_KEY = 'lavabow_cart_v1';
+// Bumped from v1 → v2 when sized items shipped: stored cart format gained an
+// optional `size` per line, and a single article can now appear multiple times
+// (one row per size). Reading the legacy v1 key would lose that distinction, so
+// any pre-existing cart is simply dropped on first load.
+export const CART_STORAGE_KEY = 'lavabow_cart_v2';
 export const CART_EXPIRY_MS = 30 * 60 * 1000;
 export const SHIPPING_COST_CENTS = 499;
 
@@ -6,6 +10,8 @@ export type DeliveryMethod = 'in_hand' | 'shipping';
 
 export interface CartItem {
   productId: string;
+  // Selected clothing size for sized articles. Undefined for size-less items.
+  size?: string;
   quantity: number;
 }
 
@@ -21,6 +27,8 @@ export interface CartProductInfo {
   id: string;
   priceCents: number;
   stock?: number | null;
+  // Per-size stock (null = unlimited for that size). Empty/undefined = size-less product.
+  sizes?: { size: string; stock: number | null }[];
 }
 
 export interface CartTotals {
@@ -59,6 +67,9 @@ export function subscribeCart(cb: () => void): () => void {
   };
 }
 
+const sameLine = (a: { productId: string; size?: string }, b: { productId: string; size?: string }): boolean =>
+  a.productId === b.productId && (a.size ?? null) === (b.size ?? null);
+
 function readRaw(): CartState | null {
   if (!isBrowser()) return null;
   try {
@@ -74,7 +85,11 @@ function readRaw(): CartState | null {
           typeof i.quantity === 'number' &&
           Number.isFinite(i.quantity) &&
           i.quantity > 0,
-      ),
+      ).map((i) => ({
+        productId: i.productId,
+        size: typeof i.size === 'string' && i.size.length > 0 ? i.size : undefined,
+        quantity: i.quantity,
+      })),
       deliveryMethod: parsed.deliveryMethod === 'shipping' ? 'shipping' : 'in_hand',
       discountCode: typeof parsed.discountCode === 'string' ? parsed.discountCode : null,
       createdAt: typeof parsed.createdAt === 'number' ? parsed.createdAt : 0,
@@ -142,54 +157,54 @@ function clampToStock(quantity: number, stock?: number | null): number {
 
 // Returns true when the item was added or its quantity incremented; false when the
 // cart already held the stock cap (so the caller can show "max reached" feedback).
-export function addItem(productId: string, stock?: number | null): boolean {
+export function addItem(productId: string, stock?: number | null, size?: string): boolean {
   const cart = getCart();
-  const existing = cart.items.find((i) => i.productId === productId);
+  const existing = cart.items.find((i) => sameLine(i, { productId, size }));
   if (existing) {
     const next = clampToStock(existing.quantity + 1, stock);
     if (next === existing.quantity) return false;
-    const items = cart.items.map((i) => (i.productId === productId ? { ...i, quantity: next } : i));
+    const items = cart.items.map((i) => (sameLine(i, { productId, size }) ? { ...i, quantity: next } : i));
     writeRaw(commitItems(cart, items));
     return true;
   }
   if (typeof stock === 'number' && stock <= 0) return false;
-  writeRaw(commitItems(cart, [...cart.items, { productId, quantity: 1 }]));
+  writeRaw(commitItems(cart, [...cart.items, { productId, size, quantity: 1 }]));
   return true;
 }
 
-export function removeItem(productId: string): void {
+export function removeItem(productId: string, size?: string): void {
   const cart = getCart();
-  const items = cart.items.filter((i) => i.productId !== productId);
+  const items = cart.items.filter((i) => !sameLine(i, { productId, size }));
   if (items.length === cart.items.length) return;
   writeRaw(commitItems(cart, items));
 }
 
-export function setQuantity(productId: string, quantity: number, stock?: number | null): void {
+export function setQuantity(productId: string, quantity: number, stock?: number | null, size?: string): void {
   const next = clampToStock(quantity, stock);
   if (next <= 0) {
-    removeItem(productId);
+    removeItem(productId, size);
     return;
   }
   const cart = getCart();
-  const existing = cart.items.find((i) => i.productId === productId);
+  const existing = cart.items.find((i) => sameLine(i, { productId, size }));
   if (!existing) return;
   if (existing.quantity === next) return;
-  const items = cart.items.map((i) => (i.productId === productId ? { ...i, quantity: next } : i));
+  const items = cart.items.map((i) => (sameLine(i, { productId, size }) ? { ...i, quantity: next } : i));
   writeRaw(commitItems(cart, items));
 }
 
-export function incrementItem(productId: string, stock?: number | null): void {
+export function incrementItem(productId: string, stock?: number | null, size?: string): void {
   const cart = getCart();
-  const existing = cart.items.find((i) => i.productId === productId);
+  const existing = cart.items.find((i) => sameLine(i, { productId, size }));
   if (!existing) return;
-  setQuantity(productId, existing.quantity + 1, stock);
+  setQuantity(productId, existing.quantity + 1, stock, size);
 }
 
-export function decrementItem(productId: string): void {
+export function decrementItem(productId: string, size?: string): void {
   const cart = getCart();
-  const existing = cart.items.find((i) => i.productId === productId);
+  const existing = cart.items.find((i) => sameLine(i, { productId, size }));
   if (!existing) return;
-  setQuantity(productId, existing.quantity - 1);
+  setQuantity(productId, existing.quantity - 1, undefined, size);
 }
 
 export function isCartEmpty(cart: CartState): boolean {

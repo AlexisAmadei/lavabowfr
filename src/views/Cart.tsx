@@ -46,6 +46,7 @@ const merchToProductInfo = (item: MerchItem): CartProductInfo => ({
     ? item.price_cents
     : Math.round(Number(item.price) * 100),
   stock: item.stock ?? null,
+  sizes: item.sizes,
 });
 
 export default function Cart() {
@@ -166,14 +167,23 @@ export default function Cart() {
               {cart.items.map((line) => {
                 const product = productById.get(line.productId);
                 if (!product) return null;
-                const stock = product.stock ?? null;
+                // Stock cap follows the chosen size when the article is sized; falls back to the article-level stock otherwise.
+                const sizeStock = line.size
+                  ? product.sizes?.find((s) => s.size === line.size)?.stock ?? null
+                  : null;
+                const stock = line.size ? sizeStock : (product.stock ?? null);
                 const atMax = typeof stock === 'number' && line.quantity >= stock;
                 const lineTotalCents = (typeof product.price_cents === 'number'
                   ? product.price_cents
                   : Math.round(Number(product.price) * 100)) * line.quantity;
+                // The same product can appear with different sizes — key needs both.
+                const lineKey = `${line.productId}:${line.size ?? '_'}`;
+                const sizeOrDescription = line.size
+                  ? `${t.cart.sizeLabel} ${line.size}`
+                  : (product.description || 'Standard');
 
                 return (
-                  <Flex key={line.productId} direction='column' gap={0}>
+                  <Flex key={lineKey} direction='column' gap={0}>
                     <Flex
                       width={'100%'}
                       align={'center'}
@@ -195,7 +205,7 @@ export default function Cart() {
                               {product.name}
                             </LavaTypo>
                             <LavaTypo color='#959595' size='14px'>
-                              {product.description || 'Standard'}
+                              {sizeOrDescription}
                             </LavaTypo>
                           </Flex>
                         </Flex>
@@ -214,7 +224,7 @@ export default function Cart() {
                           <IconButton
                             size='xs'
                             aria-label='decrement'
-                            onClick={() => decrementItem(line.productId)}
+                            onClick={() => decrementItem(line.productId, line.size)}
                             disabled={!productsLoaded}
                             variant='ghost'
                           >
@@ -226,7 +236,7 @@ export default function Cart() {
                           <IconButton
                             size='xs'
                             aria-label='increment'
-                            onClick={() => incrementItem(line.productId, stock)}
+                            onClick={() => incrementItem(line.productId, stock, line.size)}
                             disabled={!productsLoaded || atMax}
                             variant='ghost'
                           >
@@ -248,7 +258,7 @@ export default function Cart() {
                           size='sm'
                           aria-label={t.cart.remove}
                           variant='ghost'
-                          onClick={() => removeItem(line.productId)}
+                          onClick={() => removeItem(line.productId, line.size)}
                         >
                           <FontAwesomeIcon icon={faTrash} />
                         </IconButton>

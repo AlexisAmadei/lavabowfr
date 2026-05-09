@@ -1,5 +1,14 @@
 import { supabase } from "./supabase";
 
+export const SIZE_VALUES = ['XS', 'S', 'M', 'L', 'XL', 'XXL'] as const;
+export type SizeValue = typeof SIZE_VALUES[number];
+
+export interface MerchItemSize {
+  size: SizeValue;
+  // null = unlimited stock for that size.
+  stock: number | null;
+}
+
 export interface MerchItem {
   id?: number;
   name: string;
@@ -15,6 +24,8 @@ export interface MerchItem {
   status: 'ACTIVE' | 'INACTIVE' | 'DELETED';
   image_url?: string;
   category?: number;
+  // Empty / undefined = no per-size stock, the article is size-less.
+  sizes?: MerchItemSize[];
 }
 
 export interface MerchCategory {
@@ -27,7 +38,7 @@ export async function fetchMerchItems(activeOnly?: boolean): Promise<MerchItem[]
   try {
     let query = supabase
       .from('merch_items')
-      .select('*')
+      .select('*, sizes:merch_item_sizes(size, stock)')
       .neq('status', 'DELETED')
 
     if (activeOnly) {
@@ -42,11 +53,49 @@ export async function fetchMerchItems(activeOnly?: boolean): Promise<MerchItem[]
     }
     return (merch_items || []).map(item => ({
       ...item,
-      tags: Array.isArray(item.tags) ? item.tags : []
+      tags: Array.isArray(item.tags) ? item.tags : [],
+      sizes: Array.isArray(item.sizes)
+        ? (item.sizes as { size: string; stock: number | null }[])
+            .filter((s) => (SIZE_VALUES as readonly string[]).includes(s.size))
+            .map((s) => ({ size: s.size as SizeValue, stock: s.stock }))
+            .sort((a, b) => SIZE_VALUES.indexOf(a.size) - SIZE_VALUES.indexOf(b.size))
+        : [],
     })) as MerchItem[];
   } catch (error) {
     console.error('Unexpected error fetching merch items:', error);
     return [];
+  }
+}
+
+// Replace all per-size rows for an item in one transaction-ish batch.
+// Empty `sizes` removes every existing row, turning the article back into a size-less product.
+export async function upsertMerchItemSizes(itemId: number, sizes: MerchItemSize[]): Promise<boolean> {
+  try {
+    const { error: deleteError } = await supabase
+      .from('merch_item_sizes')
+      .delete()
+      .eq('merch_item_id', itemId);
+    if (deleteError) {
+      console.error('Error clearing merch_item_sizes:', deleteError);
+      return false;
+    }
+    if (sizes.length === 0) return true;
+    const rows = sizes.map((s) => ({
+      merch_item_id: itemId,
+      size: s.size,
+      stock: s.stock,
+    }));
+    const { error: insertError } = await supabase
+      .from('merch_item_sizes')
+      .insert(rows);
+    if (insertError) {
+      console.error('Error inserting merch_item_sizes:', insertError);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error('Unexpected error upserting merch_item_sizes:', error);
+    return false;
   }
 }
 
@@ -85,13 +134,13 @@ export async function updateMerchItem(item: MerchItem): Promise<boolean> {
   }
 }
 
-export async function addMerchItem(item: Omit<MerchItem, 'id'>): Promise<boolean> {
+export async function addMerchItem(item: Omit<MerchItem, 'id'>): Promise<number | null> {
   try {
     // Bridge: admin form still edits whole-euro `price`; derive `price_cents` so the v2 column stays valid.
     const priceCents = typeof item.price_cents === 'number'
       ? item.price_cents
       : Math.round(Number(item.price) * 100);
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('merch_items')
       .insert([{
         name: item.name,
@@ -105,15 +154,17 @@ export async function addMerchItem(item: Omit<MerchItem, 'id'>): Promise<boolean
         status: item.status,
         image_url: item.image_url,
         category: item.category
-      }]);
-    if (error) {
+      }])
+      .select('id')
+      .single();
+    if (error || !data) {
       console.error('Error adding merch item:', error);
-      return false;
+      return null;
     }
-    return true;
+    return data.id as number;
   } catch (error) {
     console.error('Unexpected error adding merch item:', error);
-    return false;
+    return null;
   }
 }
 

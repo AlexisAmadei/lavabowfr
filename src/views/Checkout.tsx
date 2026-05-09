@@ -38,7 +38,7 @@ const merchToProductInfo = (item: MerchItem): CartProductInfo => ({
 
 interface CheckoutSessionError {
   error?: string;
-  reason?: 'missing' | 'inactive' | 'out_of_stock' | 'insufficient_stock' | 'invalid_price';
+  reason?: 'missing' | 'inactive' | 'out_of_stock' | 'insufficient_stock' | 'invalid_price' | 'size_required' | 'invalid_size';
   available?: number;
 }
 
@@ -76,7 +76,7 @@ export default function Checkout() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          items: cart.items.map((i) => ({ productId: i.productId, quantity: i.quantity })),
+          items: cart.items.map((i) => ({ productId: i.productId, quantity: i.quantity, size: i.size ?? null })),
           deliveryMethod: cart.deliveryMethod,
         }),
       });
@@ -88,6 +88,8 @@ export default function Checkout() {
             case 'out_of_stock': return t.checkout.errorOutOfStock;
             case 'missing': return t.checkout.errorMissing;
             case 'inactive': return t.checkout.errorInactive;
+            case 'size_required': return t.checkout.errorSizeRequired;
+            case 'invalid_size': return t.checkout.errorInvalidSize;
             case 'insufficient_stock':
               return typeof payload.available === 'number'
                 ? t.checkout.errorInsufficientStock(payload.available)

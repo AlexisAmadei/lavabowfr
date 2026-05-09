@@ -37,8 +37,11 @@ function renderEmailHtml({ orderId, items, deliveryMethod, shippingCostCents, su
   const itemsRows = items
     .map((it) => {
       const lineTotal = Number(it.price_cents_snapshot) * Number(it.quantity);
+      const nameWithSize = it.size_snapshot
+        ? `${escapeHtml(it.name_snapshot)} (${escapeHtml(it.size_snapshot)})`
+        : escapeHtml(it.name_snapshot);
       return `<tr>
-        <td style="padding:8px 0;">${escapeHtml(it.name_snapshot)} × ${escapeHtml(it.quantity)}</td>
+        <td style="padding:8px 0;">${nameWithSize} × ${escapeHtml(it.quantity)}</td>
         <td style="padding:8px 0;text-align:right;">${escapeHtml(formatEur(lineTotal))}</td>
       </tr>`;
     })
@@ -109,7 +112,7 @@ export async function sendOrderConfirmationEmail({ supabase, orderId, toEmail })
 
   const { data: items, error: itemsErr } = await supabase
     .from('order_items')
-    .select('name_snapshot, price_cents_snapshot, quantity')
+    .select('name_snapshot, price_cents_snapshot, quantity, size_snapshot')
     .eq('order_id', orderId);
   if (itemsErr) {
     console.error('email: order_items lookup failed', { orderId, error: itemsErr });

@@ -104,6 +104,8 @@ export const en: Translations = {
     outOfStockBuy: 'Out of Stock',
     buy: 'Buy',
     addToCart: 'Add to cart',
+    sizePlaceholder: 'Pick a size',
+    sizeRequired: 'Pick a size before adding to cart.',
   },
   cart: {
     title: 'Cart',
@@ -137,6 +139,7 @@ export const en: Translations = {
     promoCodePlaceholder: 'Promo code',
     apply: 'Apply',
     promo: 'Promo code',
+    sizeLabel: 'Size',
   },
   checkout: {
     title: 'Order summary',
@@ -149,6 +152,8 @@ export const en: Translations = {
     errorMissing: 'This item no longer exists.',
     errorInactive: 'This item is no longer for sale.',
     errorGeneric: 'Could not start checkout. Please try again in a moment.',
+    errorSizeRequired: 'Please pick a size for this item.',
+    errorInvalidSize: 'That size is no longer available.',
   },
   orderSuccess: {
     title: 'Thanks for your order!',

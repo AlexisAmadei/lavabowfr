@@ -38,6 +38,7 @@ export default function AdminMerchandise() {
     out_of_stock: false,
     status: 'INACTIVE',
     category: undefined,
+    sizes: [],
   });
 
   const handleOpenDialog = (item?: MerchItem | null) => {
@@ -57,6 +58,7 @@ export default function AdminMerchandise() {
         out_of_stock: item.out_of_stock,
         status: item.status,
         category: item.category,
+        sizes: item.sizes ?? [],
       });
     }
   }
@@ -104,6 +106,7 @@ export default function AdminMerchandise() {
       out_of_stock: false,
       status: 'INACTIVE',
       category: undefined,
+      sizes: [],
     });
   };
 

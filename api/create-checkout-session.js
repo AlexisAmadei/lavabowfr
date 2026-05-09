@@ -3,6 +3,7 @@ import { getSupabaseAdmin } from './_lib/supabaseAdmin.js';
 
 const SHIPPING_COST_CENTS = 499;
 const ALLOWED_DELIVERY = new Set(['in_hand', 'shipping']);
+const ALLOWED_SIZES = new Set(['XS', 'S', 'M', 'L', 'XL', 'XXL']);
 
 function getOrigin(req) {
   const headerOrigin = req.headers.origin;
@@ -43,19 +44,33 @@ export default async function handler(req, res) {
     const quantity = Number(raw.quantity);
     if (!Number.isInteger(productId) || productId <= 0) return badRequest(res, 'Invalid productId');
     if (!Number.isInteger(quantity) || quantity <= 0) return badRequest(res, 'Invalid quantity');
-    lines.push({ productId, quantity });
+    let size = null;
+    if (raw.size !== undefined && raw.size !== null && raw.size !== '') {
+      if (typeof raw.size !== 'string' || !ALLOWED_SIZES.has(raw.size)) {
+        return badRequest(res, 'Invalid size', { productId, reason: 'invalid_size' });
+      }
+      size = raw.size;
+    }
+    lines.push({ productId, quantity, size });
   }
-  // Collapse duplicate product ids (cart should already be unique, but be defensive).
+  // Collapse duplicate (productId, size) lines — same product with different sizes stays separate.
   const collapsed = new Map();
-  for (const l of lines) collapsed.set(l.productId, (collapsed.get(l.productId) || 0) + l.quantity);
-  const collapsedLines = Array.from(collapsed, ([productId, quantity]) => ({ productId, quantity }));
+  for (const l of lines) {
+    const key = `${l.productId}:${l.size ?? '_'}`;
+    const prev = collapsed.get(key);
+    if (prev) prev.quantity += l.quantity;
+    else collapsed.set(key, { productId: l.productId, size: l.size, quantity: l.quantity });
+  }
+  const collapsedLines = Array.from(collapsed.values());
 
   const supabase = getSupabaseAdmin();
 
+  const productIds = Array.from(new Set(collapsedLines.map((l) => l.productId)));
+
   const { data: products, error: fetchError } = await supabase
     .from('merch_items')
-    .select('id, name, price_cents, stock, status, out_of_stock')
-    .in('id', collapsedLines.map((l) => l.productId));
+    .select('id, name, price_cents, stock, status, out_of_stock, sizes:merch_item_sizes(size, stock)')
+    .in('id', productIds);
 
   if (fetchError) {
     console.error('create-checkout-session: product lookup failed', fetchError);
@@ -71,8 +86,20 @@ export default async function handler(req, res) {
     if (!product) return badRequest(res, 'Product not found', { productId: line.productId, reason: 'missing' });
     if (product.status !== 'ACTIVE') return badRequest(res, 'Product is not available', { productId: line.productId, reason: 'inactive' });
     if (product.out_of_stock) return badRequest(res, 'Product is out of stock', { productId: line.productId, reason: 'out_of_stock' });
-    if (typeof product.stock === 'number' && product.stock < line.quantity) {
-      return badRequest(res, 'Insufficient stock', { productId: line.productId, reason: 'insufficient_stock', available: product.stock });
+    const productSizes = Array.isArray(product.sizes) ? product.sizes : [];
+    const isSized = productSizes.length > 0;
+    if (isSized) {
+      if (!line.size) return badRequest(res, 'Size is required', { productId: line.productId, reason: 'size_required' });
+      const sizeRow = productSizes.find((s) => s.size === line.size);
+      if (!sizeRow) return badRequest(res, 'Size not available', { productId: line.productId, reason: 'invalid_size' });
+      if (typeof sizeRow.stock === 'number' && sizeRow.stock < line.quantity) {
+        return badRequest(res, 'Insufficient stock', { productId: line.productId, reason: 'insufficient_stock', available: sizeRow.stock, size: line.size });
+      }
+    } else {
+      if (line.size) return badRequest(res, 'Size not applicable', { productId: line.productId, reason: 'invalid_size' });
+      if (typeof product.stock === 'number' && product.stock < line.quantity) {
+        return badRequest(res, 'Insufficient stock', { productId: line.productId, reason: 'insufficient_stock', available: product.stock });
+      }
     }
     if (!Number.isFinite(Number(product.price_cents)) || Number(product.price_cents) <= 0) {
       return badRequest(res, 'Product price is invalid', { productId: line.productId, reason: 'invalid_price' });
@@ -87,17 +114,20 @@ export default async function handler(req, res) {
     const product = byId.get(line.productId);
     const unitCents = Number(product.price_cents);
     subtotalCents += unitCents * line.quantity;
+    // Append size to the Stripe line item name so the receipt + invoice clearly carry the chosen size.
+    const stripeName = line.size ? `${product.name} (${line.size})` : product.name;
     orderItemsRows.push({
       product_id: product.id,
       name_snapshot: product.name,
       price_cents_snapshot: unitCents,
       quantity: line.quantity,
+      size_snapshot: line.size ?? null,
     });
     stripeLineItems.push({
       quantity: line.quantity,
       price_data: {
         currency: 'eur',
-        product_data: { name: product.name },
+        product_data: { name: stripeName },
         unit_amount: unitCents,
       },
     });

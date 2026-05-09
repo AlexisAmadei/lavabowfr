@@ -86,6 +86,8 @@ export interface Translations {
     outOfStockBuy: string;
     buy: string;
     addToCart: string;
+    sizePlaceholder: string;
+    sizeRequired: string;
   };
   cart: {
     title: string;
@@ -119,6 +121,7 @@ export interface Translations {
     promoCodePlaceholder: string;
     apply: string;
     promo: string;
+    sizeLabel: string;
   };
   checkout: {
     title: string;
@@ -131,6 +134,8 @@ export interface Translations {
     errorMissing: string;
     errorInactive: string;
     errorGeneric: string;
+    errorSizeRequired: string;
+    errorInvalidSize: string;
   };
   orderSuccess: {
     title: string;
