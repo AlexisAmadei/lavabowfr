@@ -38,7 +38,7 @@ export default function Contact() {
           px={8}
           height={'57px'}
         >
-          <ClipboardElement text='lavabow.band@gmail.com' color='var(--main-accent)' />
+          <ClipboardElement text='contact@lavabow.fr' color='var(--main-accent)' />
         </Flex>
 
         <Flex

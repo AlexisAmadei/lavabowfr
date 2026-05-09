@@ -33,7 +33,7 @@ export default function Footer() {
           paddingX={4}
         >
           <LavaTypo variant={'h3'}>{t.footer.booking}</LavaTypo>
-          <ClipboardElement text='lavabow.band@gmail.com' />
+          <ClipboardElement text='contact@lavabow.fr' />
         </Flex>
 
         <Flex flexBasis={'1/3'}
