@@ -14,6 +14,7 @@ export default function Contact() {
   const isMobile = useIsMobile();
   const { t } = useTranslation();
   const contact_email = useGetGlobalVar('CONTACT_EMAIL') || 'contact@lavabow.fr';
+  const contact_phone = useGetGlobalVar('CONTACT_PHONE') || '';
 
   return (
     <Section id={'contact'} bgColor={'var(--Background-bg-brand)'} title={t.contact.title} position='relative'>
@@ -53,7 +54,7 @@ export default function Contact() {
           px={8}
           height={'57px'}
         >
-          <ClipboardElement text='+33 6 10 14 87 10' color='var(--main-accent)' />
+          <ClipboardElement text={contact_phone} color='var(--main-accent)' />
         </Flex>
 
         <Flex
