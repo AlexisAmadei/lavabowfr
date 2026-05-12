@@ -1,6 +1,6 @@
 import { supabase } from "./supabase";
 
-export const SIZE_VALUES = ['XS', 'S', 'M', 'L', 'XL', 'XXL'] as const;
+export const SIZE_VALUES = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'] as const;
 export type SizeValue = typeof SIZE_VALUES[number];
 
 export interface MerchItemSize {
