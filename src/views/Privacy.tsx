@@ -1,7 +1,10 @@
 import { Box, Container, Heading, Link, List, Text, Stack } from '@chakra-ui/react'
 import TextFuzzy from '@/components/react-bits/TextFuzzy'
+import { useGetGlobalVar } from '@/hooks/useGetGlobalVar'
 
 export default function Privacy() {
+  const email_contact = useGetGlobalVar('CONTACT_EMAIL') || 'contact@lavabow.fr';
+
   return (
     <Container maxW="800px" py={12} px={6} textAlign={'left'}>
       <Box mx={'auto'} mt={1} mb={10} width={'fit-content'} textAlign={'center'}>
@@ -74,7 +77,7 @@ export default function Privacy() {
             Data Access
           </Heading>
           <Text color="fg.muted">
-            Since we don't collect personal data, there's nothing to delete or access. If you have concerns, you can contact us at contact@lavabow.fr
+            Since we don't collect personal data, there's nothing to delete or access. If you have concerns, you can contact us at {email_contact}.
           </Text>
           <Text color="fg.muted">
             If you wish to unsubscribe from our newsletter, please use the unsubscribe link provided in the emails or contact us directly.

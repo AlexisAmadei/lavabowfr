@@ -8,10 +8,12 @@ import Frogs from '@/assets/img/contact/3frogs.svg'
 import Car from '@/assets/img/contact/car.svg'
 import useIsMobile from '@/hooks/useIsMobile'
 import { useTranslation } from '@/i18n/useTranslation'
+import { useGetGlobalVar } from '@/hooks/useGetGlobalVar'
 
 export default function Contact() {
   const isMobile = useIsMobile();
   const { t } = useTranslation();
+  const contact_email = useGetGlobalVar('CONTACT_EMAIL') || 'contact@lavabow.fr';
 
   return (
     <Section id={'contact'} bgColor={'var(--Background-bg-brand)'} title={t.contact.title} position='relative'>
@@ -38,7 +40,7 @@ export default function Contact() {
           px={8}
           height={'57px'}
         >
-          <ClipboardElement text='contact@lavabow.fr' color='var(--main-accent)' />
+          <ClipboardElement text={contact_email} color='var(--main-accent)' />
         </Flex>
 
         <Flex

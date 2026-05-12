@@ -6,11 +6,13 @@ import lb_footer from '@/assets/footer/lb_footer.svg'
 import useIsMobile from '@/hooks/useIsMobile'
 import ClipboardElement from '../Core/ClipboardElement'
 import { useTranslation } from '@/i18n/useTranslation'
+import { useGetGlobalVar } from '@/hooks/useGetGlobalVar'
 
 export default function Footer() {
   const isMobile = useIsMobile();
   const [error, setError] = React.useState(false);
   const { t } = useTranslation();
+  const contact_email = useGetGlobalVar('CONTACT_EMAIL') || 'contact@lavabow.fr';
 
   return (
     <Flex
@@ -33,7 +35,7 @@ export default function Footer() {
           paddingX={4}
         >
           <LavaTypo variant={'h3'}>{t.footer.booking}</LavaTypo>
-          <ClipboardElement text='contact@lavabow.fr' />
+          <ClipboardElement text={contact_email} />
         </Flex>
 
         <Flex flexBasis={'1/3'}
