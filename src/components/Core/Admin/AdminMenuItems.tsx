@@ -1,9 +1,10 @@
 import AdminContent from "@/views/Admin/AdminContent";
 import AdminMerchandise from "@/views/Admin/Content/AdminMerchandise";
+import AdminSales from "@/views/Admin/Sales/AdminSales";
 import AdminUsers from "@/views/Admin/AdminUsers/AdminUsers";
 import CloudStatus from "@/views/Admin/CloudStatus/CloudStatus";
 import { Box, Flex, Text } from "@chakra-ui/react";
-import { faCloud, faCube, faDatabase, faShoppingCart, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faCloud, faCube, faDatabase, faReceipt, faShoppingCart, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Link } from "react-router";
@@ -29,6 +30,12 @@ export default function AdminMenuItems() {
       icon: <FontAwesomeIcon icon={faShoppingCart} />,
       path: '/admin/dashboard/merchandise',
       component: AdminMerchandise
+    },
+    {
+      label: 'Sales',
+      icon: <FontAwesomeIcon icon={faReceipt} />,
+      path: '/admin/dashboard/sales',
+      component: AdminSales
     },
     {
       label: 'Global Variables',

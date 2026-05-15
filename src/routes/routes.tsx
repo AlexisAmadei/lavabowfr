@@ -12,6 +12,7 @@ const Dashboard = lazy(() => import('../views/Admin/Dashboard'));
 const AdminContent = lazy(() => import('../views/Admin/AdminContent'));
 const AdminUsers = lazy(() => import('../views/Admin/AdminUsers/AdminUsers'));
 const AdminMerchandise = lazy(() => import('../views/Admin/Content/AdminMerchandise'));
+const AdminSales = lazy(() => import('../views/Admin/Sales/AdminSales'));
 const CloudStatus = lazy(() => import('../views/Admin/CloudStatus/CloudStatus'));
 const Shop = lazy(() => import('@/views/Shop'));
 const Cart = lazy(() => import('@/views/Cart'));
@@ -65,6 +66,10 @@ export const routes: RouteObject[] = [
           {
             path: 'merchandise',
             element: <LazyRoute component={AdminMerchandise} />,
+          },
+          {
+            path: 'sales',
+            element: <LazyRoute component={AdminSales} />,
           },
           {
             path: 'supabase-status',
