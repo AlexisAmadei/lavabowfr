@@ -5,6 +5,7 @@ export interface OrderItem {
   id: string
   product_id: number
   name_snapshot: string
+  size_snapshot: string | null
   price_cents_snapshot: number
   quantity: number
 }

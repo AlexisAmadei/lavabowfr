@@ -27,7 +27,7 @@ export default async function handler(req, res) {
       shipping_address,
       created_at,
       paid_at,
-      items:order_items(id, product_id, name_snapshot, price_cents_snapshot, quantity)
+      items:order_items(id, product_id, name_snapshot, size_snapshot, price_cents_snapshot, quantity)
     `)
         .order('created_at', { ascending: false });
 

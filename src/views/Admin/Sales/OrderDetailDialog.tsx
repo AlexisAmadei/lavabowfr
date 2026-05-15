@@ -103,7 +103,14 @@ export default function OrderDetailDialog({ order, onClose }: Props) {
                       <Table.Body>
                         {order.items.map((item) => (
                           <Table.Row key={item.id}>
-                            <Table.Cell>{item.name_snapshot}</Table.Cell>
+                            <Table.Cell>
+                              {item.name_snapshot}
+                              {item.size_snapshot && (
+                                <Badge ml={2} colorPalette="gray" variant="subtle">
+                                  {item.size_snapshot}
+                                </Badge>
+                              )}
+                            </Table.Cell>
                             <Table.Cell>{formatEuro(item.price_cents_snapshot)}</Table.Cell>
                             <Table.Cell>{item.quantity}</Table.Cell>
                             <Table.Cell textAlign="end">
