@@ -1,5 +1,5 @@
 {
   "buildCommand": "npm run build",
-  "installCommand": "bun install",
+  "installCommand": "npm ci",
   "outputDirectory": ".next"
 }
