@@ -1,5 +1,0 @@
-{
-  "buildCommand": "npm run build",
-  "installCommand": "npm install --prefer-offline --no-audit --progress=false",
-  "outputDirectory": ".next"
-}
