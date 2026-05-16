@@ -1,13 +1,13 @@
 import LavaButton from '@/components/Design/LavaButton';
 import LavaTypo from '@/components/Design/LavaTypo'
 import useIsMobile from '@/hooks/useIsMobile';
-import { op } from '@/lib/openpanel';
 import { MerchItem, SIZE_VALUES, SizeValue, isItemLowStock } from '@/utils/supabase/shop';
 import { addItem } from '@/utils/cart';
 import { Box, createListCollection, Flex, Portal, Select } from '@chakra-ui/react'
 import { useMemo, useState } from 'react';
 import { useTranslation } from '@/i18n/useTranslation';
 import { toaster } from '@/components/ui/toaster';
+import { useOpenPanel } from '@openpanel/nextjs';
 
 const priceFormatter = new Intl.NumberFormat('fr-FR', {
   style: 'currency',
@@ -26,6 +26,7 @@ export default function ShopItemCard({ item, isAdminView }: { item: MerchItem, i
   const isMobile = useIsMobile();
   const { t } = useTranslation();
   const [selectedSize, setSelectedSize] = useState<SizeValue | null>(null);
+  const op = useOpenPanel();
 
   const priceCents = typeof item.price_cents === 'number'
     ? item.price_cents

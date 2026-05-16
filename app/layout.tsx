@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import Providers from './providers';
 import '@/styles/index.css';
+import { OpenPanelComponent } from '@openpanel/nextjs';
 
 const OG_IMAGE =
   'https://ygwmuznptpmxwjwwiite.supabase.co/storage/v1/object/public/lavabowfr/pictures/1764201789525_DSCF2948.webp';
@@ -88,9 +89,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://kit.fontawesome.com" />
       </head>
       <body>
-        <Script id="openpanel-init" strategy="afterInteractive">
-          {openPanelInit}
-        </Script>
+        <OpenPanelComponent
+          clientId={process.env.NEXT_PUBLIC_OPENPANEL_ID ?? ''}
+          apiUrl={process.env.NEXT_PUBLIC_OPENPANEL_URL ?? ''}
+          trackScreenViews={true}
+          trackOutgoingLinks={true}
+          trackAttributes={true}
+        />
         <Script
           src="https://openpanel.dev/op1.js"
           strategy="afterInteractive"
