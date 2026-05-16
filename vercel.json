@@ -1,6 +1,5 @@
 {
   "buildCommand": "npm run build",
   "installCommand": "bun install",
-  "outputDirectory": ".next",
-  "nodeVersion": "24.x"
+  "outputDirectory": ".next"
 }
