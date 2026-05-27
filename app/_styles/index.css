@@ -1,0 +1,48 @@
+@import url('./fonts.css');
+@import url('./var.css');
+
+:root {
+    color-scheme: light dark;
+    color: rgba(255, 255, 255, 1);
+    background-color: #0c0c0c;
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Font families */
+    --font-archivo-black: 'Archivo Black', sans-serif;
+    --font-cossette-titre: 'Cossette Titre', serif;
+    --font-stack-sans: 'Stack Sans Text', 'Stack Sans Text Fallback', sans-serif;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    min-height: 100vh;
+    max-width: 100vw;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    font-family: var(--font-stack-sans);
+}
+
+#root {
+    width: 100vw;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+img {
+    pointer-events: none;
+}
