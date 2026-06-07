@@ -5,6 +5,7 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useEffect, useRef } from "react";
 import lavaMapData from '@/assets/map/lava-map';
+import logoSrc from '@/assets/icons/logo.svg';
 
 export default function LiveMaps() {
   const mapRef = useRef<mapboxgl.Map | null>(null);
@@ -24,54 +25,46 @@ export default function LiveMaps() {
     });
 
     const map = mapRef.current;
+    const markers: mapboxgl.Marker[] = [];
 
     map.on('load', () => {
-      map.addSource('lava-venues', {
-        type: 'geojson',
-        data: lavaMapData,
-      });
-
-      map.addLayer({
-        id: 'lava-venues-circles',
-        type: 'circle',
-        source: 'lava-venues',
-        paint: {
-          'circle-radius': 8,
-          'circle-color': '#ff4400',
-          'circle-stroke-width': 2,
-          'circle-stroke-color': '#ffffff',
-          'circle-opacity': 0.9,
-        },
-      });
-
-      const popup = new mapboxgl.Popup({
-        closeButton: false,
-        closeOnClick: false,
-        offset: 12,
-      });
-
-      map.on('mouseenter', 'lava-venues-circles', (e) => {
-        map.getCanvas().style.cursor = 'pointer';
-        const feature = e.features?.[0];
-        if (!feature) return;
+      for (const feature of lavaMapData.features) {
         const coords = (feature.geometry as GeoJSON.Point).coordinates as [number, number];
         const label = feature.properties?.label ?? '';
-        popup.setLngLat(coords).setHTML(`<span style="font-size:13px">${label}</span>`).addTo(map);
-      });
 
-      map.on('mouseleave', 'lava-venues-circles', () => {
-        map.getCanvas().style.cursor = '';
-        popup.remove();
-      });
+        const el = document.createElement('div');
+        el.style.cssText = 'width:20px;height:20px;cursor:pointer;';
+        const img = document.createElement('img');
+        img.src = typeof logoSrc === 'string' ? logoSrc : (logoSrc as { src: string }).src;
+        img.style.cssText = 'width:100%;height:100%;';
+        el.appendChild(img);
+
+        const popup = new mapboxgl.Popup({
+          closeButton: false,
+          closeOnClick: false,
+          offset: 16,
+        }).setHTML(`<div style="background:#1a1a2e;color:#fff;font-family:sans-serif;font-size:12px;padding:6px 10px;border-radius:999px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.4);">${label}</div>`);
+
+        el.addEventListener('mouseenter', () => popup.addTo(map));
+        el.addEventListener('mouseleave', () => popup.remove());
+
+        const marker = new mapboxgl.Marker({ element: el })
+          .setLngLat(coords)
+          .setPopup(popup)
+          .addTo(map);
+
+        markers.push(marker);
+      }
     });
 
     return () => {
+      markers.forEach(m => m.remove());
       mapRef.current?.remove();
     };
   }, []);
 
   return (
-    <Section title="Lava Map">
+    <Section id='map' title="Lava Live Map">
       <div
         ref={mapContainerRef}
         style={{ width: '100%', height: '480px', borderRadius: '8px', overflow: 'hidden' }}
