@@ -13,7 +13,7 @@ import './AppBar.css'
 import Logo from '@/components/Design/Logo'
 import ContextMenu from '@/components/Design/ContextMenu'
 import OnlineCounter from '../Hero/OnlineCounter'
-import Player from '@/components/Design/Player'
+// import Player from '@/components/Design/Player'
 import CartButton from './CartButton'
 
 export default function AppBar() {
@@ -59,7 +59,7 @@ export default function AppBar() {
             <OnlineCounter />
           </Flex>
           <MediaLinks padding='8px' size='lg' />
-          <Player />
+          {/* <Player /> */}
         </Box>
       )}
 
