@@ -16,6 +16,7 @@ export default function LiveMaps() {
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN!;
 
     mapRef.current = new mapboxgl.Map({
+      accessToken: process.env.NEXT_PUBLIC_MAPBOX_TOKEN!,
       container: mapContainerRef.current,
       style: 'mapbox://styles/mapbox/dark-v11',
       center: [2.35, 48.87],
