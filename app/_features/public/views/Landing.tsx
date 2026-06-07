@@ -16,6 +16,7 @@ import useIsInView from '@/hooks/useIsInView'
 
 import './styles/Landing.css'
 import { getOrCreateClientId, updateLastSeen, deleteOnlineUser } from '@/utils/clientId'
+import LiveMaps from '@/components/Sections/LiveMap/LiveMaps'
 
 const Videos = React.lazy(() => import('@/components/Sections/Videos'));
 const Pictures = React.lazy(() => import('@/components/Sections/Pictures/Pictures'));
@@ -49,6 +50,7 @@ export default function Landing() {
           <AboutSection />
           <Music />
           <Newsletter />
+          <LiveMaps />
           <Videos />
           <Pictures />
           <ClickSection />
