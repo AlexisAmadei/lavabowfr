@@ -12,11 +12,17 @@ import HeroOutlined from '@/assets/img/HeroTypo/hero-outlined.svg';
 
 export default function HeroTypo({ repeated = false }) {
   const isMobile = useIsMobile();
-  const smallHeight = typeof window !== 'undefined' ? window.innerHeight < 1000 : false;
+  const [smallHeight, setSmallHeight] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const firstImgRef = useRef<HTMLImageElement | null>(null);
   const sizes = '100vw';
   const [marqueeHeight, setMarqueeHeight] = useState<number | undefined>(undefined);
+
+  useEffect(() => {
+    setSmallHeight(window.innerHeight < 1000);
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const img = firstImgRef.current;
@@ -60,7 +66,16 @@ export default function HeroTypo({ repeated = false }) {
         priority
         style={{ width: '100%', height: 'auto' }}
       />
-      {isMobile && !repeated ? (
+      {!mounted ? (
+        <Image
+          src={HeroOutlined}
+          alt='Lava Bow Hero Typo Outlined'
+          data-title='Lava Bow Hero Typo Outlined'
+          draggable={false}
+          sizes={sizes}
+          style={{ width: '100%', height: 'auto' }}
+        />
+      ) : isMobile && !repeated ? (
         <Marquee speed={20} gap={30} height={marqueeHeight} />
       ) : (
         <Image
@@ -72,7 +87,7 @@ export default function HeroTypo({ repeated = false }) {
           style={{ width: '100%', height: 'auto' }}
         />
       )}
-      {(!smallHeight || isMobile) && (
+      {mounted && (!smallHeight || isMobile) && (
         <Image
           src={HeroFilled}
           alt='Lava Bow Hero Typo Filled'
