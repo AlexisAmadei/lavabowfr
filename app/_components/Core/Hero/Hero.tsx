@@ -6,10 +6,12 @@ import MobileAppBar from '../AppBar/MobileAppBar'
 import MediaLinks from '../AppBar/MediaLinks'
 import ReactPlayer from 'react-player'
 import { useGetGlobalVar } from '@/hooks/useGetGlobalVar'
+import { useState } from 'react'
 
 export default function Hero() {
   const isMobile = useIsMobile();
   const heroVideoUrl = useGetGlobalVar('HERO_VIDEO_URL');
+  const [playerReady, setPlayerReady] = useState(false);
 
   return (
     <div className='landing-hero'
@@ -31,9 +33,10 @@ export default function Hero() {
         {heroVideoUrl && (
           <ReactPlayer
             src={heroVideoUrl}
-            playing
+            playing={playerReady}
             loop
             muted
+            onReady={() => setPlayerReady(true)}
             width={isMobile ? '177.78vh' : '100%'}
             height="100%"
             style={{
