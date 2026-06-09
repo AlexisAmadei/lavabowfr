@@ -69,17 +69,6 @@ export const viewport: Viewport = {
 // to next/navigation. Reassess per-route after migration.
 export const dynamic = 'force-dynamic';
 
-const openPanelInit = `
-window.op=window.op||function(){var n=[];return new Proxy(function(){arguments.length&&n.push([].slice.call(arguments))},{get:function(t,r){return"q"===r?n:function(){n.push([r].concat([].slice.call(arguments)))}} ,has:function(t,r){return"q"===r}}) }();
-window.op('init', {
-  apiUrl: 'https://openpanel.lavabow.fr/api',
-  clientId: 'c9ccb6fa-48d7-4508-8c9e-a0db03349702',
-  trackScreenViews: true,
-  trackOutgoingLinks: true,
-  trackAttributes: true,
-});
-`;
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr">

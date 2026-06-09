@@ -7,9 +7,6 @@ import { LanguageProvider } from '@/i18n/LanguageContext';
 import { Toaster } from '@/components/ui/toaster';
 import EmotionRegistry from './emotion-registry';
 
-const Analytics = lazy(() =>
-  import('@vercel/analytics/next').then((m) => ({ default: m.Analytics }))
-);
 const SpeedInsights = lazy(() =>
   import('@vercel/speed-insights/next').then((m) => ({ default: m.SpeedInsights }))
 );
@@ -25,7 +22,6 @@ export default function Providers({ children }: PropsWithChildren) {
           </LanguageProvider>
         </GlobalVarProvider>
         <Suspense fallback={null}>
-          <Analytics />
           <SpeedInsights />
         </Suspense>
       </ChakraProvider>
