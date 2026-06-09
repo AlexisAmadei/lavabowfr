@@ -17,7 +17,7 @@ export async function updateItemStatus(tableName: string, itemId: number, status
   }
 
   if (data) {
-    console.log(`Statut mis à jour avec succès pour l'élément ID ${itemId} dans la table ${tableName} :`, data);
+    console.info(`Statut mis à jour avec succès pour l'élément ID ${itemId} dans la table ${tableName} :`, data);
   }
 
   return data;

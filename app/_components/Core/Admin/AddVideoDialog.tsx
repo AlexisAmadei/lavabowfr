@@ -53,7 +53,7 @@ export default function AddVideoDialog({ open, onClose, onAdd, editingVideo, onE
       alert('URL de vidéo YouTube invalide. Veuillez entrer une URL valide.');
       return;
     } else {
-      console.log('ID de la vidéo extrait :', videoId);
+      console.info('ID de la vidéo extrait :', videoId);
     }
 
     const formattedData = {

@@ -41,7 +41,7 @@ export default function ShopDialog({
   );
 
   const logSizeState = (label: string, nextSizes: MerchItem['sizes']) => {
-    console.log(`[ShopDialog] ${label}`, {
+    console.info(`[ShopDialog] ${label}`, {
       stockMode,
       sizes: nextSizes,
       currentItem: formData.id ?? null,
@@ -243,7 +243,6 @@ export default function ShopDialog({
                       // Switch back to article-wide stock: drop any per-size rows.
                       setFormData((prev) => {
                         const next = { ...prev, sizes: [] };
-                        console.log('[ShopDialog] switched to general stock mode', next);
                         return next;
                       });
                     } else if (e.value === 'sizes') {
@@ -251,7 +250,6 @@ export default function ShopDialog({
                       // Switch to per-size stock: clear the article-wide counter; admin enables sizes below.
                       setFormData((prev) => {
                         const next = { ...prev, stock: null };
-                        console.log('[ShopDialog] switched to per-size stock mode', next);
                         return next;
                       });
                     }
