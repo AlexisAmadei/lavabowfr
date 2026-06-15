@@ -34,7 +34,7 @@ export default function Marquee({
         }}
       >
         <img
-          src={HeroOutlined}
+          src={HeroOutlined.src}
           alt="Lava Bow"
           style={{
             height: '100%',
@@ -105,7 +105,7 @@ function MarqueeContent({ height }: { height: number }) {
       {Array.from({ length: copies }).map((_, i) => (
         <img
           key={i}
-          src={HeroOutlined}
+          src={HeroOutlined.src}
           alt="Lava Bow"
           style={{
             height: `${height}px`,
