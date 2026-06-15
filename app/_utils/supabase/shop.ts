@@ -353,39 +353,30 @@ export async function deleteMerchCategory(id: number): Promise<boolean> {
 
 export async function updateCategoryOrder(categories: MerchCategory[]): Promise<boolean> {
   try {
-    console.log('updateCategoryOrder called with categories:', categories);
-    
     const updates = categories.map((category, index) => ({
       id: category.id,
       order: index
     }));
 
-    console.log('Updates to be applied:', updates);
 
     for (const update of updates) {
-      console.log(`Updating category id ${update.id} with order ${update.order}`);
-      
-      const { error, data, status } = await supabase
+      const { error, data } = await supabase
         .from('merch_categories')
         .update({ order: update.order })
         .eq('id', update.id)
         .select();
 
-      console.log(`Update response for id ${update.id}:`, { error, data, status });
-
       if (error) {
         console.error(`Error updating category id ${update.id}:`, error);
         return false;
       }
-      
+
       if (!data || data.length === 0) {
         console.warn(`No rows updated for category id ${update.id}. This might indicate an RLS policy issue.`);
       }
-      
-      console.log(`Successfully updated category id ${update.id}`);
+
     }
 
-    console.log('All category orders updated successfully');
     return true;
   } catch (error) {
     console.error('Unexpected error updating category order:', error);

@@ -21,7 +21,6 @@ export default function Videos() {
         // Sort videos by order field
         const sortedData = [...data].sort((a, b) => (a.order || 0) - (b.order || 0));
         setVideoList(sortedData.filter((video) => video.status.toLowerCase() === 'active'));
-        console.log('Fetched videos:', sortedData);
       }
     }
     fetchVideoList();

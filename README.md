@@ -21,9 +21,9 @@ Official website for LAVA BOW. Created by Samuel Postel and Alexis Amadei
 
 To run this project, you will need to add the following environment variables to your .env file
 
-`VITE_SUPABASE_URL`
+`NEXT_PUBLIC_SUPABASE_URL`
 
-`VITE_SUPABASE_PUBLISHABLE_KEY`
+`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
 
 ## Run Locally
 
@@ -42,13 +42,13 @@ Go to the project directory
 Install dependencies
 
 ```bash
-  npm install
+  bun install
 ```
 
 Install Supabase CLI (if not already installed)
 
 ```bash
-  npm install -g supabase
+  bun install -g supabase
 ```
 
 Start local Supabase (Docker required)
@@ -80,7 +80,7 @@ Stop local Supabase
 Start the server
 
 ```bash
-  npm run dev
+  bun dev
 ```
 
 ## Supabase Local (Docker)

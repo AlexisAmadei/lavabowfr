@@ -30,11 +30,7 @@ export default async function handler(req, res) {
 
     try {
         const url = `https://us8.api.mailchimp.com/3.0/audiences/${MAILCHIMP_MAIN_AUDIENCE}/contacts?fields=contacts,_links&count=${count}&offset=${offset}`;
-        console.log('Fetching from:', url);
-
         const response = await fetch(url, requestOptions);
-
-        console.log('Response status:', response.status, response.ok);
 
         if (!response.ok) {
             const errorText = await response.text();

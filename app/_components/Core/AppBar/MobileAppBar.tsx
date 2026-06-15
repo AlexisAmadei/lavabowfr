@@ -7,7 +7,7 @@ import React from 'react'
 import { scrollToSection } from '@/utils/navigation'
 import useMenuItems from '@/hooks/useMenuItems'
 import MediaLinks from './MediaLinks'
-import Player from '@/components/Design/Player'
+// import Player from '@/components/Design/Player'
 import CartButton from './CartButton'
 import { useRouter } from 'next/navigation'
 import { useTranslation } from '@/i18n/useTranslation'
@@ -47,13 +47,13 @@ export default function MobileAppBar() {
       right={0}
       zIndex={1000}
     >
-      <Box flexBasis={'1/6'} className="app-bar__logo">
         <Logo h={'50'} w={'50'} />
-      </Box>
+      {/* <Box flexBasis={'1/6'} className="app-bar__logo">
+      </Box> */}
 
-      <Box flexBasis={'4/6'} textAlign={'center'}>
+      {/* <Box flexBasis={'4/6'} textAlign={'center'}>
         <Player isMobile={true} />
-      </Box>
+      </Box> */}
 
       <Box flexBasis={'1/6'} style={{ position: 'relative' }} display={'inline-flex'} alignItems={'center'} justifyContent={'flex-end'} gap={2}>
         <CartButton size='sm' />

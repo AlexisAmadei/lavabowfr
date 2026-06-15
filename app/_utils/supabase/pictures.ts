@@ -15,7 +15,7 @@ export const uploadPictureFile = async (file: File, fileName: string): Promise<s
 
   const storagePath = `pictures/${sanitizedFileName}`
 
-  console.log(`Uploading file "${file.name}" as "${sanitizedFileName}" to Supabase storage...`)
+  // console.log(`Uploading file "${file.name}" as "${sanitizedFileName}" to Supabase storage...`)
   const { error } = await supabase.storage
     .from('lavabowfr')
     // Use upsert so replacing a file with the same name overwrites it.
@@ -80,7 +80,7 @@ export const insertPictureItem = async (item: PictureItem & { img?: File }): Pro
 
   // Upload image file if provided
   if (item.img && item.img instanceof File) {
-    console.log('Uploading picture file for a new item...')
+    // console.log('Uploading picture file for a new item...')
     const timestamp = Date.now()
     const fileName = `${timestamp}_${item.img.name}`
     storagePath = await uploadPictureFile(item.img, fileName)
@@ -117,7 +117,7 @@ export const updatePictureItem = async (
 ): Promise<PictureItem[] | null> => {
   const { title, date, place, status } = updatedItem
 
-  console.log(`Updating picture item with data ${JSON.stringify({ title, date, place, status })}...`)
+  // console.log(`Updating picture item with data ${JSON.stringify({ title, date, place, status })}...`)
 
   // Note: storage_ref is not updated here - use replacePictureFile to update the image
   const { data, error } = await supabase
