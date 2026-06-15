@@ -47,7 +47,7 @@ export default function Footer() {
         >
           <LavaTypo variant={'h3'}>{t.footer.socials}</LavaTypo>
           <Flex flexDirection={'row'} gap={1} alignItems={'center'} zIndex={100}>
-            <a className="footer-link" href='https://www.instagram.com/lavabow/' target='_blank' rel='noopener noreferrer'>
+            <a className="footer-link" href='https://www.instagram.com/lava_bow/' target='_blank' rel='noopener noreferrer'>
               <LavaTypo>Instagram</LavaTypo>
             </a>
             ,
