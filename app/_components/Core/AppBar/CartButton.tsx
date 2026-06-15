@@ -24,6 +24,8 @@ export default function CartButton({ size = 'md' }: { size?: 'sm' | 'md' }) {
         color={'white'}
         width={dimension}
         height={dimension}
+        _hover={{ backgroundColor: 'var(--secondary-accent)' }}
+        borderRadius={'lg'}
       >
         <FontAwesomeIcon icon={faCartShopping} size={size === 'sm' ? '1x' : 'lg'} />
       </IconButton>
