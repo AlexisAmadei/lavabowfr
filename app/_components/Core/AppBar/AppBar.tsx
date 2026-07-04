@@ -12,8 +12,6 @@ import { SubMenu } from './SubMenus'
 import './AppBar.css'
 import Logo from '@/components/Design/Logo'
 import ContextMenu from '@/components/Design/ContextMenu'
-import OnlineCounter from '../Hero/OnlineCounter'
-// import Player from '@/components/Design/Player'
 import CartButton from './CartButton'
 
 export default function AppBar() {
@@ -56,7 +54,6 @@ export default function AppBar() {
             <ContextMenu>
               <Logo h={'70'} w={'70'} />
             </ContextMenu>
-            <OnlineCounter />
           </Flex>
           <MediaLinks padding='8px' size='lg' />
           {/* <Player /> */}

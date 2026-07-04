@@ -19,6 +19,9 @@ const lavaMap: FeatureCollection = {
     { type: 'Feature', geometry: { type: 'Point', coordinates: [2.37378, 48.87114] }, properties: { label: 'La Java' } },
     { type: 'Feature', geometry: { type: 'Point', coordinates: [2.28958, 48.910915] }, properties: { label: "Live in Asnieres" } },
     { type: 'Feature', geometry: { type: 'Point', coordinates: [3.04593, 50.765082] }, properties: { label: 'Les Briques Rouges 2024' } },
+    { type: 'Feature', geometry: { type: 'Point', coordinates: [5.7758657, 43.1369945] }, properties: { label: 'Bandol' } },
+    { type: 'Feature', geometry: { type: 'Point', coordinates: [1.695141, 47.824862] }, properties: { label: 'Meung-Sur-Loire' } },
+    { type: 'Feature', geometry: { type: 'Point', coordinates: [0.596391, 47.40332] }, properties: { label: 'Fondettes' } },
   ],
 };
 
