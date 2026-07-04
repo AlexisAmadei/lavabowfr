@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { SizeProp } from '@fortawesome/fontawesome-svg-core';
-import { faApple, faBandcamp, faDeezer, faFacebook, faInstagram, faSpotify, faYoutube } from "@fortawesome/free-brands-svg-icons";
+import { faApple, faBandcamp, faDeezer, faFacebook, faInstagram, faSpotify, faTidal, faYoutube } from "@fortawesome/free-brands-svg-icons";
 import { Flex } from "@chakra-ui/react";
 import { Tooltip } from "@/components/ui/tooltip";
 
@@ -15,10 +15,11 @@ export default function MediaLinks({ content = 'all', size = '1x', color = 'var(
   const links = [
     { name: 'instagram', url: 'https://www.instagram.com/lava_bow/', icon: () => <FontAwesomeIcon icon={faInstagram} size={size} color={color} />, content: 'social' },
     { name: 'facebook', url: 'https://www.facebook.com/lavabow', icon: () => <FontAwesomeIcon icon={faFacebook} size={size} color={color} />, content: 'social' },
-    { name: 'youtube', url: 'https://www.youtube.com/@LavaBow', icon: () => <FontAwesomeIcon icon={faYoutube} size={size} color={color} />, content: 'media' },
     { name: 'bandcamp', url: 'https://lavabow.bandcamp.com/', icon: () => <FontAwesomeIcon icon={faBandcamp} size={size} color={color} />, content: 'media' },
-    { name: 'apple', url: 'https://music.apple.com/fr/artist/lava-bow/1516017856', icon: () => <FontAwesomeIcon icon={faApple} size={size} color={color} />, content: 'media' },
+    { name: 'tidal', url: 'https://tidal.com/artist/19816420', icon: () => <FontAwesomeIcon icon={faTidal} size={size} color={color} />, content: 'media' },
     { name: 'deezer', url: 'https://link.deezer.com/s/31FDlb4MIPSBsH6Nfnxdl', icon: () => <FontAwesomeIcon icon={faDeezer} size={size} color={color} />, content: 'media' },
+    { name: 'apple', url: 'https://music.apple.com/fr/artist/lava-bow/1516017856', icon: () => <FontAwesomeIcon icon={faApple} size={size} color={color} />, content: 'media' },
+    { name: 'youtube', url: 'https://www.youtube.com/@LavaBow', icon: () => <FontAwesomeIcon icon={faYoutube} size={size} color={color} />, content: 'media' },
     { name: "Slopify", url: 'https://open.spotify.com/artist/54Y8JDIfmIb2zlHrB2ZoVF', icon: () => <FontAwesomeIcon icon={faSpotify} size={size} color={'gray'} />, content: 'media' },
   ]
   const filteredLinks = content === 'all' ? links : links.filter(link => link.content === content);
