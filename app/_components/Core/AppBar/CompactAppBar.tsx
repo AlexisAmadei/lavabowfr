@@ -5,7 +5,6 @@ import { Flex } from '@chakra-ui/react'
 import MediaLinks from './MediaLinks'
 import Logo from '@/components/Design/Logo'
 import Link from 'next/link'
-import OnlineCounter from '../Hero/OnlineCounter'
 
 export default function CompactAppBar() {
   return (
@@ -36,7 +35,6 @@ export default function CompactAppBar() {
           <Link href='/'>Contact</Link>
         </LavaButton>
 
-        <OnlineCounter />
         <Logo h='50px' w='50px' />
       </Flex>
     </Flex>
