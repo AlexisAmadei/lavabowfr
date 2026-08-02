@@ -6,7 +6,7 @@ import useIsMobile from '@/hooks/useIsMobile'
 
 import { AnimatePresence, motion } from "motion/react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRightLong, faPlay } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRightLong, faCartPlus, faMusic, faPlay } from '@fortawesome/free-solid-svg-icons'
 import { fetchSpotlightContent } from '@/utils/supabase/spotlight'
 import { useGetGlobalVar } from '@/hooks/useGetGlobalVar'
 
@@ -105,14 +105,14 @@ export default function Spotlight() {
       {/* Static buttons */}
       <Flex direction={'row'} gap={4} marginTop={4}>
         <LavaButton variant='filled' padding={mP} onClick={() => window.open(activeContent?.listen_link, '_blank')} className="app-bar__button" style={{ gap: 0 }}>
-          <LavaTypo variant={'p'} size={isMobile ? '16px' : '24px'}>{SPOTLIGHT_LEFT_BUTTON}</LavaTypo>
+          <LavaTypo variant={'p'} size={isMobile ? '16px' : '24px'}><FontAwesomeIcon icon={faMusic}/> {SPOTLIGHT_LEFT_BUTTON}</LavaTypo>
           <span className="app-bar__icon-on-hover">
             <FontAwesomeIcon icon={faArrowRightLong} />
           </span>
         </LavaButton>
 
         <LavaButton variant='outlined' padding={mP} onClick={() => window.open(activeContent?.buy_link, '_blank')} className="app-bar__button">
-          <LavaTypo variant={'p'} size={isMobile ? '16px' : '24px'}><FontAwesomeIcon icon={faPlay} /> {SPOTLIGHT_RIGHT_BUTTON}</LavaTypo>
+          <LavaTypo variant={'p'} size={isMobile ? '16px' : '24px'}><FontAwesomeIcon icon={faCartPlus}/>{SPOTLIGHT_RIGHT_BUTTON}</LavaTypo>
         </LavaButton>
       </Flex>
 
