@@ -6,7 +6,7 @@ import useIsMobile from '@/hooks/useIsMobile'
 
 import { AnimatePresence, motion } from "motion/react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRightLong, faCartPlus, faMusic, faPlay } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRightLong, faCartPlus, faMusic } from '@fortawesome/free-solid-svg-icons'
 import { fetchSpotlightContent } from '@/utils/supabase/spotlight'
 import { useGetGlobalVar } from '@/hooks/useGetGlobalVar'
 

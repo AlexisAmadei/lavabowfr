@@ -8,36 +8,6 @@ These endpoints exist to keep secrets out of the browser. The Supabase service-r
 
 ## Endpoints
 
-### `POST /api/updateLastSeen`
-
-Updates the `last_seen` timestamp for an online visitor. Called on a 30-second interval from the frontend.
-
-**Body:**
-```json
-{ "clientId": "<uuid>" }
-```
-
-**Behavior:** Upserts a row in `online_users` with the given `client_id` and `last_seen = NOW()`.
-
-**Returns:** `200 OK` on success.
-
----
-
-### `DELETE /api/deleteOnlineUser`
-
-Removes a visitor from the `online_users` table. Called via `navigator.sendBeacon` in the `beforeunload` handler.
-
-**Body:**
-```json
-{ "clientId": "<uuid>" }
-```
-
-**Behavior:** Deletes the row from `online_users` where `client_id` matches.
-
-**Returns:** `200 OK` on success.
-
----
-
 ### `POST /api/verifyEmail`
 
 Validates an email address via the RapidAPI email verification service, then updates the `verify_status` field in the `newsletter` table.

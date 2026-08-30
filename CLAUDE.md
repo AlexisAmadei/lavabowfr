@@ -29,12 +29,11 @@ This is a Next.js 16 App Router app (React 19 + TypeScript) for a band/artist we
 - `app/_features/{public,admin}/views/` — page bodies the route `page.tsx` files import
 - `app/_hooks/`, `app/_contexts/`, `app/_lib/`, `app/_utils/`, `app/_types/`, `app/_i18n/`, `app/_styles/`, `app/_assets/`
 
-**Legacy `api/`** — Vercel serverless Node.js functions for server-side ops (`create-checkout-session`, `stripe-webhook`, `get-order`, `list-orders`, `updateLastSeen`, `deleteOnlineUser`, `mailchimp/*`, `log/`). Shared server libs in `api/_lib/`. Not yet migrated to `app/api/**/route.ts`.
+**Legacy `api/`** — Vercel serverless Node.js functions for server-side ops (`create-checkout-session`, `stripe-webhook`, `get-order`, `list-orders`, `mailchimp/*`, `log/`). Shared server libs in `api/_lib/`. Not yet migrated to `app/api/**/route.ts`.
 
 **Key architectural patterns:**
 - `app/_contexts/GlobalContext.tsx` — fetches site-wide config (colors, URLs) from Supabase; consumed via the `useGetGlobalVar` hook
 - `app/_utils/supabase/` — DB operations isolated by domain (events, pictures, shop, users, etc.)
-- Real-time online user counter: heartbeat every 30s via `app/_utils/clientId.ts` → `POST /api/updateLastSeen`, cleanup on exit via `DELETE /api/deleteOnlineUser`
 
 **Path aliases** (`tsconfig.json`):
 - `@/components/*` → `app/_components/*`

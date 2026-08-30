@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Hero from '@/components/Core/Hero/Hero'
 import AboutSection from '@/components/Sections/AboutSection'
 import Newsletter from '@/components/Sections/Newsletter'
@@ -15,8 +15,6 @@ import useIsMobile from '@/hooks/useIsMobile'
 import useIsInView from '@/hooks/useIsInView'
 
 import './styles/Landing.css'
-import { getOrCreateClientId, updateLastSeen, deleteOnlineUser } from '@/utils/clientId'
-// import LiveMaps from '@/components/Sections/LiveMap/LiveMaps'
 
 const Videos = React.lazy(() => import('@/components/Sections/Videos'));
 const Pictures = React.lazy(() => import('@/components/Sections/Pictures/Pictures'));
@@ -26,18 +24,6 @@ export default function Landing() {
   const isMobile = useIsMobile();
   const ref = React.useRef(null);
   const isInView = useIsInView(ref, 0.03);
-
-  useEffect(() => {
-    const clientId = getOrCreateClientId();
-
-    const interval = setInterval(() => updateLastSeen(clientId), 30000);
-    updateLastSeen(clientId);
-
-    return () => {
-      clearInterval(interval);
-      deleteOnlineUser(clientId);
-    };
-  }, []);
 
   return (
     <div className='app-wrapper'>

@@ -87,10 +87,6 @@ Site-wide config (colors, video URLs, external links) is stored in the `global_v
 
 This allows non-developers to change things like the hero video URL from the admin panel without a redeploy.
 
-### Online Visitor Counter
-
-Each visitor receives a UUID stored in `localStorage`. A 30-second heartbeat calls `/api/updateLastSeen`, which upserts the UUID + timestamp into the `online_users` table. A `beforeunload` handler calls `/api/deleteOnlineUser` for cleanup. The Hero section queries the table count to display live visitor count.
-
 ### Code Splitting
 
 Vendor chunks are split explicitly in `vite.config.ts`:
