@@ -1,0 +1,30 @@
+/* Design-system base for claude.ai/design.
+   Mirrors the page-level defaults of app/_styles/index.css but omits the
+   app-shell rules (100vw sizing, #root, mapbox overrides) that would distort a
+   design canvas. Design tokens ship live: ds-entry.tsx imports
+   app/_styles/var.css so it bundles into _ds_bundle.css. @font-face rules ship
+   via cfg.extraFonts -> fonts/fonts.css. */
+:root {
+    color-scheme: light dark;
+
+    --font-archivo-black: 'Archivo Black', sans-serif;
+    --font-cossette-titre: 'Cossette Titre', serif;
+    --font-stack-sans: 'Stack Sans Text', 'Stack Sans Text Fallback', sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    color: rgba(255, 255, 255, 1);
+    background-color: var(--dark-background, #0c0c0c);
+    font-family: var(--font-stack-sans);
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}

@@ -1,0 +1,53 @@
+{
+  "shape": "package",
+  "pkg": "lavabowfr",
+  "globalName": "Lavabow",
+  "projectId": "2114e881-8b47-4512-a929-91e833005355",
+  "srcDir": "app/_components",
+  "tsconfig": ".design-sync/tsconfig.ds.json",
+  "cssEntry": ".design-sync/ds-styles.css",
+  "extraFonts": [
+    "app/_styles/fonts.css"
+  ],
+  "extraEntries": [
+    "./.design-sync/preview-provider.tsx"
+  ],
+  "provider": {
+    "component": "DsProvider"
+  },
+  "componentSrcMap": {
+    "ContextMenu": "app/_components/Design/ContextMenu.tsx",
+    "Divider": "app/_components/Design/Divider.tsx",
+    "HeroTypo": "app/_components/Design/HeroTypo.tsx",
+    "ArrowIcon": "app/_components/Design/Icons.tsx",
+    "LavaButton": "app/_components/Design/LavaButton.tsx",
+    "LavaInput": "app/_components/Design/LavaInput.tsx",
+    "LavaTypo": "app/_components/Design/LavaTypo.tsx",
+    "Loading": "app/_components/Design/Loading.tsx",
+    "Logo": "app/_components/Design/Logo.tsx",
+    "Marquee": "app/_components/Design/Marquee.tsx",
+    "Player": "app/_components/Design/Player.tsx",
+    "Section": "app/_components/Design/Section.tsx",
+    "StatusChip": "app/_components/ui/StatusChip.tsx",
+    "Toaster": "app/_components/ui/toaster.tsx",
+    "Tooltip": "app/_components/ui/tooltip.tsx",
+    "DsProvider": null
+  },
+  "overrides": {
+    "LavaTypo": {
+      "cardMode": "column"
+    },
+    "Section": {
+      "cardMode": "column"
+    },
+    "Marquee": {
+      "cardMode": "column"
+    },
+    "HeroTypo": {
+      "cardMode": "single",
+      "primaryStory": "Default"
+    }
+  },
+  "docsDir": ".design-sync/docs",
+  "readmeHeader": ".design-sync/conventions.md"
+}

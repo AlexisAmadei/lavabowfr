@@ -1,0 +1,42 @@
+{
+  "_comment": "Generated for /design-sync. Mirrors tsconfig.json's path aliases (the converter's esbuild reads paths from here) and adds the next/image shim. baseUrl is '..' because this file lives in .design-sync/. Keep in sync with tsconfig.json when aliases change.",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "jsx": "react-jsx",
+    "paths": {
+      "@/components/*": [
+        "./app/_components/*"
+      ],
+      "@/hooks/*": [
+        "./app/_hooks/*"
+      ],
+      "@/contexts/*": [
+        "./app/_contexts/*"
+      ],
+      "@/utils/*": [
+        "./app/_utils/*"
+      ],
+      "@/lib/*": [
+        "./app/_lib/*"
+      ],
+      "@/types/*": [
+        "./app/_types/*"
+      ],
+      "@/i18n/*": [
+        "./app/_i18n/*"
+      ],
+      "@/styles/*": [
+        "./app/_styles/*"
+      ],
+      "@/assets/*": [
+        "./app/_assets/*"
+      ],
+      "@/features/*": [
+        "./app/_features/*"
+      ],
+      "next/image": [
+        "./.design-sync/shims/next-image.tsx"
+      ]
+    }
+  }
+}
