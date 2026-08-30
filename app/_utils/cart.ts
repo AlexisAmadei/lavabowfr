@@ -4,9 +4,15 @@
 // any pre-existing cart is simply dropped on first load.
 export const CART_STORAGE_KEY = 'lavabow_cart_v2';
 export const CART_EXPIRY_MS = 30 * 60 * 1000;
-export const SHIPPING_COST_CENTS = 499;
 
-export type DeliveryMethod = 'in_hand' | 'shipping';
+// Sourced from shared/commerce.js so the cart's displayed total and the
+// authoritative figure in api/create-checkout-session.js cannot drift.
+// Imported (not just re-exported) because computeTotals and CartState use them.
+import { SHIPPING_COST_CENTS } from '@/shared/commerce';
+import type { DeliveryMethod } from '@/shared/commerce';
+
+export { SHIPPING_COST_CENTS };
+export type { DeliveryMethod };
 
 export interface CartItem {
   productId: string;

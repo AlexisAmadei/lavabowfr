@@ -40,6 +40,18 @@ export default function ShopDialog({
     (formData.sizes?.length ?? 0) > 0 ? 'sizes' : 'general',
   );
 
+  // The size write is atomic now, so a failure means the article's previous sizes
+  // are still intact. Say so, and name the cause when the DB told us.
+  const notifySizesFailed = (reason: 'invalid_size' | 'unknown', itemWasCreated: boolean) => {
+    toaster.create({
+      title: itemWasCreated ? 'Article créé, tailles non enregistrées' : 'Tailles non enregistrées',
+      description: reason === 'invalid_size'
+        ? "Une des tailles sélectionnées n'est pas acceptée par la base de données."
+        : "L'enregistrement des tailles a échoué. Les tailles précédentes sont intactes.",
+      type: 'error',
+    });
+  };
+
   const logSizeState = (label: string, nextSizes: MerchItem['sizes']) => {
     console.info(`[ShopDialog] ${label}`, {
       stockMode,
@@ -181,7 +193,12 @@ export default function ShopDialog({
         // Update local state so parent has the new value
         setFormData({ ...formData, image_url: imageUrl });
         if (itemIdToEdit) {
-          await upsertMerchItemSizes(itemIdToEdit, sizesPayload);
+          const sizesResult = await upsertMerchItemSizes(itemIdToEdit, sizesPayload);
+          if (!sizesResult.ok) {
+            notifySizesFailed(sizesResult.reason, false);
+            // Stay open: editing is idempotent, so the admin can fix the sizes and retry.
+            return;
+          }
         }
       } else {
         const newId = await addMerchItem({
@@ -195,8 +212,13 @@ export default function ShopDialog({
           image_url: imageUrl,
           category: formData.category
         });
-        if (newId !== null && sizesPayload.length > 0) {
-          await upsertMerchItemSizes(newId, sizesPayload);
+        if (newId !== null) {
+          const sizesResult = await upsertMerchItemSizes(newId, sizesPayload);
+          if (!sizesResult.ok) {
+            // Do not stay open: the article is already created, so a retry here would
+            // insert a duplicate. The toast points the admin at editing it instead.
+            notifySizesFailed(sizesResult.reason, true);
+          }
         }
         handleOpenDialog();
       }

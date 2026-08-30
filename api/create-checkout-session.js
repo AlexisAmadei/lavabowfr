@@ -1,9 +1,11 @@
 import { getStripe } from './_lib/stripe.js';
 import { getSupabaseAdmin } from './_lib/supabaseAdmin.js';
+// Relative path with an explicit extension: tsconfig `paths` do not reach api/,
+// which @vercel/node bundles without reading them.
+import { SHIPPING_COST_CENTS, DELIVERY_METHODS, SIZE_VALUES } from '../shared/commerce.js';
 
-const SHIPPING_COST_CENTS = 499;
-const ALLOWED_DELIVERY = new Set(['in_hand', 'shipping']);
-const ALLOWED_SIZES = new Set(['XS', 'S', 'M', 'L', 'XL', 'XXL']);
+const ALLOWED_DELIVERY = new Set(DELIVERY_METHODS);
+const ALLOWED_SIZES = new Set(SIZE_VALUES);
 
 function getOrigin(req) {
   const headerOrigin = req.headers.origin;

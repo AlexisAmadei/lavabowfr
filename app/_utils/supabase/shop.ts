@@ -1,7 +1,12 @@
 import { supabase } from "./supabase";
+import { SIZE_VALUES } from "@/shared/commerce";
+import type { SizeValue } from "@/shared/commerce";
 
-export const SIZE_VALUES = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'] as const;
-export type SizeValue = typeof SIZE_VALUES[number];
+// Re-exported so the existing import sites (ShopItemCard, ShopStockPerSize, ...)
+// keep working. shared/commerce.js is the single source; the DB CHECK on
+// merch_item_sizes.size must match it.
+export { SIZE_VALUES };
+export type { SizeValue };
 
 export interface MerchItemSize {
   size: SizeValue;
@@ -91,35 +96,34 @@ export async function fetchMerchItems(activeOnly?: boolean): Promise<MerchItem[]
   }
 }
 
-// Replace all per-size rows for an item in one transaction-ish batch.
+export type ReplaceSizesResult =
+  | { ok: true }
+  | { ok: false; reason: 'invalid_size' | 'unknown' };
+
+// Replace all per-size rows for an item, atomically.
 // Empty `sizes` removes every existing row, turning the article back into a size-less product.
-export async function upsertMerchItemSizes(itemId: number, sizes: MerchItemSize[]): Promise<boolean> {
+//
+// Delegates to the replace_merch_item_sizes RPC rather than issuing delete-then-insert
+// from here: those were two separate round-trips, so a rejected insert (an out-of-range
+// size, a dropped connection) left the delete committed and wiped the article's size run.
+// Inside the function they are one transaction, so a failure here leaves the previous
+// sizes untouched.
+export async function upsertMerchItemSizes(itemId: number, sizes: MerchItemSize[]): Promise<ReplaceSizesResult> {
   try {
-    const { error: deleteError } = await supabase
-      .from('merch_item_sizes')
-      .delete()
-      .eq('merch_item_id', itemId);
-    if (deleteError) {
-      console.error('Error clearing merch_item_sizes:', deleteError);
-      return false;
+    const { error } = await supabase.rpc('replace_merch_item_sizes', {
+      p_item_id: itemId,
+      p_sizes: sizes,
+    });
+    if (error) {
+      console.error('Error replacing merch_item_sizes:', error);
+      // Domain errors are raised as P0001, so the slug is in the message, not the code.
+      const reason = /invalid_size/i.test(error.message ?? '') ? 'invalid_size' : 'unknown';
+      return { ok: false, reason };
     }
-    if (sizes.length === 0) return true;
-    const rows = sizes.map((s) => ({
-      merch_item_id: itemId,
-      size: s.size,
-      stock: s.stock,
-    }));
-    const { error: insertError } = await supabase
-      .from('merch_item_sizes')
-      .insert(rows);
-    if (insertError) {
-      console.error('Error inserting merch_item_sizes:', insertError);
-      return false;
-    }
-    return true;
+    return { ok: true };
   } catch (error) {
-    console.error('Unexpected error upserting merch_item_sizes:', error);
-    return false;
+    console.error('Unexpected error replacing merch_item_sizes:', error);
+    return { ok: false, reason: 'unknown' };
   }
 }
 

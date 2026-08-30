@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "allowJs": false,
+    "allowJs": true,
+    "checkJs": true,
     "target": "ES2020",
     "useDefineForClassFields": true,
     "lib": [
@@ -54,6 +55,9 @@
       ],
       "@/features/*": [
         "./app/_features/*"
+      ],
+      "@/shared/*": [
+        "./shared/*"
       ]
     },
     "plugins": [
@@ -65,7 +69,7 @@
   "include": [
     "next-env.d.ts",
     "app",
-    "api",
+    "shared",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
