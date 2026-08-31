@@ -86,10 +86,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           trackAttributes={true}
         />
         <Script
-          src="https://openpanel.dev/op1.js"
-          strategy="afterInteractive"
-        />
-        <Script
           src="https://kit.fontawesome.com/36211f5750.js"
           crossOrigin="anonymous"
           strategy="afterInteractive"
