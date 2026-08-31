@@ -42,6 +42,19 @@ const priceFormatter = new Intl.NumberFormat('fr-FR', {
 
 const formatCents = (cents: number): string => priceFormatter.format(cents / 100);
 
+// The line grid collapses below `md`: the product block spans the full width and
+// quantity / price / delete drop onto a second row. From `md` up it is the 4-column
+// table that matches the header row.
+const LINE_GRID_AREAS = {
+  base: `"info info info" "qty price trash"`,
+  md: `"info qty price trash"`,
+};
+
+const LINE_GRID_COLUMNS = {
+  base: 'auto 1fr auto',
+  md: '1fr 1fr 1fr 60px',
+};
+
 const merchToProductInfo = (item: MerchItem): CartProductInfo => ({
   id: String(item.id),
   priceCents: typeof item.price_cents === 'number'
@@ -107,13 +120,13 @@ export default function Cart() {
     <Container
       backgroundColor={'var(--Background-bg-brand)'}
       minHeight={'100vh'}
-      maxW={'100vw'}
+      maxW={'100%'}
       p={0}
       paddingTop={100}
     >
       {isMobile ? <MobileAppBar /> : <AppBar />}
 
-      <Flex direction={'column'} alignItems={'center'} px={isMobile ? 4 : 16} pb={20}>
+      <Flex direction={'column'} alignItems={'center'} px={{ base: 4, md: 8, lg: 16 }} pb={20}>
         <LavaTypo variant='h1' textAlign='center'>{t.cart.title}</LavaTypo>
 
         {isEmpty ? (
@@ -125,45 +138,48 @@ export default function Cart() {
           </Flex>
         ) : (
           <Flex
-            direction={isMobile ? 'column' : 'row'}
+            direction={{ base: 'column', lg: 'row' }}
             gap={8}
             mt={8}
             width={'100%'}
             maxW={'1100px'}
-            alignItems={'flex-start'}
+            alignItems={{ base: 'stretch', lg: 'flex-start' }}
           >
             {/* Product List */}
             <Flex
               direction={'column'}
               gap={0}
               flex={1}
+              minW={0}
               width={'100%'}
               backgroundColor={'#f1f1f1'}
               borderRadius={8}
               p={4}
             >
-              {/* Column Headers */}
-              <Flex
-                width={'100%'}
-                justifyContent={'space-between'}
+              {/* Column Headers — the table head only makes sense once the grid is 4 columns */}
+              <Box
+                display={{ base: 'none', md: 'grid' }}
+                gridTemplateColumns={LINE_GRID_COLUMNS.md}
+                gap={4}
                 alignItems={'center'}
+                width={'100%'}
                 pb={3}
                 borderBottom={'1px solid #959595'}
                 mb={3}
               >
-                <Box flex={1} minW={0}>
+                <Box minW={0}>
                   <LavaTypo color='#959595' size='14px'>{t.cart.productCode || 'Code produit'}</LavaTypo>
                 </Box>
-                <Box flex={1} textAlign='center'>
+                <Box textAlign='center'>
                   <LavaTypo color='#959595' size='14px'>{t.cart.quantity || 'Quantité'}</LavaTypo>
                 </Box>
-                <Box flex={1} textAlign='right'>
+                <Box textAlign='right'>
                   <LavaTypo color='#959595' size='14px'>{t.cart.total || 'Total'}</LavaTypo>
                 </Box>
-                <Box width='60px' textAlign='right'>
+                <Box textAlign='right'>
                   <LavaTypo color='#959595' size='14px'>{t.cart.action || 'Action'}</LavaTypo>
                 </Box>
-              </Flex>
+              </Box>
 
               {/* Product Items */}
               {cart.items.map((line) => {
@@ -185,88 +201,88 @@ export default function Cart() {
                   : (product.description || 'Standard');
 
                 return (
-                  <Flex key={lineKey} direction='column' gap={0}>
-                    <Flex
-                      width={'100%'}
-                      align={'center'}
-                      justifyContent={'space-between'}
-                      gap={4}
-                      borderBottom={'1px solid #959595'}
-                      py={3}
-                    >
-                      {/* Product Info */}
-                      <Flex direction={'column'} flex={1} minW={0}>
-                        <Flex align='center' gap={3} width='100%'>
-                          <img
-                            src={product.image_url || 'https://placehold.co/70x70'}
-                            alt={product.name}
-                            style={{ width: 70, height: 70, objectFit: 'cover', borderRadius: 4, flexShrink: 0 }}
-                          />
-                          <Flex direction={'column'} flex={1} minW={0} gap={1}>
-                            <LavaTypo variant='h4' color='#ed00e1' style={{ fontWeight: 'normal', wordBreak: 'break-word' }}>
-                              {product.name}
-                            </LavaTypo>
-                            <LavaTypo color='#959595' size='14px'>
-                              {sizeOrDescription}
-                            </LavaTypo>
-                          </Flex>
-                        </Flex>
-                      </Flex>
-
-                      {/* Quantity */}
-                      <Flex flex={1} justifyContent='center'>
-                        <Flex
-                          align={'center'}
-                          gap={2}
-                          px={2}
-                          py={1}
-                          borderRadius='100px'
-                          border='1px solid #060606'
-                        >
-                          <IconButton
-                            size='xs'
-                            aria-label='decrement'
-                            onClick={() => decrementItem(line.productId, line.size)}
-                            disabled={!productsLoaded}
-                            variant='ghost'
-                          >
-                            <FontAwesomeIcon icon={faMinus} size='sm' />
-                          </IconButton>
-                          <LavaTypo color='black' size='14px' style={{ minWidth: 20, textAlign: 'center' }}>
-                            {line.quantity}
-                          </LavaTypo>
-                          <IconButton
-                            size='xs'
-                            aria-label='increment'
-                            onClick={() => incrementItem(line.productId, stock, line.size)}
-                            disabled={!productsLoaded || atMax}
-                            variant='ghost'
-                          >
-                            <FontAwesomeIcon icon={faPlus} size='sm' />
-                          </IconButton>
-                        </Flex>
-                      </Flex>
-
-                      {/* Total Price */}
-                      <Box flex={1} textAlign='right'>
-                        <LavaTypo color='#ed00e1' variant='h4' style={{ fontWeight: 'normal' }}>
-                          {formatCents(lineTotalCents)}
+                  <Box
+                    key={lineKey}
+                    display={'grid'}
+                    gridTemplateAreas={LINE_GRID_AREAS}
+                    gridTemplateColumns={LINE_GRID_COLUMNS}
+                    columnGap={4}
+                    rowGap={3}
+                    alignItems={'center'}
+                    width={'100%'}
+                    borderBottom={'1px solid #959595'}
+                    py={3}
+                  >
+                    {/* Product Info */}
+                    <Flex gridArea='info' align='center' gap={3} minW={0}>
+                      <img
+                        src={product.image_url || 'https://placehold.co/70x70'}
+                        alt={product.name}
+                        style={{ width: 70, height: 70, objectFit: 'cover', borderRadius: 4, flexShrink: 0 }}
+                      />
+                      <Flex direction={'column'} flex={1} minW={0} gap={1}>
+                        <LavaTypo variant='h4' color='#ed00e1' style={{ fontWeight: 'normal', wordBreak: 'break-word' }}>
+                          {product.name}
                         </LavaTypo>
-                      </Box>
-
-                      {/* Delete Action */}
-                      <Box width='60px' textAlign='right'>
-                        <IconButton
-                          size='sm'
-                          aria-label={t.cart.remove}
-                          variant='ghost'
-                          onClick={() => removeItem(line.productId, line.size)}
-                        >
-                          <FontAwesomeIcon icon={faTrash} />
-                        </IconButton>
-                      </Box>
+                        <LavaTypo color='#959595' size='14px'>
+                          {sizeOrDescription}
+                        </LavaTypo>
+                      </Flex>
                     </Flex>
-                  </Flex>
+
+                    {/* Quantity */}
+                    <Flex
+                      gridArea='qty'
+                      align={'center'}
+                      gap={2}
+                      px={2}
+                      py={1}
+                      borderRadius='100px'
+                      border='1px solid #060606'
+                      justifySelf={{ base: 'start', md: 'center' }}
+                    >
+                      <IconButton
+                        size='xs'
+                        aria-label='decrement'
+                        onClick={() => decrementItem(line.productId, line.size)}
+                        disabled={!productsLoaded}
+                        variant='ghost'
+                      >
+                        <FontAwesomeIcon icon={faMinus} size='sm' />
+                      </IconButton>
+                      <LavaTypo color='black' size='14px' style={{ minWidth: 20, textAlign: 'center' }}>
+                        {line.quantity}
+                      </LavaTypo>
+                      <IconButton
+                        size='xs'
+                        aria-label='increment'
+                        onClick={() => incrementItem(line.productId, stock, line.size)}
+                        disabled={!productsLoaded || atMax}
+                        variant='ghost'
+                      >
+                        <FontAwesomeIcon icon={faPlus} size='sm' />
+                      </IconButton>
+                    </Flex>
+
+                    {/* Total Price */}
+                    <Box gridArea='price' textAlign='right' minW={0}>
+                      <LavaTypo color='#ed00e1' variant='h4' style={{ fontWeight: 'normal' }}>
+                        {formatCents(lineTotalCents)}
+                      </LavaTypo>
+                    </Box>
+
+                    {/* Delete Action */}
+                    <Box gridArea='trash' justifySelf='end'>
+                      <IconButton
+                        size='sm'
+                        aria-label={t.cart.remove}
+                        variant='ghost'
+                        onClick={() => removeItem(line.productId, line.size)}
+                      >
+                        <FontAwesomeIcon icon={faTrash} />
+                      </IconButton>
+                    </Box>
+                  </Box>
                 );
               })}
 
@@ -285,7 +301,8 @@ export default function Cart() {
             <Flex
               direction={'column'}
               gap={4}
-              width={isMobile ? '100%' : '400px'}
+              width={{ base: '100%', lg: '400px' }}
+              flexShrink={0}
               backgroundColor={'#f1f1f1'}
               borderRadius={8}
               p={4}
@@ -308,6 +325,7 @@ export default function Cart() {
                   py={3}
                   fontSize='16px'
                   flex={1}
+                  minW={0}
                   color={'black'}
                 />
                 <LavaButton
@@ -375,9 +393,17 @@ export default function Cart() {
       >
         <Portal>
           <Dialog.Backdrop />
-          <Dialog.Positioner>
+          <Dialog.Positioner padding={4}>
             <Dialog.Content>
-              <Flex direction={'column'} backgroundColor={'white'} padding={6} borderRadius={8} minWidth={'320px'} gap={4}>
+              <Flex
+                direction={'column'}
+                backgroundColor={'white'}
+                padding={6}
+                borderRadius={8}
+                width={'100%'}
+                maxWidth={'320px'}
+                gap={4}
+              >
                 <LavaTypo variant='h3' color='black'>{t.cart.clearConfirmTitle}</LavaTypo>
                 <LavaTypo color='gray'>{t.cart.clearConfirmMessage}</LavaTypo>
                 <Flex justifyContent={'flex-end'} gap={2}>
