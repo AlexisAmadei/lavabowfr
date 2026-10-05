@@ -22,6 +22,9 @@ const lavaMap: FeatureCollection = {
     { type: 'Feature', geometry: { type: 'Point', coordinates: [5.7758657, 43.1369945] }, properties: { label: 'Bandol' } },
     { type: 'Feature', geometry: { type: 'Point', coordinates: [1.695141, 47.824862] }, properties: { label: 'Meung-Sur-Loire' } },
     { type: 'Feature', geometry: { type: 'Point', coordinates: [0.596391, 47.40332] }, properties: { label: 'Fondettes' } },
+    { type: 'Feature', geometry: { type: 'Point', coordinates: [3.048891678428607, 50.625213568131116] }, properties: { label: 'Les Sarazins' } },
+    { type: 'Feature', geometry: { type: 'Point', coordinates: [-1.536946837430585, 47.18069164185021] }, properties: { label: 'Le Petit Café de Rezé' } },
+    { type: 'Feature', geometry: { type: 'Point', coordinates: [1.4531228653902197, 43.60911518579759] }, properties: { label: "Little O'Clock" } },
   ],
 };
 
