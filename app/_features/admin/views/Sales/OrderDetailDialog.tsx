@@ -1,9 +1,11 @@
-import { Badge, Box, Button, Dialog, Flex, Portal, Stack, Table, Text } from '@chakra-ui/react'
-import { formatEuro, STATUS_COLOR, type Order } from './types'
+import { Badge, Box, Button, Checkbox, Dialog, Flex, Portal, Stack, Table, Text } from '@chakra-ui/react'
+import { canTogglePrepared, formatDate, formatEuro, isPrepared, STATUS_COLOR, type Order } from './types'
 
 interface Props {
   order: Order | null
   onClose: () => void
+  onTogglePrepared: (order: Order, prepared: boolean) => void
+  isSaving: boolean
 }
 
 function formatAddress(addr: Order['shipping_address']): string[] {
@@ -18,7 +20,7 @@ function formatAddress(addr: Order['shipping_address']): string[] {
   return lines
 }
 
-export default function OrderDetailDialog({ order, onClose }: Props) {
+export default function OrderDetailDialog({ order, onClose, onTogglePrepared, isSaving }: Props) {
   const open = order !== null
 
   return (
@@ -60,6 +62,35 @@ export default function OrderDetailDialog({ order, onClose }: Props) {
                       </Text>
                     )}
                   </Flex>
+
+                  <Box>
+                    <Text fontSize="sm" fontWeight="semibold" mb={1}>
+                      Preparation
+                    </Text>
+                    <Checkbox.Root
+                      checked={isPrepared(order)}
+                      disabled={!canTogglePrepared(order) || isSaving}
+                      onCheckedChange={(details) => onTogglePrepared(order, details.checked === true)}
+                      colorPalette="green"
+                      size="sm"
+                    >
+                      <Checkbox.HiddenInput />
+                      <Checkbox.Control />
+                      <Checkbox.Label>Prepared</Checkbox.Label>
+                    </Checkbox.Root>
+                    {order.prepared_at ? (
+                      <Text fontSize="sm" color="gray.600" mt={1}>
+                        Prepared{order.prepared_by_email ? ` by ${order.prepared_by_email}` : ''} on{' '}
+                        {formatDate(order.prepared_at)}
+                      </Text>
+                    ) : (
+                      !canTogglePrepared(order) && (
+                        <Text fontSize="sm" color="gray.500" mt={1}>
+                          Only paid orders can be prepared.
+                        </Text>
+                      )
+                    )}
+                  </Box>
 
                   <Box>
                     <Text fontSize="sm" fontWeight="semibold" mb={1}>

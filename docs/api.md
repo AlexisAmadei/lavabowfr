@@ -108,6 +108,31 @@ Retrieves a single contact from Mailchimp by email.
 
 ---
 
+### `GET /api/list-orders`
+
+Lists all shop orders with their items, newest first, for the admin Sales tab. Each order includes `prepared_at`, `prepared_by` and `prepared_by_email`.
+
+**Headers:** `Authorization: Bearer <Supabase access token>` of a logged-in admin. Returns `401` otherwise.
+
+**Returns:** `{ orders: Order[] }`
+
+---
+
+### `POST /api/set-order-prepared`
+
+Marks an order as prepared (goods packed) or not. Only `paid` orders can change preparation state. Calling it with the state the order already has is a no-op that returns the existing preparer and timestamp.
+
+**Headers:** `Authorization: Bearer <Supabase access token>` of a logged-in admin. Returns `401` otherwise.
+
+**Body:**
+```json
+{ "orderId": "uuid", "prepared": true }
+```
+
+**Returns:** `{ order: { id, prepared_at, prepared_by, prepared_by_email } }`. `404` if the order doesn't exist, `409` if it isn't paid.
+
+---
+
 ## Local Development
 
 Vercel functions don't run natively with `vite dev`. To test them locally:

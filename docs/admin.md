@@ -14,7 +14,7 @@ Flow:
 4. The user is redirected to `/admin/dashboard`.
 5. Unauthenticated access to any `/admin/dashboard/*` route redirects back to `/admin/login`.
 
-Session is managed entirely by the Supabase client — no manual token handling is needed.
+Session is managed entirely by the Supabase client. The exception is calls to admin-only serverless functions (e.g. `/api/list-orders`), which must send the session's access token as `Authorization: Bearer <token>`; the server checks it with `api/_lib/requireAdmin.js`.
 
 ## Routes
 

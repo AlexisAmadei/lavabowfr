@@ -1,5 +1,6 @@
 export type OrderStatus = 'pending' | 'paid' | 'failed' | 'expired' | 'refunded'
 export type DeliveryMethod = 'in_hand' | 'shipping'
+export type PreparationFilter = 'all' | 'to_prepare' | 'prepared'
 
 export interface OrderItem {
   id: string
@@ -34,6 +35,9 @@ export interface Order {
   shipping_address: ShippingAddress | null
   created_at: string
   paid_at: string | null
+  prepared_at: string | null
+  prepared_by: string | null
+  prepared_by_email: string | null
   items: OrderItem[]
 }
 
@@ -43,6 +47,27 @@ export const STATUS_COLOR: Record<OrderStatus, string> = {
   refunded: 'blue',
   failed: 'red',
   expired: 'gray',
+}
+
+export type OrderPreparation = Pick<Order, 'prepared_at' | 'prepared_by' | 'prepared_by_email'>
+
+export function isPrepared(order: Order): boolean {
+  return order.prepared_at !== null
+}
+
+// Only paid orders can change preparation state; refunded ones keep theirs as history.
+export function canTogglePrepared(order: Order): boolean {
+  return order.status === 'paid'
+}
+
+export function formatDate(iso: string): string {
+  return new Date(iso).toLocaleString('fr-FR', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  })
 }
 
 export function formatEuro(cents: number): string {
