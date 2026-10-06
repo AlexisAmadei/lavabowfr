@@ -38,6 +38,9 @@ export interface Order {
   prepared_at: string | null
   prepared_by: string | null
   prepared_by_email: string | null
+  customer_notified_at: string | null
+  customer_notified_by: string | null
+  customer_notified_by_email: string | null
   items: OrderItem[]
 }
 
@@ -51,6 +54,11 @@ export const STATUS_COLOR: Record<OrderStatus, string> = {
 
 export type OrderPreparation = Pick<Order, 'prepared_at' | 'prepared_by' | 'prepared_by_email'>
 
+export type OrderNotification = Pick<
+  Order,
+  'customer_notified_at' | 'customer_notified_by' | 'customer_notified_by_email'
+>
+
 export function isPrepared(order: Order): boolean {
   return order.prepared_at !== null
 }
@@ -58,6 +66,11 @@ export function isPrepared(order: Order): boolean {
 // Only paid orders can change preparation state; refunded ones keep theirs as history.
 export function canTogglePrepared(order: Order): boolean {
   return order.status === 'paid'
+}
+
+// Notifying needs a prepared, paid order and someone to email.
+export function canNotify(order: Order): boolean {
+  return order.status === 'paid' && isPrepared(order) && order.email !== null
 }
 
 export function formatDate(iso: string): string {

@@ -133,6 +133,25 @@ Marks an order as prepared (goods packed) or not. Only `paid` orders can change 
 
 ---
 
+### `POST /api/notify-customer`
+
+Asks the n8n workflow to email the customer that their prepared order is on its way / ready. The notification time is recorded only after n8n answers `2xx` (10 s timeout). See [n8n-customer-notification.md](./n8n-customer-notification.md) for the webhook contract.
+
+**Headers:** `Authorization: Bearer <Supabase access token>` of a logged-in admin. Returns `401` otherwise.
+
+**Body:**
+```json
+{ "orderId": "uuid", "resend": false }
+```
+
+**Returns:** `{ order: { id, customer_notified_at, customer_notified_by, customer_notified_by_email } }`. `404` unknown order; `409` if not paid, not prepared, or no email; `409 { alreadyNotifiedAt }` if already notified and `resend` isn't `true`; `502` if n8n fails or times out; `503` if `N8N_CUSTOMER_NOTIFICATION_WEBHOOK_URL` or `N8N_WEBHOOK_SECRET` is unset.
+
+`GET /api/list-orders` also returns `customer_notified_*` per order and a top-level `notificationsEnabled` flag (both env vars set).
+
+**Env:** `N8N_CUSTOMER_NOTIFICATION_WEBHOOK_URL`, `N8N_WEBHOOK_SECRET`.
+
+---
+
 ## Local Development
 
 Vercel functions don't run natively with `vite dev`. To test them locally:

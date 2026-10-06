@@ -33,6 +33,8 @@ export default async function handler(req, res) {
       paid_at,
       prepared_at,
       prepared_by,
+      customer_notified_at,
+      customer_notified_by,
       items:order_items(id, product_id, name_snapshot, size_snapshot, price_cents_snapshot, quantity)
     `)
         .order('created_at', { ascending: false });
@@ -42,12 +44,19 @@ export default async function handler(req, res) {
         return res.status(500).json({ error: 'Failed to load orders' });
     }
 
-    const preparerEmails = await resolvePreparerEmails(supabase, (orders ?? []).map((o) => o.prepared_by));
+    const preparerEmails = await resolvePreparerEmails(
+        supabase,
+        (orders ?? []).flatMap((o) => [o.prepared_by, o.customer_notified_by]),
+    );
 
     const withPreparers = (orders ?? []).map((o) => ({
         ...o,
         prepared_by_email: o.prepared_by ? preparerEmails.get(o.prepared_by) ?? null : null,
+        customer_notified_by_email: o.customer_notified_by ? preparerEmails.get(o.customer_notified_by) ?? null : null,
     }));
 
-    return res.status(200).json({ orders: withPreparers });
+    return res.status(200).json({
+        orders: withPreparers,
+        notificationsEnabled: Boolean(process.env.N8N_CUSTOMER_NOTIFICATION_WEBHOOK_URL),
+    });
 }

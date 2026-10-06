@@ -1,7 +1,7 @@
 import { Badge, Box, Button, Checkbox, Flex, NativeSelect, Spinner, Table, Text } from '@chakra-ui/react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { toaster } from '@/components/ui/toaster'
-import { fetchOrders, setOrderPrepared } from './api'
+import { fetchOrders, notifyCustomer, setOrderPrepared } from './api'
 import OrderDetailDialog from './OrderDetailDialog'
 import {
   canTogglePrepared,
@@ -10,6 +10,7 @@ import {
   isPrepared,
   STATUS_COLOR,
   type Order,
+  type OrderNotification,
   type OrderPreparation,
   type OrderStatus,
   type PreparationFilter,
@@ -42,12 +43,18 @@ export default function AdminSales() {
   // fast double click can't race two requests against each other.
   const [savingIds, setSavingIds] = useState<ReadonlySet<string>>(new Set())
 
+  const [notificationsEnabled, setNotificationsEnabled] = useState(false)
+  const [notifyingIds, setNotifyingIds] = useState<ReadonlySet<string>>(new Set())
+
   const loadOrders = useCallback(async (isCancelled: () => boolean = () => false) => {
     setLoading(true)
     setError(null)
     try {
       const fetched = await fetchOrders()
-      if (!isCancelled()) setOrders(fetched)
+      if (!isCancelled()) {
+        setOrders(fetched.orders)
+        setNotificationsEnabled(fetched.notificationsEnabled)
+      }
     } catch (err) {
       console.error('Failed to fetch orders', err)
       if (!isCancelled()) setError('Impossible de charger les commandes.')
@@ -64,7 +71,7 @@ export default function AdminSales() {
     }
   }, [loadOrders])
 
-  const patchOrder = (orderId: string, patch: OrderPreparation) => {
+  const patchOrder = (orderId: string, patch: Partial<Order>) => {
     setOrders((prev) => prev.map((o) => (o.id === orderId ? { ...o, ...patch } : o)))
   }
 
@@ -79,6 +86,13 @@ export default function AdminSales() {
 
   const togglePrepared = async (order: Order, prepared: boolean) => {
     if (savingIds.has(order.id)) return
+    if (
+      !prepared &&
+      order.customer_notified_at &&
+      !window.confirm('The customer has already been notified. Unmark as prepared anyway?')
+    ) {
+      return
+    }
     const { prepared_at, prepared_by, prepared_by_email } = order
     const previous: OrderPreparation = { prepared_at, prepared_by, prepared_by_email }
     setSaving(order.id, true)
@@ -97,6 +111,42 @@ export default function AdminSales() {
       })
     } finally {
       setSaving(order.id, false)
+    }
+  }
+
+  const notify = async (order: Order) => {
+    if (notifyingIds.has(order.id)) return
+    let resend = false
+    if (order.customer_notified_at) {
+      if (!window.confirm(`Already sent on ${formatDate(order.customer_notified_at)} — send again?`)) return
+      resend = true
+    }
+    setNotifyingIds((prev) => new Set(prev).add(order.id))
+    try {
+      const result = await notifyCustomer(order.id, resend)
+      if ('alreadyNotifiedAt' in result) {
+        // Someone else notified this customer since the list was loaded.
+        patchOrder(order.id, { customer_notified_at: result.alreadyNotifiedAt })
+        toaster.create({ title: 'Client déjà notifié', description: 'Rechargez la liste pour voir les détails.', type: 'info', duration: 5000 })
+      } else {
+        const patch: OrderNotification = result.order
+        patchOrder(order.id, patch)
+        toaster.create({ title: 'Client notifié', type: 'success', duration: 4000 })
+      }
+    } catch (err) {
+      console.error('Failed to notify customer', err)
+      toaster.create({
+        title: "Échec de l'envoi",
+        description: "Le client n'a pas pu être notifié.",
+        type: 'error',
+        duration: 5000,
+      })
+    } finally {
+      setNotifyingIds((prev) => {
+        const next = new Set(prev)
+        next.delete(order.id)
+        return next
+      })
     }
   }
 
@@ -231,6 +281,8 @@ export default function AdminSales() {
         onClose={() => setSelectedOrderId(null)}
         onTogglePrepared={togglePrepared}
         isSaving={selectedOrderId !== null && savingIds.has(selectedOrderId)}
+        onNotify={notificationsEnabled ? notify : undefined}
+        isNotifying={selectedOrderId !== null && notifyingIds.has(selectedOrderId)}
       />
     </Box>
   )

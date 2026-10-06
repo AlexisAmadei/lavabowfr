@@ -1,11 +1,13 @@
 import { Badge, Box, Button, Checkbox, Dialog, Flex, Portal, Stack, Table, Text } from '@chakra-ui/react'
-import { canTogglePrepared, formatDate, formatEuro, isPrepared, STATUS_COLOR, type Order } from './types'
+import { canNotify, canTogglePrepared, formatDate, formatEuro, isPrepared, STATUS_COLOR, type Order } from './types'
 
 interface Props {
   order: Order | null
   onClose: () => void
   onTogglePrepared: (order: Order, prepared: boolean) => void
   isSaving: boolean
+  onNotify?: (order: Order) => void
+  isNotifying: boolean
 }
 
 function formatAddress(addr: Order['shipping_address']): string[] {
@@ -20,7 +22,7 @@ function formatAddress(addr: Order['shipping_address']): string[] {
   return lines
 }
 
-export default function OrderDetailDialog({ order, onClose, onTogglePrepared, isSaving }: Props) {
+export default function OrderDetailDialog({ order, onClose, onTogglePrepared, isSaving, onNotify, isNotifying }: Props) {
   const open = order !== null
 
   return (
@@ -89,6 +91,27 @@ export default function OrderDetailDialog({ order, onClose, onTogglePrepared, is
                           Only paid orders can be prepared.
                         </Text>
                       )
+                    )}
+                    {(canNotify(order) || order.customer_notified_at) && (
+                      <Box mt={2}>
+                        {onNotify && canNotify(order) && (
+                          <Button
+                            size="sm"
+                            colorPalette="blue"
+                            loading={isNotifying}
+                            onClick={() => onNotify(order)}
+                          >
+                            {order.customer_notified_at ? 'Notify customer again' : 'Notify customer'}
+                          </Button>
+                        )}
+                        {order.customer_notified_at && (
+                          <Text fontSize="sm" color="gray.600" mt={1}>
+                            Customer notified
+                            {order.customer_notified_by_email ? ` by ${order.customer_notified_by_email}` : ''} on{' '}
+                            {formatDate(order.customer_notified_at)}
+                          </Text>
+                        )}
+                      </Box>
                     )}
                   </Box>
 
