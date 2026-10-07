@@ -1,6 +1,6 @@
 # Customer Notification via n8n
 
-> **Status: backoffice side built (endpoint, migration, dialog); n8n workflow not yet built.** The order preparation flag is live (see [api.md](./api.md#post-apiset-order-prepared)). This document specifies the next step: letting an admin email the customer once their order is prepared, with the email sent by an n8n workflow.
+> **Status: backoffice side built (endpoint, migration, dialog, list-orders) and n8n workflow built & activated.** The order preparation flag is live (see [api.md](./api.md#post-apiset-order-prepared)). The `Lavabow — Customer Notification` n8n workflow (webhook → template → Resend → respond) is live at `https://n8n.kiwidev.fr/webhook/lavabow/customer-notification`. Remaining: fill in the two n8n credentials (webhook secret, Resend API key) and set the matching Vercel env vars — see the [implementation checklist](#implementation-checklist).
 
 Vocabulary (Order, Prepared, Preparer, Customer notification) is defined in [`CONTEXT.md`](../CONTEXT.md).
 
@@ -188,25 +188,33 @@ From `Lavabow <shop@lavabow.fr>`, with reply-to `shop@lavabow.fr`.
   >
   > Une question ? Écrivez-nous à shop@lavabow.fr.
 
-## Open questions
+## Open questions — resolved 2026-10-06
 
-These need a decision before building:
-
-1. **Tracking number:** should the admin be able to type a tracking number (Colissimo / La Poste) when clicking "Notify customer" for shipped orders? If yes, it becomes a field in the payload and probably a column on `orders`.
-2. **In-hand wording:** is the handover always at a concert or venue? Should the admin choose a date or place in the notify dialog, or is "we'll contact you" enough?
-3. **Email provider:** Resend through an HTTP Request node (same domain and sender as today), or n8n's own SMTP?
-4. **n8n hosting:** n8n Cloud or self-hosted? This affects the webhook URL, uptime, and where execution data lives.
-5. **Table indicator:** should the Sales table show which orders were notified, and should there be a "Prepared, not notified" filter?
-6. **Who is notified:** always the order's `email`, or may the admin override it, e.g. when the customer asks for another address?
+1. **Tracking number:** No — skipped for v1. No field, no column.
+2. **In-hand wording:** "We'll contact you" is enough — no date/place field.
+3. **Email provider:** Resend via HTTP Request node, same `lavabow.fr` domain/sender as order confirmations.
+4. **n8n hosting:** self-hosted at `n8n.kiwidev.fr` (existing instance).
+5. **Table indicator:** not built for v1 (still open if wanted later).
+6. **Who is notified:** always the order's `email` — no admin override field.
 
 ## Implementation checklist
 
-- [ ] Answer the open questions above
-- [ ] Build the n8n workflow and test it with a webhook test URL and a hard-coded payload
-- [ ] Migration: `customer_notified_at`, `customer_notified_by`
-- [ ] `api/notify-customer.js` (+ entry in `docs/api.md`)
-- [ ] Include the notification fields in `list-orders`
-- [ ] Dialog: Notify button, resend confirmation, "notified on" line
-- [ ] Unprepare warning when already notified
-- [ ] Set `N8N_CUSTOMER_NOTIFICATION_WEBHOOK_URL` and `N8N_WEBHOOK_SECRET` on Vercel (preview first)
+- [x] Answer the open questions above
+- [x] Build the n8n workflow and test it (ran against both the shipping and in-hand templates, including the resend-prefix case, via n8n's test-execution with pinned payloads)
+- [x] Migration: `customer_notified_at`, `customer_notified_by`
+- [x] `api/notify-customer.js` (+ entry in `docs/api.md`)
+- [x] Include the notification fields in `list-orders`
+- [x] Dialog: Notify button, resend confirmation, "notified on" line
+- [x] Unprepare warning when already notified
+- [ ] Fill in the n8n credentials (see below) and set `N8N_CUSTOMER_NOTIFICATION_WEBHOOK_URL` / `N8N_WEBHOOK_SECRET` on Vercel (preview first)
 - [ ] End-to-end test on a preview deploy with a real paid test order
+
+### n8n credentials still to fill in
+
+The workflow (`Lavabow — Customer Notification`, https://n8n.kiwidev.fr/workflow/6w7Ap0QRh6bgd5SN) is built, tested with pinned data, and activated. Two credentials need a human to type in secret values — not something that can be scripted:
+
+1. **Webhook header secret** — the `Customer Notification Webhook` node uses a Header Auth credential ("Header Auth account" in this n8n instance). Open it and set the header name to `X-Lavabow-Secret` and the value to a strong random secret. That same value is `N8N_WEBHOOK_SECRET` on Vercel.
+2. **Resend API key** — the `Send via Resend` node uses a "Templated Custom Auth" credential ("Resend API"). Set its template to `{"headers":{"Authorization":"Bearer {{api_key}}"}}` and fill `api_key` with the real Resend API key.
+3. Production webhook URL for Vercel's `N8N_CUSTOMER_NOTIFICATION_WEBHOOK_URL`: `https://n8n.kiwidev.fr/webhook/lavabow/customer-notification`.
+
+The workflow's "Save successful executions" setting is already set to "Do not save" (failed executions are kept for debugging) since the payload carries the customer's email and address.
