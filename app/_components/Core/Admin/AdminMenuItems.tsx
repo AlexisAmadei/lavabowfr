@@ -5,7 +5,7 @@ import { faCloud, faCube, faDatabase, faReceipt, faShoppingCart, faUsers } from 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import useIsMobile from "@/hooks/useIsMobile";
+import { Tooltip } from "@/components/ui/tooltip";
 
 const menuItems = [
   {
@@ -40,8 +40,7 @@ const menuItems = [
   }
 ];
 
-export default function AdminMenuItems() {
-  const isMobile = useIsMobile();
+export default function AdminMenuItems({ collapsed = false }: { collapsed?: boolean }) {
   const pathname = usePathname();
 
   return (
@@ -53,8 +52,13 @@ export default function AdminMenuItems() {
       {menuItems.map((item) => {
         const isActive = pathname === item.path;
         return (
-          <Link
+          <Tooltip
             key={item.path}
+            content={item.label}
+            positioning={{ placement: 'right' }}
+            disabled={!collapsed}
+          >
+          <Link
             href={item.path}
             style={{ textDecoration: 'none' }}
           >
@@ -66,19 +70,21 @@ export default function AdminMenuItems() {
               p={2}
               display="flex"
               alignItems="center"
+              justifyContent={collapsed ? 'center' : 'flex-start'}
               transition="all 0.2s"
               _hover={{
                 backgroundColor: isActive ? 'whiteAlpha.900' : 'whiteAlpha.200'
               }}
             >
-              <Box mr={isMobile ? 0 : 2}>
+              <Box mr={collapsed ? 0 : 2}>
                 {item.icon}
               </Box>
-              {!isMobile && (
+              {!collapsed && (
                 <Text fontSize="md">{item.label}</Text>
               )}
             </Box>
           </Link>
+          </Tooltip>
         );
       })}
     </Flex>
