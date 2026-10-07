@@ -181,12 +181,21 @@ From `Lavabow <shop@lavabow.fr>`, with reply-to `shop@lavabow.fr`.
 ### In hand
 
 - **Subject:** `Votre commande #{{shortId}} est prête`
-- **Body (draft):**
+- **Body:**
   > Bonne nouvelle ! Votre commande **#{{shortId}}** est prête. Nous vous contacterons pour convenir de la remise en main propre.
   >
   > Récapitulatif : {{items}}
   >
   > Une question ? Écrivez-nous à shop@lavabow.fr.
+- **HTML design:** [`email-templates/order-ready.html`](./email-templates/order-ready.html) is the designed version (dark background, magenta bars, itemised recap with total). It is a static preview with sample data: open it in a browser to see the result.
+  - The live version is the `html` field of the **Build In-Hand Email** node. It is the same markup with n8n expressions in place of the sample data.
+  - `#5b80bd32` becomes `{{ $json.shortId }}`.
+  - The three recap rows become `{{ $json.itemsRowsHtml }}`.
+  - `30,00 €` becomes `{{ $json.totalHtml }}`.
+  - On a resend, an extra line "Nous vous renvoyons ce message suite à votre demande." is inserted under the logo.
+  - `itemsRowsHtml` and `totalHtml` are built in the **Normalize Payload** node, with `fr-FR` EUR formatting and HTML escaping of item names.
+  - The **Build Shipping Email** node still uses the plain draft above and has no HTML design yet.
+  - When the design changes, update this file and the n8n node together.
 
 ## Open questions — resolved 2026-10-06
 
